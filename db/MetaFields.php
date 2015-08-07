@@ -99,7 +99,7 @@ abstract class MetaFields extends Object
             foreach ($this->fieldsConfig AS $name => $config) {
                 if ( !is_array($config) )
                     continue;
-                $this->_fields[$name] = Yii::createObject($config["definition"], $config["params"]);
+               $this->_fields[$name] = Yii::createObject($config["definition"], $config["params"]);
             }
         }
         return $this->_fields;
@@ -132,8 +132,6 @@ abstract class MetaFields extends Object
                 ],
                 "params" => [$this->owner, "id"]
             ],
-            "name"=>[],
-            "slug"=>[],
             "author_id" => [
                 'definition' => [
                     "class" => fields\HasOneField::className(),
