@@ -1,0 +1,33 @@
+{
+    "name": "loveorigami/lo-core-cms",
+    "description": "Core for Lo-CMS",
+    "version": "1.0",
+    "type": "yii2-extension",
+    "keywords": [
+        "yii2",
+        "core",
+        "cms"
+    ],
+    "homepage": "https://bitbucket.org/loveorigami/lo-core-cms",
+    "time": "2015-08-08",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Lukyanov",
+            "email": "loveorigami@mail.ru",
+            "homepage": "http://loveorigami.info",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "source": "https://bitbucket.org/loveorigami/lo-core-cms"
+    },
+    "require": {
+        "yiisoft/yii2": "~2"
+    },
+    "autoload": {
+        "psr-4": {
+            "lo\\core\\": ""
+        }
+    }
+}
