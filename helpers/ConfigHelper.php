@@ -20,14 +20,14 @@ class ConfigHelper
      * @return array
      */
 
-    public static function getModulesConfigs($modules, $path = "@webapp/modules", $configPath = "config/main.php")
+    public static function getModulesConfigs($modules, $path = "@lo", $configPath = "config/main.php")
     {
 
         $config = [];
 
         foreach ($modules AS $code) {
 
-            $file = \Yii::getAlias("$path/$code/$configPath");
+            $file = \Yii::getAlias("$path/modules/$code/modules/admin/$configPath");
 
             if (is_file($file)) {
 
