@@ -14,28 +14,25 @@ class ConfigHelper
 
     /**
      * Возвращает конфигурацию модулей
-     * @param array $modules массив идентификаторов модулей которые необходимо подключить
-     * @param string $path путь до папки содеожащей модули
-     * @param string $configPath путь к конфигу относительно папки модуля
+     * @param array $dirs массив дирректорий с идентификаторами модулей которые необходимо подключить
      * @return array
      */
 
-    public static function getModulesConfigs($modules, $path = "@lo", $configPath = "config/main.php")
+    public static function getModulesConfigs($dirs)
     {
 
         $config = [];
 
-        foreach ($modules AS $code) {
-
-            $file = \Yii::getAlias("$path/modules/$code/modules/admin/$configPath");
-
-            if (is_file($file)) {
-
-                $config = \yii\helpers\ArrayHelper::merge($config, require($file));
-
+        foreach ($dirs AS $dir) {
+            foreach ($dir['modules'] AS $code) {
+                $path = str_replace("{module}", $code, $dir['path']);
+                $file = \Yii::getAlias($path);
+                if (is_file($file)) {
+                    $config = \yii\helpers\ArrayHelper::merge($config, require($file));
+                }
             }
-
         }
+
         return $config;
 
     }

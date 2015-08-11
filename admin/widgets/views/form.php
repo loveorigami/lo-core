@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
+
 /**
  * @var \lo\core\db\ActiveRecord $model модель
  * @var \yii\web\View $this
@@ -27,6 +28,18 @@ $this->registerJs("
 
 <? $form = ActiveForm::begin(); ?>
 
+    <div class="pull-right">
+        <?= Html::hiddenInput('apply', 0) ?>
+        <?= Html::hiddenInput('tab', Yii::$app->request->post('tab')) ?>
+        <? $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
+        <?= Html::hiddenInput('returnUrl', $returnUrl) ?>
+
+            <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
+            <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
+
+    </div>
+
 <? echo $form->errorSummary($model); ?>
 
     <ul id="<?= $tabId ?>" class="nav nav-tabs">
@@ -36,7 +49,7 @@ $this->registerJs("
             <li <? if ($i == 0): ?>class="active"<? endif; ?>><a href="#<?= $key ?>"><?= $title ?></a></li>
             <?
             $i++;
-        endforeach;?>
+        endforeach; ?>
     </ul>
 
     <div class="tab-content">
@@ -58,21 +71,6 @@ $this->registerJs("
         endforeach; ?>
     </div>
 
-
-<?= Html::hiddenInput('apply', 0) ?>
-
-<?= Html::hiddenInput('tab', Yii::$app->request->post('tab')) ?>
-
-<? $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
-
-<?= Html::hiddenInput('returnUrl', $returnUrl) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
-        <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
-        <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
-
-    </div>
 
 <?php
 $this->registerJs("

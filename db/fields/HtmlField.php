@@ -14,6 +14,6 @@ class HtmlField extends TextAreaField
     /**
      * @inheritdoc
      */
-    public $inputClass = "\lo\\core\inputs\HtmlInput";
+    public $inputClass = '\lo\core\inputs\HtmlInput';
 
 }
