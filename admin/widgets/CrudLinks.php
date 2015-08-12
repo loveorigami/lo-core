@@ -56,7 +56,7 @@ class CrudLinks extends Widget
         foreach ($buttons AS $button) {
 
             if (Yii::$app->user->can($button['permission'], ['model' => $this->model]))
-                $html .= Html::a($button["label"], $button["url"], $button["options"]) . "\n";
+                $html .= Html::a($button["label"], $button["url"], $button["options"]) . "\n ";
 
         }
 
@@ -79,7 +79,7 @@ class CrudLinks extends Widget
                 [
                     'label' => Yii::t('core', 'Create'),
                     'url' => array_merge(['create'], $this->urlParams),
-                    'options' => ['class' => 'btn btn-success'],
+                    'options' => ['class' => 'btn btn-success pull-right'],
                     'permission' => $this->access('create'),
                 ]
 
@@ -90,14 +90,14 @@ class CrudLinks extends Widget
                 [
                     'label' => Yii::t('core', 'Update'),
                     'url' => array_merge(['update', 'id' => $this->model->id], $this->urlParams),
-                    'options' => ['class' => 'btn btn-primary'],
+                    'options' => ['class' => 'btn btn-primary  pull-right'],
                     'permission' => $this->access('update'),
                 ],
 
                 [
                     'label' => Yii::t('core', 'Delete'),
                     'url' => array_merge(['delete', 'id' => $this->model->id], $this->urlParams),
-                    'options' => ['class' => 'btn btn-danger',
+                    'options' => ['class' => 'btn btn-danger pull-right',
                         'data' => [
                             'confirm' => Yii::t('core', 'Are you sure?'),
                             'method' => 'post',

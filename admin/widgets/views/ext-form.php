@@ -18,6 +18,10 @@ $searchBtnName = $id . "-search";
 
 ?>
 
+<?= Html::button(Yii::t('core', 'Extended search'), ['class' => 'btn btn-default pull-right', 'onClick' => '$("#' . $id . '").toggle()']) ?>
+
+<div class="clear_big"></div>
+
 <div id="<?= $id ?>" <? if (Yii::$app->request->get($searchBtnName) === null): ?>style="display: none;"<? endif ?>
      class="panel panel-default">
     <div class="panel-body">
@@ -26,7 +30,6 @@ $searchBtnName = $id . "-search";
         <? for ($i = 0; $i < count($fields); $i += $cols): ?>
 
             <div class="row">
-
                 <? for ($j = $i; $j < $i + $cols; $j++): ?>
 
                     <? if (isset($fields[$j]) AND $fields[$j]->showInExtendedFilter): ?>
@@ -43,13 +46,10 @@ $searchBtnName = $id . "-search";
 
         <? endfor; ?>
 
-        <div class="form-group">
+
             <?= Html::submitButton(Yii::t('core', 'Search'), ['name' => $searchBtnName, 'class' => 'btn btn-primary']) ?>
-        </div>
+
 
         <? ActiveForm::end(); ?>
     </div>
 </div>
-<p>
-    <?= Html::button(Yii::t('core', 'Extended search'), ['class' => 'btn btn-default', 'onClick' => '$("#' . $id . '").toggle()']) ?>
-</p>
