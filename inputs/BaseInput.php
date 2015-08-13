@@ -14,7 +14,6 @@ use \lo\core\db\fields\Field;
  */
 abstract class BaseInput extends Object
 {
-
     /**
      * @var Field поле модели
      */
@@ -47,9 +46,6 @@ abstract class BaseInput extends Object
     {
         if(empty($this->modelField) OR ! $this->modelField instanceof Field)
             throw new InvalidConfigException("Property 'modelField' must be instance of ".Field::className());
-
-
-
     }
 
     /**
@@ -60,9 +56,7 @@ abstract class BaseInput extends Object
      */
     protected function getFormAttrName($index, $attr)
     {
-
         return ($index !== false) ? "[$index]$attr" : $attr;
-
     }
 
 } 

@@ -31,12 +31,7 @@ class TextAreaField extends TextField
     /**
      * @inheritdoc
      */
-    public $inputClass = "\lo\core\inputs\TextAreaInput";
-
-    /**
-     * @inheritdoc
-     */
-    public $formTemplate = '<div class="co-xs-12 col-lg-12">{input}</div>';
+    public $inputClass = '\lo\core\inputs\TextAreaInput';
 
     /**
      * @inheritdoc

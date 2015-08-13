@@ -33,12 +33,6 @@ class HtmlInput extends BaseInput {
 
         $options = ArrayHelper::merge($this->options, $options);
 
-        $editorOptions = [
-            'preset' => 'full',
-            'inline' => false,
-            'allowedContent' => true,
-            'autoParagraph' => false,
-        ];
 
         $ckeditorOptions = ElFinder::ckeditorOptions($this->fileManagerController, $editorOptions);
 
