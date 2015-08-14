@@ -176,8 +176,8 @@ abstract class MetaFields extends Object
                     "initValue" => true,
                     "widgetOptions" => [
                         'options' => [
-                            'label' => false,
-                            'inline' => false,
+                            'label' => null,
+                            'inline' => true,
                             'data-on'=> Yii::t('common','Yes'),
                             'data-off'=>Yii::t('common','No'),
                         ],
