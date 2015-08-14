@@ -170,9 +170,18 @@ abstract class MetaFields extends Object
             "status" => [
                 "definition" => [
                     "class" => fields\CheckBoxField::className(),
+                    'inputClass' => '\lo\core\inputs\CheckBoxInputB', // bootstrap toggle
                     "title" => Yii::t('core', 'Status'),
                     "editInGrid" => true,
                     "initValue" => true,
+                    "widgetOptions" => [
+                        'options' => [
+                            'label' => false,
+                            'inline' => false,
+                            'data-on'=> Yii::t('common','Yes'),
+                            'data-off'=>Yii::t('common','No'),
+                        ],
+                    ],
                 ],
                 "params" => [$this->owner, "status"]
             ],

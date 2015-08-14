@@ -17,7 +17,7 @@ class CheckBoxField extends Field
     /**
      * @inheritdoc
      */
-    public $inputClass = '\lo\core\inputs\CheckBoxInputB';
+    public $inputClass = '\lo\core\inputs\CheckBoxInput';
 
     /**
      * Конфигурация поля для грида (GridView)

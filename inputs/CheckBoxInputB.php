@@ -23,20 +23,11 @@ class CheckBoxInputB extends BaseInput {
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-       // $options = ArrayHelper::merge($this->options, $options);
-       // return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr), $this->widgetOptions)->checkbox($options);
-       // 'inputTemplate' => '<div class="input-group"><span class="input-group-addon">@</span>{input}</div>',
+        $options = ArrayHelper::merge($this->options, $this->widgetOptions, $options);
 
         return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr), [
-            'template' => '{label} <div class="col-lg-12">{input}{error}{hint}</div>'
-        ])->widget(Toggle::className(), [
-            'options' => [
-                'label' => false,
-                'inline' => false,
-                //'data-on'=>'Ready',
-                //'data-off'=>'Not Ready'
-            ],
-        ]);
+            'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}'
+        ])->widget(Toggle::className(), $options);
     }
 
 }

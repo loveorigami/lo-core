@@ -12,7 +12,6 @@ use yii\web\JsExpression;
  */
 
 $perm = $model->getPermission();
-
 $meta = $model->getMetaFields();
 
 $tabId = "$id-tabs";
@@ -34,9 +33,9 @@ $this->registerJs("
         <? $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
         <?= Html::hiddenInput('returnUrl', $returnUrl) ?>
 
-            <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
-            <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
-            <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
+        <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
+        <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
 
     </div>
 
@@ -53,20 +52,35 @@ $this->registerJs("
     </ul>
 
     <div class="tab-content">
-        <?
+        <?php
         $i = 0;
-        foreach ($meta->tabs() AS $key => $title): ?>
+        $html = '';
+
+        foreach ($meta->tabs() AS $key => $title):
+            $file = $dir . $key . '.tpl';
+            $template = (is_file($file)) ? file_get_contents($file) : '';
+            ?>
+
             <div class="<? if ($i == 0): ?>active <? endif; ?>tab-pane" id="<?= $key ?>">
 
-                <? foreach ($meta->getFieldsByTab($key) AS $field):
-                    if ($perm AND $perm->isAttributeForbidden($field->attr))
+                <?php foreach ($meta->getFieldsByTab($key) AS $field):
+                    if ($perm AND $perm->isAttributeForbidden($field->attr)) {
+                        $template = str_replace('{' . $field->attr . '}', '', $template);
                         continue;
+                    }
                     ?>
-                    <?= $field->getWrappedForm($form); ?>
+                    <?php
+                    if ($template && strpos($template, '{' . $field->attr . '}') !== false) {
+                        $template = str_replace('{' . $field->attr . '}', $field->getWrappedForm($form), $template);
+                    } else {
+                        $html .= $field->getWrappedForm($form);
+                    }
+                    ?>
                 <? endforeach; ?>
-
+                <?= $template ?>
+                <?= $html ?>
             </div>
-            <?
+            <?php
             $i++;
         endforeach; ?>
     </div>
@@ -92,4 +106,4 @@ $this->registerJs("
 ");
 ?>
 
-<? ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>

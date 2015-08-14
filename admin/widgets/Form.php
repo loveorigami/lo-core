@@ -36,6 +36,12 @@ class Form extends Widget
      * @var string шаблон
      */
 
+    public $dir = __DIR__;
+
+    /**
+     * @var string шаблон
+     */
+
     public $tpl = "form";
 
     /**
@@ -68,6 +74,7 @@ class Form extends Widget
 
         return $this->render($this->tpl, [
                 "model" => $this->model,
+                "dir"=>$this->dir.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR,
                 "formOptions" => $formOptions,
                 "id" => $this->id,
             ]
