@@ -33,10 +33,10 @@ class Form extends Widget
     public $formOptions = [];
 
     /**
-     * @var string шаблон
+     * @var string директория с шаблонами
      */
 
-    public $dir = __DIR__;
+    public $tplDir = 'lo\core\admin\widgets\views\tpl';
 
     /**
      * @var string шаблон
@@ -69,7 +69,6 @@ class Form extends Widget
 
     public function run()
     {
-
         $formOptions = array_merge($this->defaultFormOptions, $this->formOptions);
 
         return $this->render($this->tpl, [
@@ -79,7 +78,6 @@ class Form extends Widget
                 "id" => $this->id,
             ]
         );
-
     }
 
 }
