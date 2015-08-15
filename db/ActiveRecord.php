@@ -22,7 +22,6 @@ abstract class ActiveRecord extends YiiRecord
     /**
      * Сценарии валидации
      */
-
     const SCENARIO_INSERT = "insert";
     const SCENARIO_UPDATE = "update";
     const SCENARIO_SEARCH = "search";
@@ -31,6 +30,11 @@ abstract class ActiveRecord extends YiiRecord
      * Значение сортировки по умолчанию
      */
     const DEFAULT_SORT = 500;
+
+    /**
+     * папка с шаблонами для форм
+     */
+    public $tplDir;
 
     /**
      * @var array значение сортировки по умолчанию

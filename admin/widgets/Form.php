@@ -3,6 +3,7 @@ namespace lo\core\admin\widgets;
 
 use Yii;
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\BootstrapPluginAsset;
 
 /**
@@ -33,12 +34,6 @@ class Form extends Widget
     public $formOptions = [];
 
     /**
-     * @var string директория с шаблонами
-     */
-
-    public $tplDir = 'lo\core\admin\widgets\views\tpl';
-
-    /**
      * @var string шаблон
      */
 
@@ -55,6 +50,8 @@ class Form extends Widget
      */
 
     protected $id;
+
+    protected $_tplDir;
 
     public function init()
     {
@@ -73,11 +70,46 @@ class Form extends Widget
 
         return $this->render($this->tpl, [
                 "model" => $this->model,
-                "dir"=>$this->dir.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR,
                 "formOptions" => $formOptions,
-                "id" => $this->id,
+                "id" => $this->id
             ]
         );
+    }
+
+    /**
+     * @var array дирректории, где хранятся шаблоны
+     */
+    public function getTplDir()
+    {
+        if ($this->_tplDir === null) {
+
+            $widgetTpl = [$this->viewPath . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR];
+
+            if (is_array($this->model->tplDir)) {
+                foreach ($this->model->tplDir as $dir) {
+                    $modelTpl[] = Yii::getAlias($dir);
+                }
+            } else {
+                $modelTpl = [Yii::getAlias($this->model->tplDir)];
+            }
+
+            $this->_tplDir = ArrayHelper::merge($modelTpl, $widgetTpl);
+
+        }
+
+        return $this->_tplDir;
+    }
+
+    /**
+     * @var string шаблон для вкладки формы
+     */
+    public function getTplFile($key = 'default')
+    {
+        foreach($this->tplDir as $dir){
+            $file = $dir . $key . '.tpl';
+            if (is_file($file)) return file_get_contents($file);
+        };
+        return false;
     }
 
 }

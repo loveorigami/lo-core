@@ -54,32 +54,41 @@ $this->registerJs("
     <div class="tab-content">
         <?php
         $i = 0;
-        $html = '';
 
         foreach ($meta->tabs() AS $key => $title):
-            $file = $dir . $key . '.tpl';
-            $template = (is_file($file)) ? file_get_contents($file) : '';
+            $tpl = '';
+            $html = '';
+            $template = $this->context->getTplFile($key);
             ?>
 
             <div class="<? if ($i == 0): ?>active <? endif; ?>tab-pane" id="<?= $key ?>">
 
-                <?php foreach ($meta->getFieldsByTab($key) AS $field):
-                    if ($perm AND $perm->isAttributeForbidden($field->attr)) {
-                        $template = str_replace('{' . $field->attr . '}', '', $template);
-                        continue;
+                <?php
+
+                    foreach ($meta->getFieldsByTab($key) AS $field) {
+
+                        if ($perm AND $perm->isAttributeForbidden($field->attr)) {
+                            $tpl['search'][] = '/{' . $field->attr . '}/';
+                            $tpl['replace'][] = '';
+                            continue;
+                        }
+
+                        if ($template && strpos($template, '{' . $field->attr . '}') !== false) {
+                            $tpl['search'][] = '/{' . $field->attr . '}/';
+                            $tpl['replace'][] = $field->getWrappedForm($form);
+                        } else {
+                            $html .= $field->getWrappedForm($form);
+                        }
+
                     }
-                    ?>
-                    <?php
-                    if ($template && strpos($template, '{' . $field->attr . '}') !== false) {
-                        $template = str_replace('{' . $field->attr . '}', $field->getWrappedForm($form), $template);
-                    } else {
-                        $html .= $field->getWrappedForm($form);
-                    }
-                    ?>
-                <? endforeach; ?>
-                <?= $template ?>
-                <?= $html ?>
+
+                    echo preg_replace($tpl['search'], $tpl['replace'], $template);
+                    echo $html;
+
+                ?>
+
             </div>
+
             <?php
             $i++;
         endforeach; ?>
