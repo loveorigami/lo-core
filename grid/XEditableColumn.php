@@ -4,7 +4,7 @@ namespace lo\core\grid;
 
 use \mcms\xeditable\XEditableColumn as Base;
 use yii\helpers\ArrayHelper;
-
+use yii\helpers\Html;
 
 /**
  * Class XEditableColumn
