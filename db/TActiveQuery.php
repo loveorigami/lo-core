@@ -1,5 +1,5 @@
 <?php
-namespace common\db;
+namespace lo\core\db;
 
 use creocoder\nestedsets\NestedSetsQueryBehavior;
 

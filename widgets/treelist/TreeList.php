@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\widgets\treelist;
 
+use lo\core\widgets\App;
 use Yii;
 
 /**
@@ -9,7 +10,7 @@ use Yii;
  * @package app\modules\main\widgets\treelist
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class TreeList
+class TreeList extends App
 {
 
     /**
@@ -50,7 +51,6 @@ class TreeList
     public $options = array();
 
 
-
     /**
      * @var array массив моделей
      */
@@ -59,7 +59,7 @@ class TreeList
     /**
      * @var string имя выводимого атрибута
      */
-    public $labelAttr = "name";
+    public $labelAttr = "title";
 
     /**
      * @var int глубина родительского раздела
@@ -73,6 +73,9 @@ class TreeList
 
     public function init()
     {
+
+        if (!$this->isShow())
+            return false;
 
         if($this->models === null) {
             $class = $this->modelClass;

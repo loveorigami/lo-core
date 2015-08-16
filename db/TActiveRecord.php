@@ -52,10 +52,10 @@ abstract class TActiveRecord extends ActiveRecord
      * @return array
      */
 
-    public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "title")
+    public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "name")
     {
 
-        $arr = [self::ROOT_ID => Yii::t('core', 'Root')];
+        $arr = [self::ROOT_ID => Yii::t('common', 'Root')];
 
         $query = static::find();
 
@@ -116,11 +116,11 @@ abstract class TActiveRecord extends ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\db\TActiveQuery
+     * @return \lo\core\db\TActiveQuery
      */
     public static function find()
     {
-        return Yii::createObject(\common\db\TActiveQuery::className(), [get_called_class()]);
+        return Yii::createObject(\lo\core\db\TActiveQuery::className(), [get_called_class()]);
     }
 
     /**
@@ -150,7 +150,7 @@ abstract class TActiveRecord extends ActiveRecord
      * @return array
      */
 
-    public function getDataByParent($parent_id = self::ROOT_ID, $attr = "title")
+    public function getDataByParent($parent_id = self::ROOT_ID, $attr = "name")
     {
 
         $arr = [];
@@ -179,7 +179,7 @@ abstract class TActiveRecord extends ActiveRecord
      * @return array
      */
 
-    public function getBreadCrumbsItems($modelArg, $route, $attr = "title")
+    public function getBreadCrumbsItems($modelArg, $route, $attr = "name")
     {
 
         if(is_object($modelArg))

@@ -52,7 +52,6 @@ class SlugField extends TextField
                 'slugAttribute' => $this->attr,
                 'attribute' => $this->generateFrom,
                 'ensureUnique' => true,
-                'translit' => true,
                 'replacement' => '-',
                 'lowercase' => true,
                 'immutable' => true,
