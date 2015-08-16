@@ -1,10 +1,11 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         {name}
+    </div>
+    <div class="col-lg-5">
         {slug}
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-2" align="right">
         {status}
-        {author_id}
     </div>
 </div>
