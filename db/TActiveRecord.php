@@ -162,10 +162,37 @@ abstract class TActiveRecord extends ActiveRecord
         if (!$model)
             return $arr;
 
-        $models = $model->children()->published()->all();
+        $tree = $model->children()->published()->all();
 
-        foreach ($models AS $m)
+/* */       foreach ($models AS $m)
             $arr[$m->id] = str_repeat("-", $m->level) . $m->$attr;
+
+/*        for($i=0;$i<sizeof($tree);$i++) {
+
+            for ($j=0;$j<($tree[$i][level]-1);$j++) {
+                if (!$t[$j]) echo ' ';
+                else echo '|';
+            }
+
+            //если первая в текущем уровне
+            if ($tree[$i-1][level]<$tree[$i][level]) {
+                $t[$tree[$i][level]] = 1;
+                echo 'L';
+            } else {
+                //если естьветки текущего уровня
+                if (isset($tree[$i+1][level])) {
+                    $t[$tree[$i][level]] = 1;
+                    echo '|-';
+                } else {
+                    //если нету
+                    $t[$tree[$i][level]] = 0;
+                    $t[$tree[$i+1][level]] = 0;
+                    echo 'L';
+                }
+            }
+
+            echo $tree[$i][name]."\n";
+        }*/
 
         return $arr;
 
@@ -227,6 +254,27 @@ abstract class TActiveRecord extends ActiveRecord
             $arr[] = $model->id;
 
         return $arr;
+    }
+
+    /**
+     * Возвращает массив идентификаторов дочерних элементов и текущего элемента
+     * @return array
+     */
+
+    public function getMenu($parent_id = self::ROOT_ID)
+    {
+        $arr = [];
+
+        $query = static::find();
+
+        $model = $query->andWhere(["id" => $parent_id])->one();
+
+        if (!$model)
+            return $arr;
+
+        $models = $model->children()->published()->asArray()->all();
+
+        return $models;
     }
 
 }

@@ -210,7 +210,7 @@ class Grid extends Widget
                 $url = Url::toRoute([$this->baseRoute . '/up', 'id'=>$model->id]);
 
                 if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
-                    return Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up')]);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
 
             },
 
@@ -219,16 +219,22 @@ class Grid extends Widget
                 $url = Url::toRoute([$this->baseRoute . '/down', 'id'=>$model->id]);
 
                 if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
-                    return Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down')]);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
 
             },
 
             'enter' => function ($url, $model) {
-
-                $url = Url::toRoute(["/".Yii::$app->controller->route, "parent_id" => $model->id]);
-
-                if (Yii::$app->user->can($this->access('view'), ['model'=>$model]))
-                    return Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter')]);
+                if (Yii::$app->user->can($this->access('view'), ['model'=>$model])){
+                    $childs = count($model->children(1)->all());
+                    if($childs){
+                        $url = Url::toRoute(["/".Yii::$app->controller->route, "parent_id" => $model->id]);
+                        return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter').' '.$childs, 'class' => 'btn btn-xs btn-primary']);
+                    }
+                    else{
+                        $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id'=>$model->id]);
+                        return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-primary']);
+                    }
+                }
 
             },
         ];
@@ -240,7 +246,7 @@ class Grid extends Widget
                 $url = Url::toRoute([$this->baseRoute . '/view', 'id'=>$model->id]);
 
                 if (Yii::$app->user->can($this->access('view'), ['model'=>$model]))
-                    return Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View')]);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
 
             },
 
@@ -249,7 +255,7 @@ class Grid extends Widget
                 $url = Url::toRoute([$this->baseRoute . '/update', 'id'=>$model->id]);
 
                 if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
-                    return Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update')]);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
 
             },
 
@@ -258,7 +264,7 @@ class Grid extends Widget
                 $url = Url::toRoute([$this->baseRoute . '/delete', 'id'=>$model->id]);
 
                 if (Yii::$app->user->can($this->access('delete'), ['model'=>$model]))
-                    return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete')]);
+                    return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
 
             },
 
@@ -268,9 +274,9 @@ class Grid extends Widget
 
             return [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{up} {down} {enter} {view} {update} {delete}',
+                'template' => '{enter} {up} {down}<div class="clear_small2"></div>{update} {view} {delete}',
                 'buttons' => array_merge($buttonsTree, $buttonsDefault),
-                'headerOptions' => ['style' => 'width: 40px;']
+                'headerOptions' => ['style' => 'width: 95px;']
             ];
 
         } else {
@@ -278,7 +284,7 @@ class Grid extends Widget
             return [
                 'class' => 'yii\grid\ActionColumn',
                 'buttons' => $buttonsDefault,
-                'headerOptions' => ['style' => 'width: 65px;']
+                'headerOptions' => ['style' => 'width: 95px;']
             ];
 
         }

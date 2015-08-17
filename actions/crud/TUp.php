@@ -22,7 +22,7 @@ class TUp extends \lo\core\actions\Base
 
         $model = $this->findModel($id);
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
+        if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden');
 
         $prevModel = $model->prev()->one();
