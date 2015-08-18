@@ -24,48 +24,46 @@ class Grid extends Widget
     /**
      * Преффикс идентификатора грида
      */
-
     const GRID_ID_PREF = "grid-";
 
     /**
      * Суфикс иденификатора виджета Pjax
      */
-
     const PJAX_SUF = "-pjax";
 
     /**
      * @var \lo\core\db\ActiveRecord модель
      */
-
     public $model;
 
     /**
      * @var \yii\data\ActiveDataProvider провайдер данных
      */
-
     public $dataProvider;
+
+    /**
+     * @var string имя параметра передаваемого расширенным фильтром
+     */
+    public $extFilterParam = "extendedFilter";
 
     /**
      * @var array кнопки строк грида
      */
-
     protected $_rowButtons;
 
     /**
      * @var array дополнительные пользовательские колонки
      */
-
     public $userColumns = [];
 
     /**
      * @var bool вывод древовидных моделей
      */
-
     public $tree = false;
+
     /**
      * @var string шаблон
      */
-
     public $tpl = "grid";
 
     /**
@@ -89,7 +87,7 @@ class Grid extends Widget
      */
     public function getRowButtons()
     {
-        if($this->_rowButtons === null) {
+        if ($this->_rowButtons === null) {
 
             $this->_rowButtons = $this->defaultRowButtons();
 
@@ -105,8 +103,6 @@ class Grid extends Widget
     {
         $this->_rowButtons = ArrayHelper::merge($this->defaultRowButtons(), $rowButtons);
     }
-
-
 
 
     public function init()
@@ -157,15 +153,15 @@ class Grid extends Widget
                     $arr = [];
 
                     if (
-                        !Yii::$app->user->can($this->access('update'), ['model'=>$model]) AND
-                        !Yii::$app->user->can($this->access('delete'), ['model'=>$model])
-                    ){
+                        !Yii::$app->user->can($this->access('update'), ['model' => $model]) AND
+                        !Yii::$app->user->can($this->access('delete'), ['model' => $model])
+                    ) {
                         $arr = ["class" => "grid-checkbox-disabled"];
                     }
 
                     return $arr;
                 },
-               'headerOptions' => ['style' => 'width: 30px;']
+                'headerOptions' => ['style' => 'width: 30px;']
             ],
 
         ];
@@ -207,31 +203,30 @@ class Grid extends Widget
 
             'up' => function ($url, $model) use ($js) {
 
-                $url = Url::toRoute([$this->baseRoute . '/up', 'id'=>$model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/up', 'id' => $model->id]);
 
-                if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
+                if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
 
             },
 
             'down' => function ($url, $model) use ($js) {
 
-                $url = Url::toRoute([$this->baseRoute . '/down', 'id'=>$model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/down', 'id' => $model->id]);
 
-                if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
+                if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
 
             },
 
             'enter' => function ($url, $model) {
-                if (Yii::$app->user->can($this->access('view'), ['model'=>$model])){
+                if (Yii::$app->user->can($this->access('view'), ['model' => $model])) {
                     $childs = count($model->children(1)->all());
-                    if($childs){
-                        $url = Url::toRoute(["/".Yii::$app->controller->route, "parent_id" => $model->id]);
-                        return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter').' '.$childs, 'class' => 'btn btn-xs btn-primary']);
-                    }
-                    else{
-                        $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id'=>$model->id]);
+                    if ($childs) {
+                        $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => $model->id]);
+                        return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);
+                    } else {
+                        $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id' => $model->id]);
                         return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-primary']);
                     }
                 }
@@ -243,27 +238,27 @@ class Grid extends Widget
 
             'view' => function ($url, $model) use ($js) {
 
-                $url = Url::toRoute([$this->baseRoute . '/view', 'id'=>$model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/view', 'id' => $model->id]);
 
-                if (Yii::$app->user->can($this->access('view'), ['model'=>$model]))
+                if (Yii::$app->user->can($this->access('view'), ['model' => $model]))
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
 
             },
 
             'update' => function ($url, $model) use ($js) {
 
-                $url = Url::toRoute([$this->baseRoute . '/update', 'id'=>$model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/update', 'id' => $model->id]);
 
-                if (Yii::$app->user->can($this->access('update'), ['model'=>$model]))
+                if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
 
             },
 
             'delete' => function ($url, $model) use ($js) {
 
-                $url = Url::toRoute([$this->baseRoute . '/delete', 'id'=>$model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/delete', 'id' => $model->id]);
 
-                if (Yii::$app->user->can($this->access('delete'), ['model'=>$model]))
+                if (Yii::$app->user->can($this->access('delete'), ['model' => $model]))
                     return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
 
             },
@@ -342,7 +337,7 @@ class Grid extends Widget
             "delete" => [
                 "class" => \lo\core\admin\widgets\ActionButton::className(),
                 "label" => Yii::t('core', 'Delete'),
-                "visible" => Yii::$app->user->can($this->access('delete'), ['model'=>$model]),
+                "visible" => Yii::$app->user->can($this->access('delete'), ['model' => $model]),
                 "options" => [
                     'id' => 'group-delete',
                     'class' => 'btn btn-danger',
@@ -352,12 +347,12 @@ class Grid extends Widget
 
         ];
 
-        if ($this->tree) {
+        if ($this->tree  AND !Yii::$app->request->get($this->extFilterParam)) {
 
             $arr["replace"] = [
 
                 "class" => \lo\core\admin\widgets\ReplaceInTreeButton::className(),
-                "visible" =>  Yii::$app->user->can($this->access('update'), ['model'=>$model]),
+                "visible" => Yii::$app->user->can($this->access('update'), ['model' => $model]),
                 "label" => Yii::t('core', 'Replace'),
                 "options" => [
                     'id' => 'group-replace',

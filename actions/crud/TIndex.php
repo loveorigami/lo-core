@@ -13,6 +13,10 @@ use yii\web\ForbiddenHttpException;
  */
 class TIndex extends Index
 {
+    /**
+     * @var string имя параметра передаваемого расширенным фильтром
+     */
+    public $extFilterParam = "extendedFilter";
 
     public function run($parent_id = TActiveRecord::ROOT_ID)
     {
@@ -21,16 +25,24 @@ class TIndex extends Index
 
         $searchModel = new $class;
 
-        $parentModel = $class::find()->where(["id" => $parent_id])->one();
-
-/*        if (!Yii::$app->user->can('listModels', array("model" => $searchModel)))
-            throw new ForbiddenHttpException('Forbidden');*/
+        /*        if (!Yii::$app->user->can('listModels', array("model" => $searchModel)))
+                    throw new ForbiddenHttpException('Forbidden');*/
 
         $searchModel->setScenario($this->modelScenario);
 
-        $query = $parentModel->children(1);
+        $requestParams = Yii::$app->request->getQueryParams();
 
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams(), $this->dataProviderConfig, $query);
+        // Если поиск по расширенному фильтру, выводим одним списком
+
+        if (isset($requestParams[$this->extFilterParam])) {
+            $parentModel = $class::findOne(TActiveRecord::ROOT_ID);
+            $query = $parentModel->children();
+        } else {
+            $parentModel = $class::findOne($parent_id);
+            $query = $parentModel->children(1);
+        }
+
+        $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig, $query);
 
         $perm = $searchModel->getPermission();
 

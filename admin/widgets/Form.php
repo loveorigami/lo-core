@@ -93,8 +93,9 @@ class Form extends Widget
                 $modelTpl = [Yii::getAlias($this->model->tplDir)];
             }
 
+/* $modelTpl = [Yii::$app->controller->module->basePath.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.Yii::$app->controller->id.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR];
+            */
             $this->_tplDir = ArrayHelper::merge($modelTpl, $widgetTpl);
-
         }
 
         return $this->_tplDir;
