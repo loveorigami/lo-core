@@ -48,9 +48,11 @@ class Form extends Widget
     /**
      * @var string идентификатор виджета
      */
-
     protected $id;
 
+    /**
+     * @var array директория с шаблонами
+     */
     protected $_tplDir;
 
     public function init()
@@ -77,7 +79,7 @@ class Form extends Widget
     }
 
     /**
-     * @var array дирректории, где хранятся шаблоны
+     * @var array директории, где хранятся шаблоны
      */
     public function getTplDir()
     {

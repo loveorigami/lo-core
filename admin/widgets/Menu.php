@@ -8,15 +8,15 @@ use yii\helpers\Url;
 
 /**
  * Class Menu
- * @package backend\components\widget
+ * @package lo\core\admin\widgets
  */
 class Menu extends \yii\widgets\Menu
 {
-
     /**
      * @var string
      */
     public $linkTemplate = "<a href=\"{url}\">\n{icon}\n{label}\n{right-icon}\n{badge}</a>";
+
     /**
      * @var string
      */
@@ -26,10 +26,12 @@ class Menu extends \yii\widgets\Menu
      * @var string
      */
     public $badgeTag = 'span';
+
     /**
      * @var string
      */
     public $badgeClass = 'label pull-right';
+
     /**
      * @var string
      */
@@ -100,14 +102,6 @@ class Menu extends \yii\widgets\Menu
             if ($route[0] !== '/' && Yii::$app->controller) {
                 $route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
             }
-
-            // echo $this->route; page/item/update
-            // echo rtrim($route, '/index');
-            // $cur = preg_replace('~[^/]+$~s', '', $this->route);
-            // $cur2 =  substr($this->route,strrpos($this->route,"/")+1);
-            // $cur2 =  substr($route, 0, strrpos($route, '/')+1);
-            // echo $cur.'<br>';
-            // echo ltrim($cur2,'/').'<br>';
 
             $this->route = str_replace('/update', '/index', $this->route);
             if (ltrim($route, '/') !== $this->route) {
