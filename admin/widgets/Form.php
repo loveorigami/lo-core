@@ -5,12 +5,13 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\BootstrapPluginAsset;
+use lo\core\db\MetaFields;
 
 /**
  * Class Form
  * Форма модели для админки. Формируется на основе \common\db\MetaFields модели
- * @package common\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @property array $tplDir директории где хранятся шаблоны
+ * @package lo\core\admin\widgets
  */
 class Form extends Widget
 {
@@ -79,7 +80,7 @@ class Form extends Widget
     }
 
     /**
-     * @var array директории, где хранятся шаблоны
+     * @return array директории, где хранятся файлы шаблонов
      */
     public function getTplDir()
     {
@@ -106,11 +107,11 @@ class Form extends Widget
     /**
      * @var string шаблон для вкладки формы
      */
-    public function getTplFile($key = 'default')
+    public function getTplFile($key = MetaFields::DEFAULT_TAB)
     {
         foreach($this->tplDir as $dir){
             $file = $dir . $key . '.tpl';
-            if (is_file($file)) return file_get_contents($file);
+            if (is_file($file)) return $this->renderFile($file);
         };
         return false;
     }

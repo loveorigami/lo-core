@@ -32,7 +32,7 @@ abstract class ActiveRecord extends YiiRecord
     const DEFAULT_SORT = 500;
 
     /**
-     * папка с шаблонами для форм
+     * @var string alias директории с шаблонами для форм
      */
     public $tplDir;
 
