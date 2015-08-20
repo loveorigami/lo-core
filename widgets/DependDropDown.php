@@ -116,7 +116,6 @@ class DependDropDown extends InputWidget
 	 */
 	public function run()
 	{
-
 		if ($this->hasModel()) {
 			$html = Html::activeHiddenInput($this->model, $this->attribute, ["id"=>null]);
 			$html .= Html::activeDropDownList($this->model, $this->attribute, $this->data, $this->options);

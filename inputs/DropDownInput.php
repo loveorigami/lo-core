@@ -26,14 +26,16 @@ class DropDownInput extends BaseInput {
         $options = ArrayHelper::merge($this->options, $options);
 
         $widgetOptions = ArrayHelper::merge(
-            ["options"=>["class" => "form-control", "prompt"=>""], "data"=>$this->modelField->getDataValue()],
+            ["options"=>["class" => "form-control", "prompt"=>"", "encode" => false], "data"=>$this->modelField->getDataValue()],
             $this->widgetOptions,
             ["options"=>$options]
         );
 
         $attr = $this->modelField->attr;
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(DependDropDown::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(
+            DependDropDown::className(), $widgetOptions
+        );
     }
 
 

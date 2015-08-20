@@ -60,17 +60,13 @@ abstract class TActiveRecord extends ActiveRecord
         $query = static::find();
 
         if ($perm = $this->getPermission()) {
-
             $perm->applyConstraint($query);
-
         }
 
         $model = $query->andWhere(["id" => $parent_id])->one();
 
         if (!$model) {
-
             return $arr;
-
         }
 
         $models = $model->children()->published()->all();
@@ -78,36 +74,35 @@ abstract class TActiveRecord extends ActiveRecord
         $descendants = [];
 
         if (!$this->isNewRecord) {
-
             $descendants = $this->children()->all();
-
             $descendants[] = $this;
-
         }
 
         if (!empty($exclude)) {
-
             $exModels = static::find()->where(["id" => $exclude])->all();
 
             foreach ($exModels AS $exModel) {
-
                 $descendants[] = $exModel;
-
                 $exDescendants = $exModel->children()->all();
-
                 $descendants = array_merge($descendants, $exDescendants);
-
             }
-
         }
 
+        $i = 0;
+
         foreach ($models AS $m) {
+            if ($this->inArray($descendants, $m)) {
+                $i++; continue;
+            }
 
-            if ($this->inArray($descendants, $m))
-                continue;
+            $separator = '';
+            $separator .= str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $m->level);
+            $separator .= ($m->level != 0) ? (
+                (isset($models[$i + 1])) && ($m->level == $models[$i + 1]->level)
+            ) ? '┣ ' : '┗ ' : '';
 
-            $arr[$m->id] = str_repeat("-", $m->level) . $m->$attr;
-
+            $arr[$m->id] = $separator . $m->$attr;
+            $i++;
         }
 
         return $arr;
@@ -162,9 +157,9 @@ abstract class TActiveRecord extends ActiveRecord
         if (!$model)
             return $arr;
 
-        $tree = $model->children()->published()->all();
+        $models = $model->children()->published()->all();
 
-        foreach ($models AS $m){
+        foreach ($models AS $m) {
             $arr[$m->id] = str_repeat("-", $m->level) . $m->$attr;
         }
 
