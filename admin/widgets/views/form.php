@@ -56,7 +56,7 @@ $this->registerJs("
         $i = 0;
 
         foreach ($meta->tabs() AS $key => $title):
-            $tpl = '';
+            $tpl = [];
             $html = '';
             $template = $this->context->getTplFile($key);
             ?>
@@ -81,8 +81,9 @@ $this->registerJs("
                         }
 
                     }
-
+                if(!empty($tpl))
                     echo preg_replace($tpl['search'], $tpl['replace'], $template);
+
                     echo $html;
 
                 ?>

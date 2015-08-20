@@ -34,7 +34,7 @@ class HtmlInput extends BaseInput {
         $options = ArrayHelper::merge($this->options, $options);
 
         $editorOptions = [
-            'preset' => 'full',
+            'preset' => 'full', // standard, basic
             'inline' => false,
             'allowedContent' => true,
             'autoParagraph' => false,
