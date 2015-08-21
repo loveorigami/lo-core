@@ -21,7 +21,7 @@ class HasOneField extends ListField
     /**
      * @var string имя атрибута связанной модели отображаемого в гриде
      */
-    public $gridAttr = "title";
+    public $gridAttr = "name";
 
     /**
      * @inheritdoc
