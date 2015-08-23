@@ -241,6 +241,12 @@ abstract class ActiveRecord extends YiiRecord
 
         $query = $query ? $query : static::find();
 
+        foreach ($fields AS $field){
+            if(isset($field->relation)){
+               $query->with($field->relation);
+            }
+        }
+
         $config = array_merge([
             'class' => ActiveDataProvider::className(),
             "query" => $query,
@@ -248,15 +254,15 @@ abstract class ActiveRecord extends YiiRecord
 
         $dataProvider = Yii::createObject($config);
 
-
         $dataProvider->getSort()->defaultOrder = $this->_defaultSearchOrder;
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
-        foreach ($fields AS $field)
+        foreach ($fields AS $field){
             $field->applySearch($query);
+        }
 
         return $dataProvider;
 
