@@ -2,6 +2,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
+use lo\core\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -12,6 +13,10 @@ use yii\helpers\ArrayHelper;
  */
 class HasOneField extends ListField
 {
+    /**
+    * @var bool жадная загрузка
+    */
+    public $eagerLoading = false;
 
     /**
      * @var string имя связи
@@ -36,11 +41,8 @@ class HasOneField extends ListField
      */
     public function __construct(ActiveRecord $model, $attr, $relation, $config = [])
     {
-
         $this->relation = $relation;
-
         parent::__construct($model, $attr, $config);
-
     }
 
     /**
@@ -48,19 +50,12 @@ class HasOneField extends ListField
      */
     protected function grid()
     {
-
         $grid = $this->defaultGrid();
-
         $grid["value"] = function ($model, $index, $widget) {
             return ArrayHelper::getValue($model, "{$this->relation}.{$this->gridAttr}");
         };
 
-/*        $grid['headerOptions'] = [
-            'style' => 'width: 50px;',
-        ];*/
-
         return $grid;
-
     }
 
     /**
@@ -68,13 +63,20 @@ class HasOneField extends ListField
      */
     protected function view()
     {
-
         $view = $this->defaultView();
-
         $view["value"] = ArrayHelper::getValue($this->model, "{$this->relation}.{$this->gridAttr}");
-
         return $view;
-
     }
 
+    /**
+     * Поиск
+     * @param ActiveQuery $query запрос
+     */
+    public function search(ActiveQuery $query)
+    {
+        parent::search($query);
+        if($this->eagerLoading && $this->search) {
+            $query->with($this->relation);
+        }
+    }
 }
