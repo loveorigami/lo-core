@@ -70,7 +70,7 @@ class YaMapInput extends InputWidget
 			$this->_defaultDialogOptions = [
 				'title' => Yii::t('core', 'Coordinates select'),
 				'autoOpen' => false,
-				'width' => 650,
+				'width' => 658,
 				'height' => 550,
 			];
 
@@ -149,13 +149,9 @@ class YaMapInput extends InputWidget
 		$this->mapId = $id . "-map";
 
 		$options = array(
-
 			"mapId" => $this->mapId,
-
 			"dialog" => $this->getDialogOptions(),
-
 			"map" => $this->getMapOptions(),
-
 		);
 
 		Yii::$app->view->registerJs("
@@ -181,7 +177,7 @@ class YaMapInput extends InputWidget
 
 		$html .= Html::tag('div',
 
-			Html::textInput('yamap-search', '', ['placeholder'=>Yii::t('core', 'Input address and press Enter'), 'class' => 'yamap-search form-control', 'id'=>'ym001', 'style' => 'width: 50%; margin-bottom: 5px']) .
+			Html::textInput('yamap-search', '', ['placeholder'=>Yii::t('core', 'Input address and press Enter'), 'class' => 'yamap-search form-control', 'id'=>'ym001', 'style' => 'width: 100%; margin-bottom: 5px']) .
 
 			Html::tag('div', '', ["class" => "yamap-area", "style" => "width: {$map["width"]}px; height: {$map["height"]}px", "id" => $this->mapId])
 
