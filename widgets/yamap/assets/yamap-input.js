@@ -34,7 +34,7 @@
 
             ymaps.load(function () {
                 var suggestView = new ymaps.SuggestView(search.attr('id'), {
-                    offset: [10, 10]
+                    offset: [0, 5]
                 });
 
                 suggestView.state.events.add('change', function () {

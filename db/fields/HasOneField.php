@@ -16,7 +16,7 @@ class HasOneField extends ListField
     /**
     * @var bool жадная загрузка
     */
-    public $eagerLoading = false;
+    public $eagerLoading = true;
 
     /**
      * @var string имя связи
