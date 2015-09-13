@@ -1,13 +1,13 @@
 <?php
 
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use yii\helpers\Html;
 
 /**
  * Class ReplaceInTreeButton
  * Виджет для перемещения древовидных моделей в иерархии
- * @package lo\core\admin\widgets
+ * @package lo\core\widgets\admin
  * @author Churkin Anton <webadmin87@gmail.com>
  */
 class ReplaceInTreeButton extends ActionButton

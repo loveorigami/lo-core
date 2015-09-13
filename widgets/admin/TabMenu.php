@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\bootstrap\Nav;

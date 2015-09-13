@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\base\Widget;
@@ -13,7 +13,7 @@ use yii\helpers\Url;
  * @property array $rowButtons кнопки действий строк грида
  * @property array $groupButtons кнопки групповых операций
  * @property string $baseRoute базовая часть маршрута для формировнаия url действий
- * @package lo\core\admin\widgets
+ * @package lo\core\widgets\admin
  * @author Churkin Anton <webadmin87@gmail.com>
  */
 class Grid extends Widget
@@ -309,7 +309,7 @@ class Grid extends Widget
      * @param array $buttons параметры виджетов кнопок
      * [
      *  "delete"=>[
-     *      "class"=>\lo\core\admin\widgets\ActionButton::getClass(),
+     *      "class"=>\lo\core\widgets\admin\ActionButton::getClass(),
      *      "label"=>Yii::t("core", "Delete"),
      *      "url"=>"groupdelete",
      *  ],
@@ -335,7 +335,7 @@ class Grid extends Widget
         $arr = [
 
             "delete" => [
-                "class" => \lo\core\admin\widgets\ActionButton::className(),
+                "class" => \lo\core\widgets\admin\ActionButton::className(),
                 "label" => Yii::t('core', 'Delete'),
                 "visible" => Yii::$app->user->can($this->access('delete'), ['model' => $model]),
                 "options" => [
@@ -351,7 +351,7 @@ class Grid extends Widget
 
             $arr["replace"] = [
 
-                "class" => \lo\core\admin\widgets\ReplaceInTreeButton::className(),
+                "class" => \lo\core\widgets\admin\ReplaceInTreeButton::className(),
                 "visible" => Yii::$app->user->can($this->access('update'), ['model' => $model]),
                 "label" => Yii::t('core', 'Replace'),
                 "options" => [

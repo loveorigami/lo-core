@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 /**
  * Class Menu
- * @package lo\core\admin\widgets
+ * @package lo\core\widgets\admin
  */
 class Menu extends \yii\widgets\Menu
 {

@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\base\Widget;
@@ -11,7 +11,7 @@ use lo\core\db\MetaFields;
  * Class Form
  * Форма модели для админки. Формируется на основе \common\db\MetaFields модели
  * @property array $tplDir директории где хранятся шаблоны
- * @package lo\core\admin\widgets
+ * @package lo\core\widgets\admin
  */
 class Form extends Widget
 {

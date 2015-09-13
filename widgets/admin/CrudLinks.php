@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\base\Widget;
@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /**
  * Class CrudLinks
  * Класс для отображения ссылок на CRUD действия
- * @package lo\core\admin\widgets
+ * @package lo\core\widgets\admin
  * @author Churkin Anton <webadmin87@gmail.com>
  */
 class CrudLinks extends Widget

@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\admin\widgets;
+namespace lo\core\widgets\admin;
 
 use Yii;
 use yii\base\Widget;
@@ -7,8 +7,8 @@ use yii\helpers\Html;
 
 /**
  * Class ActionButton
- * Кнопка групповых действий над элементами грида \lo\core\admin\widgets\Grid
- * @package lo\core\admin\widgets
+ * Кнопка групповых действий над элементами грида \lo\core\widgets\admin\Grid
+ * @package lo\core\widgets\admin
  * @author Churkin Anton <webadmin87@gmail.com>
  */
 class ActionButton extends Widget
