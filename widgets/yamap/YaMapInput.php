@@ -154,7 +154,7 @@ class YaMapInput extends InputWidget
 			"map" => $this->getMapOptions(),
 		);
 
-		Yii::$app->view->registerJs("
+    	Yii::$app->view->registerJs("
 			$('#{$this->containerId}').yamapInput(" . Json::encode($options) . ");
 		");
 
