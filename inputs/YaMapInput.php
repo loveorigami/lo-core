@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
  * @package lo\core\inputs
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class YaMapInput extends BaseInput {
+class YaMapInput extends BaseInput
+{
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -25,9 +26,21 @@ class YaMapInput extends BaseInput {
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        $widgetOptions = ArrayHelper::merge(["options"=>["class" => "form-control"]], $this->widgetOptions, ["options"=>$options]);
+        $widgetOptions = ArrayHelper::merge(["options" => ["class" => "form-control"]], $this->widgetOptions, ["options" => $options]);
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->widget(Widget::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr),
+            [
+               'template' => '{label}
+                                <div class="input-group">{input}
+                                    <div class="input-group-btn">
+                                        <div class="btn btn-primary btn-map">
+                                            <i class="fa fa-map-marker"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {error}{hint}',
+            ]
+        )->widget(Widget::className(), $widgetOptions);
     }
 
 
