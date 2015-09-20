@@ -33,7 +33,7 @@
             }
 
             ymaps.load(function () {
-                var suggestView = new ymaps.SuggestView(search.attr('id'), {
+                var suggestView = new ymaps.SuggestView(search[0], {
                     offset: [0, 5]
                 });
 

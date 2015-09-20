@@ -68,8 +68,10 @@ $this->registerJs("
                     foreach ($meta->getFieldsByTab($key) AS $field) {
 
                         if ($perm AND $perm->isAttributeForbidden($field->attr)) {
-                            $tpl['search'][] = '/{' . $field->attr . '}/';
-                            $tpl['replace'][] = '';
+                            if(strpos($template, '{' . $field->attr . '}') !== false) {
+                                $tpl['search'][] = '/{' . $field->attr . '}/';
+                                $tpl['replace'][] = '';
+                            }
                             continue;
                         }
 
@@ -79,8 +81,8 @@ $this->registerJs("
                         } else {
                             $html .= $field->getWrappedForm($form);
                         }
-
                     }
+
                 if(!empty($tpl))
                     echo preg_replace($tpl['search'], $tpl['replace'], $template);
 
