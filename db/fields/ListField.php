@@ -27,10 +27,8 @@ class ListField extends Field
     /**
      * @inheritdoc
      */
-
     public function xEditable()
     {
-
         return [
 
             'class' => \mcms\xeditable\XEditableColumn::className(),
@@ -39,36 +37,32 @@ class ListField extends Field
             'format' => 'raw',
             'editable' => ['source' => $this->defaultGridFilter()],
         ];
-
     }
 
     /**
      * @inheritdoc
      */
-
     protected function defaultGridFilter()
     {
-
         return $this->getDataValue();
-
     }
 
 	/**
 	 * @inheritdoc
 	 */
-
 	public function rules()
 	{
 		$rules = parent::rules();
-
-		if($this->numeric AND $this->defaultValue === null) {
-
-			$rules[] = [$this->attr, 'default', 'value'=>0, 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
-
+		
+		if ($this->numeric) {
+			$rules[] = [$this->attr, 'integer', 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
 		}
-
+		
+		if($this->numeric AND $this->defaultValue === null) {
+			$rules[] = [$this->attr, 'default', 'value'=>0, 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
+		}
+		
 		return $rules;
-
 	}
 
 	/**

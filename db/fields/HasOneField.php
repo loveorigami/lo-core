@@ -44,7 +44,18 @@ class HasOneField extends ListField
         $this->relation = $relation;
         parent::__construct($model, $attr, $config);
     }
-
+	
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+        $relation = $this->model->getRelation($this->relation);
+        $rules[] = [$this->attr, 'exist', 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
+        return $rules;
+    }
+	
     /**
      * @inheritdoc
      */
