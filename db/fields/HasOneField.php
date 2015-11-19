@@ -34,6 +34,11 @@ class HasOneField extends ListField
     public $numeric = true;
 
     /**
+     * @var проверять наличие связанной модели
+     */
+    public $checkExist = true;
+
+    /**
      * Конструктор
      * @param ActiveRecord $model модель
      * @param string $attr атрибут
@@ -51,10 +56,15 @@ class HasOneField extends ListField
     public function rules()
     {
         $rules = parent::rules();
-        $relation = $this->model->getRelation($this->relation);
-        $isEmpty = function($v) { return empty($v); };
-        $rules[] = [$this->attr, 'exist', 'isEmpty'=>$isEmpty, 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
+        if($this->checkExist) {
+            $relation = $this->model->getRelation($this->relation);
+            $rules[] = [$this->attr, 'exist', 'isEmpty' => [$this, "isEmpty"], 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+        }
         return $rules;
+    }
+
+    public function isEmpty($v) {
+        return empty($v);
     }
 	
     /**
@@ -84,10 +94,10 @@ class HasOneField extends ListField
      * Поиск
      * @param ActiveQuery $query запрос
      */
-    public function search(ActiveQuery $query)
+    protected function search(ActiveQuery $query)
     {
         parent::search($query);
-        if($this->eagerLoading && $this->search) {
+        if($this->eagerLoading) {
             $query->with($this->relation);
         }
     }

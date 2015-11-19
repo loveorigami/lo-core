@@ -17,28 +17,21 @@ class TextField extends Field
 
     public function rules()
     {
-
         $rules = parent::rules();
-
         $rules[] = [$this->attr, 'filter', 'filter' => 'trim'];
-
         return $rules;
-
     }
 
     /**
      * @inheritdoc
      */
-    public function search(ActiveQuery $query)
+    protected function search(ActiveQuery $query)
     {
-
-        $table = $this->model->tableName();
-
-        $attr = $this->attr;
-
-        if ($this->search)
+        if($this->model->hasAttribute($this->attr)) {
+            $table = $this->model->tableName();
+            $attr = $this->attr;
             $query->andFilterWhere(["like", "$table.$attr", preg_quote($this->model->{$this->attr})]);
-
+        }
     }
 
 }

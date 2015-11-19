@@ -162,7 +162,9 @@ abstract class MetaFields extends Object
                         "fromAttr" => "createdAtFrom",
                         "toAttr" => "createdAtTo",
                     ],
-                    "widgetOptions" =>['dateFormat' => 'yyyy-MM-dd'],
+                    "inputClassOptions" => [
+                        "widgetOptions" =>['dateFormat' => 'yyyy-MM-dd'],
+                     ],
                     "queryModifier" => [$this, "createdAtQueryModifier"],
                 ],
                 "params" => [$this->owner, "created_at"]
@@ -182,12 +184,14 @@ abstract class MetaFields extends Object
                     "title" => Yii::t('core', 'Status'),
                     "editInGrid" => true,
                     "initValue" => true,
-                    "widgetOptions" => [
-                        'options' => [
-                            'label' => null,
-                            'inline' => true,
-                            'data-on'=> Yii::t('common','Yes'),
-                            'data-off'=>Yii::t('common','No'),
+                    "inputClassOptions" => [
+                        "widgetOptions" => [
+                            'options' => [
+                                'label' => null,
+                                'inline' => true,
+                                'data-on'=> Yii::t('common','Yes'),
+                                'data-off'=>Yii::t('common','No'),
+                            ],
                         ],
                     ],
                 ],

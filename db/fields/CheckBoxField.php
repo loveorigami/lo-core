@@ -58,7 +58,7 @@ class CheckBoxField extends Field
      * @inheritdoc
      */
 
-    public function extendedFilterForm(ActiveForm $form, Array $options = [])
+    public function getExtendedFilterForm(ActiveForm $form, Array $options = [])
     {
 
         $data = $this->defaultGridFilter();

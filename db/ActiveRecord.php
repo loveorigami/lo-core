@@ -236,30 +236,21 @@ abstract class ActiveRecord extends YiiRecord
 
     public function search($params, $dataProviderConfig = [], $query = null)
     {
-
         $fields = $this->getMetaFields()->getFields();
-
         $query = $query ? $query : static::find();
-
         $config = array_merge([
             'class' => ActiveDataProvider::className(),
             "query" => $query,
         ], $dataProviderConfig);
-
         $dataProvider = Yii::createObject($config);
-
         $dataProvider->getSort()->defaultOrder = $this->_defaultSearchOrder;
-
         $this->load($params);
-
         $this->validate();
-
-        foreach ($fields AS $field){
-            $field->applySearch($query);
+        foreach ($fields AS $field) {
+            if($field->search)
+                $field->applySearch($query);
         }
-
         return $dataProvider;
-
     }
 
     /**
