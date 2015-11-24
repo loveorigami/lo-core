@@ -48,6 +48,22 @@ class ElfImgField extends ElfFileField
      */
     public $imageOptions = [];
 
+    /**
+     * @inheritdoc
+     */
+    protected function grid()
+    {
+        $grid = parent::grid();
+        $grid['format'] = 'html';
+        $grid['label'] = 'Img';
+        $grid['headerOptions'] = [
+            'style' => 'width: 85px;',
+        ];
+        $grid['value'] = function ($model, $index, $widget) {
+            return $this->renderFilesGridView($model->{$this->attr});
+        };
+        return $grid;
+    }
 
     /**
      * Возвращает html тег изображения. Производит ресайз

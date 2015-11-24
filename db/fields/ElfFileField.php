@@ -19,7 +19,7 @@ class ElfFileField extends Field
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
-	
+
     public $inputClass = '\lo\core\inputs\ElfFileInput';
 
     /**
@@ -32,15 +32,12 @@ class ElfFileField extends Field
      */
     protected function grid()
     {
-
         $grid = parent::grid();
         $grid['format'] = 'html';
         $grid['value'] = function ($model, $index, $widget) {
                 return $this->renderFilesGridView($model->{$this->attr});
         };
-
         return $grid;
-
     }
 
     /**
