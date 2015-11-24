@@ -4,7 +4,7 @@ namespace lo\core\db;
 use lo\core\db\fields;
 use Yii;
 use yii\base\Object;
-use yii\helpers\ArrayHelper;
+use lo\core\helpers\ArrayHelper;
 
 /**
  * Class MetaFields
@@ -69,6 +69,7 @@ abstract class MetaFields extends Object
         if ( !is_array($this->_fieldsConfig) ) {
             $this->_fieldsConfig = ArrayHelper::merge($this->defaultConfig(), $this->config());
         }
+            $this->_fieldsConfig = ArrayHelper::multi_order($this->_fieldsConfig);
         return $this->_fieldsConfig;
     }
 
@@ -137,19 +138,21 @@ abstract class MetaFields extends Object
                     "class" => fields\PkField::className(),
                     "title" => "ID",
                 ],
-                "params" => [$this->owner, "id"]
+                "params" => [$this->owner, "id"],
+                "pos" =>1
             ],
             "author_id" => [
                 'definition' => [
                     "class" => fields\HasOneField::className(),
                     "title" => Yii::t('core', 'Author'),
-                    "showInForm" => true,
+                    "showInForm" => false,
                     "showInGrid" => Yii::$app->user->can('editor'),
                     "data" => [$this, "getAuthorsList"],
                     "gridAttr" => "username",
                     "eagerLoading" => true,
                 ],
-                "params" => [$this->owner, "author_id", "author"]
+                "params" => [$this->owner, "author_id", "author"],
+                "pos" =>20
             ],
             "created_at" => [
                 'definition' => [
@@ -167,7 +170,8 @@ abstract class MetaFields extends Object
                      ],
                     "queryModifier" => [$this, "createdAtQueryModifier"],
                 ],
-                "params" => [$this->owner, "created_at"]
+                "params" => [$this->owner, "created_at"],
+                "pos" =>25
             ],
             "updated_at" => [
                 'definition' => [
@@ -195,7 +199,8 @@ abstract class MetaFields extends Object
                         ],
                     ],
                 ],
-                "params" => [$this->owner, "status"]
+                "params" => [$this->owner, "status"],
+                "pos" =>50
             ],
         ];
     }

@@ -87,4 +87,16 @@ class ArrayHelper extends YiiArrayHelper
 
         return $tree;
     }
+
+    public static function multi_order($arr){
+        $ar2=[];
+        $i=0;
+        $n=5;
+        foreach($arr as $a){
+            $ar2[$i] =(isset($a['pos'])) ? $a['pos'] : $n++;
+            $i++;
+        }
+        array_multisort($arr, SORT_NUMERIC, $ar2);
+        return($arr);
+    }
 }
