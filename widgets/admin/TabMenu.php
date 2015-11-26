@@ -25,6 +25,10 @@ class TabMenu extends \yii\widgets\Menu
 
     public function run()
     {
+        foreach($this->items as $key=>$value){
+            $this->items[$key]['label'] = Yii::t('backend', $this->items[$key]['label']);
+        }
+
         return Nav::widget([
             'options' => [
                 'class' => 'nav-tabs',
@@ -32,6 +36,11 @@ class TabMenu extends \yii\widgets\Menu
             ],
             'items' => $this->items
         ]);
-
     }
+
+/*    protected function labels($items){
+        foreach($items as $key=>$value){
+            var_dump($this->items[$key]);
+        }
+    }*/
 }
