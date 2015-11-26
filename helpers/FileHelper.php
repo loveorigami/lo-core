@@ -2,6 +2,8 @@
 
 namespace lo\core\helpers;
 
+use Yii;
+use yii\helpers\Html;
 use yii\helpers\FileHelper as YiiFileHelper;
 
 /**
@@ -125,5 +127,27 @@ class FileHelper extends YiiFileHelper
             return false;
 
     }
+    /**
+     * Является ли файл изображением
+     * @param string $path путь к файлу
+     * @return bool
+     */
 
+    public static function storageImg($img, $op=[])
+    {
+        $path = Yii::getAlias('@storage') . $img;
+        $src = Yii::getAlias('@storageUrl') . $img;
+
+        if (!is_file($path) OR !self::isImage($path))
+            return $path;
+
+        $options = array_merge([
+            "src" => $src,
+            "class" => "img-thumbnail detail-img",
+            "width" =>'80'
+        ], $op);
+
+        return Html::tag('img', '', $options);
+
+    }
 }

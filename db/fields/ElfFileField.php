@@ -14,7 +14,7 @@ class ElfFileField extends Field
      * @inheritdoc
      */
 
-    public $showInGrid = true;
+    public $showInGrid = false;
     public $showInFilter = false;
     public $isRequired = false;
     public $editInGrid = false;
@@ -22,10 +22,6 @@ class ElfFileField extends Field
 
     public $inputClass = '\lo\core\inputs\ElfFileInput';
 
-    /**
-     * @var string алиас DOCUMENT ROOT
-     */
-    public $webroot = "@storage";
 
     /**
      * @inheritdoc

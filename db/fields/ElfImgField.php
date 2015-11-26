@@ -14,14 +14,17 @@ use yii\helpers\Html;
  */
 class ElfImgField extends ElfFileField
 {
-    /**
-     * @inheritdoc
-     */
+    public $showInGrid = true;
+    public $showInFilter = false;
+    public $isRequired = false;
+    public $editInGrid = false;
+    public $showInExtendedFilter = false;
 
+    public $inputClass = '\lo\core\inputs\ElfImgInput';
     /**
      * Размер по умолчанию для превью изображений в гриде и при детальном просмотре
      */
-    const DEFAULT_SIZE = 80;
+    const DEFAULT_SIZE = 50;
 
     /**
      * @var int ширина изображения при детальном просмотре
@@ -43,10 +46,6 @@ class ElfImgField extends ElfFileField
      */
     public $gridHeight = self::DEFAULT_SIZE;
 
-    /**
-     * @var array html атрибуты превью изображений
-     */
-    public $imageOptions = [];
 
     /**
      * @inheritdoc
@@ -57,7 +56,7 @@ class ElfImgField extends ElfFileField
         $grid['format'] = 'html';
         $grid['label'] = 'Img';
         $grid['headerOptions'] = [
-            'style' => 'width: 85px;',
+            'style' => 'width: 55px;',
         ];
         $grid['value'] = function ($model, $index, $widget) {
             return $this->renderFilesGridView($model->{$this->attr});
@@ -74,20 +73,7 @@ class ElfImgField extends ElfFileField
      */
     protected function renderImageTag($img, $width, $height)
     {
-      $path = Yii::getAlias($this->webroot) . $img;
-      $src = Yii::getAlias($this->webroot.'Url') . $img;
-
-      if (!is_file($path) OR !FileHelper::isImage($path))
-        return $path;
-
-        $options = array_merge([
-            "src" => $src,
-            "class" => "img-thumbnail detail-img",
-            "width" =>$this->gridWidth
-        ], $this->imageOptions);
-
-        return Html::tag('img', '', $options);
-
+        return FileHelper::storageImg($img, ['width'=>$width]);
     }
 
     /**
