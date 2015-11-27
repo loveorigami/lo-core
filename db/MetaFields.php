@@ -146,7 +146,7 @@ abstract class MetaFields extends Object
                     "class" => fields\HasOneField::className(),
                     "title" => Yii::t('core', 'Author'),
                     "showInForm" => false,
-                    "showInGrid" => Yii::$app->user->can('editor'),
+                    "showInGrid" => false, //Yii::$app->user->can('editor'),
                     "data" => [$this, "getAuthorsList"],
                     "gridAttr" => "username",
                     "eagerLoading" => true,
@@ -158,7 +158,7 @@ abstract class MetaFields extends Object
                 'definition' => [
                     "class" => fields\TimestampField::className(),
                     "title" => Yii::t('core', 'Created'),
-                    "showInGrid" => true,
+                    "showInGrid" => false,
                     "showInFilter" => false,
                     "filterInputClass" => [
                         "class" => \lo\core\inputs\DateRangeInput::className(),
