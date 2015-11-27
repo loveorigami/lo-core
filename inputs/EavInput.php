@@ -4,7 +4,6 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-//use lo\modules\eav\widgets\ActiveField;
 
 /**
  * Class HtmlInput
@@ -27,9 +26,6 @@ class EavInput extends BaseInput {
         foreach($this->modelField->model->getEavAttributes()->all() as $attr){
             $field.= $form->field($this->modelField->model, $attr->name, ['class' => '\lo\modules\eav\widgets\ActiveField'])->eavInput();
         }
-/*        foreach($this->modelField->model->getEavAttributes()->all() as $attr){
-            $field.= $this->modelField->model[$attr->name];
-        }*/
         return $field;
     }
 
