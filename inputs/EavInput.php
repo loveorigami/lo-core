@@ -4,7 +4,7 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use mirocow\eav\widgets\ActiveField;
+//use lo\modules\eav\widgets\ActiveField;
 
 /**
  * Class HtmlInput
@@ -25,7 +25,7 @@ class EavInput extends BaseInput {
     {
         $field = '';
         foreach($this->modelField->model->getEavAttributes()->all() as $attr){
-            $field.= $form->field($this->modelField->model, $attr->name, ['class' => '\mirocow\eav\widgets\ActiveField'])->eavInput();
+            $field.= $form->field($this->modelField->model, $attr->name, ['class' => '\lo\modules\eav\widgets\ActiveField'])->eavInput();
         }
 /*        foreach($this->modelField->model->getEavAttributes()->all() as $attr){
             $field.= $this->modelField->model[$attr->name];
