@@ -44,7 +44,7 @@ class FormattedNumberInput extends InputWidget
 
         parent::init();
 
-        JqueryNumberAsset::register($this->view);
+        JqueryNumber::register($this->view);
 
         $this->hiddenId = $this->options["id"]."-hidden";
 
