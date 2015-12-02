@@ -28,7 +28,7 @@
     "marciocamello/yii2-x-editable": "*",
     "creocoder/yii2-nested-sets": "0.9.*",
 	
-	"bower/jquery-number": "*"
+	"bower-asset/jquery-number": "*"
   },
   "autoload": {
     "psr-4": {
