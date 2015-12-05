@@ -2,7 +2,8 @@
 
 namespace lo\core\inputs;
 
-use lo\core\widgets\SortedTags;
+use kartik\select2\Select2;
+//use lo\core\widgets\SortedTags;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
@@ -12,7 +13,8 @@ use yii\widgets\ActiveForm;
  * @package lo\core\inputs
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class SortedTagsInput extends BaseInput {
+class SortedTagsInput extends BaseInput
+{
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -25,22 +27,23 @@ class SortedTagsInput extends BaseInput {
     {
         $data = $this->modelField->getDataValue();
 
-        if(empty($data))
+        if (empty($data))
             return false;
 
-        $options = ArrayHelper::merge(["class"=>"form-control"], $this->options, $options, ["multiple"=>true]);
+        $options = ArrayHelper::merge(["class" => "form-control"], $this->options, $options, ["multiple" => true]);
 
         $widgetOptions = ArrayHelper::merge([
-            "items" => $data,
-            "bootstrap"=>true,
-            "settings" => [
-                    "tokenSeparators" => [',', ' '],
-                ]
-            ], $this->widgetOptions, ["options"=>$options]);
+            "data" => $data,
+            "pluginOptions" => [
+               'allowClear' => true,
+                "tags" => false,
+                'maximumInputLength' => 10
+            ]
+        ], $this->widgetOptions, ["options" => $options]);
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
-        return $form->field($this->modelField->model, $attr)->widget(SortedTags::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $attr)->widget(Select2::className(), $widgetOptions);
     }
 
 

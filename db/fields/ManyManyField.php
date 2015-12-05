@@ -57,7 +57,7 @@ class ManyManyField extends HasOneField
 
         }
 
-        return implode(",", $arr);
+        return implode(", ", $arr);
 
     }
 
@@ -81,6 +81,7 @@ class ManyManyField extends HasOneField
 
     public function xEditable()
     {
+        // редактирование через чекбоксы
         return false;
     }
 
@@ -95,7 +96,7 @@ class ManyManyField extends HasOneField
         $tableRelated = $relatedClass::tableName();
         $query->
         joinWith($this->relation, $this->eagerLoading)->
-        andFilterWhere(["{{$tableRelated}}.{{id}}" => $this->model->{$this->attr}])->
+        andFilterWhere(["$tableRelated.id" => $this->model->{$this->attr}])->
         groupBy("$table.id");
     }
 

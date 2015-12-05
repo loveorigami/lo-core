@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\widgets;
 
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\jui\JuiAsset;
 
@@ -11,10 +11,8 @@ use yii\jui\JuiAsset;
  * @package common\widgets
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class SortedTags extends Widget
+class SortedTags extends Select2
 {
-
-    public $bootstrap = true;
 
     /**
      * @inheritdoc
@@ -23,61 +21,25 @@ class SortedTags extends Widget
     {
         parent::init();
 
-        $this->settings["tags"] = $this->getTagsData($this->items);
-
     }
 
     /**
      * @inheritdoc
      */
-    public function registerClientScript()
+    public function registerAssets()
     {
-        parent::registerClientScript();
+        parent::registerAssets();
 
         JuiAsset::register($this->view);
 
         $id = $this->options["id"];
 
         $this->view->registerJs("
-
-	    $('#$id').select2('container').find('ul.select2-choices').sortable({
-            containment: 'parent',
-            start: function() { $('#$id').select2('onSortStart'); },
-            update: function() { $('#$id').select2('onSortEnd'); }
-        });
+            $('ul.select2-selection__rendered').sortable({
+                containment: 'parent',
+            });
         ");
 
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function run()
-    {
-        $this->registerClientScript();
-        if ($this->hasModel()) {
-            return Html::activeHiddenInput($this->model, $this->attribute, $this->options);
-        } else {
-            return Html::hiddenInput($this->name, $this->value, $this->options);
-        }
-    }
-
-    /**
-     * Возвращает массив строк, каждая из которых содеожит id и названия
-     * @param array $data данные передаваемые в выпадающий список
-     * @return array
-     */
-    public function getTagsData($data) {
-
-        $arr = [];
-
-        foreach($data AS $id => $title)
-            $arr[] = sprintf("#%s %s", $id, $title);
-
-        return $arr;
-
-    }
-
-
-} 
+}
