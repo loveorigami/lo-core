@@ -18,8 +18,7 @@ class HtmlInput extends BaseInput {
     /**
      * @var string контроллер файлового менеджера
      */
-
-    public $fileManagerController = "elfinder";
+    public $fileManagerController = "elfinder-editor";
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -36,8 +35,10 @@ class HtmlInput extends BaseInput {
         $editorOptions = [
             'preset' => 'full', // standard, basic
             'inline' => false,
+            'height' => 200,
             'allowedContent' => true,
             'autoParagraph' => false,
+            'baseHref'=>\Yii::getAlias('@storageUrl'),
         ];
 
         $ckeditorOptions = ElFinder::ckeditorOptions($this->fileManagerController, $editorOptions);
