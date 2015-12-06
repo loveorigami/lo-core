@@ -17,4 +17,9 @@ class ManyManySortField extends ManyManyField
 
    public $inputClass = "\\lo\core\\inputs\\SortedTagsInput";
 
+    /**
+     * @var bool отображать в фильтре грида
+     */
+    public $showInFilter = true;
+
 } 

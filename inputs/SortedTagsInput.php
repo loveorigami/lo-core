@@ -2,8 +2,8 @@
 
 namespace lo\core\inputs;
 
-use kartik\select2\Select2;
-//use lo\core\widgets\SortedTags;
+//use kartik\select2\Select2;
+use lo\core\widgets\SortedTags;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
@@ -27,24 +27,23 @@ class SortedTagsInput extends BaseInput
     {
         $data = $this->modelField->getDataValue();
 
-        if (empty($data))
-            return false;
-
         $options = ArrayHelper::merge(["class" => "form-control"], $this->options, $options, ["multiple" => true]);
 
         $widgetOptions = ArrayHelper::merge([
-            "data" => $data,
-            "pluginOptions" => [
-               'allowClear' => true,
-                "tags" => false,
-                'maximumInputLength' => 10
-            ]
+            'clientOptions' => [
+                'plugins' => ['remove_button','drag_drop'],
+                'valueField' => 'name',
+                'labelField' => 'name',
+                'searchField' => ['name'],
+                'create' => false,
+                'delimiter'=> ',',
+                'persist'=> false,
+            ],
         ], $this->widgetOptions, ["options" => $options]);
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
-        return $form->field($this->modelField->model, $attr)->widget(Select2::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $attr)->widget(SortedTags::className(), $widgetOptions);
     }
 
-
-} 
+}

@@ -94,6 +94,7 @@ class ManyManyField extends HasOneField
         $table = $this->model->tableName();
         $relatedClass = $this->model->{"get" . ucfirst($this->relation)}()->modelClass;
         $tableRelated = $relatedClass::tableName();
+
         $query->
         joinWith($this->relation, $this->eagerLoading)->
         andFilterWhere(["$tableRelated.id" => $this->model->{$this->attr}])->

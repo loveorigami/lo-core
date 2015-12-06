@@ -1,7 +1,6 @@
 <?php
 namespace lo\core\widgets;
 
-use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\jui\JuiAsset;
 
@@ -11,34 +10,16 @@ use yii\jui\JuiAsset;
  * @package common\widgets
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class SortedTags extends Select2
+class SortedTags extends \dosamigos\selectize\SelectizeTextInput
 {
 
     /**
      * @inheritdoc
      */
-    public function init()
+    public function registerClientScript()
     {
-        parent::init();
-
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerAssets()
-    {
-        parent::registerAssets();
-
+        parent::registerClientScript();
         JuiAsset::register($this->view);
-
-        $id = $this->options["id"];
-
-        $this->view->registerJs("
-            $('ul.select2-selection__rendered').sortable({
-                containment: 'parent',
-            });
-        ");
 
     }
 
