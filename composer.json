@@ -26,7 +26,8 @@
     "yiisoft/yii2": "~2",
     "zelenin/yii2-slug-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
-    "creocoder/yii2-nested-sets": "0.9.*"
+    "creocoder/yii2-nested-sets": "0.9.*",
+    "creocoder/yii2-taggable": "~2.0"
   },
   "autoload": {
     "psr-4": {
