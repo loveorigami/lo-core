@@ -10,7 +10,7 @@ use yii\jui\JuiAsset;
  * @package common\widgets
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class SortedTags extends \dosamigos\selectize\SelectizeTextInput
+class TagsSorted extends \dosamigos\selectize\SelectizeTextInput
 {
 
     /**

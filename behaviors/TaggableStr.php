@@ -14,7 +14,7 @@ use yii\db\Query;
  * @author Alexander Kochetov <creocoder@gmail.com>
 */
 
-class Taggable extends Behavior
+class TaggableStr extends Behavior
 {
     /**
      * @var ActiveRecord the owner of this behavior.
@@ -36,12 +36,12 @@ class Taggable extends Behavior
      * @var string
      */
     public $relation = 'tags';
+	
     /**
-     * Tag values
+     * Sort column
      * @var array|string
      */
-
-    public $order = 'pos';
+    public $order = false;
     /**
      * Tag values
      * @var array|string
@@ -191,14 +191,15 @@ class Taggable extends Behavior
 
             if ($tag->save()) {
                 $updatedTags[] = $tag;
-                $rows[] = [$this->owner->getPrimaryKey(), $tag->getPrimaryKey(), $order++];
+                $rows[] = $this->order ? [$this->owner->getPrimaryKey(), $tag->getPrimaryKey(), $order++] : [$this->owner->getPrimaryKey(), $tag->getPrimaryKey()];
             }
         }
 
         if (!empty($rows)) {
+			$data = $this->order ? [key($relation->via->link), current($relation->link), $this->order] : [key($relation->via->link), current($relation->link)];
             $this->owner->getDb()
                 ->createCommand()
-                ->batchInsert($pivot, [key($relation->via->link), current($relation->link), $this->order], $rows)
+                ->batchInsert($pivot, $data, $rows)
                 ->execute();
         }
 
