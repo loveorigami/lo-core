@@ -210,9 +210,10 @@ abstract class ActiveRecord extends YiiRecord
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-/*            'tagCache' => [
+           'tagCache' => [
                 'class' => \lo\core\behaviors\TagCache::className(),
-            ],*/
+                'activeAttribute'=>'status'
+            ],
         ];
 
         foreach ($fields AS $field) {
@@ -290,9 +291,9 @@ abstract class ActiveRecord extends YiiRecord
 
 		$oldArr = $this->oldAttributes;
 
-		$new = (int) $this->active;
+		$new = (int) $this->status;
 
-		$old = (int) $oldArr["active"];
+		$old = (int) $oldArr["status"];
 
 		if($new != $old)
 			return true;
@@ -312,8 +313,8 @@ abstract class ActiveRecord extends YiiRecord
         if($this->hasAttribute("id") AND $this->id)
             $res[]=$this->id;
 
-        if($this->hasAttribute("title") AND $this->title)
-            $res[]=$this->title;
+        if($this->hasAttribute("name") AND $this->name)
+            $res[]=$this->name;
 
         return implode(" - ", $res);
 
