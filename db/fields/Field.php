@@ -126,7 +126,7 @@ class Field extends Object
     public $data;
 
     /**
-     * @var string|array имя класс, либо конфигурация компонента который рендерит поле ввыода формы
+     * @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы
      */
     public $inputClass = '\lo\core\inputs\TextInput';
 

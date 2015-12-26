@@ -22,7 +22,7 @@ class TagsSortedInput extends BaseInput
      * @param bool|int $index инднкс модели при табличном вводе
      * @return string
      */
-	 
+    public $loadUrl=[];
 
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
@@ -31,7 +31,7 @@ class TagsSortedInput extends BaseInput
         $options = ArrayHelper::merge(["class" => "form-control"], $this->options, $options, ["multiple" => true]);
 
         $widgetOptions = ArrayHelper::merge([
-            'loadUrl' => ['include-item/list'],
+            'loadUrl' => $this->loadUrl,
             'clientOptions' => [
                 'plugins' => ['remove_button','drag_drop'],
                 'valueField' => 'name',

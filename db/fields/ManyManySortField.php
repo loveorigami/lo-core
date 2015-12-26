@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 class ManyManySortField extends ManyManyField
 {
 
-   public $inputClass = "\\lo\core\\inputs\\TagsSortedInput";
+   public $inputClass = '\lo\core\inputs\TagsSortedInput';
 
     /**
      * @var bool отображать в фильтре грида
