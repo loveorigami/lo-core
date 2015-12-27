@@ -16,61 +16,37 @@ use kartik\select2\Select2;
  */
 class Select2Column extends DataColumn
 {
-    public $loadUrl=[];
+    public $loadUrl = [];
+    public $initValueText = '';
+
     /**
      * @inheritdoc
      */
 
-    protected function renderFilterCellContent2()
+    protected function renderFilterCellContent()
     {
         $url = \yii\helpers\Url::to($this->loadUrl);
 
-        $model = $this->grid->filterModel;
-
         $widgetOptions = [
-// With a model and without ActiveForm
-
-            'model' => $model,
-            'name' => 'lib_id',
-            'data' => $this->filter,
-            'options' => ['placeholder' => 'Select a state ...'],
+            'initValueText' => $this->initValueText, // set the initial display text
+            'model' => $this->grid->filterModel,
+            'attribute' => $this->attribute,
+            'options' => $this->filterInputOptions,
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 2,
+                'ajax' => [
+                    'url' => $url,
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(data) { return data.text; }'),
+                'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+            ]
         ];
 
         return Select2::widget($widgetOptions);
-       // return Html::activeDropDownList($model, $this->attribute, $this->filter);
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    protected function renderFilterCellContent()
-    {
-
-        $model = $this->grid->filterModel;
-
-            if ($model->hasErrors($this->attribute)) {
-                Html::addCssClass($this->filterOptions, 'has-error');
-                $error = ' ' . Html::error($model, $this->attribute, $this->grid->filterErrorOptions);
-            } else {
-                $error = '';
-            }
-            if (is_array($this->filter)) {
-                $options = array_merge(['prompt' => ''], $this->filterInputOptions);
-                return Html::activeDropDownList($model, $this->attribute, $this->filter, $options) . $error;
-
-/*                return Select2::widget([
-                    'name' => $this->attribute,
-                    //'attribute' => $this->attribute,
-                    'data' => $this->filter,
-                    'options' => $options,
-                ]) . $error;*/
-
-            } else {
-                return Html::activeTextInput($model, $this->attribute, $this->filterInputOptions) . $error;
-            }
-
-    }
-
-
-} 
+}
