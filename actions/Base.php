@@ -74,6 +74,11 @@ class Base extends Action
     protected function render($view, $params = [])
     {
         $params = array_merge($params, $this->viewParams);
+
+        if (Yii::$app->request->isAjax) {
+            return $this->controller->renderAjax($view,$params);
+        }
+
         return $this->controller->render($view, $params);
     }
 

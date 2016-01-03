@@ -82,6 +82,16 @@ class Create extends \lo\core\actions\Base
 
             $returnUrl = $request->post($this->redirectParam);
 
+            if (Yii::$app->request->isAjax) {
+                // JSON response is expected in case of successful save
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return [
+                    'success' => true,
+                    'id' => $model->id,
+                    'name' => $model->name,
+                ];
+            }
+
             if (empty($returnUrl))
                 $returnUrl = $this->defaultRedirectUrl;
 
