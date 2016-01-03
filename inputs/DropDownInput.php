@@ -91,7 +91,7 @@ $js = <<<JS
 
 $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
     console.log('kbModalSubmit' + status);
-    if(data['success']){
+    if(status){
         $(this).modal('toggle');
         $('#$this->fieldId').append($('<option></option>').attr('value', data['id']).prop("selected","selected").text(data['name']));
     }
