@@ -20,7 +20,7 @@ use yii\helpers\Html;
 class DropDownInput extends BaseInput
 {
 
-    protected $tpl = [];
+    protected $formTemplate = [];
     public $modalUrl = '';
     public $fieldId = '';
 
@@ -54,7 +54,7 @@ class DropDownInput extends BaseInput
             ["options" => $options]
         );
 
-        return $form->field($model, $this->getFormAttrName($index, $attr), $this->tpl
+        return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate
         )->widget(
             DependDropDown::className(), $widgetOptions
         );
@@ -75,7 +75,7 @@ class DropDownInput extends BaseInput
 
         Modal::end();
 
-        $this->tpl = [
+        $this->formTemplate = [
             'template' => '{label}
                     <div class="input-group">{input}
                         <div class="input-group-btn">
@@ -86,8 +86,11 @@ class DropDownInput extends BaseInput
                     </div>
                     {error}{hint}',
         ];
+        $this->setJs();
+    }
 
-$js = <<<JS
+    protected function setJs(){
+        $js = <<<JS
 
 $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
     console.log('kbModalSubmit' + status);
@@ -102,4 +105,5 @@ JS;
         $view=\Yii::$app->getView();
         $view->registerJs($js);
     }
+
 } 

@@ -6,6 +6,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
+use yii\helpers\Html;
 
 /**
  * Class DropDownInput
@@ -13,7 +14,7 @@ use yii\web\JsExpression;
  * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Select2AjaxInput extends BaseInput {
+class Select2AjaxInput extends DropDownInput {
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -29,18 +30,22 @@ class Select2AjaxInput extends BaseInput {
     {
         $relation = $this->modelField->relation;
         $attr = $this->modelField->attr;
+        $model = $this->modelField->model;
+        $options = ArrayHelper::merge($this->options, $options);
+        $this->fieldId = Html::getInputId($model, $attr);
+
+        $this->getTpl();
 
         $url = \yii\helpers\Url::to($this->loadUrl);
 
-        $options = ArrayHelper::merge($this->options, $options);
-
-        $val = ArrayHelper::getValue($this->modelField->model, "{$relation}.name");
+        $val = ArrayHelper::getValue($model, "{$relation}.name");
         $val = $val ? $val : '---';
 
         $widgetOptions = ArrayHelper::merge([
             'initValueText' => $val, // set the initial display text
             'options' => [
-                'prompt'=>''
+                'prompt'=>'',
+                'id' => $this->fieldId,
             ],
             'pluginOptions' => [
                 'allowClear' => false,
@@ -58,9 +63,32 @@ class Select2AjaxInput extends BaseInput {
 
 
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(
+        return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate)->widget(
             Select2::className(), $widgetOptions
         );
     }
 
+    protected function setJs(){
+        $theme = Select2::THEME_DEFAULT;
+        $js = <<<JS
+
+$('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
+    console.log('kbModalSubmit' + status);
+    if(status){
+        $(this).modal('toggle');
+        $('#$this->fieldId').html('').select2({
+            theme: '$theme',
+            data:
+            [
+               {id: data['id'], text: data['name']}
+            ]
+        });
+    }
+});
+
+JS;
+
+        $view=\Yii::$app->getView();
+        $view->registerJs($js);
+    }
 } 
