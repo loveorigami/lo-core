@@ -36,11 +36,11 @@ class StringHelper extends YiiStringHelper
     public static function strMd5($str = '', $md5 = true)
     {
         // Удаляем текст в []
-            preg_match('/\[([A-Za-z\d_]+)\]/us', $str, $sup);
+/*        preg_match('/\[([A-Za-z\d_]+)\]/us', $str, $sup);
 
-            if(isset($sup[0])){
-                $str=str_replace($sup[0], '', $str);
-            }
+        if (isset($sup[0])) {
+            $str = str_replace($sup[0], '', $str);
+        }*/
 
         // Удаляем все слова меньше 3-х символов
         $str = htmlspecialchars_decode($str);
@@ -65,4 +65,9 @@ class StringHelper extends YiiStringHelper
         return iconv("windows-1251", "utf-8", $str);
     }
 
+    public static function mbTrim($str)
+    {
+        $str = preg_replace("/(^\s+)|(\s+$)/us", "", $str);
+        return $str;
+    }
 }
