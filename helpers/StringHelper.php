@@ -33,4 +33,36 @@ class StringHelper extends YiiStringHelper
         return $str;
     }
 
+    public static function strMd5($str = '', $md5 = true)
+    {
+        // Удаляем текст в []
+            preg_match('/\[([A-Za-z\d_]+)\]/us', $str, $sup);
+
+            if(isset($sup[0])){
+                $str=str_replace($sup[0], '', $str);
+            }
+
+        // Удаляем все слова меньше 3-х символов
+        $str = htmlspecialchars_decode($str);
+        $str = mb_strtolower($str, 'utf-8');
+        $str = preg_replace("|\b[\d\w]{1,3}\b|us", "", $str);
+
+        // Удаляем знаки припенания
+        $pattern = "/[\w\s\d]+/u";
+        preg_match_all($pattern, $str, $result);
+        $str = implode('', $result[0]);
+
+        // Удаляем лишние пробельные символы
+        $str = preg_replace("/[\s]+/us", "", $str);
+
+        if ($md5) $str = md5($str);
+
+        return $str;
+    }
+
+    public static function convToUtf8($str)
+    {
+        return iconv("windows-1251", "utf-8", $str);
+    }
+
 }
