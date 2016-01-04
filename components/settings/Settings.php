@@ -1,15 +1,15 @@
 <?php
-namespace lo\core\components\keyStorage;
+namespace lo\core\components\settings;
 
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
 use Yii;
 
 /**
- * Class KeyStorage
- * @package lo\core\components\keyStorage
+ * Class Setings
+ * @package lo\core\components\Setings
  */
-class KeyStorage extends Component
+class Settings extends Component
 {
     /**
      * @var string

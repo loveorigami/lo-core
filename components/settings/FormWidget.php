@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\components\keyStorage;
+namespace lo\core\components\settings;
 
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
@@ -13,7 +13,7 @@ use yii\helpers\Html;
 class FormWidget extends Widget
 {
     /**
-     * @var \lo\core\components\keyStorage\FormModel
+     * @var \lo\core\components\settings\FormModel
      */
     public $model;
     /**

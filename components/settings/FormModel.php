@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\components\keyStorage;
+namespace lo\core\components\settings;
 
 use Yii;
 use yii\base\Exception;
@@ -48,7 +48,7 @@ class FormModel extends Model
     /**
      * @var string
      */
-    public $keyStorage = 'settings';
+    public $settings = 'settings';
 
     /**
      * @var array
@@ -64,7 +64,7 @@ class FormModel extends Model
         foreach ($keys as $key => $data) {
             $variablizedKey = Inflector::variablize($key);
             $this->map[$variablizedKey] = $key;
-            $values[$variablizedKey] = $this->getKeyStorage()->get($key, null, false);
+            $values[$variablizedKey] = $this->getSettings()->get($key, null, false);
             $variablized[$variablizedKey] = $data;
         }
         $this->keys = $variablized;
@@ -147,7 +147,7 @@ class FormModel extends Model
             if (!$originalKey) {
                 throw new Exception;
             }
-            $this->getKeyStorage()->set($originalKey, $value);
+            $this->getSettings()->set($originalKey, $value);
         }
         return true;
     }
@@ -156,9 +156,9 @@ class FormModel extends Model
      * @return null|object
      * @throws \yii\base\InvalidConfigException
      */
-    protected function getKeyStorage()
+    protected function getSettings()
     {
-        return Yii::$app->get($this->keyStorage);
+        return Yii::$app->get($this->settings);
     }
 
     /**
