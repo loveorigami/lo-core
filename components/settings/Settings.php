@@ -109,9 +109,9 @@ class Settings extends Component
      * @param $key
      * @return bool
      */
-    public function has($key)
+    public function has($key, $cache = true)
     {
-        return $this->get($key) !== null;
+        return $this->get($key, null, $cache) !== null;
     }
 
     /**

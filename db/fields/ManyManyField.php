@@ -18,7 +18,7 @@ class ManyManyField extends HasOneField
     public $eagerLoading = true;
     public $numeric = false;
     public $checkExist = false;
-    public $inputClass = "\\lo\\core\\inputs\\MultiSelectInput";
+    public $inputClass = "\\lo\\core\\inputs\\Select2MultiInput";
 
     /**
      * Отображение в гриде
