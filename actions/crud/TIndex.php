@@ -13,7 +13,9 @@ use yii\web\ForbiddenHttpException;
  */
 class TIndex extends Index
 {
-    /**
+    public $orderBy = ['lft'=>SORT_ASC];
+	
+	/**
      * @var string имя параметра передаваемого расширенным фильтром
      */
     public $extFilterParam = "extendedFilter";
