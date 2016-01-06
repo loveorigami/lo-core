@@ -33,7 +33,14 @@ class Select2MultiInput extends DropDownInput {
 
         $options = ArrayHelper::merge($this->options, $options, ["multiple"=>true]);
 
-        $widgetOptions = ArrayHelper::merge(["data"=>$data], $this->widgetOptions, ["options"=>$options]);
+        $widgetOptions = ArrayHelper::merge([
+            //'theme' => Select2::THEME_KRAJEE,
+            "data"=>$data,
+/*            'pluginOptions' => [
+                'allowClear' => true,
+                'width' => '100%'
+            ],*/
+        ], $this->widgetOptions, ["options"=>$options]);
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
