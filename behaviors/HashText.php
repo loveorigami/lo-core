@@ -50,6 +50,9 @@ class HashText extends Behavior
         $owner = $this->owner;
         $str = $owner->{$this->attribute};
 
+        // Удаляем теги
+        $str = strip_tags($str);
+
         // Удаляем все слова меньше 3-х символов
         $str = htmlspecialchars_decode($str);
         $str = mb_strtolower($str, 'utf-8');

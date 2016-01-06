@@ -42,6 +42,9 @@ class StringHelper extends YiiStringHelper
             $str = str_replace($sup[0], '', $str);
         }*/
 
+        // Удаляем теги
+        $str = strip_tags($str);
+
         // Удаляем все слова меньше 3-х символов
         $str = htmlspecialchars_decode($str);
         $str = mb_strtolower($str, 'utf-8');
