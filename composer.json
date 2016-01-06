@@ -1,5 +1,5 @@
 {
-  "name": "loveorigami/lo-core-cms",
+  "name": "loveorigami/lo-core",
   "description": "Core for Lo-CMS",
   "version": "1.0",
   "type": "yii2-extension",
@@ -8,7 +8,7 @@
     "core",
     "cms"
   ],
-  "homepage": "https://bitbucket.org/loveorigami/lo-core-cms",
+  "homepage": "https://bitbucket.org/loveorigami/lo-core",
   "time": "2015-08-08",
   "license": "MIT",
   "authors": [
@@ -20,7 +20,7 @@
     }
   ],
   "support": {
-    "source": "https://bitbucket.org/loveorigami/lo-core-cms"
+    "source": "https://bitbucket.org/loveorigami/lo-core"
   },
   "require": {
     "yiisoft/yii2": "~2",
