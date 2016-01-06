@@ -19,7 +19,7 @@ class Settings extends \lo\core\actions\Base
      * @var string путь к шаблону для отображения
      */
 
-    public $tpl = "@vendor/loveorigami/lo-core-cms/actions/crud/views/settings";
+    public $tpl = "@vendor/loveorigami/lo-core/actions/crud/views/settings";
     public $keys = [];
 
     /**
