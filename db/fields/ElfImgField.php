@@ -24,12 +24,12 @@ class ElfImgField extends ElfFileField
     /**
      * Размер по умолчанию для превью изображений в гриде и при детальном просмотре
      */
-    const DEFAULT_SIZE = 50;
+    const DEFAULT_SIZE = 55;
 
     /**
      * @var int ширина изображения при детальном просмотре
      */
-    public $viewWidth = self::DEFAULT_SIZE;
+    public $viewWidth = 200;
 
     /**
      * @var int высота изображения при детальном просмотре
@@ -56,7 +56,7 @@ class ElfImgField extends ElfFileField
         $grid['format'] = 'html';
         $grid['label'] = 'Img';
         $grid['headerOptions'] = [
-            'style' => 'width: 55px;',
+            'style' => 'width: '.$this->gridWidth.'px;',
         ];
         $grid['value'] = function ($model, $index, $widget) {
             return $this->renderFilesGridView($model->{$this->attr});

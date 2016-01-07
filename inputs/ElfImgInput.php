@@ -50,7 +50,7 @@ class ElfImgInput extends BaseInput {
         $frm = '';
 
         $frm.= $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::className(), $widgetOptions);
-        $frm.= ($img) ? FileHelper::storageImg($img, ['width'=>200]) : '';
+        $frm.= ($img) ? FileHelper::storageImg($img, ['width'=>$this->modelField->viewWidth]) : '';
         return $frm;
 
     }
