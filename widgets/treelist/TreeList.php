@@ -64,6 +64,7 @@ class TreeList extends Menu
      * @var string indicator for a opened sub-menu
      */
 
+
     public $firstLevelCssClass ='list-group-item';
 
     protected $parentLevel;
@@ -194,14 +195,13 @@ class TreeList extends Menu
         $template = ArrayHelper::getValue($item, 'template', $this->linkTemplate);
         $url = Url::to(ArrayHelper::getValue($item, 'url', '#'));
 
-            if (empty($item['items'])) {
+/*            if (empty($item['items'])) {
                 $template = str_replace('{icon}', $this->indItem . '{icon}', $template);
             } else {
                 $template = isset($item['template']) ? $item['template'] :'<a href="{url}" class="kv-toggle">{icon}{label}</a>';
-               // $url = '#';
-            }
+            }*/
 
-        $icon = empty($item['icon']) ? '' : '<span class="' . $this->iconPrefix . $item['icon'] . '"></span> &nbsp;';
+        $icon = empty($item['icon']) ? '<i class="' . $this->iconPrefix . 'angle-double-right"></i> &nbsp;' : '<i class="' . $this->iconPrefix . $item['icon'] . '"></i> &nbsp;';
         unset($item['icon']);
         return strtr($template, [
             '{url}' => $url,

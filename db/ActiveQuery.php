@@ -21,13 +21,21 @@ class ActiveQuery extends YiiQuery
     public function published($state = true)
     {
 		$class = $this->modelClass;
-
 		$table = $class::tableName();
-
         $this->andWhere(["$table.status" => $state]);
 
         return $this;
-
     }
+
+    public function bySlug($slug)
+    {
+		$class = $this->modelClass;
+		$table = $class::tableName();
+        $this->andWhere(["$table.slug" => $slug]);
+
+        return $this;
+    }
+
+
 
 }
