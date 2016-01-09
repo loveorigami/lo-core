@@ -15,33 +15,42 @@ echo Html::beginTag('ul', $options) . "\n";
 foreach ($models AS $model) {
 
     // Для всех кроме первой итерации
-
     if (isset($level)) {
 
         if ($model->level == $level) {
-            echo "</li>\n";
+            Html::endTag('li') . "\n";
         } elseif ($model->level > $level) {
-            echo "<ul>\n";
+            echo Html::beginTag('ul') . "\n";
         } else {
-            echo str_repeat("</li>\n</ul>\n", $level - $model->level);
-            echo "</li>\n";
+            echo str_repeat(
+                Html::endTag('li') . "\n".
+                Html::endTag('ul') . "\n",
+                $level - $model->level
+            );
+            Html::endTag('li') . "\n";
         }
     }
 
     $link = "";
+    $io =  ($parentLevel + 1 == $model->level) ? $itemOptions : [];
 
     if (is_callable($urlCreate))
         $link = $urlCreate($model);
 
-    $o = [];
 
     if ($this->context->isAct($link))
-        Html::addCssClass($o, $actClass);
+        Html::addCssClass($io, $actClass);
 
-    echo Html::beginTag('li', $o) . Html::a($model->$labelAttr, $link);
+    echo Html::beginTag('li', $io) . Html::a($model->$labelAttr, $link);
 
     $level = $model->level;
 
 }
 
-echo str_repeat("</li>\n</ul>\n", $level - $parentLevel);
+echo str_repeat(
+    Html::endTag('li') . "\n".
+    Html::endTag('ul') . "\n",
+    $level - $parentLevel
+);
+
+

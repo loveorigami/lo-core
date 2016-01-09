@@ -1,16 +1,19 @@
 <?php
 namespace lo\core\widgets\treelist;
 
-use lo\core\widgets\App;
 use Yii;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Menu;
+use lo\core\widgets\App;
 
 /**
  * Class TreeList
- * Виджет для вывода дерева. Отображаемая сущность должна наследовать \common\db\TActiveRecord
+ * Виджет для вывода дерева. Отображаемая сущность должна наследовать \lo\core\db\TActiveRecord
  * @package app\modules\main\widgets\treelist
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class TreeList extends App
+class TreeList extends Menu
 {
 
     /**
@@ -22,12 +25,6 @@ class TreeList extends App
      * @var int идентификатор родительского раздела
      */
     public $parentId;
-
-    /**
-     * @var string класс для активного раздела
-     */
-
-    public $actClass = "active";
 
     /**
      * @var callable функция возвращающая url модели. Принимает аргументом модель для которой необходимо создать url
@@ -45,39 +42,36 @@ class TreeList extends App
     public $level = 1;
 
     /**
-     * @var array массив атрибутов html тега
-     */
-
-    public $options = array();
-
-
-    /**
-     * @var array массив моделей
-     */
-    public $models;
-
-    /**
      * @var string имя выводимого атрибута
      */
-    public $labelAttr = "title";
+    public $labelAttr = "name";
+    public $slugAttr = "slug";
+
 
     /**
-     * @var int глубина родительского раздела
+     * @var string the CSS class to be appended to the active menu item.
      */
+    public $activeCssClass = 'active';
+    /**
+     * @var boolean whether to automatically activate items according to whether their route setting
+     * matches the currently requested route.
+     * @see isItemActive()
+     */
+    public $activateItems = true;
+    /**
+     * @var boolean whether to activate parent menu items when one of the corresponding child menu items is active.
+     * The activated parent menu items will also have its CSS classes appended with [[activeCssClass]].
+     */
+    public $activateParents = false;
 
-    protected $parentLevel;
 
     /**
      * @inheritdoc
      */
-
     public function init()
     {
 
-        if (!$this->isShow())
-            return false;
-
-        if($this->models === null) {
+        if(!$this->items) {
             $class = $this->modelClass;
 
             $parent = $class::find()->published()->where(["id" => $this->parentId])->one();
@@ -85,79 +79,64 @@ class TreeList extends App
             if (!$parent)
                 return false;
 
-            $this->parentLevel = $parent->level;
-
             $level = $parent->level + $this->level;
 
             $query = $parent->children()->published()->andWhere("level <= :level", [":level" => $level]);
 
             if (is_callable($this->queryModify)) {
-
                 $func = $this->queryModify;
-
                 $func($query);
-
             }
 
-            $this->models = $query->all();
+            $items = $query->asArray()->all();
+
+            $this->items = $this->nestedToNodes($items);
 
         }
 
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function nestedToNodes($nested_array){
 
-    public function run()
-    {
+        $result = [];
+        $level = 0;
+        $stack = [];
 
-        if (!$this->isShow() OR empty($this->models))
-            return false;
+        foreach ($nested_array as $node) {
 
-        return $this->render($this->tpl, [
-            "models" => $this->models,
-            "options" => $this->options,
-            "parentLevel" => $this->parentLevel,
-            "actClass" => $this->actClass,
-            "urlCreate" => $this->urlCreate,
-            "labelAttr" => $this->labelAttr,
-        ]);
+            $item = $node;
+            $level = count($stack);
 
-    }
+            while ($level > 0 && $stack[$level - 1]['level'] >= $item['level']) {
+                array_pop($stack);
+                $level--;
+            }
 
-    /**
-     * Определяет является ли элемент активным
-     * @var string $url
-     * @return bool
-     */
-
-    public function isAct($url)
-    {
-
-        if (empty($url))
-            return false;
-
-        $request = Yii::$app->request;
-
-        // Главная
-
-        if ($url == "/") {
-
-            if (empty($request->pathInfo))
-                return true;
-
-        } else {
-
-            $pathinfo = "/" . $request->pathInfo . "/";
-
-            if (strpos($pathinfo, $url) === 0)
-                return true;
-
+            if ($level == 0) {
+                $i = count($result);
+                $result[$i] = $item;
+                $result[$i]['url'] = $this->getUrl($item);
+                $result[$i]['label'] = $item[$this->labelAttr];
+                $stack[] = &$result[$i];
+            } else {
+                $i = count($stack[$level - 1]['items']);
+                $stack[$level - 1]['items'][$i] = $item;
+                $stack[$level - 1]['items'][$i]['url'] = $this->getUrl($item);
+                $stack[$level - 1]['items'][$i]['label'] = $item[$this->labelAttr];
+                $stack[] = &$stack[$level - 1]['items'][$i];
+            }
         }
 
-        return false;
+        $tree = $result;
 
+        return $tree;
     }
 
+    protected function getUrl($item){
+        if (is_callable($this->urlCreate)){
+            $urlCreate = $this->urlCreate;
+            return $urlCreate($item[$this->slugAttr]);
+        }
+          return false;
+    }
 }
