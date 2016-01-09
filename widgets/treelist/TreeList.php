@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use yii\helpers\ArrayHelper;
 use lo\core\widgets\App;
 
 /**
@@ -49,22 +50,23 @@ class TreeList extends Menu
 
 
     /**
-     * @var string the CSS class to be appended to the active menu item.
+     * @var string prefix for the icon in [[items]]. This string will be prepended
+     * before the icon name to get the icon CSS class. This defaults to `glyphicon glyphicon-`
+     * for usage with glyphicons available with Bootstrap.
      */
-    public $activeCssClass = 'active';
-    /**
-     * @var boolean whether to automatically activate items according to whether their route setting
-     * matches the currently requested route.
-     * @see isItemActive()
-     */
-    public $activateItems = true;
-    /**
-     * @var boolean whether to activate parent menu items when one of the corresponding child menu items is active.
-     * The activated parent menu items will also have its CSS classes appended with [[activeCssClass]].
-     */
-    public $activateParents = false;
+    public $iconPrefix = 'fa fa-';
 
+    /**
+     * @var string indicator for a menu sub-item
+     */
+    public $indItem = '&raquo; ';
+    /**
+     * @var string indicator for a opened sub-menu
+     */
 
+    public $firstLevelCssClass ='list-group-item';
+
+    protected $parentLevel;
     /**
      * @inheritdoc
      */
@@ -79,6 +81,7 @@ class TreeList extends Menu
             if (!$parent)
                 return false;
 
+            $this->parentLevel = $parent->level;
             $level = $parent->level + $this->level;
 
             $query = $parent->children()->published()->andWhere("level <= :level", [":level" => $level]);
@@ -94,7 +97,119 @@ class TreeList extends Menu
 
         }
 
+        $this->activateParents = true;
+        $this->linkTemplate = '<a href="{url}">{icon}{label}</a>';
+        $this->submenuTemplate = "\n<ul class='kv-submenu'>\n{items}\n</ul>\n";
+/*        $this->view->registerJs("
+            $('.kv-toggle').click(function (event) {
+                event.preventDefault(); // cancel the event
+                //$(this).children('.opened').toggle()
+                //$(this).children('.closed').toggle()
+                $(this).parent().children('ul').toggle()
+                $(this).parent().toggleClass('active')
+                return false;
+            });
+        ");
+        $this->view->registerCss("
+            .kv-submenu {
+                display: none;
+            }
+
+            li.active .kv-submenu {
+                display: block;
+            }
+
+        ");*/
+
+
     }
+
+    /**
+     * Recursively renders the menu items (without the container tag).
+     * @param array $items the menu items to be rendered recursively
+     * @return string the rendering result
+     */
+    protected function renderItems($items)
+    {
+        $n = count($items);
+        $lines = [];
+        foreach ($items as $i => $item) {
+            $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
+            $tag = ArrayHelper::remove($options, 'tag', 'li');
+            $class = [];
+
+            if($this->parentLevel + 1 == $item['level']){
+                $class[] = $this->firstLevelCssClass;
+            }
+            if (!empty($item['items'])) {
+                $class[] = 'list-toggle';
+            }
+
+            if ($item['active']) {
+                $class[] = $this->activeCssClass;
+            }
+
+            if ($i === 0 && $this->firstItemCssClass !== null) {
+                $class[] = $this->firstItemCssClass;
+            }
+            if ($i === $n - 1 && $this->lastItemCssClass !== null) {
+                $class[] = $this->lastItemCssClass;
+            }
+            if (!empty($class)) {
+                if (empty($options['class'])) {
+                    $options['class'] = implode(' ', $class);
+                } else {
+                    $options['class'] .= ' ' . implode(' ', $class);
+                }
+            }
+
+            $menu = $this->renderItem($item);
+            if (!empty($item['items'])) {
+                $submenuTemplate = ArrayHelper::getValue($item, 'submenuTemplate', $this->submenuTemplate);
+                $menu .= strtr($submenuTemplate, [
+                    '{items}' => $this->renderItems($item['items']),
+                ]);
+            }
+            if ($tag === false) {
+                $lines[] = $menu;
+            } else {
+                $lines[] = Html::tag($tag, $menu, $options);
+            }
+        }
+
+        return implode("\n", $lines);
+    }
+
+
+    /**
+     * Renders the content of a side navigation menu item.
+     *
+     * @param array $item the menu item to be rendered. Please refer to [[items]] to see what data might be in the item.
+     * @return string the rendering result
+     * @throws InvalidConfigException
+     */
+    protected function renderItem($item)
+    {
+        //$this->validateItems($item);
+        $template = ArrayHelper::getValue($item, 'template', $this->linkTemplate);
+        $url = Url::to(ArrayHelper::getValue($item, 'url', '#'));
+
+            if (empty($item['items'])) {
+                $template = str_replace('{icon}', $this->indItem . '{icon}', $template);
+            } else {
+                $template = isset($item['template']) ? $item['template'] :'<a href="{url}" class="kv-toggle">{icon}{label}</a>';
+               // $url = '#';
+            }
+
+        $icon = empty($item['icon']) ? '' : '<span class="' . $this->iconPrefix . $item['icon'] . '"></span> &nbsp;';
+        unset($item['icon']);
+        return strtr($template, [
+            '{url}' => $url,
+            '{label}' => $item['label'],
+            '{icon}' => $icon
+        ]);
+    }
+
 
     public function nestedToNodes($nested_array){
 
@@ -139,4 +254,6 @@ class TreeList extends Menu
         }
           return false;
     }
+
+
 }
