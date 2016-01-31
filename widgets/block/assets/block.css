@@ -70,7 +70,7 @@
 	height: 1px;
 }
 
-/*Blocks - ����� ������*/
+/*Blocks - conent*/
 
 .box_content_s {
 	background-color: #87ceeb;
@@ -197,7 +197,8 @@
 .box_green3 {
     border-left:2px solid #D4F89C;
     border-right:2px solid #D4F89C;
-	 background-color: white;
+	background-color: white;
+	padding: 7px;
 }
 
 .box_green_full {
