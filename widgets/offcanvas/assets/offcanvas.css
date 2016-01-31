@@ -10,10 +10,10 @@
         transition: all 0.25s ease-out 0s;
     }
     .row-offcanvas-right {
-        right: 0;
+        right: 0px;
     }
     .row-offcanvas-left {
-        left: 0;
+        left: 0px;
     }
     .row-offcanvas-right .sidebar-offcanvas {
         right: -50%;
@@ -33,5 +33,23 @@
         top: 0;
         width: 50%;
     }
+
+    .btn-off{
+        margin-top:30px;
+        margin-left:10px;
+        position: absolute;
+        z-index: 100;
+    }
+/*    .row-offcanvas-left.active {
+        left: 33%;
+    }
+
+    .row-offcanvas-left.active .sidebar-offcanvas {
+        left: -33%;
+        position: absolute;
+        top: 0;
+        width: 33%;
+        margin-left: 5px;
+    }*/
 
 }

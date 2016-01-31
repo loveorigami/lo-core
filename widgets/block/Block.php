@@ -97,7 +97,6 @@ class Block extends \lo\core\widgets\App
     protected function endBlock()
     {
         $str='
-			<div class="clear_small"></div>
 		</div>
 		</div>
 		<div class="box6 box_'.$this->type.'2_s">
@@ -105,7 +104,8 @@ class Block extends \lo\core\widgets\App
 		</div>
 		<div class="box3 box_'.$this->type.'"></div>
 		<div class="box2 box_'.$this->type.'"></div>
-		<div class="box box_'.$this->type.'_s"></div>';
+		<div class="box box_'.$this->type.'_s"></div>
+		<div class="clear_small"></div>';
 
         return $str;
 

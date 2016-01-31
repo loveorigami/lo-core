@@ -70,7 +70,7 @@ class OffCanvas extends \lo\core\widgets\App
      */
     public $toggleButton = [
         'label' => '<span class="fa fa-bars"></span>',
-        'class' => 'btn btn-primary visible-xs visible-sm pull-left',
+        'class' => 'btn btn-primary visible-xs visible-sm pull-left btn-off',
         'data-toggle' => 'offcanvas',
     ];
 
