@@ -4,6 +4,11 @@ namespace lo\core\db\fields;
 
 use yii\helpers\ArrayHelper;
 
+use lo\core\db\ActiveQuery;
+use lo\core\db\ActiveRecord;
+
+use lo\modules\eav\EavQueryTrait;
+
 /**
  * Class HtmlField
  * Поле WYSIWYG редактора. Использует CKEditor
@@ -34,40 +39,52 @@ class EavField extends Field
      */
 
     public $eavOptions = [];
-    /**
-     * @inheritdoc
-     */
 
     public function behaviors()
     {
         $parent = parent::behaviors();
 
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+
             $parent[$code] = ArrayHelper::merge([
                 'class' => \lo\modules\eav\EavBehavior::className(),
-                'valueClass' => \lo\modules\eav\models\EavAttributeValue::className(),
             ], $this->eavOptions);
 
+
         return $parent;
+
     }
 
-    protected function view()
+    /**
+     * @inheritdoc
+     */
+    protected function grid()
     {
-        $view = parent::view();
-        $view["format"] = 'html';
-        $view["value"] = $this->getStringValue($this->model);
-        return $view;
+        $grid = $this->defaultGrid();
+        $grid["value"] = 111;
+
+        return $grid;
     }
 
-    protected function getStringValue($model)
+    /**
+     * @inheritdoc
+     */
+    public function rules()
     {
-        $arr = [];
-        foreach ($model->getEavAttributes()->all() AS $attr) {
-            $arr[] = $model[$attr->name];
-        }
+        $rules = parent::rules();
+        $rules[] = [$this->attr, 'safe'];
+        return $rules;
+    }
 
-        return implode("<br>", $arr);
-
+    /**
+     * Поиск
+     * @param ActiveQuery $query запрос
+     */
+    protected function search(ActiveQuery $query)
+    {
+       parent::search($query);
+        $query->andEavFilterWhere('=', 'eav_name', Yii::$app->getRequest()->get('eav_name'));
+        //return true;
     }
 
 }

@@ -4,6 +4,7 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use lo\modules\eav\models\EavAttribute;
 
 /**
  * Class HtmlInput
@@ -20,13 +21,17 @@ class EavInput extends BaseInput {
      * @param bool|int $index инднкс модели при табличном вводе
      * @return string
      */
+
+
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        $field = '';
-        foreach($this->modelField->model->getEavAttributes()->all() as $attr){
-            $field.= $form->field($this->modelField->model, $attr->name, ['class' => '\lo\modules\eav\widgets\ActiveField'])->eavInput();
-        }
-        return $field;
+        $options = ArrayHelper::merge($this->options, $options);
+        $model = $this->modelField->model;
+        //var_dump($model->getEavAttributeValue('eav_name'));
+
+        //var_dump($model->hasEavAttribute('eav_name'));
+
+        return $form->field($model, 'eav_name')->textInput(['maxlength' => true]);
     }
 
 
