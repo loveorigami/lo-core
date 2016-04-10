@@ -19,7 +19,7 @@ class HtmlInput extends BaseInput {
      * @var string контроллер файлового менеджера
      */
     public $fileManagerController = "elfinder/path";
-    public $path = '';
+    public $folder = '';
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -42,7 +42,7 @@ class HtmlInput extends BaseInput {
             'baseHref'=>\Yii::getAlias('@storageUrl'),
         ];
 
-        $fm = (is_array($this->fileManagerController)) ? $this->fileManagerController : [$this->fileManagerController, 'path' => $this->path];
+        $fm = (is_array($this->fileManagerController)) ? $this->fileManagerController : [$this->fileManagerController, 'path'=>$this->folder];
 
         $ckeditorOptions = ElFinder::ckeditorOptions($fm, $editorOptions);
 
