@@ -18,7 +18,7 @@ class HtmlInput extends BaseInput {
     /**
      * @var string контроллер файлового менеджера
      */
-    public $fileManagerController = "elfinder/path";
+    public $fileManagerController = "elfinder/editor";
     public $folder = '';
 
     /**
