@@ -19,7 +19,7 @@ class ElfFileInput extends BaseInput {
      * @var string контроллер файлового менеджера
      */
 
-    public $fileManagerController = "elfinder";
+    public $fileManagerController = "elfinder/path";
 
 
     /**
@@ -36,6 +36,7 @@ class ElfFileInput extends BaseInput {
         $widgetOptions = ArrayHelper::merge([
             "template"=>'<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
             //'path' => 'import',
+            'controller' => $this->fileManagerController,
             "options" => [
                 "class" => "form-control"
             ],

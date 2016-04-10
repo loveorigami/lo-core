@@ -13,14 +13,7 @@ use yii\widgets\ActiveForm;
  * @package lo\core\inputs
  * @author Churkin Anton <webadmin87@gmail.com>
  */
-class ElfImgInput extends BaseInput {
-
-    /**
-     * @var string контроллер файлового менеджера
-     */
-
-    public $fileManagerController = "elfinder";
-
+class ElfImgInput extends ElfFileInput {
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -36,6 +29,7 @@ class ElfImgInput extends BaseInput {
         $widgetOptions = ArrayHelper::merge([
             "template"=>'<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
             //'path' => 'import',
+            'controller' => $this->fileManagerController,
             "options" => [
                 "class" => "form-control"
             ],
