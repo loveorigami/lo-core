@@ -56,7 +56,7 @@ class DropDownInput extends BaseInput
 
         return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate
         )->widget(
-            DependDropDown::className(), $widgetOptions
+            DependDropDown::class, $widgetOptions
         );
     }
 

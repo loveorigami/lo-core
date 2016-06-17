@@ -47,7 +47,7 @@ class ElfFileInput extends BaseInput {
 
         $attr = $this->modelField->attr;
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::class, $widgetOptions);
 
     }
 

@@ -27,7 +27,7 @@ class NumberInput extends BaseInput {
 
         $widgetOptions = ArrayHelper::merge(["options"=>["class" => "form-control"]], $this->widgetOptions, ["options"=>$options]);
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->input('number')->widget(FormattedNumberInput::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->input('number')->widget(FormattedNumberInput::class, $widgetOptions);
     }
 
 

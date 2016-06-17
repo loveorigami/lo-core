@@ -73,7 +73,7 @@ class ExtFilter extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::className()));
+        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::class));
 
         $this->loadFields();
 

@@ -31,7 +31,7 @@ class ListField extends Field
     {
         return [
 
-            'class' => \mcms\xeditable\XEditableColumn::className(),
+            'class' => \mcms\xeditable\XEditableColumn::class,
             'url' => $this->getEditableUrl(),
             'dataType' => 'select',
             'format' => 'raw',

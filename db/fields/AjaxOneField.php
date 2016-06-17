@@ -27,7 +27,7 @@ class AjaxOneField extends HasOneField
         };
         $grid["contentOptions"] = ['style'=>'width: 150px;'];
         $grid["initValueText"] = ArrayHelper::getValue($this->model, "{$this->relation}.{$this->gridAttr}");
-        $grid["class"] = \lo\core\grid\Select2Column::className();
+        $grid["class"] = \lo\core\grid\Select2Column::class;
 
         return $grid;
     }

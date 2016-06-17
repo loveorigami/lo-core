@@ -203,15 +203,15 @@ abstract class ActiveRecord extends YiiRecord
 
         $behaviors = [
             'timestamp' => [
-                'class' => \yii\behaviors\TimestampBehavior::className(),
+                'class' => \yii\behaviors\TimestampBehavior::class,
             ],
             'blameable' => [
-                'class' => \yii\behaviors\BlameableBehavior::className(),
+                'class' => \yii\behaviors\BlameableBehavior::class,
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
            'tagCache' => [
-                'class' => \lo\core\behaviors\TagCache::className(),
+                'class' => \lo\core\behaviors\TagCache::class,
                 'activeAttribute'=>'status'
             ],
         ];
@@ -240,7 +240,7 @@ abstract class ActiveRecord extends YiiRecord
         $fields = $this->getMetaFields()->getFields();
         $query = $query ? $query : static::find();
         $config = array_merge([
-            'class' => ActiveDataProvider::className(),
+            'class' => ActiveDataProvider::class,
             "query" => $query,
         ], $dataProviderConfig);
         $dataProvider = Yii::createObject($config);
@@ -260,7 +260,7 @@ abstract class ActiveRecord extends YiiRecord
      */
     public static function find()
     {
-        return Yii::createObject(\lo\core\db\ActiveQuery::className(), [get_called_class()]);
+        return Yii::createObject(\lo\core\db\ActiveQuery::class, [get_called_class()]);
     }
 
     /**
@@ -268,7 +268,7 @@ abstract class ActiveRecord extends YiiRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
      /**

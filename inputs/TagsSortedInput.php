@@ -45,7 +45,7 @@ class TagsSortedInput extends BaseInput
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
-        return $form->field($this->modelField->model, $attr)->widget(TagsSorted::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $attr)->widget(TagsSorted::class, $widgetOptions);
     }
 
 }

@@ -35,11 +35,11 @@ abstract class Match extends Object
     {
 
         if ($type == self::COND_PHP)
-            return Yii::createObject(PhpMatch::className());
+            return Yii::createObject(PhpMatch::class);
         elseif ($type == self::COND_URL)
-            return Yii::createObject(UrlMatch::className());
+            return Yii::createObject(UrlMatch::class);
         elseif ($type == self::COND_ROUTE)
-            return Yii::createObject(RouteMatch::className());
+            return Yii::createObject(RouteMatch::class);
         else
             return false;
     }

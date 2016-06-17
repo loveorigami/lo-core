@@ -44,7 +44,7 @@ class Select2MultiInput extends DropDownInput {
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
-        return $form->field($this->modelField->model, $attr)->widget(Select2::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $attr)->widget(Select2::class, $widgetOptions);
     }
 
 

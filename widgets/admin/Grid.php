@@ -110,7 +110,7 @@ class Grid extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", $model::className()));
+        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", $model::class));
 
         $this->pjaxId = $this->id . self::PJAX_SUF;
 
@@ -335,7 +335,7 @@ class Grid extends Widget
         $arr = [
 
             "delete" => [
-                "class" => \lo\core\widgets\admin\ActionButton::className(),
+                "class" => \lo\core\widgets\admin\ActionButton::class,
                 "label" => Yii::t('core', 'Delete'),
                 "visible" => Yii::$app->user->can($this->access('delete'), ['model' => $model]),
                 "options" => [
@@ -351,7 +351,7 @@ class Grid extends Widget
 
             $arr["replace"] = [
 
-                "class" => \lo\core\widgets\admin\ReplaceInTreeButton::className(),
+                "class" => \lo\core\widgets\admin\ReplaceInTreeButton::class,
                 "visible" => Yii::$app->user->can($this->access('update'), ['model' => $model]),
                 "label" => Yii::t('core', 'Replace'),
                 "options" => [

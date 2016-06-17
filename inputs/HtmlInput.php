@@ -52,7 +52,7 @@ class HtmlInput extends BaseInput {
 
         $attr = $this->modelField->attr;
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(CKEditor::className(), $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(CKEditor::class, $widgetOptions);
 
 
     }

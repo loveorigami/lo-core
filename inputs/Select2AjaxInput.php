@@ -64,7 +64,7 @@ class Select2AjaxInput extends DropDownInput {
 
 
         return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate)->widget(
-            Select2::className(), $widgetOptions
+            Select2::class, $widgetOptions
         );
     }
 

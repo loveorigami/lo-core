@@ -64,7 +64,7 @@ class Form extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::className()));
+        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::class));
 
         BootstrapPluginAsset::register($this->view);
 
