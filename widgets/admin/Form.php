@@ -23,7 +23,7 @@ class Form extends Widget
     const FORM_ID_PREF = "form-";
 
     /**
-     * @var \common\db\ActiveRecord модель
+     * @var \lo\core\db\ActiveRecord модель
      */
 
     public $model;
@@ -64,7 +64,7 @@ class Form extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::class));
+        $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::className()));
 
         BootstrapPluginAsset::register($this->view);
 

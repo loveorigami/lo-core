@@ -110,7 +110,7 @@ class Grid extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", $model::class));
+        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", $model::className()));
 
         $this->pjaxId = $this->id . self::PJAX_SUF;
 

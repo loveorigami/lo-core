@@ -46,7 +46,7 @@ class Detail extends Widget
 
         $model = $this->model;
 
-        $this->id = strtolower(self::DETAIL_ID_PREF . str_replace("\\", "-", $model::class));
+        $this->id = strtolower(self::DETAIL_ID_PREF . str_replace("\\", "-", $model::className()));
 
     }
 
