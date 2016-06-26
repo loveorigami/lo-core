@@ -27,7 +27,7 @@ class CheckBoxInputB extends BaseInput {
 
         return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr), [
             'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}'
-        ])->widget(Toggle::class, $options);
+        ])->widget(Toggle::className(), $options);
     }
 
 }

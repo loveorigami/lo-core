@@ -135,7 +135,7 @@ abstract class MetaFields extends Object
         return [
             "id" => [
                 'definition' => [
-                    "class" => fields\PkField::class,
+                    "class" => fields\PkField::className(),
                     "title" => "ID",
                 ],
                 "params" => [$this->owner, "id"],
@@ -143,7 +143,7 @@ abstract class MetaFields extends Object
             ],
             "author_id" => [
                 'definition' => [
-                    "class" => fields\HasOneField::class,
+                    "class" => fields\HasOneField::className(),
                     "title" => Yii::t('core', 'Author'),
                     "showInForm" => false,
                     "showInGrid" => false, //Yii::$app->user->can('editor'),
@@ -156,12 +156,12 @@ abstract class MetaFields extends Object
             ],
             "created_at" => [
                 'definition' => [
-                    "class" => fields\TimestampField::class,
+                    "class" => fields\TimestampField::className(),
                     "title" => Yii::t('core', 'Created'),
                     "showInGrid" => false,
                     "showInFilter" => false,
                     "filterInputClass" => [
-                        "class" => \lo\core\inputs\DateRangeInput::class,
+                        "class" => \lo\core\inputs\DateRangeInput::className(),
                         "fromAttr" => "createdAtFrom",
                         "toAttr" => "createdAtTo",
                     ],
@@ -175,7 +175,7 @@ abstract class MetaFields extends Object
             ],
             "updated_at" => [
                 'definition' => [
-                    "class" => fields\TimestampField::class,
+                    "class" => fields\TimestampField::className(),
                     "title" => Yii::t('core', 'Updated'),
                     "showInExtendedFilter" => false,
                 ],
@@ -183,7 +183,7 @@ abstract class MetaFields extends Object
             ],
             "status" => [
                 "definition" => [
-                    "class" => fields\CheckBoxField::class,
+                    "class" => fields\CheckBoxField::className(),
                     'inputClass' => '\lo\core\inputs\CheckBoxInputB', // bootstrap toggle
                     "title" => Yii::t('core', 'Status'),
                     "editInGrid" => true,
@@ -233,7 +233,7 @@ abstract class MetaFields extends Object
      */
     public function getAuthorsList()
     {
-        $authorQuery = Yii::createObject(\yii\db\Query::class);
+        $authorQuery = Yii::createObject(\yii\db\Query::className());
         $authorCommand = $authorQuery->select('id, username')->from(Yii::$app->getDb()->tablePrefix.'user')->createCommand();
         $authors = $authorCommand->queryAll();
         return ArrayHelper::map($authors, 'id', 'username');
@@ -249,7 +249,7 @@ abstract class MetaFields extends Object
      *
      *      "title"=>[
      *                  "definition"=>[
-     *                      "class"=>\lo\core\db\fields\TextField::class,
+     *                      "class"=>\lo\core\db\fields\TextField::className(),
      *                      "title"=>"Название",
      *                  ],
      *                  "params"=>[$this->owner, "title"]

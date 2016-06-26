@@ -336,7 +336,7 @@ class Field extends Object
     protected function xEditable()
     {
         return [
-            'class' => \lo\core\grid\XEditableColumn::class,
+            'class' => \lo\core\grid\XEditableColumn::className(),
             'url' => $this->getEditableUrl(),
             'format' => 'raw',
         ];

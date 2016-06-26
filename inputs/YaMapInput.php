@@ -40,7 +40,7 @@ class YaMapInput extends BaseInput
                                 </div>
                                 {error}{hint}',
             ]
-        )->widget(Widget::class, $widgetOptions);
+        )->widget(Widget::className(), $widgetOptions);
     }
 
 

@@ -36,7 +36,7 @@ abstract class TActiveRecord extends ActiveRecord
 
         $behaviors["nestedSets"] = [
 
-            "class" => NestedSet::class,
+            "class" => NestedSet::className(),
             "depthAttribute" => "level",
         ];
 
@@ -115,7 +115,7 @@ abstract class TActiveRecord extends ActiveRecord
      */
     public static function find()
     {
-        return Yii::createObject(\lo\core\db\TActiveQuery::class, [get_called_class()]);
+        return Yii::createObject(\lo\core\db\TActiveQuery::className(), [get_called_class()]);
     }
 
     /**

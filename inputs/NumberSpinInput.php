@@ -27,7 +27,7 @@ class NumberSpinInput extends BaseInput {
 
         $widgetOptions = ArrayHelper::merge(["options"=>["class" => "form-control"]], $this->widgetOptions, ["options"=>$options]);
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->widget(TouchSpin::class, $widgetOptions);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->widget(TouchSpin::className(), $widgetOptions);
     }
 
 

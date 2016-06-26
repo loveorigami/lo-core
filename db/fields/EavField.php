@@ -47,7 +47,7 @@ class EavField extends Field
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
             $parent[$code] = ArrayHelper::merge([
-                'class' => \lo\modules\eav\EavBehavior::class,
+                'class' => \lo\modules\eav\EavBehavior::className(),
             ], $this->eavOptions);
 
 

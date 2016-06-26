@@ -335,7 +335,7 @@ class Grid extends Widget
         $arr = [
 
             "delete" => [
-                "class" => \lo\core\widgets\admin\ActionButton::class,
+                "class" => \lo\core\widgets\admin\ActionButton::className(),
                 "label" => Yii::t('core', 'Delete'),
                 "visible" => Yii::$app->user->can($this->access('delete'), ['model' => $model]),
                 "options" => [
@@ -351,7 +351,7 @@ class Grid extends Widget
 
             $arr["replace"] = [
 
-                "class" => \lo\core\widgets\admin\ReplaceInTreeButton::class,
+                "class" => \lo\core\widgets\admin\ReplaceInTreeButton::className(),
                 "visible" => Yii::$app->user->can($this->access('update'), ['model' => $model]),
                 "label" => Yii::t('core', 'Replace'),
                 "options" => [

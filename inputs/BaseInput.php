@@ -45,7 +45,7 @@ abstract class BaseInput extends Object
     public function init()
     {
         if(empty($this->modelField) OR ! $this->modelField instanceof Field)
-            throw new InvalidConfigException("Property 'modelField' must be instance of ".Field::class);
+            throw new InvalidConfigException("Property 'modelField' must be instance of ".Field::className());
     }
 
     /**

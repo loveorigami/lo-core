@@ -20,7 +20,7 @@ class ExtFilter extends Widget
     const FORM_ID_PREF = "ext-form-";
 
     /**
-     * @var \lo\core\db\ActiveRecord модель
+     * @var \common\db\ActiveRecord модель
      */
 
     public $model;

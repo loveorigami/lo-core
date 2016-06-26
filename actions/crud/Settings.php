@@ -38,11 +38,7 @@ class Settings extends \lo\core\actions\Base
         ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('alert', [
-                'body' => Yii::t('backend', 'Settings was successfully saved'),
-                'options' => ['class' => 'alert alert-success']
-            ]);
-            return $this->refresh();
+            Yii::$app->session->setFlash('info', Yii::t('backend', 'Settings was successfully saved'));
         }
 
         return $this->render($this->tpl, ['model' => $model]);

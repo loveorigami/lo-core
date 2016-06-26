@@ -29,7 +29,7 @@ class AutoCompleteInput extends BaseInput {
 
         $attr = $this->getFormAttrName($index, $this->modelField->attr);
 
-        return $form->field($this->modelField->model, $attr)->widget(AutoComplete::class, $widgetOptions);
+        return $form->field($this->modelField->model, $attr)->widget(AutoComplete::className(), $widgetOptions);
     }
 
 

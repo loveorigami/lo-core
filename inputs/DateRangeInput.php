@@ -57,8 +57,8 @@ class DateRangeInput extends BaseInput {
         ];
 
         $html = Html::beginTag('div', ['class'=>'row']);
-        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
-        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
+        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DatePicker::className(), $widgetOptions);
+        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DatePicker::className(), $widgetOptions);
         $html .= Html::endTag('div');
 
         return $html;

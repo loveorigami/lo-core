@@ -48,7 +48,7 @@ class SlugField extends TextField
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
             $parent[$code] = ArrayHelper::merge([
-                'class' => \Zelenin\yii\behaviors\Slug::class,
+                'class' => \Zelenin\yii\behaviors\Slug::className(),
                 'slugAttribute' => $this->attr,
                 'attribute' => $this->generateFrom,
                 'ensureUnique' => true,

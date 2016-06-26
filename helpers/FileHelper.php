@@ -139,7 +139,7 @@ class FileHelper extends YiiFileHelper
         $src = Yii::getAlias('@storageUrl') . $img;
 
         if (!is_file($path) OR !self::isImage($path))
-            return $path;
+            return $img ? $path : '';
 
         $options = array_merge([
             "src" => $src,

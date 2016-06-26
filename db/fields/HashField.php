@@ -38,7 +38,7 @@ class HashField extends TextField
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
             $parent[$code] = [
-                'class' => \lo\core\behaviors\HashText::class,
+                'class' => \lo\core\behaviors\HashText::className(),
                 'hashAttribute' => $this->attr,
                 'attribute' => $this->generateFrom,
             ];

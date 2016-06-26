@@ -33,14 +33,14 @@ class SypexDumper extends Widget
             new PDO(getenv('DB_DSN'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
             // путь до директории, в которую копируем sypex dumper
-            $assetsPath = Yii::getAlias('@backend').'/web/assets/sxd/';
+            $assetsPath = Yii::getAlias('@sxd');
             // проверяем существование директории, копируем, если директории нет
             if (!is_dir($assetsPath)) {
                 full_copy(__DIR__.'/sxd/', $assetsPath);
             };
 
             // ссылка до sypex dumper
-            $assetsUrl = Yii::getAlias('@backendUrl').'/assets/sxd/';
+            $assetsUrl = Yii::getAlias('@sxdUrl');
             // выводим iframe
             echo "<iframe src=\"$assetsUrl\" style=\"height: 468px; width: 586px; border: 0\"></iframe>";
         } catch (PDOException $error) {

@@ -20,7 +20,7 @@ class TActiveQuery extends ActiveQuery
     {
         return [
             [
-                'class' => NestedSetsQueryBehavior::class,
+                'class' => NestedSetsQueryBehavior::className(),
             ],
         ];
     }

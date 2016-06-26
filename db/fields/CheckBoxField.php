@@ -95,7 +95,7 @@ class CheckBoxField extends Field
 
         return [
 
-            'class' => \mcms\xeditable\XEditableColumn::class,
+            'class' => \mcms\xeditable\XEditableColumn::className(),
             'url' => $this->getEditableUrl(),
             'dataType' => 'select',
             'format' => 'raw',
