@@ -16,8 +16,9 @@ class HtmlInput extends BaseInput
 {
     const PRESET_MINI = 'mini';
     const PRESET_BASIC = 'basic';
-    const PRESET_DEFAULT = 'standart';
+    const PRESET_STANDART = 'standart';
     const PRESET_FULL = 'full';
+    const PRESET_EXTRA = 'extra';
 
     /**
      * @var string контроллер файлового менеджера
@@ -45,9 +46,8 @@ class HtmlInput extends BaseInput
         if ($this->path) {
 
             $editorOptions = [
-                'preset' => self::PRESET_DEFAULT,
+                'preset' => self::PRESET_STANDART,
                 'inline' => false,
-                'height' => 200,
                 'allowedContent' => true,
                 'autoParagraph' => false,
                 'baseHref' => \Yii::getAlias('@storageUrl'),
