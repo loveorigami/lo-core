@@ -11,14 +11,22 @@ use yii\widgets\ActiveForm;
  * Class HtmlInput
  * Html поле
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
  */
-class HtmlInput extends BaseInput {
+class HtmlInput extends BaseInput
+{
+    const PRESET_MINI = 'mini';
+    const PRESET_BASIC = 'basic';
+    const PRESET_DEFAULT = 'standart';
+    const PRESET_FULL = 'full';
 
     /**
      * @var string контроллер файлового менеджера
      */
     public $fileManagerController = "elfinder/editor";
+
+    /**
+     * @var string папка
+     */
     public $path;
 
     /**
@@ -30,32 +38,42 @@ class HtmlInput extends BaseInput {
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-
         $options = ArrayHelper::merge($this->options, $options);
 
-        $editorOptions = [
-            'preset' => 'full', // standard, basic
-            'inline' => false,
-            'height' => 200,
-            'allowedContent' => true,
-            'autoParagraph' => false,
-            'baseHref'=>\Yii::getAlias('@storageUrl'),
-        ];
+        $ckeditorOptions = [];
 
-        $fm = (is_array($this->fileManagerController)) ? $this->fileManagerController : [$this->fileManagerController, 'path'=>$this->path];
+        if ($this->path) {
 
-        $ckeditorOptions = ElFinder::ckeditorOptions($fm, $editorOptions);
+            $editorOptions = [
+                'preset' => self::PRESET_DEFAULT,
+                'inline' => false,
+                'height' => 200,
+                'allowedContent' => true,
+                'autoParagraph' => false,
+                'baseHref' => \Yii::getAlias('@storageUrl'),
+            ];
 
-        $widgetOptions = ArrayHelper::merge([
-            "editorOptions"=>$ckeditorOptions
-        ], $this->widgetOptions, ['options'=> $options]);
+            $fm = (is_array($this->fileManagerController)) ?
+                $this->fileManagerController :
+                [
+                    $this->fileManagerController,
+                    'path' => $this->path
+                ];
+
+            $ckeditorOptions = ElFinder::ckeditorOptions($fm, $editorOptions);
+
+        }
+
+        $widgetOptions = ArrayHelper::merge(
+            ["editorOptions"=>$ckeditorOptions],
+            $this->widgetOptions,
+            ['options' => $options]
+        );
 
         $attr = $this->modelField->attr;
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(CKEditor::className(), $widgetOptions);
-
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(CKEditor::class, $widgetOptions);
 
     }
-
 
 } 
