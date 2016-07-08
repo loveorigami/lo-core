@@ -8,14 +8,33 @@ use yii\helpers\ArrayHelper;
 /**
  * Class HasOneField
  * Поле для связей Has One. Интерфейс привязки в форме в виде выпадающего списка.
+ *
+ *  public function getCats()
+ *  {
+ *      $models = Category::find()->published()->orderBy(["name" => SORT_ASC])->all();
+ *      return ArrayHelper::map($models, "id", "name");
+ *  }
+ *
+ *  "cat_id" => [
+ *      "definition" => [
+ *          "class" => fields\HasOneField::class,
+ *          "title" => Yii::t('backend', 'Category'),
+ *          "isRequired" => false,
+ *          "data" => [$this, "getCats"], // массив всех категорий (см. выше)
+ *          "eagerLoading" => true,
+ *          "numeric" => false,
+ *          "showInGrid" => false,
+ *      ],
+ *      "params" => [$this->owner, "cat_id", "cat"] // id и relation getCat
+ *  ],
+ *
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class HasOneField extends ListField
 {
     /**
-    * @var bool жадная загрузка
-    */
+     * @var bool жадная загрузка
+     */
     public $eagerLoading = true;
 
     /**
@@ -49,24 +68,25 @@ class HasOneField extends ListField
         $this->relation = $relation;
         parent::__construct($model, $attr, $config);
     }
-	
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         $rules = parent::rules();
-        if($this->checkExist) {
+        if ($this->checkExist) {
             $relation = $this->model->getRelation($this->relation);
             $rules[] = [$this->attr, 'exist', 'isEmpty' => [$this, "isEmpty"], 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except' => [ActiveRecord::SCENARIO_SEARCH]];
         }
         return $rules;
     }
 
-    public function isEmpty($v) {
+    public function isEmpty($v)
+    {
         return empty($v);
     }
-	
+
     /**
      * @inheritdoc
      */
@@ -97,7 +117,7 @@ class HasOneField extends ListField
     protected function search(ActiveQuery $query)
     {
         parent::search($query);
-        if($this->eagerLoading) {
+        if ($this->eagerLoading) {
             $query->with($this->relation);
         }
     }
