@@ -9,7 +9,6 @@ use yii\widgets\ActiveForm;
 
 /**
  * Class HtmlInput
- * Html поле
  * @package lo\core\inputs
  */
 class HtmlInput extends BaseInput
@@ -65,7 +64,7 @@ class HtmlInput extends BaseInput
         }
 
         $widgetOptions = ArrayHelper::merge(
-            ["editorOptions"=>$ckeditorOptions],
+            ["editorOptions" => $ckeditorOptions],
             $this->widgetOptions,
             ['options' => $options]
         );
