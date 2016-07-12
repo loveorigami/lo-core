@@ -4,13 +4,25 @@ namespace lo\core\db\fields;
 
 use Yii;
 use lo\core\helpers\FileHelper;
-use yii\helpers\Html;
+use lo\core\inputs;
 
 /**
- * Class HtmlField
- * Поле WYSIWYG редактора. Использует CKEditor
+ * Class ElfImgField
+ * Для загрузки изображений через elfinder
+ *  "image" => [
+ *      "definition" => [
+ *          "class" => fields\ElfImgField::class,
+ *          "title" => Yii::t('backend', 'Image'),
+ *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
+ *          "inputClassOptions" => [
+ *              "widgetOptions" => [
+ *                  'path' => self::PATH
+ *              ],
+ *          ],
+ *      ],
+ *      "params" => [$this->owner, "image"]
+ *  ],
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class ElfImgField extends ElfFileField
 {
@@ -20,7 +32,8 @@ class ElfImgField extends ElfFileField
     public $editInGrid = false;
     public $showInExtendedFilter = false;
 
-    public $inputClass = '\lo\core\inputs\ElfImgInput';
+    public $inputClass = inputs\ElfImgInput::class;
+
     /**
      * Размер по умолчанию для превью изображений в гриде и при детальном просмотре
      */
@@ -56,30 +69,33 @@ class ElfImgField extends ElfFileField
         $grid['format'] = 'html';
         $grid['label'] = 'Img';
         $grid['headerOptions'] = [
-            'style' => 'width: '.$this->gridWidth.'px;',
+            'style' => 'width: ' . $this->gridWidth . 'px;',
         ];
-        $grid['value'] = function ($model, $index, $widget) {
-            return $this->renderFilesGridView($model->{$this->attr});
+        $grid['value'] = function ($model, $width, $height) {
+            return $this->renderFilesGridView($model->{$this->attr}, $width, $height);
         };
         return $grid;
     }
 
     /**
      * Возвращает html тег изображения. Производит ресайз
-     * @param string $path путь к файлу
-     * @param int $width ширина изображения
-     * @param int $height высота изображения
+     * @param string $img путь к картинке
+     * @param int $width высота изображения
      * @return string
      */
     protected function renderImageTag($img, $width, $height)
     {
-        return FileHelper::storageImg($img, ['width'=>$width]);
+        return FileHelper::storageImg($img, ['width' => $width]);
     }
 
+
     /**
-     * @inheritdoc
+     * @param array $img
+     * @param int $width высота изображения
+     * @param int $height высота изображения
+     * @return string
      */
-    protected function renderFilesGridView($img)
+    protected function renderFilesGridView($img, $width, $height)
     {
         return $this->renderImageTag($img, $this->gridWidth, $this->gridHeight);
     }
