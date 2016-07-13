@@ -4,14 +4,14 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use lo\widgets\Toggle;
+use lo\core\widgets\awcheckbox\AwesomeCheckbox;
 
 /**
- * Class CheckBoxInput c виджетом Bootstrap toogle
- * Чекбокс
+ * Class CheckBoxInputA
+ * Чекбокс c виджетом Awesome Bootstrap Checkbox
  * @package lo\core\inputs
  */
-class CheckBoxInputB extends CheckBoxInput {
+class CheckBoxInputA extends CheckBoxInput {
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -20,13 +20,18 @@ class CheckBoxInputB extends CheckBoxInput {
      * @param bool|int $index инднкс модели при табличном вводе
      * @return string
      */
+
+    public $options = [
+        'type'=>AwesomeCheckbox::TYPE_CHECKBOX,
+        'style'=>AwesomeCheckbox::STYLE_PRIMARY,
+    ];
+
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
+
         $options = ArrayHelper::merge($this->options, $this->widgetOptions, $options);
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr), [
-            'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}'
-        ])->widget(Toggle::class, $options);
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr))->widget(AwesomeCheckbox::class, $options);
     }
 
 }
