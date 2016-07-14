@@ -45,7 +45,7 @@ class HtmlInput extends BaseInput
         if ($this->path) {
 
             $editorOptions = [
-                'preset' => self::PRESET_STANDART,
+                'preset' => self::PRESET_FULL,
                 'inline' => false,
                 'allowedContent' => true,
                 'autoParagraph' => false,
