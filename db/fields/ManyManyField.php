@@ -3,39 +3,72 @@ namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
 use lo\core\db\ActiveQuery;
+use lo\core\inputs\Select2MultiInput;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
 
 /**
  * Class ManyManyField
  * Поле для связей Many Many
- * @package common\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @package lo\core\db\fields
+ *
+ * ```php
+ *  "categories" => [
+ *      "definition" => [
+ *          "class" => fields\ManyManyField::class,
+ *          "title" => Yii::t('backend', 'categories'),
+ *          "isRequired" => true,
+ *          "showInGrid" => false,
+ *          "data" => [$this, "getСategoriesList"],
+ *      ],
+ *      "params" => [$this->owner, "categoriesIds", "categories"] // свойство $_categoriesIds и relation getCategories()
+ *  ],
+ * ```
+ *
+ * Параметр data получаем из отдельного метода
+ * ```php
+ *  public function getСategoriesList()
+ *  {
+ *      $models = Сategories::find()->published()->orderBy(["name" => SORT_ASC])->asArray()->all();
+ *      return ArrayHelper::map($models, "id", "name");
+ *  }
+ * ```
+ *
  */
 class ManyManyField extends HasOneField
 {
-
+    /**
+     * Жадная загрузка
+     * @var bool
+     */
     public $eagerLoading = true;
+
+    /**
+     * Проверку на целое число пропускаем, т.к. работаем с массивом
+     * @var bool
+     */
     public $numeric = false;
+
+    /**
+     * @var bool
+     */
     public $checkExist = false;
-    public $inputClass = "\\lo\\core\\inputs\\Select2MultiInput";
+
+    /**
+     * Класс обработчик по умолчанию
+     * @var
+     */
+    public $inputClass = Select2MultiInput::class;
 
     /**
      * Отображение в гриде
      */
     protected function grid()
     {
-
         $grid = $this->defaultGrid();
-
         $grid["value"] = function ($model, $index, $widget) {
-
             return $this->getStringValue($model);
-
         };
-
         return $grid;
-
     }
 
     /**
@@ -43,22 +76,16 @@ class ManyManyField extends HasOneField
      * @param ActiveRecord $model
      * @return string
      */
-
     protected function getStringValue($model)
     {
-
         $relatedAll = $model->{$this->relation};
-
         $arr = [];
 
         foreach ($relatedAll AS $related) {
-
             $arr[] = ArrayHelper::getValue($related, $this->gridAttr);
-
         }
 
         return implode(", ", $arr);
-
     }
 
     /**
@@ -66,19 +93,14 @@ class ManyManyField extends HasOneField
      */
     protected function view()
     {
-
         $view = $this->defaultView();
-
         $view["value"] = $this->getStringValue($this->model);
-
         return $view;
-
     }
 
     /**
      * Редактирование в гриде
      */
-
     public function xEditable()
     {
         // редактирование через чекбоксы
@@ -91,6 +113,9 @@ class ManyManyField extends HasOneField
      */
     protected function search(ActiveQuery $query)
     {
+        /**
+         * @var ActiveRecord $relatedClass
+         */
         $table = $this->model->tableName();
         $relatedClass = $this->model->{"get" . ucfirst($this->relation)}()->modelClass;
         $tableRelated = $relatedClass::tableName();
@@ -100,7 +125,4 @@ class ManyManyField extends HasOneField
         andFilterWhere(["$tableRelated.id" => $this->model->{$this->attr}])->
         groupBy("$table.id");
     }
-
-
-
 }
