@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  *```php
  *  use lo\core\behaviors\ManyManySaver;
  *
- *  protected $_catIds;
+ *  protected $_categoriesIds;
  *
  *  public function behaviors()
  *  {
@@ -22,7 +22,7 @@ use yii\db\ActiveRecord;
  *
  *      $arr["many-cats"] = [
  *          'class' => ManyManySaver::class,
- *          'names' => ['cats'] // relation getCats()
+ *          'names' => ['categories'] // relation getCategories()
  *      ];
  *
  *      return $arr;
@@ -32,25 +32,25 @@ use yii\db\ActiveRecord;
  * Заполняем данными идентификаторы связвнных категорий
  *
  * ```php
- *  public function getCatIds()
+ *  public function getCategoriesIds()
  *  {
- *      if (!is_array($this->_tabIds) AND !$this->isNewRecord) {
- *          $this->_tabIds = $this->getManyManyIds("cats"); // relation getCats
+ *      if (!is_array($this->_categoriesIds) AND !$this->isNewRecord) {
+ *          $this->_categoriesIds = $this->getManyManyIds("categories"); // relation getCategories
  *      }
  *
- *      return $this->_tabIds;
+ *      return $this->_categoriesIds;
  *  }
  *
- *  public function setCatIds($catIds)
+ *  public function setCategoriesIds($categoriesIds)
  *  {
- *      $this->_catIds = $catIds;
+ *      $this->_categoriesIds = $categoriesIds;
  *  }
  * ```
  *
  *  Связь через промежуточную таблицу
  *
  * ```php
- *  public function getCats()
+ *  public function getCategories()
  *  {
  *      return $this->hasMany(Category::class, ['id' => 'cat_id'])->viaTable('{{%category_item}}', ['item_id' => 'id']);
  *  }
