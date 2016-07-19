@@ -108,17 +108,4 @@ class ArrayHelper extends YiiArrayHelper
         return ($arr);
     }
 
-    /**
-     * mb_ucfirst - make a string's first character uppercase
-     * @param $str - the input string.
-     * @param string $encoding - string $encoding [optional] &mbstring.encoding.parameter; default UTF-8
-     * @return string - string str with first alphabetic character converted to uppercase.
-     */
-    public static function mb_ucfirst($str, $encoding = 'UTF-8')
-    {
-        $str = mb_ereg_replace('^[\ ]+', '', $str);
-        $str = mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) .
-            mb_substr($str, 1, mb_strlen($str), $encoding);
-        return $str;
-    }
 }
