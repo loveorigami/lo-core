@@ -33,7 +33,10 @@ class XEditable extends \lo\core\actions\Base
 
         if ($request->isPost) {
 
-            $model = $this->findModel($request->post('pk'));
+            $pk = Yii::$app->request->post('pk');
+            $pk = unserialize(base64_decode($pk));
+
+            $model = $this->findModel($pk);
 
             if (!Yii::$app->user->can($this->access(), array("model" => $model)))
                 throw new ForbiddenHttpException('Forbidden');
