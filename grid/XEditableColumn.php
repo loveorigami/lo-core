@@ -2,7 +2,7 @@
 
 namespace lo\core\grid;
 
-use \mcms\xeditable\XEditableColumn as Base;
+use mcms\xeditable\XEditableColumn as Base;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -10,8 +10,7 @@ use yii\helpers\Html;
 /**
  * Class XEditableColumn
  * Исправление багов расширения
- * @package common\xeditable
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @package lo\core\xeditable
  */
 class XEditableColumn extends Base
 {
