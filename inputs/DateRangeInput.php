@@ -4,14 +4,14 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\jui\DatePicker;
+use lo\core\widgets\DatePicker;
 use yii\widgets\ActiveForm;
+use yii\base\InvalidConfigException;
 
 /**
  * Class DateRangeInput
  * Поле ввода диапазона дат
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class DateRangeInput extends BaseInput {
 
@@ -30,10 +30,8 @@ class DateRangeInput extends BaseInput {
         parent::init();
 
         if(empty($this->fromAttr) || empty($this->toAttr)) {
-
             throw new InvalidConfigException("Properties 'fromAttr', 'toAttr' can`t be blank");
         }
-
     }
 
 
@@ -57,8 +55,8 @@ class DateRangeInput extends BaseInput {
         ];
 
         $html = Html::beginTag('div', ['class'=>'row']);
-        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DatePicker::className(), $widgetOptions);
-        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DatePicker::className(), $widgetOptions);
+        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
+        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
         $html .= Html::endTag('div');
 
         return $html;

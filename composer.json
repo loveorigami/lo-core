@@ -30,7 +30,7 @@
   ],
   "require": {
     "yiisoft/yii2": "~2",
-    "kartik-v/yii2-widget-datetimepicker": "*",
+    "2amigos/yii2-date-picker-widget" : "~1.0",
     "kartik-v/yii2-widget-select2": "@dev",
     "zelenin/yii2-slug-behavior": "*",
     "marciocamello/yii2-x-editable": "*",

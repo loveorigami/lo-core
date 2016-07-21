@@ -1,16 +1,16 @@
 <?php
 namespace lo\core\db;
 
-use lo\core\db\fields;
 use Yii;
 use yii\base\Object;
 use lo\core\helpers\ArrayHelper;
+use lo\core\db\fields;
+use lo\core\inputs;
 
 /**
  * Class MetaFields
  * Класс содержащий описание полей модели
  * @package lo\core\db
- * @author Churkin Anton <webadmin87@gmail.com>
  *
  * @property-read \lo\core\db\fields\Field[] $fields массив обектов полей модели
  * @property-read [] $fieldsConfig массив конфигураций объектов полей модели
@@ -33,8 +33,8 @@ abstract class MetaFields extends Object
     protected $_fields;
 
     /**
-    * @var array массив конфигураций объектов полей модели
-    */
+     * @var array массив конфигураций объектов полей модели
+     */
     protected $_fieldsConfig;
 
     /**
@@ -54,7 +54,7 @@ abstract class MetaFields extends Object
     public function __get($name)
     {
         $config = $this->getFieldsConfig();
-        if ( isset($config[$name]) and is_array($config[$name]) ) {
+        if (isset($config[$name]) and is_array($config[$name])) {
             return $this->getField($name);
         }
         return parent::__get($name);
@@ -66,10 +66,10 @@ abstract class MetaFields extends Object
      */
     public function getFieldsConfig()
     {
-        if ( !is_array($this->_fieldsConfig) ) {
+        if (!is_array($this->_fieldsConfig)) {
             $this->_fieldsConfig = ArrayHelper::merge($this->defaultConfig(), $this->config());
         }
-            $this->_fieldsConfig = ArrayHelper::multi_order($this->_fieldsConfig);
+        $this->_fieldsConfig = ArrayHelper::multi_order($this->_fieldsConfig);
         return $this->_fieldsConfig;
     }
 
@@ -101,7 +101,7 @@ abstract class MetaFields extends Object
         if ($this->_fields === null) {
             $this->_fields = [];
             foreach ($this->fieldsConfig AS $name => $config) {
-                if ( !is_array($config) )
+                if (!is_array($config))
                     continue;
                 $this->_fields[$name] = Yii::createObject($config["definition"], $config["params"]);
             }
@@ -121,7 +121,7 @@ abstract class MetaFields extends Object
      */
     public function getField($name)
     {
-        if ( isset($this->fields[$name]) ) {
+        if (isset($this->fields[$name])) {
             return $this->fields[$name];
         }
     }
@@ -135,15 +135,15 @@ abstract class MetaFields extends Object
         return [
             "id" => [
                 'definition' => [
-                    "class" => fields\PkField::className(),
+                    "class" => fields\PkField::class,
                     "title" => "ID",
                 ],
                 "params" => [$this->owner, "id"],
-                "pos" =>1
+                "pos" => 1
             ],
             "author_id" => [
                 'definition' => [
-                    "class" => fields\HasOneField::className(),
+                    "class" => fields\HasOneField::class,
                     "title" => Yii::t('core', 'Author'),
                     "showInForm" => false,
                     "showInGrid" => false, //Yii::$app->user->can('editor'),
@@ -152,30 +152,34 @@ abstract class MetaFields extends Object
                     "eagerLoading" => true,
                 ],
                 "params" => [$this->owner, "author_id", "author"],
-                "pos" =>20
+                "pos" => 20
             ],
             "created_at" => [
                 'definition' => [
-                    "class" => fields\TimestampField::className(),
+                    "class" => fields\TimestampField::class,
                     "title" => Yii::t('core', 'Created'),
                     "showInGrid" => false,
                     "showInFilter" => false,
                     "filterInputClass" => [
-                        "class" => \lo\core\inputs\DateRangeInput::className(),
+                        "class" => inputs\DateRangeInput::class,
                         "fromAttr" => "createdAtFrom",
                         "toAttr" => "createdAtTo",
                     ],
                     "inputClassOptions" => [
-                        "widgetOptions" =>['dateFormat' => 'yyyy-MM-dd'],
-                     ],
+                        "widgetOptions" => [
+                            'pluginOptions' => [
+                                'format' => 'yyyy-MM-dd'
+                            ]
+                        ],
+                    ],
                     "queryModifier" => [$this, "createdAtQueryModifier"],
                 ],
                 "params" => [$this->owner, "created_at"],
-                "pos" =>25
+                "pos" => 25
             ],
             "updated_at" => [
                 'definition' => [
-                    "class" => fields\TimestampField::className(),
+                    "class" => fields\TimestampField::class,
                     "title" => Yii::t('core', 'Updated'),
                     "showInExtendedFilter" => false,
                 ],
@@ -183,7 +187,7 @@ abstract class MetaFields extends Object
             ],
             "status" => [
                 "definition" => [
-                    "class" => fields\CheckBoxField::className(),
+                    "class" => fields\CheckBoxField::class,
                     'inputClass' => '\lo\core\inputs\CheckBoxInputB', // bootstrap toggle
                     "title" => Yii::t('core', 'Status'),
                     "editInGrid" => true,
@@ -193,14 +197,14 @@ abstract class MetaFields extends Object
                             'options' => [
                                 'label' => null,
                                 'inline' => true,
-                                'data-on'=> Yii::t('common','Yes'),
-                                'data-off'=>Yii::t('common','No'),
+                                'data-on' => Yii::t('common', 'Yes'),
+                                'data-off' => Yii::t('common', 'No'),
                             ],
                         ],
                     ],
                 ],
                 "params" => [$this->owner, "status"],
-                "pos" =>50
+                "pos" => 50
             ],
         ];
     }
@@ -216,11 +220,11 @@ abstract class MetaFields extends Object
         $attr = $f->attr;
 
 
-        if($f->model->createdAtFrom){
+        if ($f->model->createdAtFrom) {
             $q->andFilterWhere([">=", "$table.$attr", strtotime($f->model->createdAtFrom)]);
         }
 
-        if($f->model->createdAtTo){
+        if ($f->model->createdAtTo) {
             $q->andFilterWhere(["<=", "$table.$attr", strtotime($f->model->createdAtTo)]);
         }
 
@@ -234,7 +238,7 @@ abstract class MetaFields extends Object
     public function getAuthorsList()
     {
         $authorQuery = Yii::createObject(\yii\db\Query::className());
-        $authorCommand = $authorQuery->select('id, username')->from(Yii::$app->getDb()->tablePrefix.'user')->createCommand();
+        $authorCommand = $authorQuery->select('id, username')->from(Yii::$app->getDb()->tablePrefix . 'user')->createCommand();
         $authors = $authorCommand->queryAll();
         return ArrayHelper::map($authors, 'id', 'username');
     }
