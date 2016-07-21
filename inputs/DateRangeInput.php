@@ -4,7 +4,7 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use lo\core\widgets\DatePicker;
+use lo\core\widgets\DateTimePicker;
 use yii\widgets\ActiveForm;
 use yii\base\InvalidConfigException;
 
@@ -13,7 +13,8 @@ use yii\base\InvalidConfigException;
  * Поле ввода диапазона дат
  * @package lo\core\inputs
  */
-class DateRangeInput extends BaseInput {
+class DateRangeInput extends BaseInput
+{
 
     /**
      * @var string атрибут от
@@ -25,11 +26,53 @@ class DateRangeInput extends BaseInput {
      */
     public $toAttr;
 
+    /**
+     * Опции по умолчанию
+     * ```php
+     *  public $options = [
+     *      'language' => 'ru',
+     *      'size' => 'ms',
+     *      'template' => '{input}',
+     *      'inline' => false,
+     *      'clientOptions' => [
+     *          'allowInputToggle' => false,
+     *          'sideBySide' => true,
+     *          'locale' => 'ru',
+     *          'format' => 'yyyy-mm-dd',
+     *          'startView' => 2,
+     *          'minView' => 0,
+     *          'maxView' => 1,
+     *          'autoclose' => true,
+     *          'linkFormat' => 'HH:ii P', // if inline = true
+     *          'format' => 'HH:ii P', // if inline = false
+     *          'todayBtn' => true,
+     *          'widgetPositioning' => [
+     *              'horizontal' => 'auto',
+     *              'vertical' => 'auto'
+     *          ]
+     *      ]
+     *  ];
+     * ```
+     * @var array
+     */
+    public $options = [
+        'language' => 'ru',
+        'inline' => false,
+        'clientOptions' => [
+            'allowInputToggle' => false,
+            'sideBySide' => true,
+            'locale' => 'ru',
+            'format' => 'yyyy-mm-dd',
+            'autoclose' => true,
+            'todayBtn' => true,
+        ]
+    ];
+
     public function init()
     {
         parent::init();
 
-        if(empty($this->fromAttr) || empty($this->toAttr)) {
+        if (empty($this->fromAttr) || empty($this->toAttr)) {
             throw new InvalidConfigException("Properties 'fromAttr', 'toAttr' can`t be blank");
         }
     }
@@ -46,17 +89,18 @@ class DateRangeInput extends BaseInput {
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        $widgetOptions = ArrayHelper::merge(["options"=>["class" => "form-control"]], $this->widgetOptions, ["options"=>$options]);
+        $widgetOptions = ArrayHelper::merge([
+            "options" => ["class" => "form-control"]],
+            $this->widgetOptions, $options
+        );
 
         $fieldOptions = [
-
-            "options"=>["class"=>"form-group col-xs-6"],
-
+            "options" => ["class" => "form-group col-xs-6"],
         ];
 
-        $html = Html::beginTag('div', ['class'=>'row']);
-        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
-        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DatePicker::class, $widgetOptions);
+        $html = Html::beginTag('div', ['class' => 'row']);
+        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
+        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
         $html .= Html::endTag('div');
 
         return $html;

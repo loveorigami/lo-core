@@ -167,8 +167,9 @@ abstract class MetaFields extends Object
                     ],
                     "inputClassOptions" => [
                         "widgetOptions" => [
-                            'pluginOptions' => [
-                                'format' => 'yyyy-MM-dd'
+                            'clientOptions' => [
+                                //'startDate' =>  new \yii\web\JsExpression('new Date()'),
+                                'format' => 'yyyy-mm-dd'
                             ]
                         ],
                     ],
