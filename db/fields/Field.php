@@ -1,24 +1,25 @@
 <?php
 namespace lo\core\db\fields;
 
-use yii\helpers\ArrayHelper;
-use lo\core\db\ActiveQuery;
-use lo\core\db\ActiveRecord;
 use Yii;
 use Yii\base\Object;
 use Yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use lo\core\db\ActiveQuery;
+use lo\core\db\ActiveRecord;
+use lo\core\db\MetaFields;
+use lo\core\grid\XEditableColumn;
+use lo\core\inputs;
 
 /**
  * Class TextField
  * Базовый класс полей.
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class Field extends Object
 {
-
     /**
-     * @var \lo\core\db\ActiveRecord модель
+     * @var ActiveRecord модель
      */
     public $model;
 
@@ -34,7 +35,7 @@ class Field extends Object
     public $title;
 
     /**
-     * @var mixed значение присваевоемое полю при создании модели с сценарием \lo\core\db\ActiveRecord::SCENARIO_INSERT
+     * @var mixed значение присваевоемое полю при создании модели с сценарием ActiveRecord::SCENARIO_INSERT
      */
     public $initValue;
 
@@ -47,7 +48,7 @@ class Field extends Object
      * @var string вкладка формы на которой должно быть расположено поле
      */
 
-    public $tab = \lo\core\db\MetaFields::DEFAULT_TAB;
+    public $tab = MetaFields::DEFAULT_TAB;
 
     /**
      * @var bool отображать в гриде
@@ -128,7 +129,7 @@ class Field extends Object
     /**
      * @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы
      */
-    public $inputClass = '\lo\core\inputs\TextInput';
+    public $inputClass = inputs\TextInput::class;
 
     /**
      * @var array параметры поля ввода
@@ -176,13 +177,9 @@ class Field extends Object
 
     public function __construct(ActiveRecord $model, $attr, $config = [])
     {
-
         $this->model = $model;
-
         $this->attr = $attr;
-
         parent::__construct($config);
-
     }
 
     /**
@@ -194,9 +191,7 @@ class Field extends Object
 
     public function getExtendedFilterForm(ActiveForm $form, Array $options = [])
     {
-
         return $this->getForm($form, $options, false, $this->filterInputClass);
-
     }
 
     /**
@@ -207,16 +202,15 @@ class Field extends Object
      * @param string|array $cls класс поля, либо конфигурационный массив
      * @return string
      */
-
     public function getForm(ActiveForm $form, Array $options = [], $index = false, $cls = null)
     {
 
-        $cls = $cls?:$this->inputClass;
+        $cls = $cls ?: $this->inputClass;
 
-        $inputClass = is_array($cls)?$cls:["class"=>$cls];
+        $inputClass = is_array($cls) ? $cls : ["class" => $cls];
 
         $input = Yii::createObject(ArrayHelper::merge([
-            "modelField"=>$this,
+            "modelField" => $this,
         ], $inputClass, $this->inputClassOptions));
 
         return $input->renderInput($form, $options, $index);
@@ -233,9 +227,7 @@ class Field extends Object
     public function getWrappedForm(ActiveForm $form, Array $options = [], $index = false)
     {
         $html = $this->getForm($form, $options, $index);
-
         return str_replace("{input}", $html, $this->formTemplate);
-
     }
 
     /**
@@ -243,36 +235,31 @@ class Field extends Object
      * @param bool|int $index индекс модели при табличном вводе
      * @return string
      */
-
     protected function getFormAttrName($index)
     {
-
         return ($index !== false) ? "[$index]{$this->attr}" : $this->attr;
-
     }
 
-	/**
-	 * Конфигурация грида по умолчанию
-	 * @return array
-	 */
-	protected function defaultGrid() {
+    /**
+     * Конфигурация грида по умолчанию
+     * @return array
+     */
+    protected function defaultGrid()
+    {
 
-		$grid = ['attribute' => $this->attr, 'label'=>$this->title];
+        $grid = ['attribute' => $this->attr, 'label' => $this->title];
 
-		if ($this->showInFilter)
-			$grid['filter'] = $this->getGridFilter();
+        if ($this->showInFilter)
+            $grid['filter'] = $this->getGridFilter();
         else
             $grid['filter'] = false;
 
-		if ($this->editInGrid) {
+        if ($this->editInGrid) {
+            $grid = array_merge($grid, $this->xEditable());
+        }
 
-			$grid = array_merge($grid, $this->xEditable());
-
-		}
-
-		return $grid;
-
-	}
+        return $grid;
+    }
 
     /**
      * Конфигурация поля для грида (GridView)
@@ -280,9 +267,7 @@ class Field extends Object
      */
     protected function grid()
     {
-
-    	return $this->defaultGrid();
-
+        return $this->defaultGrid();
     }
 
     /**
@@ -298,27 +283,21 @@ class Field extends Object
      * Возвращает значение фильтра для грида
      * @return mixed
      */
-
     public function getGridFilter()
     {
-
         if ($this->_gridFilter !== null) {
             return $this->_gridFilter;
         } else {
             return $this->defaultGridFilter();
         }
-
     }
 
     /**
      * @param $value mixed установка значения фильтра
      */
-
     public function setGridFilter($value)
     {
-
         $this->_gridFilter = $value;
-
     }
 
     /**
@@ -328,15 +307,13 @@ class Field extends Object
 
     protected function defaultGridFilter()
     {
-
         return true;
-
     }
 
     protected function xEditable()
     {
         return [
-            'class' => \lo\core\grid\XEditableColumn::className(),
+            'class' => XEditableColumn::class,
             'url' => $this->getEditableUrl(),
             'format' => 'raw',
         ];
@@ -346,25 +323,20 @@ class Field extends Object
      * Создает url для x-editable
      * @return string
      */
-
     public function getEditableUrl()
     {
-
         return Yii::$app->urlManager->createUrl(Yii::$app->controller->uniqueId . "/" . $this->editableAction);
-
     }
 
-	/**
-	 * Конфигурация детального просмотра по умолчанию
-	 * @return array
-	 */
-	protected function defaultView() {
-
-		$view = ['attribute' => $this->attr, 'label'=>$this->title];
-
-		return $view;
-
-	}
+    /**
+     * Конфигурация детального просмотра по умолчанию
+     * @return array
+     */
+    protected function defaultView()
+    {
+        $view = ['attribute' => $this->attr, 'label' => $this->title];
+        return $view;
+    }
 
     /**
      * Конфигурация поля для детального просмотра
@@ -372,9 +344,7 @@ class Field extends Object
      */
     protected function view()
     {
-
         return $this->defaultView();
-
     }
 
     /**
@@ -383,16 +353,13 @@ class Field extends Object
      */
     public final function getView()
     {
-
         return ArrayHelper::merge($this->view(), $this->viewOptions);
-
     }
 
     /**
      * Правила валидации
      * @return array
      */
-
     public function rules()
     {
         $rules = [];
@@ -400,9 +367,9 @@ class Field extends Object
             $rules[] = [$this->attr, 'safe'];
         if ($this->isRequired)
             $rules[] = [$this->attr, 'required', 'except' => ActiveRecord::SCENARIO_SEARCH];
-        if($this->defaultValue !== null)
-            $rules[] = [$this->attr, 'default', 'value'=>$this->defaultValue, 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
-        foreach($this->rules AS  $name => $options) {
+        if ($this->defaultValue !== null)
+            $rules[] = [$this->attr, 'default', 'value' => $this->defaultValue, 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+        foreach ($this->rules AS $name => $options) {
             $options[0] = $this->attr;
             $options[1] = $name;
             $rules[] = $options;
@@ -414,12 +381,9 @@ class Field extends Object
      * Поведения
      * @return array
      */
-
     public function behaviors()
     {
-
         return [];
-
     }
 
     /**
@@ -429,13 +393,9 @@ class Field extends Object
 
     public function getDataValue()
     {
-
         if ($this->_dataValue === null) {
-
             $func = $this->data;
-
             $this->_dataValue = is_callable($func) ? call_user_func($func) : [];
-
         }
 
         return $this->_dataValue;
@@ -445,10 +405,9 @@ class Field extends Object
      * Поиск
      * @param ActiveQuery $query запрос
      */
-
     protected function search(ActiveQuery $query)
     {
-        if($this->model->hasAttribute($this->attr)) {
+        if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
             $attr = $this->attr;
             $query->andFilterWhere(["$table.$attr" => $this->model->{$this->attr}]);
@@ -459,18 +418,13 @@ class Field extends Object
      * Накладывает ограничение на поиск
      * @param ActiveQuery $query
      */
-    public function applySearch(ActiveQuery $query) {
-
-        if($this->queryModifier) {
-
+    public function applySearch(ActiveQuery $query)
+    {
+        if ($this->queryModifier) {
             call_user_func($this->queryModifier, $query, $this);
-
         } else {
-
             $this->search($query);
-
         }
-
     }
 
     /**

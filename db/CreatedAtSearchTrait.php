@@ -5,12 +5,15 @@ namespace lo\core\db;
  * Class CreatedAtSearchTrait
  * Добавляет атрибуты для поиска по диапазону даты создания
  * @package lo\core\db
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @property  $createdAtFrom
+ * @property  $createdAtTo
  */
 trait CreatedAtSearchTrait
 {
-
+    /** @var  $_createdAtFrom */
     protected $_createdAtFrom;
+
+    /** @var  $_createdAtTo */
     protected $_createdAtTo;
 
     /**
@@ -34,12 +37,10 @@ trait CreatedAtSearchTrait
      */
     public function getCreatedAtTo()
     {
-
-        if(!empty($this->_createdAtTo))
+        if (!empty($this->_createdAtTo))
             return $this->_createdAtTo;
         else
             return $this->_createdAtTo;
-
     }
 
     /**
@@ -49,7 +50,4 @@ trait CreatedAtSearchTrait
     {
         $this->_createdAtTo = $createdAtTo;
     }
-
-
-
 }

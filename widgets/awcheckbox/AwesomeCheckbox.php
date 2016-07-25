@@ -68,6 +68,8 @@ class AwesomeCheckbox extends InputWidget
         $html [] = Html::endTag('div');
         return implode('',$html);
     }
+
+
     protected function renderList(){
         $listAction = $this->type.'List';
         $this->options['item'] = function ($index, $label, $name, $checked, $value) {
@@ -88,6 +90,7 @@ class AwesomeCheckbox extends InputWidget
         }
         return $input;
     }
+
     /**
      * @return string
      */
@@ -99,6 +102,7 @@ class AwesomeCheckbox extends InputWidget
         $this->options['label']=null;
         return $label;
     }
+
     /**
      * @return string
      */
@@ -111,6 +115,7 @@ class AwesomeCheckbox extends InputWidget
         }
         return $id;
     }
+
     /**
      * @return string
      */
@@ -125,6 +130,7 @@ class AwesomeCheckbox extends InputWidget
         }
         return $input;
     }
+
     /**
      * @return string
      */

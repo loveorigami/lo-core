@@ -3,6 +3,8 @@ namespace lo\core\db;
 
 use Yii;
 use yii\base\Object;
+use yii\db\Query;
+use yii\db\Command;
 use lo\core\helpers\ArrayHelper;
 use lo\core\db\fields;
 use lo\core\inputs;
@@ -11,9 +13,8 @@ use lo\core\inputs;
  * Class MetaFields
  * Класс содержащий описание полей модели
  * @package lo\core\db
- *
- * @property-read \lo\core\db\fields\Field[] $fields массив обектов полей модели
- * @property-read [] $fieldsConfig массив конфигураций объектов полей модели
+ * @property fields\Field[] $fields массив обектов полей модели;
+ * @property array $fieldsConfig массив конфигураций объектов полей модели;
  */
 abstract class MetaFields extends Object
 {
@@ -76,7 +77,7 @@ abstract class MetaFields extends Object
     /**
      * Возвращает поля по коду вкладки
      * @param string $tab код вкладки
-     * @return \lo\core\db\fields\Field[]
+     * @return fields\Field[]
      */
     public function getFieldsByTab($tab)
     {
@@ -94,7 +95,6 @@ abstract class MetaFields extends Object
      * @param null $names список имен атрибутов, которые необходимо вернуть
      * @param array $except список имен атрибутов, которые необходимо исключить
      * @return fields\Field[]
-     * @throws \yii\base\InvalidConfigException
      */
     public function getFields($names = null, $except = [])
     {
@@ -116,14 +116,14 @@ abstract class MetaFields extends Object
     /**
      * Возвращает объект поля модели по его названию
      * @param $name
-     * @throws \yii\base\InvalidConfigException
-     * @return \lo\core\db\fields\Field
+     * @return fields\Field[] | null
      */
     public function getField($name)
     {
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
         }
+        return null;
     }
 
     /**
@@ -189,7 +189,7 @@ abstract class MetaFields extends Object
             "status" => [
                 "definition" => [
                     "class" => fields\CheckBoxField::class,
-                    'inputClass' => '\lo\core\inputs\CheckBoxInputB', // bootstrap toggle
+                    'inputClass' => inputs\CheckBoxInputB::class, // bootstrap toggle
                     "title" => Yii::t('core', 'Status'),
                     "editInGrid" => true,
                     "initValue" => true,
@@ -212,14 +212,14 @@ abstract class MetaFields extends Object
 
     /**
      * Поиск по диапазону дат создания
-     * @param \yii\db\ActiveQuery $q
-     * @param \lo\core\db\fields\Field $f
+     * @param ActiveQuery $q
+     * @param fields\Field $f
+     * @var
      */
     public function createdAtQueryModifier($q, $f)
     {
         $table = $f->model->tableName();
         $attr = $f->attr;
-
 
         if ($f->model->createdAtFrom) {
             $q->andFilterWhere([">=", "$table.$attr", strtotime($f->model->createdAtFrom)]);
@@ -238,7 +238,8 @@ abstract class MetaFields extends Object
      */
     public function getAuthorsList()
     {
-        $authorQuery = Yii::createObject(\yii\db\Query::className());
+        $authorQuery = Yii::createObject(Query::class);
+        /** @var Command $authorCommand */
         $authorCommand = $authorQuery->select('id, username')->from(Yii::$app->getDb()->tablePrefix . 'user')->createCommand();
         $authors = $authorCommand->queryAll();
         return ArrayHelper::map($authors, 'id', 'username');

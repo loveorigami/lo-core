@@ -4,15 +4,20 @@ namespace lo\core\db;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord as YiiRecord;
-use yii\db\Expression;
-use dektrium\user\models\User;
 use Yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+
+use lo\core\behaviors\TagCache;
+use dektrium\user\models\User;
 
 /**
  * Class ActiveRecord
  * Надстройка над ActiveRecord фпеймворка.
+ * @property $id;
+ * @property $name;
+ * @property $status;
  * @package lo\core\db
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 abstract class ActiveRecord extends YiiRecord
 {
@@ -85,10 +90,8 @@ abstract class ActiveRecord extends YiiRecord
         $fields = $this->getMetaFields()->getFields();
 
         foreach ($fields AS $field) {
-
             $attr = $field->attr;
-
-            if($field->initValue !== null)
+            if ($field->initValue !== null)
                 $this->$attr = $field->initValue;
         }
     }
@@ -98,17 +101,14 @@ abstract class ActiveRecord extends YiiRecord
      * @return array
      *
      */
-    public function  scenarios()
+    public function scenarios()
     {
         $scenarios = parent::scenarios();
 
         foreach ($this->_baseScenarios AS $scenario) {
-
             if (!isset($scenarios[$scenario])) {
-
                 $scenarios[$scenario] = $scenarios[YiiRecord::SCENARIO_DEFAULT];
             }
-
         }
 
         return $scenarios;
@@ -141,78 +141,61 @@ abstract class ActiveRecord extends YiiRecord
      * Возвращает объект с описанием полей модели
      * @return MetaFields
      */
-
     public function getMetaFields()
     {
-
         if ($this->_metaFields === null) {
-
             $class = $this->metaClass();
-
             $this->_metaFields = Yii::createObject($class, [$this]);
-
         }
 
         return $this->_metaFields;
-
     }
 
     /**
      * Возвращает имя класса содержащего описание полей модели
      * @return string
      */
-
     public abstract function metaClass();
 
     /**
      * Подписи атрибутов
      * @return array
      */
-
     public function attributeLabels()
     {
-
         $fields = $this->getMetaFields()->getFields();
-
         $labels = [
-
-            "createdAtFrom"=>Yii::t('core', 'Created from'),
-            "createdAtTo"=>Yii::t('core', 'Created to'),
-
+            "createdAtFrom" => Yii::t('core', 'Created from'),
+            "createdAtTo" => Yii::t('core', 'Created to'),
         ];
 
         foreach ($fields AS $field) {
-
             $labels = ArrayHelper::merge($labels, $field->getAttributeLabel());
-
         }
 
         return $labels;
-
     }
 
     /**
      * Поведения
      * @return array
      */
-
     public function behaviors()
     {
-
         $fields = $this->getMetaFields()->getFields();
 
         $behaviors = [
             'timestamp' => [
-                'class' => \yii\behaviors\TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
             ],
             'blameable' => [
-                'class' => \yii\behaviors\BlameableBehavior::className(),
+                'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-           'tagCache' => [
-                'class' => \lo\core\behaviors\TagCache::className(),
-                'activeAttribute'=>'status'
+            'tagCache' => [
+                'class' => TagCache::class,
+                'activeAttribute' => 'status'
             ],
         ];
 
@@ -220,47 +203,49 @@ abstract class ActiveRecord extends YiiRecord
 
             if ($field->behaviors())
                 $behaviors = array_merge($behaviors, $field->behaviors());
-
         }
-
         return $behaviors;
-
     }
 
     /**
      * Возвращает провайдер данных для поиска
      * @param array $params массив значений атрибутов модели
      * @param array $dataProviderConfig параметры провайдера данных
-     * @param \lo\core\db\ActiveQuery $query запрос
-     * @return \yii\data\ActiveDataProvider
+     * @param ActiveQuery $query запрос
+     * @return ActiveDataProvider
      */
-
     public function search($params, $dataProviderConfig = [], $query = null)
     {
         $fields = $this->getMetaFields()->getFields();
+
         $query = $query ? $query : static::find();
+
         $config = array_merge([
-            'class' => ActiveDataProvider::className(),
+            'class' => ActiveDataProvider::class,
             "query" => $query,
         ], $dataProviderConfig);
+
         $dataProvider = Yii::createObject($config);
         $dataProvider->getSort()->defaultOrder = $this->_defaultSearchOrder;
+
         $this->load($params);
         $this->validate();
+
         foreach ($fields AS $field) {
-            if($field->search)
+            if ($field->search)
                 $field->applySearch($query);
         }
+
         return $dataProvider;
     }
 
     /**
      * @inheritdoc
-     * @return \lo\core\db\ActiveQuery
+     * @return ActiveQuery
      */
     public static function find()
     {
-        return Yii::createObject(\lo\core\db\ActiveQuery::className(), [get_called_class()]);
+        return Yii::createObject(ActiveQuery::class, [get_called_class()]);
     }
 
     /**
@@ -268,38 +253,32 @@ abstract class ActiveRecord extends YiiRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
-     /**
+    /**
      * Возвращает модель правил доступа
      * @return \lo\core\rbac\IPermission|null
      */
-
     public function getPermission()
     {
-
         return null;
-
     }
 
-	/**
-	 * Изменилась ли активность модели
-	 * @return bool
-	 */
-	public function hasChangeActive() {
+    /**
+     * Изменилась ли активность модели
+     * @return bool
+     */
+    public function hasChangeActive()
+    {
+        $oldArr = $this->oldAttributes;
+        $new = (int)$this->status;
+        $old = (int)$oldArr["status"];
+        if ($new != $old)
+            return true;
 
-		$oldArr = $this->oldAttributes;
-
-		$new = (int) $this->status;
-
-		$old = (int) $oldArr["status"];
-
-		if($new != $old)
-			return true;
-
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Возвращает название элемента сущности
@@ -307,17 +286,14 @@ abstract class ActiveRecord extends YiiRecord
      */
     public function getItemLabel()
     {
-
         $res = [];
 
-        if($this->hasAttribute("id") AND $this->id)
-            $res[]=$this->id;
+        if ($this->hasAttribute("id") AND $this->id)
+            $res[] = $this->id;
 
-        if($this->hasAttribute("name") AND $this->name)
-            $res[]=$this->name;
+        if ($this->hasAttribute("name") AND $this->name)
+            $res[] = $this->name;
 
         return implode(" - ", $res);
-
     }
-
 }
