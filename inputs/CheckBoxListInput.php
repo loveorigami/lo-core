@@ -57,4 +57,4 @@ class CheckBoxListInput extends DropDownInput
 
         return $form->field($this->modelField->model, $attr)->widget(AwesomeCheckbox::class, $options);
     }
-} 
+}

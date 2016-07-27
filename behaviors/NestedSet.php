@@ -1,22 +1,19 @@
 <?php
 namespace lo\core\behaviors;
 
+use creocoder\nestedsets\NestedSetsBehavior;
+
 /**
  * Class NestedSet
  * Исправляет баги в оригинальном NestedSet
- * @package common\behaviors
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @package lo\core\behaviors
  */
-
-class NestedSet extends \creocoder\nestedsets\NestedSetsBehavior
+class NestedSet extends NestedSetsBehavior
 {
-
     /**
      * @inheritdoc
      */
-
     public function afterFind($event)
     {
     }
-
 }

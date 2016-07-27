@@ -1,47 +1,47 @@
 <?php
 namespace lo\core\db;
 
-use lo\core\behaviors\NestedSet;
 use Yii;
+use lo\core\behaviors\NestedSet;
 
 /**
  * Class TActiveRecord
  * Надстройка над ActiveRecord для реализации древовидных структур.
- * @package common\db
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @package lo\core\db
+ * @mixin NestedSet
  */
 abstract class TActiveRecord extends ActiveRecord
 {
-
     /**
      * Идентификатор корневой записи
      */
-
     const ROOT_ID = 1;
 
     /**
      * @var int идентификатор родительской модели
      */
-
     public $parent_id = self::ROOT_ID;
 
     /**
      * @inheritdoc
      */
-
     public function behaviors()
     {
-
         $behaviors = parent::behaviors();
-
         $behaviors["nestedSets"] = [
-
-            "class" => NestedSet::className(),
+            "class" => NestedSet::class,
             "depthAttribute" => "level",
         ];
-
         return $behaviors;
+    }
 
+    /**
+     * @inheritdoc
+     * @return TActiveQuery
+     */
+    public static function find()
+    {
+        return Yii::createObject(TActiveQuery::class, [get_called_class()]);
     }
 
     /**
@@ -51,10 +51,8 @@ abstract class TActiveRecord extends ActiveRecord
      * @param string $attr имя отображаемого атрибута
      * @return array
      */
-
     public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "name")
     {
-
         $arr = [self::ROOT_ID => Yii::t('common', 'Root')];
 
         $query = static::find();
@@ -92,11 +90,12 @@ abstract class TActiveRecord extends ActiveRecord
 
         foreach ($models AS $m) {
             if ($this->inArray($descendants, $m)) {
-                $i++; continue;
+                $i++;
+                continue;
             }
 
             $separator = '';
-            $separator .= str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $m->level);
+            $separator .= str_repeat("&ensp;", $m->level);
             $separator .= ($m->level != 0) ? (
                 (isset($models[$i + 1])) && ($m->level == $models[$i + 1]->level)
             ) ? '┣ ' : '┗ ' : '';
@@ -106,16 +105,6 @@ abstract class TActiveRecord extends ActiveRecord
         }
 
         return $arr;
-
-    }
-
-    /**
-     * @inheritdoc
-     * @return \lo\core\db\TActiveQuery
-     */
-    public static function find()
-    {
-        return Yii::createObject(\lo\core\db\TActiveQuery::className(), [get_called_class()]);
     }
 
     /**
@@ -124,18 +113,13 @@ abstract class TActiveRecord extends ActiveRecord
      * @param ActiveRecord $model
      * @return bool
      */
-
     public function inArray($models, $model)
     {
-
         foreach ($models AS $m) {
-
             if ($m->id == $model->id)
                 return true;
         }
-
         return false;
-
     }
 
     /**
@@ -144,12 +128,9 @@ abstract class TActiveRecord extends ActiveRecord
      * @param string $attr имя отображаемого атрибута
      * @return array
      */
-
     public function getDataByParent($parent_id = self::ROOT_ID, $attr = "name")
     {
-
         $arr = [];
-
         $query = static::find();
 
         $model = $query->andWhere(["id" => $parent_id])->one();
@@ -164,7 +145,6 @@ abstract class TActiveRecord extends ActiveRecord
         }
 
         return $arr;
-
     }
 
     /**
@@ -174,17 +154,16 @@ abstract class TActiveRecord extends ActiveRecord
      * @param string $attr имя атрибута для label
      * @return array
      */
-
     public function getBreadCrumbsItems($modelArg, $route, $attr = "name")
     {
 
-        if (is_object($modelArg))
+        if (is_object($modelArg)) {
             $model = $modelArg;
-        else
+        } else {
             $model = static::find()->where(["id" => $modelArg])->one();
+        }
 
         $models = $model->parents()->all();
-
         $models[] = $model;
 
         $arr = [];
@@ -195,33 +174,26 @@ abstract class TActiveRecord extends ActiveRecord
                 continue;
 
             $arr[] = [
-
                 "url" => call_user_func($route, $model),
                 "label" => $model->$attr,
-
             ];
-
         }
 
         return $arr;
-
     }
 
     /**
      * Возвращает массив идентификаторов дочерних элементов и текущего элемента
      * @return array
      */
-
     public function getFilterIds()
     {
-
         $arr[] = $this->id;
-
         $models = $this->children()->published()->all();
-
-        foreach ($models As $model)
+        foreach ($models As $model) {
             $arr[] = $model->id;
-
+        }
         return $arr;
     }
+
 }
