@@ -105,12 +105,15 @@ $this->registerJs("
 
         $('.form-apply').on('click', function(e){ $(\"input[name='apply']\").val(1);});
 	    $('.form-cancel').on('click', function(e){ e.preventDefault(); window.location.href='$returnUrl'; });
-	    $('#$tabId a').on('show.bs.tab', function(){ $('[name=\"tab\"]').val($(this).attr('href')) });
-
-        var activeTab = $('[name=\"tab\"]').val();
-
-        if(activeTab) {
-            $('#$tabId a[href=\"'+activeTab+'\"]').tab('show');
+	    
+	    $('#$tabId a').on('show.bs.tab', function(e){ 
+	        localStorage.setItem('lastTab', $(this).attr('href'));
+	    });
+       
+        // go to the latest tab, if it exists:
+        var lastTab = localStorage.getItem('lastTab');
+        if (lastTab) {
+            $('#$tabId a[href=\"' + lastTab + '\"]').tab('show');
         }
 
     })();
