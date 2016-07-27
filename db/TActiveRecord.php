@@ -9,6 +9,13 @@ use lo\core\behaviors\NestedSet;
  * Надстройка над ActiveRecord для реализации древовидных структур.
  * @package lo\core\db
  * @mixin NestedSet
+ * @property integer $id
+ * @property integer $level
+ * @method TActiveQuery parents($depth = null)
+ * @method TActiveQuery children($depth = null)
+ * @method TActiveQuery leaves()
+ * @method TActiveQuery prev()
+ * @method TActiveQuery next()
  */
 abstract class TActiveRecord extends ActiveRecord
 {
@@ -61,6 +68,7 @@ abstract class TActiveRecord extends ActiveRecord
             $perm->applyConstraint($query);
         }
 
+        /** @var TActiveRecord $model */
         $model = $query->andWhere(["id" => $parent_id])->one();
 
         if (!$model) {
@@ -77,6 +85,7 @@ abstract class TActiveRecord extends ActiveRecord
         }
 
         if (!empty($exclude)) {
+            /** @var TActiveRecord $exModels */
             $exModels = static::find()->where(["id" => $exclude])->all();
 
             foreach ($exModels AS $exModel) {
@@ -89,6 +98,7 @@ abstract class TActiveRecord extends ActiveRecord
         $i = 0;
 
         foreach ($models AS $m) {
+            /** @var TActiveRecord $m */
             if ($this->inArray($descendants, $m)) {
                 $i++;
                 continue;
@@ -133,6 +143,7 @@ abstract class TActiveRecord extends ActiveRecord
         $arr = [];
         $query = static::find();
 
+        /** @var TActiveRecord $model */
         $model = $query->andWhere(["id" => $parent_id])->one();
 
         if (!$model)
@@ -141,6 +152,7 @@ abstract class TActiveRecord extends ActiveRecord
         $models = $model->children()->published()->all();
 
         foreach ($models AS $m) {
+            /** @var TActiveRecord $m */
             $arr[$m->id] = str_repeat("-", $m->level) . $m->$attr;
         }
 
@@ -191,6 +203,7 @@ abstract class TActiveRecord extends ActiveRecord
         $arr[] = $this->id;
         $models = $this->children()->published()->all();
         foreach ($models As $model) {
+            /** @var TActiveRecord $model */
             $arr[] = $model->id;
         }
         return $arr;
