@@ -39,6 +39,7 @@ class AwesomeCheckbox extends InputWidget
     const STYLE_DANGER = 'danger';
     const STYLE_CIRCLE = 'circle';
     const STYLE_INLINE = 'inline';
+
     public $checked = false;
     public $type = self::TYPE_CHECKBOX;
     public $style = self::STYLE_DEFAULT;
@@ -74,7 +75,7 @@ class AwesomeCheckbox extends InputWidget
         $listAction = $this->type.'List';
         $this->options['item'] = function ($index, $label, $name, $checked, $value) {
             $action = $this->type;
-            $id = strtolower($index.'-'.str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
+            $id = strtolower($this->id.$index.'-'.str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
             $html = [];
             $html[] = Html::beginTag('div',['class'=>$this->getClass()]);
             $html[] = Html::$action($name, $checked, ['label' => null, 'value' => $value, 'id'=>$id]);
