@@ -153,7 +153,7 @@ abstract class TActiveRecord extends ActiveRecord
 
         foreach ($models AS $m) {
             /** @var TActiveRecord $m */
-            $arr[$m->id] = str_repeat("-", $m->level) . $m->$attr;
+            $arr[$m->id] = str_repeat("&nbsp", $m->level) . $m->$attr;
         }
 
         return $arr;
