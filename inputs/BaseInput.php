@@ -27,7 +27,7 @@ abstract class BaseInput extends Object
     /**
      * @var array парамеиры виджета
      */
-    public  $widgetOptions = [];
+    public $widgetOptions = [];
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -44,8 +44,8 @@ abstract class BaseInput extends Object
      */
     public function init()
     {
-        if(empty($this->modelField) OR ! $this->modelField instanceof Field)
-            throw new InvalidConfigException("Property 'modelField' must be instance of ".Field::className());
+        if (empty($this->modelField) OR !$this->modelField instanceof Field)
+            throw new InvalidConfigException("Property 'modelField' must be instance of " . Field::className());
     }
 
     /**
@@ -57,6 +57,39 @@ abstract class BaseInput extends Object
     protected function getFormAttrName($index, $attr)
     {
         return ($index !== false) ? "[$index]$attr" : $attr;
+    }
+
+    /**
+     * Возвращает модель для формы с учетом наличия relation
+     * @return \lo\core\db\ActiveRecord|mixed
+     */
+    public function getModel()
+    {
+        $model = $this->modelField->model;
+        $relation = $this->modelField->relation;
+
+        if ($relation && $model->scenario != $model::SCENARIO_SEARCH) {
+            return $model->{$relation};
+        }
+
+        return $model;
+    }
+
+    /**
+     * Возвращает имя атрибута для поля формы с учетом наличия relation
+     * @return string
+     */
+    public function getAttr()
+    {
+        $attr = $this->modelField->attr;
+        $relationAttr = $this->modelField->relationAttr;
+        $model = $this->modelField->model;
+
+        if ($relationAttr && $model->scenario != $model::SCENARIO_SEARCH) {
+            return $relationAttr;
+        }
+
+        return $attr;
     }
 
 } 

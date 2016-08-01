@@ -35,6 +35,16 @@ class Field extends Object
     public $title;
 
     /**
+     * @var string имя связи
+     */
+    public $relation;
+
+    /**
+     * @var string имя атрибута связанной модели
+     */
+    public $relationAttr;
+
+    /**
      * @var mixed значение присваевоемое полю при создании модели с сценарием ActiveRecord::SCENARIO_INSERT
      */
     public $initValue;
