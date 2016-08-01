@@ -18,11 +18,7 @@ class ActiveQuery extends YiiQuery
      */
     public function published($state = true)
     {
-        /** @var ActiveRecord $class */
-		$class = $this->modelClass;
-		$table = $class::tableName();
-        $this->andWhere(["$table.status" => $state]);
-
+        $this->andWhere([$this->getAlias().".status" => $state]);
         return $this;
     }
 
@@ -32,12 +28,24 @@ class ActiveQuery extends YiiQuery
      */
     public function bySlug($slug)
     {
-        /** @var ActiveRecord $class */
-		$class = $this->modelClass;
-		$table = $class::tableName();
-        $this->andWhere(["$table.slug" => $slug]);
-
+        $this->andWhere([$this->getAlias().".slug" => $slug]);
         return $this;
     }
 
+    /**
+     * Получение alias-a для таблицы
+     * @return null|string
+     */
+    protected function getAlias()
+    {
+        $alias = null;
+
+        if (empty($this->from)) {
+            /* @var $modelClass ActiveRecord */
+            $modelClass = $this->modelClass;
+            $alias = $modelClass::tableName();
+        }
+
+        return $alias;
+    }
 }
