@@ -69,7 +69,12 @@ abstract class BaseInput extends Object
         $relation = $this->modelField->relation;
 
         if ($relation && $model->scenario != $model::SCENARIO_SEARCH) {
-            return $model->{$relation};
+            $relatedClass = $model->{'get' . ucfirst($relation)}()->modelClass;
+            if($model->scenario == $model::SCENARIO_INSERT){
+                return new $relatedClass;
+            } else {
+                return $model->{$relation};
+            }
         }
 
         return $model;
