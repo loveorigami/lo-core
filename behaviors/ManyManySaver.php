@@ -2,7 +2,7 @@
 
 namespace lo\core\behaviors;
 
-use voskobovich\behaviors\ManyToManyBehavior;
+use voskobovich\manytomany\ManyToManyBehavior;
 
 /**
  * Class ManyManySaver
