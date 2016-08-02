@@ -23,7 +23,7 @@ class Form extends Widget
     const FORM_ID_PREF = "form-";
 
     /**
-     * @var \common\db\ActiveRecord модель
+     * @var \lo\core\db\ActiveRecord модель
      */
 
     public $model;

@@ -65,28 +65,30 @@ $this->registerJs("
 
                 <?php
 
-                    foreach ($meta->getFieldsByTab($key) AS $field) {
+                foreach ($meta->getFieldsByTab($key) AS $field) {
 
-                        if ($perm AND $perm->isAttributeForbidden($field->attr)) {
-                            if(strpos($template, '{' . $field->attr . '}') !== false) {
-                                $tpl['search'][] = '/{' . $field->attr . '}/';
-                                $tpl['replace'][] = '';
-                            }
-                            continue;
-                        }
-
-                        if ($template && strpos($template, '{' . $field->attr . '}') !== false) {
+                    if ($perm AND $perm->isAttributeForbidden($field->attr)) {
+                        if (strpos($template, '{' . $field->attr . '}') !== false) {
                             $tpl['search'][] = '/{' . $field->attr . '}/';
-                            $tpl['replace'][] = $field->getWrappedForm($form);
-                        } else {
-                            $html .= $field->getWrappedForm($form);
+                            $tpl['replace'][] = '';
                         }
+                        continue;
                     }
 
-                if(!empty($tpl))
-                    echo preg_replace($tpl['search'], $tpl['replace'], $template);
+                    if ($template && strpos($template, '{' . $field->attr . '}') !== false) {
+                        $tpl['search'][] = '/{' . $field->attr . '}/';
+                        $tpl['replace'][] = $field->getWrappedForm($form);
+                    } else {
+                        $html .= $field->getWrappedForm($form);
 
-                    echo $html;
+                    }
+                }
+
+                if (!empty($tpl)) {
+                    echo preg_replace($tpl['search'], $tpl['replace'], $template);
+                }
+
+                echo $html;
 
                 ?>
 
