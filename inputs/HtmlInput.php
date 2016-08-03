@@ -3,21 +3,46 @@
 namespace lo\core\inputs;
 
 use mihaildev\ckeditor\CKEditor;
+use mihaildev\ckeditor\CKEditorPresets;
 use mihaildev\elfinder\ElFinder;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
  * Class HtmlInput
+ * ```php
+ *  "text_intro" => [
+ *      "definition" => [
+ *          "class" => fields\TextField::class,
+ *          "inputClass" => [
+ *              'class' => inputs\HtmlInput::class,
+ *              'path' => self::PATH,
+ *          ],
+ *          'inputClassOptions'=>[
+ *              "widgetOptions" => [
+ *                  'editorOptions' => [
+ *                      'height' => 100 // высота редактора
+ *                  ],
+ *              ],
+ *          ],
+ *          "title" => Yii::t('backend', 'Text intro'),
+ *          "showInExtendedFilter" => false,
+ *          "showInGrid" => false,
+ *          "tab" => self::TEXT_TAB,
+ *      ],
+ *      "params" => [$this->owner, "text_intro"]
+ *  ],
+ * ```
  * @package lo\core\inputs
  */
 class HtmlInput extends BaseInput
 {
-    const PRESET_MINI = 'mini';
-    const PRESET_BASIC = 'basic';
-    const PRESET_STANDART = 'standart';
-    const PRESET_FULL = 'full';
-    const PRESET_EXTRA = 'extra';
+    const PRESET_MINI = CKEditorPresets::MINI;
+    const PRESET_BASIC = CKEditorPresets::BASIC;
+    const PRESET_STANDART = CKEditorPresets::STANDART;
+    const PRESET_FULL = CKEditorPresets::FULL;
+    const PRESET_EXTRA = CKEditorPresets::EXTRA;
 
     /**
      * @var string контроллер файлового менеджера
@@ -49,7 +74,8 @@ class HtmlInput extends BaseInput
                 'inline' => false,
                 'allowedContent' => true,
                 'autoParagraph' => false,
-                'baseHref' => \Yii::getAlias('@storageUrl'),
+                'height' => 150,
+                'baseHref' => Yii::getAlias('@storageUrl'),
             ];
 
             $fm = (is_array($this->fileManagerController)) ?
