@@ -29,6 +29,7 @@ abstract class BaseInput extends Object
      */
     public $widgetOptions = [];
 
+
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
@@ -69,12 +70,7 @@ abstract class BaseInput extends Object
         $relation = $this->modelField->relation;
 
         if ($relation && $model->scenario != $model::SCENARIO_SEARCH) {
-            $relatedClass = $model->{'get' . ucfirst($relation)}()->modelClass;
-            if($model->scenario == $model::SCENARIO_INSERT){
-                return new $relatedClass;
-            } else {
-                return $model->{$relation};
-            }
+            return $this->getRelationModel($relation, $model);
         }
 
         return $model;
@@ -95,6 +91,24 @@ abstract class BaseInput extends Object
         }
 
         return $attr;
+    }
+
+    /**
+     * @param $relation
+     * @param $model
+     * @return mixed
+     */
+    protected function getRelationModel($relation, $model)
+    {
+        $relatedClass = $model->{'get' . ucfirst($relation)}()->modelClass;
+        if ($model->{$relation} === null) {
+            $link = new $relatedClass;
+            //$model->link($relation, $this->relations[$relation]);
+        } else {
+            $link = $model->{$relation};
+        }
+
+        return $link;
     }
 
 } 

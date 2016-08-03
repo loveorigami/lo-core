@@ -116,6 +116,7 @@ class RelationField extends Field
      */
     protected function getStringValue($model)
     {
+        if($model->{$this->relation} === null ) return null;
         return $model->{$this->relation}->{$this->relationAttr};
     }
 }
