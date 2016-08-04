@@ -398,6 +398,10 @@ class Field extends Object
         }
     }
 
+    /**
+     * Обычный поиск
+     * @param ActiveQuery $query
+     */
     protected function serarchByModel(ActiveQuery $query)
     {
         if ($this->model->hasAttribute($this->attr)) {
@@ -407,6 +411,10 @@ class Field extends Object
         }
     }
 
+    /**
+     * Поиск по связи
+     * @param ActiveQuery $query
+     */
     protected function serarchByRelation(ActiveQuery $query)
     {
         if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
