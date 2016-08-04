@@ -421,6 +421,28 @@ class Field extends Object
     }
 
     /**
+     * Накладывает ограничение на поиск
+     * @param ActiveQuery $query
+     */
+    public function applySearch(ActiveQuery $query)
+    {
+        if ($this->queryModifier) {
+            call_user_func($this->queryModifier, $query, $this);
+        } else {
+            $this->search($query);
+        }
+    }
+
+    /**
+     * Возвращает подпись атрибута
+     * @return array
+     */
+    public function getAttributeLabel()
+    {
+        return [$this->attr => $this->title];
+    }
+
+    /**
      * @return mixed объект модели
      */
     public function getRelationModel()
@@ -446,27 +468,4 @@ class Field extends Object
         $relationClass = $this->model->{'get' . ucfirst($this->relationName)}()->modelClass;
         return $relationClass;
     }
-
-    /**
-     * Накладывает ограничение на поиск
-     * @param ActiveQuery $query
-     */
-    public function applySearch(ActiveQuery $query)
-    {
-        if ($this->queryModifier) {
-            call_user_func($this->queryModifier, $query, $this);
-        } else {
-            $this->search($query);
-        }
-    }
-
-    /**
-     * Возвращает подпись атрибута
-     * @return array
-     */
-    public function getAttributeLabel()
-    {
-        return [$this->attr => $this->title];
-    }
-
 }
