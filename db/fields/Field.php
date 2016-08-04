@@ -12,148 +12,91 @@ use lo\core\grid\XEditableColumn;
 use lo\core\inputs;
 
 /**
- * Class TextField
+ * Class Field
  * Базовый класс полей.
  * @package lo\core\db\fields
  */
 class Field extends Object
 {
-    /**
-     * @var ActiveRecord модель
-     */
+    /** @var ActiveRecord модель */
     public $model;
 
-    /**
-     * @var string атрибут модели
-     */
+    /** @var string атрибут модели */
     public $attr;
 
-    /**
-     * @var string подпись атрибута
-     */
-
+    /** @var string подпись атрибута */
     public $title;
 
-    /**
-     * @var string имя связи
-     */
-    public $relation;
+    /** @var string имя связи */
+    public $relationName;
 
-    /**
-     * @var string имя атрибута связанной модели
-     */
+    /** @var string имя атрибута связанной модели */
     public $relationAttr;
 
-    /**
-     * @var mixed значение присваевоемое полю при создании модели с сценарием ActiveRecord::SCENARIO_INSERT
-     */
+    /** @var bool жадная загрузка */
+    protected $eagerLoading = true;
+
+    /** @var mixed значение присваевоемое полю при создании модели с сценарием ActiveRecord::SCENARIO_INSERT */
     public $initValue;
 
-    /**
-     * @var mixed значение поля присваевоемое модели перед сохранением, в случае если текущий атрибут не задан
-     */
+    /** @var mixed значение поля присваевоемое модели перед сохранением, в случае если текущий атрибут не задан */
     public $defaultValue;
 
-    /**
-     * @var string вкладка формы на которой должно быть расположено поле
-     */
-
+    /** @var string вкладка формы на которой должно быть расположено поле */
     public $tab = MetaFields::DEFAULT_TAB;
 
-    /**
-     * @var bool отображать в гриде
-     */
+    /** @var bool отображать в гриде */
     public $showInGrid = true;
 
-    /**
-     * @var bool отображать при детальном просмотре
-     */
+    /** @var bool отображать при детальном просмотре */
     public $showInView = true;
 
-    /**
-     * @var bool отображать в форме
-     */
+    /** @var bool отображать в форме */
     public $showInForm = true;
 
-    /**
-     * @var bool отображать в фильтре грида
-     */
+    /** @var bool отображать в фильтре грида */
     public $showInFilter = true;
 
-    /**
-     * @var bool отображать в расширенном фильре
-     */
+    /** @var bool отображать в расширенном фильре */
     public $showInExtendedFilter = true;
 
-    /**
-     * @var bool отображать поле при табличном вводе
-     */
-
+    /** @var bool отображать поле при табличном вводе */
     public $showInTableInput = true;
 
-    /**
-     * @var bool использоваь ли валидатор safe
-     */
-
+    /** @var bool использоваь ли валидатор safe */
     public $isSafe = true;
 
-    /**
-     * @var bool обязательно ли поле к заполнению
-     */
-
+    /** @var bool обязательно ли поле к заполнению */
     public $isRequired = false;
 
-    /**
-     * @var bool участвует ли поле при поиске
-     */
-
+    /** @var bool участвует ли поле при поиске */
     public $search = true;
 
-    /**
-     * @var bool возможность редактирования значения поля в гриде
-     */
-
+    /** @var bool возможность редактирования значения поля в гриде */
     public $editInGrid = false;
 
-    /**
-     * @var string действие для редактирования модели из грида
-     */
-
+    /** @var string действие для редактирования модели из грида */
     public $editableAction = "editable";
 
-    /**
-     * @var array опции по умолчанию при отображении в гриде
-     */
+    /** @var array опции по умолчанию при отображении в гриде */
     public $gridOptions = [];
 
-    /**
-     * @var array опции по умолчанию при детальном просмотре
-     */
+    /** @var array опции по умолчанию при детальном просмотре */
     public $viewOptions = [];
 
-    /**
-     * @var callable функция возвращающая данные ассоциированные с полем
-     */
+    /** @var callable функция возвращающая данные ассоциированные с полем */
     public $data;
 
-    /**
-     * @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы
-     */
+    /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = inputs\TextInput::class;
 
-    /**
-     * @var array параметры поля ввода
-     */
+    /** @var array параметры поля ввода */
     public $inputClassOptions = [];
 
-    /**
-     * @var string|array имя класса, либо конфигурация компонента который рендерит поле ввода расширенного фильтра
-     */
+    /** @var string|array имя класса, либо конфигурация компонента который рендерит поле ввода расширенного фильтра */
     public $filterInputClass;
 
-    /**
-     * @var string шаблон для поля
-     */
+    /** @var string шаблон для поля */
     public $formTemplate = '<div class="row"><div class="col-xs-12 col-md-6 col-lg-12">{input}</div></div>';
 
     /**
@@ -168,14 +111,16 @@ class Field extends Object
      */
     public $rules = [];
 
-    /**
-     * @var array данные ассоциированные с полем (key=>value)
-     */
+    /** @var string путь для файлового хранилища */
+    public $storagePath;
+
+    /** @var string Url для файлового хранилища */
+    public $storageUrl;
+
+    /** @var array данные ассоциированные с полем (key=>value) */
     protected $_dataValue;
 
-    /**
-     * @var mixed значение фильтра грида установленное
-     */
+    /** @var mixed значение фильтра грида установленное */
     protected $_gridFilter;
 
     /**
@@ -184,12 +129,12 @@ class Field extends Object
      * @param string $attr атрибут
      * @param array $config массив значений атрибутов
      */
-
     public function __construct(ActiveRecord $model, $attr, $config = [])
     {
+        parent::__construct($config);
+
         $this->model = $model;
         $this->attr = $attr;
-        parent::__construct($config);
     }
 
     /**
@@ -198,7 +143,6 @@ class Field extends Object
      * @param array $options массив html атрибутов поля
      * @return string
      */
-
     public function getExtendedFilterForm(ActiveForm $form, Array $options = [])
     {
         return $this->getForm($form, $options, false, $this->filterInputClass);
@@ -256,7 +200,6 @@ class Field extends Object
      */
     protected function defaultGrid()
     {
-
         $grid = ['attribute' => $this->attr, 'label' => $this->title];
 
         if ($this->showInFilter)
@@ -277,7 +220,13 @@ class Field extends Object
      */
     protected function grid()
     {
-        return $this->defaultGrid();
+        $grid = $this->defaultGrid();
+
+        $grid["value"] = function ($model, $index, $widget) {
+            return $this->getGridValue($model);
+        };
+
+        return $grid;
     }
 
     /**
@@ -287,6 +236,26 @@ class Field extends Object
     public final function getGrid()
     {
         return ArrayHelper::merge($this->grid(), $this->gridOptions);
+    }
+
+    /**
+     * Вывод значения в гриде с учетом связи
+     * @param $model
+     * @return string
+     */
+    public function getGridValue($model)
+    {
+        if ($this->relationName && $this->relationAttr) {
+            if (isset ($model->{$this->relationName}->{$this->relationAttr})) {
+                $value = $model->{$this->relationName}->{$this->relationAttr};
+            } else {
+                $value = null;
+            }
+        } else {
+            $value = $model->{$this->attr};
+        }
+
+        return $value;
     }
 
     /**
@@ -311,15 +280,18 @@ class Field extends Object
     }
 
     /**
-     * Возвращает значение фильтра для по умолчанию
+     * Возвращает значение фильтра для поля по умолчанию
      * @return mixed
      */
-
     protected function defaultGridFilter()
     {
         return true;
     }
 
+    /**
+     * Редатироование в гриде
+     * @return array
+     */
     protected function xEditable()
     {
         return [
@@ -400,7 +372,6 @@ class Field extends Object
      * Возвращает массив данных ассоциированных с полем
      * @return array
      */
-
     public function getDataValue()
     {
         if ($this->_dataValue === null) {
@@ -417,11 +388,56 @@ class Field extends Object
      */
     protected function search(ActiveQuery $query)
     {
+        if ($this->relationName && $this->relationAttr) {
+            $this->serarchByRelation($query);
+        } else {
+            $this->serarchByModel($query);
+        }
+    }
+
+    protected function serarchByModel(ActiveQuery $query)
+    {
         if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
             $attr = $this->attr;
             $query->andFilterWhere(["$table.$attr" => $this->model->{$this->attr}]);
         }
+    }
+
+    protected function serarchByRelation(ActiveQuery $query)
+    {
+        if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
+
+            $relationClass = $this->getRelationClass();
+            $relationTable = $relationClass::tableName();
+
+            $query->
+            joinWith($this->relationName, $this->eagerLoading)->
+            andFilterWhere([$relationTable . '.' . $this->relationAttr => $this->model->{$this->attr}]);
+        }
+    }
+
+    /**
+     * @return mixed объект модели
+     */
+    public function getRelationModel()
+    {
+        $relationClass = $this->getRelationClass();
+        if ($this->model->{$this->relationName} === null) {
+            $relationModel = new $relationClass();
+        } else {
+            $relationModel = $this->model->{$this->relationName};
+        }
+        return $relationModel;
+    }
+
+    /**
+     * @return mixed объект модели
+     */
+    public function getRelationClass()
+    {
+        $relationClass = $this->model->{'get' . ucfirst($this->relationName)}()->modelClass;
+        return $relationClass;
     }
 
     /**

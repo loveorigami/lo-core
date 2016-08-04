@@ -3,24 +3,20 @@
 namespace lo\core\inputs;
 
 use mihaildev\elfinder\InputFile;
-use mihaildev\elfinder\ElFinder;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
- * Class HtmlInput
+ * Class ElfinderFileInput
  * Html поле
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
  */
-class ElfFileInput extends BaseInput {
+class ElfinderFileInput extends BaseInput {
 
     /**
      * @var string контроллер файлового менеджера
      */
-
     public $fileManagerController = "elfinder/path";
-
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -47,9 +43,7 @@ class ElfFileInput extends BaseInput {
 
         $attr = $this->modelField->attr;
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::className(), $widgetOptions);
-
+        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::class, $widgetOptions);
     }
-
 
 } 

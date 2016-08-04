@@ -10,13 +10,13 @@ use lo\core\inputs;
  *      "definition" => [
  *          "class" => fields\HtmlField::class,
  *          "inputClass" =>[
- *              'class'=>inputs\HtmlInput::class,
+ *              'class'=>inputs\CKEditorInput::class,
  *              'path' => 'objects/text', // folder for Elfinder
  *          ],
  *          "inputClassOptions" => [
  *              "widgetOptions"=>[
  *                  'editorOptions'=>[
- *                      'preset' => inputs\HtmlInput::PRESET_MINI,
+ *                      'preset' => inputs\CKEditorInput::PRESET_MINI,
  *                  ]
  *              ],
  *          ],
@@ -28,14 +28,12 @@ use lo\core\inputs;
  *          "params" => [$this->owner, "text"]
  *  ],
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class HtmlField extends TextAreaField
 {
-
     /**
      * @var $inputClass
      */
-    public $inputClass = inputs\HtmlInput::class;
+    public $inputClass = inputs\CKEditorInput::class;
 
 }

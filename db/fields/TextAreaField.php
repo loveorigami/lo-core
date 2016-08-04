@@ -1,18 +1,15 @@
 <?php
 namespace lo\core\db\fields;
 
-use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+use lo\core\inputs\TextAreaInput;
 
 /**
  * Class TextAreaField
  * Поле текстовой области модели
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class TextAreaField extends TextField
 {
-
     /**
      * @var bool отображать в гриде
      */
@@ -31,20 +28,15 @@ class TextAreaField extends TextField
     /**
      * @inheritdoc
      */
-    public $inputClass = '\lo\core\inputs\TextAreaInput';
+    public $inputClass = TextAreaInput::class;
 
     /**
      * @inheritdoc
      */
     protected function view()
     {
-
         $view = parent::view();
-
         $view['format'] = 'html';
-
         return $view;
-
     }
-
 }

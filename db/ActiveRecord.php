@@ -296,4 +296,5 @@ abstract class ActiveRecord extends YiiRecord
 
         return implode(" - ", $res);
     }
+
 }

@@ -132,7 +132,6 @@ class FileHelper extends YiiFileHelper
      * @param string $path путь к файлу
      * @return bool
      */
-
     public static function storageImg($img, $op=[])
     {
         $path = Yii::getAlias('@storage') . $img;

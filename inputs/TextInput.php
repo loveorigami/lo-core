@@ -9,7 +9,6 @@ use yii\widgets\ActiveForm;
  * Class TextInput
  * Текстовое поле
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class TextInput extends BaseInput {
 
@@ -23,7 +22,6 @@ class TextInput extends BaseInput {
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
         $options = ArrayHelper::merge($this->options, $options);
-
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->widgetOptions)->textInput($options);
     }
 } 

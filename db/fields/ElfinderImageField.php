@@ -7,11 +7,11 @@ use lo\core\helpers\FileHelper;
 use lo\core\inputs;
 
 /**
- * Class ElfImgField
+ * Class ElfinderImageField
  * Для загрузки изображений через elfinder
  *  "image" => [
  *      "definition" => [
- *          "class" => fields\ElfImgField::class,
+ *          "class" => fields\ElfinderImageField::class,
  *          "title" => Yii::t('backend', 'Image'),
  *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
  *          "inputClassOptions" => [
@@ -24,7 +24,7 @@ use lo\core\inputs;
  *  ],
  * @package lo\core\db\fields
  */
-class ElfImgField extends ElfFileField
+class ElfinderImageField extends ElfinderFileField
 {
     public $showInGrid = true;
     public $showInFilter = false;
@@ -32,7 +32,7 @@ class ElfImgField extends ElfFileField
     public $editInGrid = false;
     public $showInExtendedFilter = false;
 
-    public $inputClass = inputs\ElfImgInput::class;
+    public $inputClass = inputs\ElfinderImageInput::class;
 
     /**
      * Размер по умолчанию для превью изображений в гриде и при детальном просмотре
@@ -63,7 +63,7 @@ class ElfImgField extends ElfFileField
     /**
      * @inheritdoc
      */
-    protected function grid()
+    public function grid()
     {
         $grid = parent::grid();
         $grid['format'] = 'html';

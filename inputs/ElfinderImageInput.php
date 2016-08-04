@@ -8,12 +8,11 @@ use lo\core\helpers\FileHelper;
 use yii\widgets\ActiveForm;
 
 /**
- * Class HtmlInput
+ * Class ElfinderImageInput
  * Html поле
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
  */
-class ElfImgInput extends ElfFileInput {
+class ElfinderImageInput extends ElfinderFileInput {
 
     /**
      * Формирование Html кода поля для вывода в форме

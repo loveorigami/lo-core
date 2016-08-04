@@ -10,13 +10,13 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
- * Class HtmlInput
+ * Class CKEditorInput
  * ```php
  *  "text_intro" => [
  *      "definition" => [
- *          "class" => fields\TextField::class,
+ *          "class" => fields\HtmlField::class,
  *          "inputClass" => [
- *              'class' => inputs\HtmlInput::class,
+ *              'class' => inputs\CKEditorInput::class,
  *              'path' => self::PATH,
  *          ],
  *          'inputClassOptions'=>[
@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
  * ```
  * @package lo\core\inputs
  */
-class HtmlInput extends BaseInput
+class CKEditorInput extends BaseInput
 {
     const PRESET_MINI = CKEditorPresets::MINI;
     const PRESET_BASIC = CKEditorPresets::BASIC;

@@ -67,10 +67,10 @@ abstract class BaseInput extends Object
     public function getModel()
     {
         $model = $this->modelField->model;
-        $relation = $this->modelField->relation;
+        $relation = $this->modelField->relationName;
 
         if ($relation && $model->scenario != $model::SCENARIO_SEARCH) {
-            return $this->getRelationModel($relation, $model);
+            return $this->modelField->getRelationModel();
         }
 
         return $model;
@@ -91,24 +91,6 @@ abstract class BaseInput extends Object
         }
 
         return $attr;
-    }
-
-    /**
-     * @param $relation
-     * @param $model
-     * @return mixed
-     */
-    protected function getRelationModel($relation, $model)
-    {
-        $relatedClass = $model->{'get' . ucfirst($relation)}()->modelClass;
-        if ($model->{$relation} === null) {
-            $link = new $relatedClass;
-            //$model->link($relation, $this->relations[$relation]);
-        } else {
-            $link = $model->{$relation};
-        }
-
-        return $link;
     }
 
 } 

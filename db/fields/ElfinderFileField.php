@@ -2,31 +2,31 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\inputs\ElfinderFileInput;
+
 /**
- * Class HtmlField
- * Поле WYSIWYG редактора. Использует CKEditor
+ * Class ElfinderFileField
+ * Поле WYSIWYG редактора. Использует Elfinder
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
  */
-class ElfFileField extends Field
+class ElfinderFileField extends Field
 {
     /**
      * @inheritdoc
      */
-
     public $showInGrid = false;
     public $showInFilter = false;
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
 
-    public $inputClass = '\lo\core\inputs\ElfFileInput';
+    public $inputClass = ElfinderFileInput::class;
 
 
     /**
      * @inheritdoc
      */
-    protected function grid()
+    public function grid()
     {
         $grid = parent::grid();
         $grid['format'] = 'html';
