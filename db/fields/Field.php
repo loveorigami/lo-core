@@ -33,8 +33,11 @@ class Field extends Object
     /** @var string имя атрибута связанной модели */
     public $relationAttr;
 
+    /** @var ActiveRecord $_relationModel связующая модель */
+    protected $_relationModel;
+
     /** @var bool жадная загрузка */
-    protected $eagerLoading = true;
+    public $eagerLoading = true;
 
     /** @var mixed значение присваевоемое полю при создании модели с сценарием ActiveRecord::SCENARIO_INSERT */
     public $initValue;
@@ -246,7 +249,7 @@ class Field extends Object
     public function getGridValue($model)
     {
         if ($this->relationName && $this->relationAttr) {
-            if (isset ($model->{$this->relationName}->{$this->relationAttr})) {
+            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
                 $value = $model->{$this->relationName}->{$this->relationAttr};
             } else {
                 $value = null;
@@ -422,13 +425,17 @@ class Field extends Object
      */
     public function getRelationModel()
     {
-        $relationClass = $this->getRelationClass();
-        if ($this->model->{$this->relationName} === null) {
-            $relationModel = new $relationClass();
-        } else {
-            $relationModel = $this->model->{$this->relationName};
+        if ($this->_relationModel === null) {
+            $relationClass = $this->getRelationClass();
+            if ($this->model->{$this->relationName} === null) {
+                $relationModel = new $relationClass();
+            } else {
+                $relationModel = $this->model->{$this->relationName};
+            }
+            $this->_relationModel = $relationModel;
         }
-        return $relationModel;
+
+        return $this->_relationModel;
     }
 
     /**
