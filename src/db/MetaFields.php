@@ -13,7 +13,7 @@ use lo\core\inputs;
  * Class MetaFields
  * Класс содержащий описание полей модели
  * @package lo\core\db
- * @property fields\Field[] $fields массив обектов полей модели;
+ * @property fields\BaseField[] $fields массив обектов полей модели;
  * @property array $fieldsConfig массив конфигураций объектов полей модели;
  */
 abstract class MetaFields extends Object
@@ -77,7 +77,7 @@ abstract class MetaFields extends Object
     /**
      * Возвращает поля по коду вкладки
      * @param string $tab код вкладки
-     * @return fields\Field[]
+     * @return fields\BaseField[]
      */
     public function getFieldsByTab($tab)
     {
@@ -94,7 +94,7 @@ abstract class MetaFields extends Object
      * Возвращает массив объектов полей модели
      * @param null $names список имен атрибутов, которые необходимо вернуть
      * @param array $except список имен атрибутов, которые необходимо исключить
-     * @return fields\Field[]
+     * @return fields\BaseField[]
      */
     public function getFields($names = null, $except = [])
     {
@@ -116,7 +116,7 @@ abstract class MetaFields extends Object
     /**
      * Возвращает объект поля модели по его названию
      * @param $name
-     * @return fields\Field[] | null
+     * @return fields\BaseField[] | null
      */
     public function getField($name)
     {
@@ -213,7 +213,7 @@ abstract class MetaFields extends Object
     /**
      * Поиск по диапазону дат создания
      * @param ActiveQuery $q
-     * @param fields\Field $f
+     * @param fields\BaseField $f
      * @var
      */
     public function createdAtQueryModifier($q, $f)
