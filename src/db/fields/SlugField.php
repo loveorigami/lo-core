@@ -17,6 +17,9 @@ class SlugField extends TextField
     /** Преффикс поведения */
     const BEHAVIOR_PREF = "slug";
 
+    /** @var bool */
+    public $isRequired = true;
+
     /** @var array параметры валидатора уникальности */
     public $uniqueParams = [];
 
