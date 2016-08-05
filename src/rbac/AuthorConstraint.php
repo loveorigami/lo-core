@@ -9,7 +9,7 @@ use yii\base\Object;
  * Class AuthorConstraint
  * Ограничение по автору модели
  * @package app\modules\main\rbac
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class AuthorConstraint extends Object implements IConstraint
 {

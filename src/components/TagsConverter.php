@@ -8,7 +8,7 @@ use yii\base\Object;
  * Class TagsConverter
  * Конвертор тегов формируемых виджетом \lo\core\widgets\SortedTags в массив идентификаторов моделей и обратно
  * @package lo\core\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TagsConverter extends Object {
 

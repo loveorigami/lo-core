@@ -7,7 +7,7 @@ use Yii;
  * Class PhpMatch
  * Php выражение
  * @package lo\core\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class PhpMatch extends Match
 {

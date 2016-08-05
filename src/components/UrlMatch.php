@@ -7,7 +7,7 @@ use Yii;
  * Class UrlMatch
  * Совпадение по URL
  * @package lo\core\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class UrlMatch extends Match
 {

@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class TUpdate
  * Класс действия обновления древовидных моделей
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TUpdate extends Update
 {

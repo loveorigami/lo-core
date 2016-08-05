@@ -11,7 +11,7 @@ use yii\base\InvalidConfigException;
  * Class DependDropDown
  * Виджет для организации зависимых списков
  * @package lo\core\widgets
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class DependDropDown extends InputWidget
 {

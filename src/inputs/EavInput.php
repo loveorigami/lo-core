@@ -10,7 +10,7 @@ use lo\modules\eav\models\EavAttribute;
  * Class HtmlInput
  * Html поле
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class EavInput extends BaseInput {
 

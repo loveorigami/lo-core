@@ -13,7 +13,7 @@ use lo\modules\eav\EavQueryTrait;
  * Class HtmlField
  * Поле WYSIWYG редактора. Использует CKEditor
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class EavField extends Field
 {

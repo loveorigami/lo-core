@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * Class AutoCompleteInput
  * Поле с автозаполнением
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class AutoCompleteInput extends BaseInput {
 

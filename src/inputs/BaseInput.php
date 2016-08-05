@@ -10,7 +10,7 @@ use \lo\core\db\fields\Field;
  * Class BaseInput
  * Базовый класс полей ввода форм
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 abstract class BaseInput extends Object
 {

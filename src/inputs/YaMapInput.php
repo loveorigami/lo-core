@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * Class YaMapInput
  * Поле выбора координат на яндекс карте
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class YaMapInput extends BaseInput
 {

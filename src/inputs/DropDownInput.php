@@ -15,7 +15,7 @@ use yii\helpers\Html;
  * Class DropDownInput
  * Выпадающий список
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class DropDownInput extends BaseInput
 {

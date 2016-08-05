@@ -6,7 +6,7 @@ namespace lo\core\helpers;
  * Class ConfigHelper
  * Хелпер для формирования конфигов
  * @package lo\core\helpers
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
 class ConfigHelper

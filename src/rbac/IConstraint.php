@@ -5,7 +5,7 @@ namespace lo\core\rbac;
  * Interface IConstraint
  * Интерфейс для создания правил ограничений прав доступа
  * @package lo\core\rbac
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
 interface IConstraint

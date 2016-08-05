@@ -8,7 +8,7 @@ use yii\base\Object;
  * Class Match
  * Базовый класс проверки условий
  * @package lo\core\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 abstract class Match extends Object
 {

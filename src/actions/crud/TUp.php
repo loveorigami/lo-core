@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class TUp
  * Класс действия для перемещения вверх древовидной модели
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TUp extends \lo\core\actions\Base
 {

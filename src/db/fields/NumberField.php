@@ -5,7 +5,7 @@ namespace lo\core\db\fields;
  * Class NumberField
  * Поле ввода чисел
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class NumberField extends Field
 {

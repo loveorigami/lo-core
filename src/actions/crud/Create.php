@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class Create
  * Класс действия создания элемента модели
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Create extends \lo\core\actions\Base
 {

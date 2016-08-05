@@ -9,7 +9,7 @@ use yii\web\ForbiddenHttpException;
  * Class TAdmin
  * Класс действия для вывода списка древовидных моделей для администрирования
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TIndex extends Index
 {

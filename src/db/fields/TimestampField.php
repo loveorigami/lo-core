@@ -5,7 +5,7 @@ namespace lo\core\db\fields;
  * Class TimestampField
  * Поле метки времени
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
 class TimestampField extends Field

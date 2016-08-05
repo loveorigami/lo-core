@@ -9,7 +9,7 @@ use yii\web\ForbiddenHttpException;
  * Class XEditable
  * Класс действия обновления модели через расширение XEditable
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class XEditable extends \lo\core\actions\Base
 {

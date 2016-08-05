@@ -12,7 +12,7 @@ use lo\core\widgets\App;
  * Class TreeList
  * Виджет для вывода дерева. Отображаемая сущность должна наследовать \lo\core\db\TActiveRecord
  * @package app\modules\main\widgets\treelist
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TreeList extends Menu
 {

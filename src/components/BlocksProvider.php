@@ -10,7 +10,7 @@ use yii\base\Object;
  * символьный идентификатор включаемой области или меню. Это необходимо для того, чтобы компоненты сайта могли динамичеки
  * переопределять подключаемы области.
  * @package app\modules\main\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class BlocksProvider extends Object
 {

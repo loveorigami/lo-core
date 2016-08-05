@@ -8,7 +8,7 @@ use yii\web\AssetBundle;
  * Class YaMapInput
  * Ассет виджета выбора координат
  * @package lo\core\widgets\yamap
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class YaMapInputAsset extends AssetBundle
 {

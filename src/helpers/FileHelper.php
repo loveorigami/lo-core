@@ -10,7 +10,7 @@ use yii\helpers\FileHelper as YiiFileHelper;
  * Class FileHelper
  * Содержит методы для аботы с файлами
  * @package lo\core\helpers
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class FileHelper extends YiiFileHelper
 {

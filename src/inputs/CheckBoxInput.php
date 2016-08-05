@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
  * Class CheckBoxInput
  * Чекбокс
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class CheckBoxInput extends BaseInput {
 

@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class TDown
  * Класс действия для перемещения вниз древовидной модели
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TDown extends \lo\core\actions\Base
 {

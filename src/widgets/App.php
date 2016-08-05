@@ -8,7 +8,7 @@ use yii\base\Widget;
  * Class App
  * Базовый класс для виджетов приложения
  * @package lo\core\widgets
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class App extends Widget
 {

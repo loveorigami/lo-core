@@ -9,7 +9,7 @@ use lo\core\db\ActiveRecord;
  * Class ListField
  * Списочное поле модели. Поддерживает возможность создания зависимых списков.
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ListField extends Field
 {

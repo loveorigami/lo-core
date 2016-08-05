@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
  * Class CodeField
  * Поле символьного кода
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class SlugField extends TextField
 {

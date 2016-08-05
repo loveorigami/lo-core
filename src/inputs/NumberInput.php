@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * Class NumberInput
  * Поле ввода чисел
  * @package common\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class NumberInput extends BaseInput {
 

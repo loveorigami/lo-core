@@ -9,7 +9,7 @@ use yii\helpers\Html;
  * Class CrudLinks
  * Класс для отображения ссылок на CRUD действия
  * @package lo\core\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class CrudLinks extends Widget
 {

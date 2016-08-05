@@ -9,7 +9,7 @@ use yii\helpers\Html;
  * Class ActionButton
  * Кнопка групповых действий над элементами грида \lo\core\widgets\admin\Grid
  * @package lo\core\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ActionButton extends Widget
 {

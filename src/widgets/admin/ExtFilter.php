@@ -8,7 +8,7 @@ use yii\base\Widget;
  * Class ExtFilter
  * Форма расширенного фильтра модели для админки. Формируется на основе \common\db\MetaFields модели
  * @package common\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ExtFilter extends Widget
 {

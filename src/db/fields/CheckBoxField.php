@@ -21,7 +21,7 @@ use lo\core\inputs;
  *          "params" => [$this->owner, "status"]
  *      ],
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class CheckBoxField extends Field
 {

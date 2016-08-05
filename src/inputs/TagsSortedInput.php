@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * Class SortedTagsInput
  * Список тегов с возможностью сортировки
  * @package lo\core\inputs
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TagsSortedInput extends BaseInput
 {

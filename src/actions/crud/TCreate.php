@@ -10,7 +10,7 @@ use yii\web\ForbiddenHttpException;
  * Class TCreate
  * Класс действия создания элемента древовидной модели
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TCreate extends Create
 {

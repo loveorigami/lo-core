@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * Class ManyManySortField
  * Поле для связи ManyMany с возможностью сортировки привязанных элементов
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ManyManySortField extends ManyManyField
 {

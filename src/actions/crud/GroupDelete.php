@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class GroupDelete
  * Класс для группового удаления моделей
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class GroupDelete extends \lo\core\actions\Base
 {

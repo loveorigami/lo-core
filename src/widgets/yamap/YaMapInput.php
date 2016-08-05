@@ -12,7 +12,7 @@ use Yii;
  * Class YaMapInput
  * Виджет выбора координат с помощью яндекс карты
  * @package lo\core\widgets\yamap
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class YaMapInput extends InputWidget
 {

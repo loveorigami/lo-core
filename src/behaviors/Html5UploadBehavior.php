@@ -7,7 +7,7 @@ use Yii;
  * Class Html5UploadBehavior
  * Поведение для загрузки файлов через html5 виджет через ajax
  * @package common\behaviors
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Html5UploadBehavior extends UploadBehavior
 {

@@ -6,7 +6,7 @@ namespace lo\core\db\fields;
  * Class YaMapField
  * Поле выбора координат на яндекс карте
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
 

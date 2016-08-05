@@ -8,7 +8,7 @@ use yii\base\Widget;
  * Class Detail
  * Виджет детального просмотра. Формируется на основе \common\db\MetaFields модели
  * @package common\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Detail extends Widget
 {

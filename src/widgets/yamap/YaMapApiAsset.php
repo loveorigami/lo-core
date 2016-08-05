@@ -8,7 +8,7 @@ use yii\web\AssetBundle;
  * Class YaMapApiInput
  * Ассет подключения API яндекс карт
  * @package lo\core\widgets\yamap
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class YaMapApiAsset extends AssetBundle
 {

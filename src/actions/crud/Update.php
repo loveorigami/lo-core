@@ -8,7 +8,7 @@ use yii\web\ForbiddenHttpException;
  * Class Update
  * Класс действия обновления модели
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Update extends \lo\core\actions\Base
 {

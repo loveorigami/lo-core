@@ -8,7 +8,7 @@ use yii\caching\Dependency;
  * Class TagDependency
  * Зависимость тегтрованного кеша
  * @package lo\core\cache
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TagDependency extends Dependency
 {

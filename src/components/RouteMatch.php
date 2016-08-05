@@ -7,7 +7,7 @@ use Yii;
  * Class RouteMatch
  * Совпадение с текущим маршрутом
  * @package lo\core\components
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class RouteMatch extends Match
 {

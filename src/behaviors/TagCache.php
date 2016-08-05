@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  * Поведение тегированного кеширования
  * @package lo\core\behaviors
  * @property \lo\core\db\ActiveRecord $owner
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TagCache extends Behavior
 {

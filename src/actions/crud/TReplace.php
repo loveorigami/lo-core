@@ -11,7 +11,7 @@ use yii\web\ForbiddenHttpException;
  * Class TReplace
  * Класс действия для перемещения древовидных моделей в иерархии
  * @package lo\core\actions\crud
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TReplace extends \lo\core\actions\Base
 {

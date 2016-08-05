@@ -5,7 +5,7 @@ namespace lo\core\db\fields;
  * Class ParentListField
  * Поле для привязки древовидных моделей к родителю
  * @package lo\core\db\fields
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
 class ParentListField extends ListField

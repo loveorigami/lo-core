@@ -10,7 +10,7 @@ use yii\helpers\Json;
  * Class YaMap
  * Виджет отображения Яндекс карты
  * @package lo\core\widgets\yamap
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class YaMap extends Widget
 {

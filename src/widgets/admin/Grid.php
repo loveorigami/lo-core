@@ -14,7 +14,7 @@ use yii\helpers\Url;
  * @property array $groupButtons кнопки групповых операций
  * @property string $baseRoute базовая часть маршрута для формировнаия url действий
  * @package lo\core\widgets\admin
- * @author Churkin Anton <webadmin87@gmail.com>
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Grid extends Widget
 {
