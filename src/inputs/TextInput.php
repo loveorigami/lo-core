@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
  * Class TextInput
  * Текстовое поле
  * @package lo\core\inputs
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TextInput extends BaseInput {
 

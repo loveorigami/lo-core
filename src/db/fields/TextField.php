@@ -7,6 +7,7 @@ use lo\core\db\ActiveQuery;
  * Class TextField
  * Текстовое поле модели.
  * @package lo\core\db\fields
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TextField extends BaseField
 {

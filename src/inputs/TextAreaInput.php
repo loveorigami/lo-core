@@ -24,8 +24,6 @@ class TextAreaInput extends BaseInput {
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $this->modelField->attr), $this->widgetOptions)->textarea($options);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->widgetOptions)->textarea($options);
     }
-
-
 } 
