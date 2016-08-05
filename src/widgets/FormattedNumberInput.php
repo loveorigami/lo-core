@@ -9,7 +9,7 @@ use yii\widgets\InputWidget;
 /**
  * Class FormattedNumberInput
  * Виджет ввода чисел с форматированием
- * @package common\widgets
+ * @package lo\core\widgets
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class FormattedNumberInput extends InputWidget
