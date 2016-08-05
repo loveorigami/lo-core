@@ -7,11 +7,11 @@ use lo\core\helpers\FileHelper;
 use lo\core\inputs;
 
 /**
- * Class ElfinderImageField
- * Для загрузки изображений через elfinder
+ * Class ImageField
+ * Для загрузки изображений
  *  "image" => [
  *      "definition" => [
- *          "class" => fields\ElfinderImageField::class,
+ *          "class" => fields\ImageField::class,
  *          "title" => Yii::t('backend', 'Image'),
  *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
  *          "inputClassOptions" => [
@@ -24,7 +24,7 @@ use lo\core\inputs;
  *  ],
  * @package lo\core\db\fields
  */
-class ElfinderImageField extends ElfinderFileField
+class ImageField extends FileField
 {
     public $showInGrid = true;
     public $showInFilter = false;

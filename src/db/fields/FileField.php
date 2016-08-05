@@ -9,7 +9,7 @@ use lo\core\inputs\ElfinderFileInput;
  * Поле WYSIWYG редактора. Использует Elfinder
  * @package lo\core\db\fields
  */
-class ElfinderFileField extends BaseField
+class FileField extends BaseField
 {
     /**
      * @inheritdoc
