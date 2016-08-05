@@ -58,7 +58,7 @@
   },
   "autoload": {
     "psr-4": {
-      "lo\\core\\": ""
+      "lo\\core\\": "src/"
     }
   }
 }
