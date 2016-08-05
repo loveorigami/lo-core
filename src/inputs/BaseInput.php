@@ -4,7 +4,7 @@ namespace lo\core\inputs;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
 use yii\widgets\ActiveForm;
-use \lo\core\db\fields\Field;
+use \lo\core\db\fields\BaseField;
 
 /**
  * Class BaseInput
@@ -15,7 +15,7 @@ use \lo\core\db\fields\Field;
 abstract class BaseInput extends Object
 {
     /**
-     * @var Field поле модели
+     * @var BaseField поле модели
      */
     public $modelField;
 
@@ -45,8 +45,8 @@ abstract class BaseInput extends Object
      */
     public function init()
     {
-        if (empty($this->modelField) OR !$this->modelField instanceof Field)
-            throw new InvalidConfigException("Property 'modelField' must be instance of " . Field::className());
+        if (empty($this->modelField) OR !$this->modelField instanceof BaseField)
+            throw new InvalidConfigException("Property 'modelField' must be instance of " . BaseField::class);
     }
 
     /**
