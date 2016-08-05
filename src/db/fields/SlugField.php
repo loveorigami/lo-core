@@ -2,42 +2,35 @@
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
+use lo\core\inputs\SlugInput;
 use yii\helpers\ArrayHelper;
+use Zelenin\yii\behaviors\Slug;
 
 /**
- * Class CodeField
+ * Class SlugField
  * Поле символьного кода
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class SlugField extends TextField
 {
-
-    /**
-     * Преффикс поведения
-     */
+    /** Преффикс поведения */
     const BEHAVIOR_PREF = "slug";
 
-    /**
-     * @var array параметры валидатора уникальности
-     */
-
+    /** @var array параметры валидатора уникальности */
     public $uniqueParams = [];
 
-    /**
-     * @var string атрибут из которого генерировать символьный код
-     */
-
+    /** @var string атрибут из которого генерировать символьный код */
     public $generateFrom;
 
-    /**
-     * @var array настройки поведения генерации символьного кода
-     */
-
+    /** @var array настройки поведения генерации символьного кода */
     public $slugOptions = [];
 
+    /** @var string */
+    public $inputClass = SlugInput::class;
+
     /**
-     * @inheritdoc
+     * @return array
      */
     public function behaviors()
     {
@@ -48,7 +41,7 @@ class SlugField extends TextField
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
             $parent[$code] = ArrayHelper::merge([
-                'class' => \Zelenin\yii\behaviors\Slug::className(),
+                'class' => Slug::class,
                 'slugAttribute' => $this->attr,
                 'attribute' => $this->generateFrom,
                 'ensureUnique' => true,
@@ -56,22 +49,19 @@ class SlugField extends TextField
                 'lowercase' => true,
                 'immutable' => true,
                 'uniqueValidator' => $this->uniqueParams,
-                'transliterateOptions' => 'Russian-Latin/BGN;'
+                'transliterateOptions' => 'Russian-Latin/BGN; Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFKC; [ʹ, ʺ] Remove; [:Punctuation:] Remove;'
             ], $this->slugOptions);
-
         }
 
         return $parent;
     }
 
-
     /**
-     * @inheritdoc
+     * Правила валидации
+     * @return array
      */
-
     public function rules()
     {
-
         $rules = parent::rules();
 
         if(empty($this->generateFrom)){
@@ -81,7 +71,6 @@ class SlugField extends TextField
         $rules[] = [$this->attr, 'match', 'pattern' => '/^[A-z0-9_-]+$/i'];
 
         return $rules;
-
     }
 
 }
