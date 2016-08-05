@@ -12,11 +12,12 @@ use lo\core\grid\XEditableColumn;
 use lo\core\inputs;
 
 /**
- * Class Field
+ * Class BaseField
  * Базовый класс полей.
  * @package lo\core\db\fields
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Field extends Object
+class BaseField extends Object
 {
     /** @var ActiveRecord модель */
     public $model;

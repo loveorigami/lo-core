@@ -23,7 +23,7 @@ use lo\core\inputs;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class CheckBoxField extends Field
+class CheckBoxField extends BaseField
 {
 
     /**

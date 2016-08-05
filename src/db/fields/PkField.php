@@ -7,7 +7,7 @@ namespace lo\core\db\fields;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class PkField extends Field
+class PkField extends BaseField
 {
 
     /**

@@ -8,7 +8,7 @@ namespace lo\core\db\fields;
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 
-class TimestampField extends Field
+class TimestampField extends BaseField
 {
 
     /**

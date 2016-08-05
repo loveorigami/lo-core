@@ -15,7 +15,7 @@ use lo\modules\eav\EavQueryTrait;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class EavField extends Field
+class EavField extends BaseField
 {
     public $showInGrid = false;
     public $showInFilter = false;

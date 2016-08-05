@@ -8,7 +8,7 @@ use lo\core\db\ActiveQuery;
  * Текстовое поле модели.
  * @package lo\core\db\fields
  */
-class TextField extends Field
+class TextField extends BaseField
 {
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ use lo\core\db\ActiveRecord;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class ListField extends Field
+class ListField extends BaseField
 {
 
 	/**
