@@ -34,7 +34,7 @@ class TranslitInput extends BaseInput
             'template' => '{label}
                     <div class="input-group">{input}
                         <div class="input-group-btn">
-                                <a href="#"  class="btn btn-primary" onclick="generateSlug(); return false;">
+                                <a href="#" class="btn btn-primary" onclick="generateSlug(); return false;">
                                     <i class="fa fa-exchange"></i>
                                 </a>
                         </div>
