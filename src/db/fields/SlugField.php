@@ -2,7 +2,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
-use lo\core\inputs\SlugInput;
+use lo\core\inputs\TranslitInput;
 use yii\helpers\ArrayHelper;
 use Zelenin\yii\behaviors\Slug;
 
@@ -30,7 +30,7 @@ class SlugField extends TextField
     public $slugOptions = [];
 
     /** @var string */
-    public $inputClass = SlugInput::class;
+    public $inputClass = TranslitInput::class;
 
     /**
      * @return array

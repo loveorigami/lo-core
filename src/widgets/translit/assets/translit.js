@@ -1,10 +1,8 @@
-function transliteration(text, suf) {
+function transliteration(text) {
 // Символ, на который будут заменяться все спецсимволы
     var space = '-';
 // Берем значение из нужного поля и переводим в нижний регистр
-    var text = text.toLowerCase();
-
-    var suf = (suf != '0') ? '.html' : '';
+    var txt = text.toLowerCase();
 
 // Массив для транслитерации
     var transl = {
@@ -24,22 +22,22 @@ function transliteration(text, suf) {
     var result = '';
     var curent_sim = '';
 
-    for (i = 0; i < text.length; i++) {
+    for (i = 0; i < txt.length; i++) {
         // Если символ найден в массиве то меняем его
-        if (transl[text[i]] != undefined) {
-            if (curent_sim != transl[text[i]] || curent_sim != space) {
-                result += transl[text[i]];
-                curent_sim = transl[text[i]];
+        if (transl[txt[i]] != undefined) {
+            if (curent_sim != transl[txt[i]] || curent_sim != space) {
+                result += transl[txt[i]];
+                curent_sim = transl[txt[i]];
             }
         }
         // Если нет, то оставляем так как есть
         else {
-            result += text[i];
-            curent_sim = text[i];
+            result += txt[i];
+            curent_sim = txt[i];
         }
     }
 
-    result = TrimStr(result + suf);
+    result = TrimStr(result);
 
 // Выводим результат
     return result;

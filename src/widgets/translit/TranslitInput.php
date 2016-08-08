@@ -3,6 +3,7 @@
 namespace lo\core\widgets\translit;
 
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\InputWidget;
 
 /**
@@ -13,6 +14,9 @@ use yii\widgets\InputWidget;
 class TranslitInput extends InputWidget
 {
     /** @var string */
+    public $generateTo;
+
+    /** @var string */
     public $generateFrom;
 
     /**
@@ -22,11 +26,28 @@ class TranslitInput extends InputWidget
     public function init()
     {
         parent::init();
+
         TranslitInputAsset::register($this->view);
 
-        $this->view->registerJs("
+        $from = $this->generateFrom;
+        $to = $this->generateTo;
 
-        ");
+        $this->view->registerJs("
+            function generateSlug()
+            {
+                var name = $('#$from').val();
+                var old_slug = $('#$to').val();
+                
+                if(!old_slug){
+                    new_slug = transliteration(name);
+                    $('#$to').val(new_slug);
+                }
+                else{
+                    alert('Поле не пустое!');
+                }
+               
+            }
+        ", View::POS_END);
     }
 
     /**

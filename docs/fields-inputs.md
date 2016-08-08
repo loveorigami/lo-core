@@ -5,9 +5,10 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
 - PkField  
 - TextField 
     - TextInput
-- SlugField ```extends``` TextField
+- SlugField ```extends TextField```
     - SlugInput
-- TextAreaField ```extends``` TextField
+    - TranslitInput ```use lo\core\widgets\translit\TranslitInput``` for RU translitiration
+- TextAreaField ```extends TextField```
     - TextAreaInput
 - HtmlField 
     - CKEditorInput
