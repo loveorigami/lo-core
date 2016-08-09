@@ -15,7 +15,6 @@ use yii\base\InvalidConfigException;
  */
 class DateRangeInput extends BaseInput
 {
-
     /**
      * @var string атрибут от
      */

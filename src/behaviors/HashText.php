@@ -1,7 +1,6 @@
 <?php
 namespace lo\core\behaviors;
 
-use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\validators\Validator;
@@ -15,7 +14,6 @@ use yii\validators\Validator;
  */
 class HashText extends Behavior
 {
-
     /**
      * @var string
      */
@@ -41,9 +39,7 @@ class HashText extends Behavior
 
         $validator = Validator::createValidator('unique', $model, $this->hashAttribute);
         $validator->validateAttribute($model, $this->hashAttribute);
-
     }
-
 
     private function getHash()
     {
@@ -68,7 +64,5 @@ class HashText extends Behavior
         $str = md5($str);
 
         return $str;
-
     }
-
 }

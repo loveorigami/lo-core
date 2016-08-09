@@ -2,17 +2,21 @@
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
-
+use lo\core\behaviors\HashText;
+use lo\core\inputs\ReadOnlyInput;
 
 /**
  * Class HashField
- * Поле символьного кода
+ * Поле хеша
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class HashField extends TextField
 {
+    /**
+     * @inheritdoc
+     */
+    public $inputClass = ReadOnlyInput::class;
 
     /**
      * Преффикс поведения
@@ -22,9 +26,7 @@ class HashField extends TextField
     /**
      * @var string атрибут из которого генерировать хеш
      */
-
     public $generateFrom = 'text';
-
 
     /**
      * @inheritdoc
@@ -33,19 +35,17 @@ class HashField extends TextField
     {
         $parent = parent::behaviors();
 
-        if(!empty($this->generateFrom) AND $this->model->scenario != ActiveRecord::SCENARIO_SEARCH) {
+        if (!empty($this->generateFrom) AND $this->model->scenario != ActiveRecord::SCENARIO_SEARCH) {
 
             $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
             $parent[$code] = [
-                'class' => \lo\core\behaviors\HashText::className(),
+                'class' => HashText::class,
                 'hashAttribute' => $this->attr,
                 'attribute' => $this->generateFrom,
             ];
-
         }
 
         return $parent;
     }
-
 }

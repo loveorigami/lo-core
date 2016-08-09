@@ -8,7 +8,9 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - NumberSpinInput ```use kartik\touchspin\TouchSpin```
 - TextField 
     - TextInput
-- SlugField ```extends TextField```
+- HashField ```extends TextField``` and ```use lo\core\behaviors\HashText```
+    - ReadOnlyInput
+- SlugField ```extends TextField``` and ```use Zelenin\yii\behaviors\Slug```
     - SlugInput
     - TranslitInput ```use lo\core\widgets\translit\TranslitInput``` for RU translitiration
 - TextAreaField ```extends TextField```
