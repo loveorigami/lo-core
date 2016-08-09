@@ -63,7 +63,7 @@ class NumberField extends BaseField
     protected function grid()
     {
         $grid = $this->defaultGrid();
-        //$grid["format"] = "decimal";
+        $grid["format"] = "decimal";
         return $grid;
     }
 
@@ -73,7 +73,7 @@ class NumberField extends BaseField
     protected function view()
     {
         $view = $this->defaultView();
-        //$view['format'] = 'decimal';
+        $view['format'] = 'decimal';
         return $view;
     }
 }
