@@ -1,6 +1,8 @@
 <?php
 namespace lo\core\db\fields;
 
+use lo\core\inputs\NumberInput;
+
 /**
  * Class NumberField
  * Поле ввода чисел
@@ -9,11 +11,10 @@ namespace lo\core\db\fields;
  */
 class NumberField extends BaseField
 {
-
     /**
      * @inheritdoc
      */
-    public $inputClass = "\\lo\\core\\inputs\\NumberInput";
+    public $inputClass = NumberInput::class;
 
     /**
      * @var bool число должно быть целым
@@ -34,10 +35,8 @@ class NumberField extends BaseField
      * Правила валидации
      * @return array
      */
-
     public function rules()
     {
-
         $rules = parent::rules();
 
 	    $numberValidator = [$this->attr, 'number', 'integerOnly'=>$this->integerOnly];
@@ -63,13 +62,9 @@ class NumberField extends BaseField
      */
     protected function grid()
     {
-
         $grid = $this->defaultGrid();
-
-        $grid["format"] = "decimal";
-
+        //$grid["format"] = "decimal";
         return $grid;
-
     }
 
     /**
@@ -77,13 +72,8 @@ class NumberField extends BaseField
      */
     protected function view()
     {
-
         $view = $this->defaultView();
-
-        $view['format'] = 'decimal';
-
+        //$view['format'] = 'decimal';
         return $view;
-
     }
-
 }

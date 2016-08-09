@@ -3,6 +3,9 @@
 Field (lo\core\db\fields)  Input (lo\core\inputs)
 
 - PkField  
+- NumberField ```extends BaseField```
+    - NumberInput ```use lo\core\widgets\FormattedNumberInput```
+    - NumberSpinInput ```use kartik\touchspin\TouchSpin```
 - TextField 
     - TextInput
 - SlugField ```extends TextField```
