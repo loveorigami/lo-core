@@ -36,7 +36,7 @@ class DateRangeInput extends BaseInput
         'separator' => '-',
         'pluginOptions' => [
             'format' => 'yyyy-mm-dd',
-            'autoclose' => true,
+            'autoclose' => false,
             'todayHighlight' => true,
             'todayBtn' => true,
         ]
