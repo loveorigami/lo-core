@@ -4,7 +4,7 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use lo\core\widgets\DateTimePicker;
+use kartik\date\DatePicker;
 use yii\widgets\ActiveForm;
 use yii\base\InvalidConfigException;
 
@@ -96,10 +96,23 @@ class DateRangeInput extends BaseInput
             "options" => ["class" => "form-group col-xs-6"],
         ];
 
-        $html = Html::beginTag('div', ['class' => 'row']);
-        $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
-        $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
-        $html .= Html::endTag('div');
+
+        /*        $html = Html::beginTag('div', ['class' => 'row']);
+                $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
+                $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
+                $html .= Html::endTag('div');*/
+
+// Usage with model and Active Form (with no default initial value)
+        $html = $form->field($this->getModel(), $this->fromAttr)->widget(DatePicker::class, [
+            'attribute2' => $this->toAttr,
+            'type' => DatePicker::TYPE_RANGE,
+            'options' => [
+                'placeholder' => 'Enter birth date ...',
+            ],
+            'pluginOptions' => [
+                'autoclose' => true
+            ]
+        ]);
 
         return $html;
     }
