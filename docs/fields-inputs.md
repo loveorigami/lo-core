@@ -7,7 +7,7 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - NumberInput ```use lo\core\widgets\FormattedNumberInput```
     - NumberSpinInput ```use kartik\touchspin\TouchSpin```
 - TimestampField ```extends BaseField```
-    - DateRangeInput ```use dosamigos\datepicker\DatePicker```
+    - DateRangeInput ```use kartik\date\DatePicker```
 - TextField 
     - TextInput
 - HashField ```extends TextField``` and ```use lo\core\behaviors\HashText```
