@@ -48,6 +48,7 @@
     "kartik-v/yii2-widget-select2": "@dev",
     "kartik-v/yii2-widget-fileinput": "@dev",
     "kartik-v/yii2-widget-touchspin": "*",
+	"kartik-v/yii2-widget-datepicker": "@dev",
     "zelenin/yii2-slug-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
 	"karnbrockgmbh/yii2-modal-ajax": "@dev",

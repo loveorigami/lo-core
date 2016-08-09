@@ -10,7 +10,6 @@ namespace lo\core\db\fields;
 
 class TimestampField extends BaseField
 {
-
     /**
      * @inheritdoc
      */
@@ -19,7 +18,6 @@ class TimestampField extends BaseField
     /**
      * @inheritdoc
      */
-
     public $showInTableInput = false;
 
     /**
@@ -37,19 +35,13 @@ class TimestampField extends BaseField
      */
     protected function grid()
     {
-
         $grid = parent::grid();
-
-        $grid["attribute"] = $grid["attribute"];
-
         $grid["format"] = "datetime";
-
         $grid['headerOptions'] = [
             'style' => 'width: 100px;',
         ];
 
         return $grid;
-
     }
 
     /**
@@ -57,13 +49,9 @@ class TimestampField extends BaseField
      */
     protected function view()
     {
-
         $view = parent::view();
-
         $view["format"] = "datetime";
-
         return $view;
-
     }
 
 }

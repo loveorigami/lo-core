@@ -54,7 +54,7 @@ class DateRangeInput extends BaseInput
      * ```
      * @var array
      */
-    public $options = [
+    protected $defaultOptions = [
         'language' => 'ru',
         'inline' => false,
         'clientOptions' => [
@@ -76,7 +76,6 @@ class DateRangeInput extends BaseInput
         }
     }
 
-
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
@@ -86,7 +85,7 @@ class DateRangeInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        $options = ArrayHelper::merge($this->options, $options);
+        $options = ArrayHelper::merge($this->defaultOptions, $this->options, $options);
 
         $widgetOptions = ArrayHelper::merge([
             "options" => ["class" => "form-control"]],
@@ -104,6 +103,4 @@ class DateRangeInput extends BaseInput
 
         return $html;
     }
-
-
-} 
+}
