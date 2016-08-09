@@ -42,6 +42,7 @@
 	
 	"mihaildev/yii2-elfinder": "*",
     "loveorigami/yii2-ckeditor": "*",
+    "as-milano/yii2-tinymce": "*",
     "2amigos/yii2-selectize-widget": "~1.0",
     "2amigos/yii2-date-picker-widget" : "*",
     "kartik-v/yii2-widget-select2": "@dev",

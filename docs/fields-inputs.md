@@ -11,7 +11,8 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
 - TextAreaField ```extends TextField```
     - TextAreaInput
 - HtmlField 
-    - CKEditorInput
+    - CKEditorInput ```use mihaildev\ckeditor\CKEditor```
+    - TinyMceInput ```use milano\tinymce\TinyMce```
 - FileField 
 - ImageField
     - ElfinderImageField
