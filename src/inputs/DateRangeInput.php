@@ -3,8 +3,7 @@
 namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use kartik\date\DatePicker;
+use lo\core\widgets\DatePicker;
 use yii\widgets\ActiveForm;
 use yii\base\InvalidConfigException;
 
@@ -27,42 +26,18 @@ class DateRangeInput extends BaseInput
 
     /**
      * Опции по умолчанию
-     * ```php
-     *  public $options = [
-     *      'language' => 'ru',
-     *      'size' => 'ms',
-     *      'template' => '{input}',
-     *      'inline' => false,
-     *      'clientOptions' => [
-     *          'allowInputToggle' => false,
-     *          'sideBySide' => true,
-     *          'locale' => 'ru',
-     *          'format' => 'yyyy-mm-dd',
-     *          'startView' => 2,
-     *          'minView' => 0,
-     *          'maxView' => 1,
-     *          'autoclose' => true,
-     *          'linkFormat' => 'HH:ii P', // if inline = true
-     *          'format' => 'HH:ii P', // if inline = false
-     *          'todayBtn' => true,
-     *          'widgetPositioning' => [
-     *              'horizontal' => 'auto',
-     *              'vertical' => 'auto'
-     *          ]
-     *      ]
-     *  ];
-     * ```
      * @var array
      */
     protected $defaultOptions = [
         'language' => 'ru',
-        'inline' => false,
-        'clientOptions' => [
-            'allowInputToggle' => false,
-            'sideBySide' => true,
-            'locale' => 'ru',
+        'type' => DatePicker::TYPE_RANGE,
+        'options' => ['placeholder' => 'Start date'],
+        'options2' => ['placeholder' => 'End date'],
+        'separator' => '-',
+        'pluginOptions' => [
             'format' => 'yyyy-mm-dd',
             'autoclose' => true,
+            'todayHighlight' => true,
             'todayBtn' => true,
         ]
     ];
@@ -87,33 +62,11 @@ class DateRangeInput extends BaseInput
     {
         $options = ArrayHelper::merge($this->defaultOptions, $this->options, $options);
 
-        $widgetOptions = ArrayHelper::merge([
-            "options" => ["class" => "form-control"]],
-            $this->widgetOptions, $options
+        $widgetOptions = ArrayHelper::merge(
+            $this->widgetOptions, $options, ['attribute2' => $this->toAttr]
         );
 
-        $fieldOptions = [
-            "options" => ["class" => "form-group col-xs-6"],
-        ];
+        return $form->field($this->getModel(), $this->fromAttr)->widget(DatePicker::class, $widgetOptions);
 
-
-        /*        $html = Html::beginTag('div', ['class' => 'row']);
-                $html .= $form->field($this->modelField->model, $this->fromAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
-                $html .= $form->field($this->modelField->model, $this->toAttr, $fieldOptions)->widget(DateTimePicker::class, $widgetOptions);
-                $html .= Html::endTag('div');*/
-
-// Usage with model and Active Form (with no default initial value)
-        $html = $form->field($this->getModel(), $this->fromAttr)->widget(DatePicker::class, [
-            'attribute2' => $this->toAttr,
-            'type' => DatePicker::TYPE_RANGE,
-            'options' => [
-                'placeholder' => 'Enter birth date ...',
-            ],
-            'pluginOptions' => [
-                'autoclose' => true
-            ]
-        ]);
-
-        return $html;
     }
 }
