@@ -33,7 +33,7 @@ class TreeList extends Menu
     public $urlCreate;
 
     /**
-     * @var callable функция для модификации запроса. Принимает аргументом \common\db\TActiveQuery
+     * @var callable функция для модификации запроса. Принимает аргументом \lo\core\db\TActiveQuery
      */
     public $queryModify;
 

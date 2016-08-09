@@ -62,7 +62,7 @@ class TagDependency extends Dependency
 
     /**
      * Устанавливает теги из массива моделей
-     * @param \common\db\ActiveRecord[] $models
+     * @param \lo\core\db\ActiveRecord[] $models
      */
 
     public function setTagsFromModels($models)

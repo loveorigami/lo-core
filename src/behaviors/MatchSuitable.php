@@ -8,7 +8,7 @@ use yii\base\Behavior;
 /**
  * Class MatchSuitable
  * Поведение для определения того, что выполняется заданное у модели условие
- * @package common\behaviors
+ * @package lo\core\behaviors
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class MatchSuitable extends Behavior {

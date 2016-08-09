@@ -72,7 +72,7 @@ class View extends YiiView
 
     /**
      * Регистрирует мета-теги
-     * @param \common\db\ActiveRecord $model
+     * @param \lo\core\db\ActiveRecord $model
      */
 
     public function registerMetaTags($model)

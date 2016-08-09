@@ -9,7 +9,7 @@ use lo\core\db\MetaFields;
 
 /**
  * Class Form
- * Форма модели для админки. Формируется на основе \common\db\MetaFields модели
+ * Форма модели для админки. Формируется на основе \lo\core\db\MetaFields модели
  * @property array $tplDir директории где хранятся шаблоны
  * @package lo\core\widgets\admin
  */

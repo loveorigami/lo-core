@@ -6,8 +6,8 @@ use yii\base\Widget;
 
 /**
  * Class ExtFilter
- * Форма расширенного фильтра модели для админки. Формируется на основе \common\db\MetaFields модели
- * @package common\widgets\admin
+ * Форма расширенного фильтра модели для админки. Формируется на основе \lo\core\db\MetaFields модели
+ * @package lo\core\widgets\admin
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ExtFilter extends Widget
@@ -20,7 +20,7 @@ class ExtFilter extends Widget
     const FORM_ID_PREF = "ext-form-";
 
     /**
-     * @var \common\db\ActiveRecord модель
+     * @var \lo\core\db\ActiveRecord модель
      */
 
     public $model;

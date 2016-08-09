@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /**
  * Class NumberSpinInput
  * Поле ввода чисел
- * @package common\inputs
+ * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class NumberSpinInput extends BaseInput {

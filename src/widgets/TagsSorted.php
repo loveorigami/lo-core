@@ -7,7 +7,7 @@ use yii\jui\JuiAsset;
 /**
  * Class SortedTags
  * Реализует выбор тегов из выпадающего списка с возможностью их сортировки. Формирует данные в виде строки вида "#id название"
- * @package common\widgets
+ * @package lo\core\widgets
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TagsSorted extends \dosamigos\selectize\SelectizeTextInput

@@ -7,7 +7,7 @@ use yii\web\ForbiddenHttpException;
 /**
  * Class TDelete
  * Класс действия для удаления древовидной модели
- * @package common\actions\crud
+ * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TDelete extends Delete

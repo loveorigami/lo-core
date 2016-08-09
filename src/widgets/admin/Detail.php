@@ -6,8 +6,8 @@ use yii\base\Widget;
 
 /**
  * Class Detail
- * Виджет детального просмотра. Формируется на основе \common\db\MetaFields модели
- * @package common\widgets\admin
+ * Виджет детального просмотра. Формируется на основе \lo\core\db\MetaFields модели
+ * @package lo\core\widgets\admin
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Detail extends Widget
@@ -20,7 +20,7 @@ class Detail extends Widget
     const DETAIL_ID_PREF = "detail-";
 
     /**
-     * @var \common\db\ActiveRecord модель
+     * @var \lo\core\db\ActiveRecord модель
      */
 
     public $model;
