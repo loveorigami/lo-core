@@ -2,7 +2,6 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\db\ActiveRecord;
 use lo\core\inputs\ElfinderFileInput;
 use Yii;
 
@@ -35,29 +34,10 @@ class FileField extends BaseField
     public $inputClass = ElfinderFileInput::class;
 
     /** @var string путь для файлового хранилища */
-    public $_storagePath;
+    protected $_storagePath;
 
     /** @var string Url для файлового хранилища */
-    public $_storageUrl;
-
-    /**
-     * Конструктор
-     * @param ActiveRecord $model модель
-     * @param string $attr атрибут
-     * @param array $config массив значений атрибутов
-     */
-    public function __construct(ActiveRecord $model, $attr, $config = [])
-    {
-        parent::__construct($model, $attr, $config);
-
-        if (!$this->storagePath) {
-            $this->storagePath = Yii::getAlias('@storage');
-        }
-
-        if (!$this->storageUrl) {
-            $this->storageUrl = Yii::getAlias('@storageUrl');
-        }
-    }
+    protected $_storageUrl;
 
     /**
      * @inheritdoc
