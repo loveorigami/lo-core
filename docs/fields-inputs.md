@@ -8,7 +8,9 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - NumberSpinInput ```use kartik\touchspin\TouchSpin```
 - TimestampField ```extends BaseField```
     - DateRangeInput ```use kartik\date\DatePicker```
-- TextField 
+- HiddenField ```extends BaseField```
+    - HiddenInput
+- TextField ```extends BaseField```
     - TextInput
 - HashField ```extends TextField``` and ```use lo\core\behaviors\HashText```
     - ReadOnlyInput
@@ -17,7 +19,7 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - TranslitInput ```use lo\core\widgets\translit\TranslitInput``` for RU translitiration
 - TextAreaField ```extends TextField```
     - TextAreaInput
-- HtmlField 
+- HtmlField ```extends TextAreaField```
     - CKEditorInput ```use mihaildev\ckeditor\CKEditor```
     - TinyMceInput ```use milano\tinymce\TinyMce```
 - FileField 
