@@ -3,7 +3,6 @@
 namespace lo\core\inputs;
 
 use lo\core\widgets\DatePicker;
-use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
