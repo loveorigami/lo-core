@@ -43,13 +43,19 @@
 	"mihaildev/yii2-elfinder": "*",
     "loveorigami/yii2-ckeditor": "*",
     "as-milano/yii2-tinymce": "*",
+    "kartik-v/yii2-markdown": "dev-master",
+
     "2amigos/yii2-selectize-widget": "~1.0",
 
-    "kartik-v/yii2-widget-select2": "@dev",
-    "kartik-v/yii2-widget-fileinput": "@dev",
-    "kartik-v/yii2-widget-touchspin": "*",
+    "kartik-v/yii2-widget-colorinput": "*",
 	"kartik-v/yii2-widget-datepicker": "@dev",
+    "kartik-v/yii2-widget-datetimepicker": "*",
+    "kartik-v/yii2-widget-fileinput": "@dev",
+    "kartik-v/yii2-widget-rating": "*",
+    "kartik-v/yii2-widget-select2": "@dev",
+    "kartik-v/yii2-widget-touchspin": "*",
 	"kartik-v/yii2-field-range": "*",
+
     "zelenin/yii2-slug-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
 	"karnbrockgmbh/yii2-modal-ajax": "@dev",
@@ -57,6 +63,7 @@
     "creocoder/yii2-taggable": "~2.0",
     "voskobovich/yii2-many-many-behavior": "^3.0",
     "devgroup/yii2-jstree-widget": "*",
+    
 	"bower-asset/jquery-number": "*",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
   },
