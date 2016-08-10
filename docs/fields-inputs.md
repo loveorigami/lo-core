@@ -29,5 +29,6 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - CKEditorInput ```use mihaildev\ckeditor\CKEditor```
     - TinyMceInput ```use milano\tinymce\TinyMce```
 - FileField 
+    - FileUploadField
 - ImageField
     - ElfinderImageField
