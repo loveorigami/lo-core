@@ -2,54 +2,33 @@
 
 namespace lo\core\inputs;
 
-use yii\helpers\ArrayHelper;
 use lo\core\widgets\DatePicker;
-use yii\widgets\ActiveForm;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 /**
- * Class DateRangeInput
+ * Class DateInput
  * Поле ввода диапазона дат
  * @package lo\core\inputs
  */
-class DateRangeInput extends BaseInput
+class DateInput extends BaseInput
 {
-    /**
-     * @var string атрибут от
-     */
-    public $fromAttr;
-
-    /**
-     * @var string атрибут до
-     */
-    public $toAttr;
-
     /**
      * Опции по умолчанию
      * @var array
      */
     protected $defaultOptions = [
         'language' => 'ru',
-        'type' => DatePicker::TYPE_RANGE,
-        'options' => ['placeholder' => 'Start date'],
-        'options2' => ['placeholder' => 'End date'],
-        'separator' => '-',
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'options' => ['placeholder' => 'Enter date'],
         'pluginOptions' => [
             'format' => 'yyyy-mm-dd',
-            'autoclose' => false,
+            'autoclose' => true,
             'todayHighlight' => true,
             'todayBtn' => true,
         ]
     ];
-
-    public function init()
-    {
-        parent::init();
-
-        if (empty($this->fromAttr) || empty($this->toAttr)) {
-            throw new InvalidConfigException("Properties 'fromAttr', 'toAttr' can`t be blank");
-        }
-    }
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -61,12 +40,7 @@ class DateRangeInput extends BaseInput
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
         $options = ArrayHelper::merge($this->options, $options);
-
-        $widgetOptions = ArrayHelper::merge(
-            $this->defaultOptions, $this->widgetOptions, ['attribute2' => $this->toAttr, 'options'=>$options]
-        );
-
-        return $form->field($this->getModel(), $this->fromAttr)->widget(DatePicker::class, $widgetOptions);
-
+        $widgetOptions = ArrayHelper::merge($this->defaultOptions, $this->widgetOptions, ["options"=>$options]);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(DatePicker::class, $widgetOptions);
     }
 }

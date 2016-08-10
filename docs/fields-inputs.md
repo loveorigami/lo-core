@@ -8,6 +8,8 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - NumberSpinInput ```use kartik\touchspin\TouchSpin```
 - TimestampField ```extends BaseField```
     - DateRangeInput ```use kartik\date\DatePicker```
+- DateField ```extends BaseField```
+    - DateInput ```use kartik\date\DatePicker```
 - HiddenField ```extends BaseField```
     - HiddenInput
 - TextField ```extends BaseField```
