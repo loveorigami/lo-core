@@ -12,6 +12,8 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - HiddenInput
 - TextField ```extends BaseField```
     - TextInput
+- PasswordField ```extends TextField```
+    - PasswordInput
 - HashField ```extends TextField``` and ```use lo\core\behaviors\HashText```
     - ReadOnlyInput
 - SlugField ```extends TextField``` and ```use Zelenin\yii\behaviors\Slug```
