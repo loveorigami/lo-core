@@ -12,6 +12,7 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - HiddenInput
 - TextField ```extends BaseField```
     - TextInput
+- EmailField ```extends TextField```
 - PasswordField ```extends TextField```
     - PasswordInput
 - HashField ```extends TextField``` and ```use lo\core\behaviors\HashText```
