@@ -11,8 +11,8 @@ use yii\widgets\ActiveForm;
  * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class HiddenInput extends BaseInput {
-
+class HiddenInput extends BaseInput
+{
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
