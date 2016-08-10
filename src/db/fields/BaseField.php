@@ -115,12 +115,6 @@ class BaseField extends Object
      */
     public $rules = [];
 
-    /** @var string путь для файлового хранилища */
-    public $storagePath;
-
-    /** @var string Url для файлового хранилища */
-    public $storageUrl;
-
     /** @var array данные ассоциированные с полем (key=>value) */
     protected $_dataValue;
 
@@ -162,7 +156,6 @@ class BaseField extends Object
      */
     public function getForm(ActiveForm $form, Array $options = [], $index = false, $cls = null)
     {
-
         $cls = $cls ?: $this->inputClass;
 
         $inputClass = is_array($cls) ? $cls : ["class" => $cls];
@@ -172,7 +165,6 @@ class BaseField extends Object
         ], $inputClass, $this->inputClassOptions));
 
         return $input->renderInput($form, $options, $index);
-
     }
 
     /**
@@ -226,7 +218,7 @@ class BaseField extends Object
     {
         $grid = $this->defaultGrid();
 
-        $grid["value"] = function ($model, $index, $widget) {
+        $grid["value"] = function ($model) {
             return $this->getGridValue($model);
         };
 
