@@ -6,6 +6,7 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
 - NumberField ```extends BaseField```
     - NumberInput ```use lo\core\widgets\FormattedNumberInput```
     - NumberSpinInput ```use kartik\touchspin\TouchSpin```
+    - RatingInput ```use kartik\touchspin\TouchSpin```
 - TimestampField ```extends BaseField```
     - DateRangeInput ```use kartik\date\DatePicker```
 - DateField ```extends BaseField```

@@ -8,8 +8,9 @@ use kartik\rating\StarRating;
 
 /**
  * Class RatingInput
- * @package common\inputs
- * @author Chernyavsky Denis <panopticum87@gmail.com>
+ * Поле рейтинга
+ * @package lo\core\inputs
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class RatingInput extends BaseInput
 {
