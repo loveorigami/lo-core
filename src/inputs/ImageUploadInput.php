@@ -36,12 +36,30 @@ class ImageUploadInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        $file = $this->getModel()->{$this->getAttr()};
+        $initFile = [];
+        $model = $this->getModel();
+        $file = $model->getUploadUrl($this->getAttr());
 
-        echo $file;
+        if ($file && $model->scenario != $model::SCENARIO_INSERT) {
+            $initFile = ArrayHelper::merge($this->defaultOptions, [
+                'pluginOptions' => [
+                    'initialPreview'=>[
+                        $file
+                    ],
+                    'overwriteInitial'=>true,
+                    'initialPreviewAsData' => true,
+                ]
+            ]);
+        }
 
         $options = ArrayHelper::merge($this->options, $options);
-        $widgetOptions = ArrayHelper::merge($this->defaultOptions, $this->widgetOptions, ["options" => $options]);
+
+        $widgetOptions = ArrayHelper::merge(
+            $this->defaultOptions,
+            $this->widgetOptions,
+            ["options" => $options],
+            $initFile
+        );
 
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(FileInput::class, $widgetOptions);
     }

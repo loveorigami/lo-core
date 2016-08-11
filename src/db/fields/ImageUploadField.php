@@ -3,6 +3,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\behaviors\upload\UploadImage;
+use lo\core\db\ActiveRecord;
 use lo\core\inputs\ImageUploadInput;
 use yii\helpers\ArrayHelper;
 
@@ -32,10 +33,16 @@ class ImageUploadField extends FileUploadField
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadImage::class,
             'attribute' => $this->attr,
-            'storagePath' => $this->getStoragePath(),
-            'storageUrl' => $this->getStorageUrl(),
-            'thumbPath' => $this->path,
+            'scenarios'=>[ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+            'path' => $this->getStoragePath().'/{type.slug}',
+            'url' => $this->getStorageUrl().'/{type.slug}',
+            'thumbPath' => $this->getStoragePath().'/{type.slug}/thumb',
+            'thumbUrl' => $this->getStoragePath().'/{type.slug}/thumb',
             'generateNewName' => true,
+            'thumbs' => [
+                'thumb' => ['width' => 400, 'quality' => 90],
+                'preview' => ['width' => 200, 'height' => 200],
+            ],
         ], $this->uploadOptions);
 
         return $parent;

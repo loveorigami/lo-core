@@ -43,9 +43,9 @@ class FileUploadField extends FileField
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadFile::class,
             'attribute' => $this->attr,
-            'storagePath' => $this->getStoragePath(),
-            'storageUrl' => $this->getStorageUrl(),
-            'path' => $this->path,
+            'scenarios'=>[ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+            'path' => $this->getStoragePath(),
+            'url' => $this->getStorageUrl(),
             'generateNewName' => true,
         ], $this->uploadOptions);
 
@@ -59,9 +59,7 @@ class FileUploadField extends FileField
     public function rules()
     {
         $rules = parent::rules();
-
-        [$this->attr, 'number', 'integerOnly'=>true];
-
+        [$this->attr, 'file', 'extensions'=>$this->extensions];
         return $rules;
     }
 }
