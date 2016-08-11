@@ -44,6 +44,7 @@
     "loveorigami/yii2-ckeditor": "*",
     "as-milano/yii2-tinymce": "*",
     "kartik-v/yii2-markdown": "dev-master",
+    "abeautifulsite/simpleimage":"*",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
@@ -56,7 +57,6 @@
 	"kartik-v/yii2-field-range": "*",
 
     "zelenin/yii2-slug-behavior": "*",
-    "mongosoft/yii2-upload-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
 	"karnbrockgmbh/yii2-modal-ajax": "@dev",
     "creocoder/yii2-nested-sets": "0.9.*",

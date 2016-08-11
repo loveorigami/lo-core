@@ -34,14 +34,16 @@ class FileUploadField extends FileField
 
         $parent[$code] = ArrayHelper::merge([
             'class' => Upload::class,
-            'attribute' => $this->attr,
-            'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
-            'path' => '@storage/qwee',
-            'url' => '@storageUrl/qwee',
-            'thumbs' => [
+            'attributeName' => $this->attr,
+            //'path' => '@storage/qwee/1',
+            //'url' => '@storageUrl/qwee/1',
+            'savePath' => '@storage/qwee/1',
+           'generateNewName' => true,
+           'protectOldValue' => true,
+/*            'thumbs' => [
                 'thumb' => ['width' => 400, 'quality' => 90],
                 'preview' => ['width' => 200, 'height' => 200],
-            ],
+            ],*/
         ], $this->uploadOptions);
 
         return $parent;
