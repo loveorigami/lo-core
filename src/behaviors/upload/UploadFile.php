@@ -7,5 +7,4 @@ use mongosoft\file\UploadBehavior;
 class UploadFile extends UploadBehavior
 {
 
-
 }

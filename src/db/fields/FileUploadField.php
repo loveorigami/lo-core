@@ -59,7 +59,7 @@ class FileUploadField extends FileField
     public function rules()
     {
         $rules = parent::rules();
-        [$this->attr, 'file', 'extensions'=>$this->extensions];
+        $rules[] = [$this->attr, 'file', 'extensions'=>$this->extensions];
         return $rules;
     }
 }

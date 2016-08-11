@@ -12,14 +12,22 @@ use yii\helpers\ArrayHelper;
  * Для загрузки изображений
  * @package lo\core\db\fields
  */
-class ImageUploadField extends FileUploadField
+class ImageUploadField extends FileField
 {
+    /** Преффикс поведения */
+    const BEHAVIOR_PREF = "upload";
 
     /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = ImageUploadInput::class;
 
     /** @var string расширения */
-    public $extensions = ['jpg, jpeg, gif, png'];
+    public $extensions = 'jpeg, jpg, png, gif';
+
+    /** @var integer макс. размер файла 2Мб*/
+    public $maxSize = 2097152;
+
+    /** @var array настройки поведени */
+    public $uploadOptions = [];
 
     /**
      * @return array
@@ -33,19 +41,42 @@ class ImageUploadField extends FileUploadField
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadImage::class,
             'attribute' => $this->attr,
-            'scenarios'=>[ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
-            'path' => $this->getStoragePath().'/{type.slug}',
-            'url' => $this->getStorageUrl().'/{type.slug}',
-            'thumbPath' => $this->getStoragePath().'/{type.slug}/thumb',
-            'thumbUrl' => $this->getStoragePath().'/{type.slug}/thumb',
+            'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+            'path' => $this->getStoragePath() . '/{type.slug}',
+            'url' => $this->getStorageUrl() . '/{type.slug}',
+            'thumbPath' => $this->getStoragePath() . '/{type.slug}/thumb',
+            'thumbUrl' => $this->getStorageUrl() . '/{type.slug}/thumb',
             'generateNewName' => true,
             'thumbs' => [
                 'thumb' => ['width' => 400, 'quality' => 90],
-                'preview' => ['width' => 200, 'height' => 200],
+                'preview' => ['width' => 200, 'height' => 120],
             ],
+            //'createThumbsOnSave' => false,
+            //'createThumbsOnRequest' => true
         ], $this->uploadOptions);
 
         return $parent;
+    }
+
+    /**
+     * Правила валидации
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [
+            $this->attr,
+            'image',
+            'extensions' => $this->extensions,
+            'on' => [
+                ActiveRecord::SCENARIO_INSERT,
+                ActiveRecord::SCENARIO_UPDATE
+            ],
+            'maxSize' => $this->maxSize
+        ];
+
+        return $rules;
     }
 
 }
