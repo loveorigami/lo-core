@@ -33,6 +33,9 @@ class FileField extends BaseField
     /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = ElfinderFileInput::class;
 
+    /** @var string путь к файлу от хранилища */
+    public $path;
+
     /** @var string путь для файлового хранилища */
     protected $_storagePath;
 

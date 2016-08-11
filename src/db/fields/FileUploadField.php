@@ -2,7 +2,7 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\behaviors\upload\Upload;
+use lo\core\behaviors\upload\UploadFile;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\FileUploadInput;
 use yii\helpers\ArrayHelper;
@@ -23,6 +23,14 @@ class FileUploadField extends FileField
     /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = FileUploadInput::class;
 
+    /** @var integer макс. размер файла */
+    public $maxSize = 362;
+
+    /** @var string расширения */
+    public $extensions = ['pdf, rar'];
+
+    public $isSafe = false;
+
     /**
      * @return array
      */
@@ -33,17 +41,12 @@ class FileUploadField extends FileField
         $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
 
         $parent[$code] = ArrayHelper::merge([
-            'class' => Upload::class,
-            'attributeName' => $this->attr,
-            //'path' => '@storage/qwee/1',
-            //'url' => '@storageUrl/qwee/1',
-            'savePath' => '@storage/qwee/1',
-           'generateNewName' => true,
-           'protectOldValue' => true,
-/*            'thumbs' => [
-                'thumb' => ['width' => 400, 'quality' => 90],
-                'preview' => ['width' => 200, 'height' => 200],
-            ],*/
+            'class' => UploadFile::class,
+            'attribute' => $this->attr,
+            'storagePath' => $this->getStoragePath(),
+            'storageUrl' => $this->getStorageUrl(),
+            'path' => $this->path,
+            'generateNewName' => true,
         ], $this->uploadOptions);
 
         return $parent;
@@ -57,7 +60,7 @@ class FileUploadField extends FileField
     {
         $rules = parent::rules();
 
-        $rules[] = [$this->attr, 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE]];
+        [$this->attr, 'number', 'integerOnly'=>true];
 
         return $rules;
     }
