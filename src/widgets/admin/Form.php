@@ -15,59 +15,39 @@ use lo\core\db\MetaFields;
  */
 class Form extends Widget
 {
-
-    /**
-     * Преффикс идентификатора виджета
-     */
-
+    /** Преффикс идентификатора виджета */
     const FORM_ID_PREF = "form-";
 
-    /**
-     * @var \lo\core\db\ActiveRecord модель
-     */
-
+    /** @var \lo\core\db\ActiveRecord модель */
     public $model;
 
-    /**
-     * @var array параметры \yii\widgets\ActiveForm
-     */
-
+    /** @var array параметры \yii\widgets\ActiveForm */
     public $formOptions = [];
 
-    /**
-     * @var string шаблон
-     */
-
+    /** @var string шаблон */
     public $tpl = "form";
 
-    /**
-     * @var array параметры \yii\widgets\ActiveForm по умолчанию
-     */
+    /** @var array параметры \yii\widgets\ActiveForm по умолчанию */
 
     protected $defaultFormOptions = [
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
     ];
 
-    /**
-     * @var string идентификатор виджета
-     */
+    /** @var string идентификатор виджета */
     protected $id;
 
-    /**
-     * @var array директория с шаблонами
-     */
+    /** @var array директория с шаблонами */
     protected $_tplDir;
 
+    /**
+     * init
+     */
     public function init()
     {
-
         $model = $this->model;
-
         $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::className()));
-
         BootstrapPluginAsset::register($this->view);
-
     }
 
     public function run()
@@ -88,7 +68,6 @@ class Form extends Widget
     public function getTplDir()
     {
         if ($this->_tplDir === null) {
-
             $widgetTpl = [$this->viewPath . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR];
 
             if (is_array($this->model->tplDir)) {

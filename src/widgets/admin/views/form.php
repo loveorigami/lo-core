@@ -22,10 +22,9 @@ $this->registerJs("
         $(this).tab('show');
     });
 ");
-
 ?>
 
-<? $form = ActiveForm::begin(); ?>
+<? $form = ActiveForm::begin($formOptions); ?>
 
     <div class="pull-right">
         <?= Html::hiddenInput('apply', 0) ?>

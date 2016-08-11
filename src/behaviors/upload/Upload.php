@@ -2,9 +2,9 @@
 
 namespace lo\core\behaviors\upload;
 
-use mongosoft\file\UploadBehavior;
+use mongosoft\file\UploadImageBehavior;
 
-class Upload extends UploadBehavior
+class Upload extends UploadImageBehavior
 {
 
 }

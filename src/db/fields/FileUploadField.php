@@ -2,9 +2,10 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\behaviors\upload\Upload;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\FileUploadInput;
-use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class FileUploadField
@@ -13,7 +14,49 @@ use Yii;
  */
 class FileUploadField extends FileField
 {
+    /** Преффикс поведения */
+    const BEHAVIOR_PREF = "upload";
+
+    /** @var array настройки поведени */
+    public $uploadOptions = [];
+
     /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = FileUploadInput::class;
 
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        $parent = parent::behaviors();
+
+        $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+
+        $parent[$code] = ArrayHelper::merge([
+            'class' => Upload::class,
+            'attribute' => $this->attr,
+            'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+            'path' => '@storage/qwee',
+            'url' => '@storageUrl/qwee',
+            'thumbs' => [
+                'thumb' => ['width' => 400, 'quality' => 90],
+                'preview' => ['width' => 200, 'height' => 200],
+            ],
+        ], $this->uploadOptions);
+
+        return $parent;
+    }
+
+    /**
+     * Правила валидации
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+
+        $rules[] = [$this->attr, 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE]];
+
+        return $rules;
+    }
 }
