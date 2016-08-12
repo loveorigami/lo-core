@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\base;
+namespace lo\core\models;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
