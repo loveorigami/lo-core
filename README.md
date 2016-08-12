@@ -8,6 +8,7 @@ Yii2-crud-toolkit is a set for the rapid development of CRUD applications.
 
 * [Installation instructions](docs/getting-started.md)
 * [Fields and inputs](docs/fields-inputs.md)
+* [Features](docs/features.md)
 
 ## License
 Yii2-notification-wrapper is released under the MIT License. See the bundled [LICENSE.md](LICENSE.md)
