@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * Для загрузки изображений
  * @package lo\core\db\fields
  */
-class ImageUploadField extends FileField
+class ImageUploadField extends ImageField
 {
     /** Преффикс поведения */
     const BEHAVIOR_PREF = "upload";
@@ -23,7 +23,7 @@ class ImageUploadField extends FileField
     /** @var string расширения */
     public $extensions = 'jpeg, jpg, png, gif';
 
-    /** @var integer макс. размер файла 2Мб*/
+    /** @var integer макс. размер файла 2Мб */
     public $maxSize = 2097152;
 
     /** @var array настройки поведени */
@@ -36,24 +36,25 @@ class ImageUploadField extends FileField
     {
         $parent = parent::behaviors();
 
-        $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
-
-        $parent[$code] = ArrayHelper::merge([
-            'class' => UploadImage::class,
-            'attribute' => $this->attr,
-            'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
-            'path' => $this->getStoragePath() . '/{type.slug}',
-            'url' => $this->getStorageUrl() . '/{type.slug}',
-            'thumbPath' => $this->getStoragePath() . '/{type.slug}/thumb',
-            'thumbUrl' => $this->getStorageUrl() . '/{type.slug}/thumb',
-            'generateNewName' => true,
-            'thumbs' => [
-                'thumb' => ['width' => 400, 'quality' => 90],
-                'preview' => ['width' => 200, 'height' => 120],
-            ],
-            //'createThumbsOnSave' => false,
-            //'createThumbsOnRequest' => true
-        ], $this->uploadOptions);
+        if (!$this->relationName) {
+            $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+            $parent[$code] = ArrayHelper::merge([
+                'class' => UploadImage::class,
+                'attribute' => $this->attr,
+                'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+                'path' => $this->getStoragePath(),
+                'url' => $this->getStorageUrl(),
+                'thumbPath' => $this->getStoragePath() . '/thumb',
+                'thumbUrl' => $this->getStorageUrl() . '/thumb',
+                'generateNewName' => true,
+                'thumbs' => [
+                    'thumb' => ['width' => 400, 'quality' => 90],
+                    'preview' => ['width' => 200, 'height' => 120],
+                ],
+                //'createThumbsOnSave' => false,
+                //'createThumbsOnRequest' => true
+            ], $this->uploadOptions);
+        }
 
         return $parent;
     }
@@ -65,18 +66,39 @@ class ImageUploadField extends FileField
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [
-            $this->attr,
-            'image',
-            'extensions' => $this->extensions,
-            'on' => [
-                ActiveRecord::SCENARIO_INSERT,
-                ActiveRecord::SCENARIO_UPDATE
-            ],
-            'maxSize' => $this->maxSize
-        ];
+
+        if (!$this->relationName) {
+            $rules[] = [
+                $this->attr,
+                'image',
+                'extensions' => $this->extensions,
+                'on' => [
+                    ActiveRecord::SCENARIO_INSERT,
+                    ActiveRecord::SCENARIO_UPDATE
+                ],
+                'maxSize' => $this->maxSize
+            ];
+        }
 
         return $rules;
     }
 
+    /**
+     * Вывод значения в гриде с учетом связи
+     * @param UploadImage $model
+     * @return string
+     */
+    protected function getGridValue($model)
+    {
+        if ($this->relationName && $this->relationAttr) {
+            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
+                $value = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb');
+            } else {
+                $value = null;
+            }
+        } else {
+            $value = $model->getThumbUploadUrl($this->attr, 'thumb');
+        }
+        return $value;
+    }
 }

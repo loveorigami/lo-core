@@ -239,7 +239,7 @@ class BaseField extends Object
      * @param $model
      * @return string
      */
-    public function getGridValue($model)
+    protected function getGridValue($model)
     {
         if ($this->relationName && $this->relationAttr) {
             if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {

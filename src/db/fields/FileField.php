@@ -49,10 +49,6 @@ class FileField extends BaseField
     {
         $grid = parent::grid();
         $grid['format'] = 'html';
-        $grid['value'] = function ($model) {
-            return $this->renderFileView($model->{$this->attr});
-        };
-
         return $grid;
     }
 
