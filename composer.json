@@ -2,7 +2,7 @@
   "name": "loveorigami/lo-core",
   "description": "Core for Lo-CMS",
   "version": "1.0",
-  "type": "project",
+  "type": "yii2-extension",
   "keywords": [
     "yii2",
     "core",
@@ -28,10 +28,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/loveorigami/yii2-modal-ajax.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/loveorigami/yii2-ckeditor.git"
     }
   ],
   "require": {
@@ -42,7 +38,6 @@
     "as-milano/yii2-tinymce": "*",
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"*",
-	"loveorigami/yii2-ckeditor": "*",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
