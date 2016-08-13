@@ -37,6 +37,7 @@
     "as-milano/yii2-tinymce": "*",
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"*",
+	"loveorigami/yii2-ckeditor": "*",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
