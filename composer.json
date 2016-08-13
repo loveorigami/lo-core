@@ -30,10 +30,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/loveorigami/yii2-modal-ajax.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/loveorigami/yii2-ckeditor.git"
     }
   ],
   "require": {
@@ -41,7 +37,6 @@
     "yiisoft/yii2": ">=2.0.8",
 	
 	"mihaildev/yii2-elfinder": "*",
-    "loveorigami/yii2-ckeditor": "*",
     "as-milano/yii2-tinymce": "*",
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"*",
