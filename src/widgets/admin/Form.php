@@ -21,6 +21,9 @@ class Form extends Widget
     /** @var \lo\core\db\ActiveRecord модель */
     public $model;
 
+    /** @var array валидируемые модели */
+    public $models = [];
+
     /** @var array параметры \yii\widgets\ActiveForm */
     public $formOptions = [];
 
@@ -32,6 +35,7 @@ class Form extends Widget
     protected $defaultFormOptions = [
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
+        'errorSummaryCssClass' => 'alert alert-danger alert-dismissible'
     ];
 
     /** @var string идентификатор виджета */
@@ -40,6 +44,7 @@ class Form extends Widget
     /** @var array директория с шаблонами */
     protected $_tplDir;
 
+
     /**
      * init
      */
@@ -47,6 +52,7 @@ class Form extends Widget
     {
         $model = $this->model;
         $this->id = strtolower(self::FORM_ID_PREF . str_replace("\\", "-", $model::className()));
+
         BootstrapPluginAsset::register($this->view);
     }
 
@@ -57,7 +63,8 @@ class Form extends Widget
         return $this->render($this->tpl, [
                 "model" => $this->model,
                 "formOptions" => $formOptions,
-                "id" => $this->id
+                "id" => $this->id,
+                'models' => ArrayHelper::merge([$this->model], $this->models)
             ]
         );
     }
@@ -68,34 +75,29 @@ class Form extends Widget
     public function getTplDir()
     {
         if ($this->_tplDir === null) {
-            $widgetTpl = [$this->viewPath . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR];
-
-            if (is_array($this->model->tplDir)) {
-                foreach ($this->model->tplDir as $dir) {
-                    $modelTpl[] = Yii::getAlias($dir);
-                }
-            } else {
-                $modelTpl = [Yii::getAlias($this->model->tplDir)];
-            }
-
-/* $modelTpl = [Yii::$app->controller->module->basePath.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.Yii::$app->controller->id.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR];
-            */
-            $this->_tplDir = ArrayHelper::merge($modelTpl, $widgetTpl);
+            $DS = DIRECTORY_SEPARATOR;
+            $ctr = Yii::$app->controller;
+            $widgetTpl = [$this->viewPath . $DS . 'tpl' . $DS];
+            $formTpl = [$ctr->module->basePath.$DS.'views'.$DS.$ctr->id.$DS.'tpl'.$DS];
+            $this->_tplDir = ArrayHelper::merge($formTpl, $widgetTpl);
         }
 
         return $this->_tplDir;
     }
 
     /**
-     * @var string шаблон для вкладки формы
+     * @param string $key шаблон для вкладки формы
+     * @return null|string
      */
     public function getTplFile($key = MetaFields::DEFAULT_TAB)
     {
-        foreach($this->tplDir as $dir){
+        foreach($this->getTplDir() as $dir){
             $file = $dir . $key . '.tpl';
-            if (is_file($file)) return $this->renderFile($file);
+            if (is_file($file)) {
+                return $this->renderFile($file);
+            }
         };
-        return false;
+        return null;
     }
 
 }

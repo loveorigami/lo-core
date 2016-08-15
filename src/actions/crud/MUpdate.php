@@ -50,7 +50,6 @@ class MUpdate extends Update
             throw new ForbiddenHttpException('Forbidden model');
 
         $model->setScenario($this->modelScenario);
-        $content->setScenario($this->modelScenario);
 
         $this->checkForbiddenAttrs($model);
 

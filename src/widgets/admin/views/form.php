@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\web\JsExpression;
 
 /**
  * @var \lo\core\db\ActiveRecord $model модель
  * @var \yii\web\View $this
  * @var string $id идентификатор виджета
+ * @var array $models валидируемые модели
  * @var array $formOptions параметры \yii\widgets\ActiveForm
  */
 
@@ -24,7 +24,7 @@ $this->registerJs("
 ");
 ?>
 
-<? $form = ActiveForm::begin($formOptions); ?>
+<?php $form = ActiveForm::begin($formOptions); ?>
 
     <div class="pull-right">
         <?= Html::hiddenInput('apply', 0) ?>
@@ -38,14 +38,14 @@ $this->registerJs("
 
     </div>
 
-<? echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($models); ?>
 
     <ul id="<?= $tabId ?>" class="nav nav-tabs">
-        <?
+        <?php
         $i = 0;
         foreach ($meta->tabs() AS $key => $title):?>
             <li <? if ($i == 0): ?>class="active"<? endif; ?>><a href="#<?= $key ?>"><?= $title ?></a></li>
-            <?
+            <?php
             $i++;
         endforeach; ?>
     </ul>
@@ -57,7 +57,9 @@ $this->registerJs("
         foreach ($meta->tabs() AS $key => $title):
             $tpl = [];
             $html = '';
-            $template = $this->context->getTplFile($key);
+            /** @var lo\core\widgets\admin\Form $widget */
+            $widget = $this->context;
+            $template = $widget->getTplFile($key);
             ?>
 
             <div class="<? if ($i == 0): ?>active <? endif; ?>tab-pane" id="<?= $key ?>">
@@ -93,9 +95,7 @@ $this->registerJs("
 
             </div>
 
-            <?php
-            $i++;
-        endforeach; ?>
+            <?php $i++; endforeach; ?>
     </div>
 
 
