@@ -8,7 +8,6 @@ use Yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 
-use lo\core\behaviors\TagCache;
 use dektrium\user\models\User;
 
 /**
@@ -35,11 +34,6 @@ abstract class ActiveRecord extends YiiRecord
      * Значение сортировки по умолчанию
      */
     const DEFAULT_SORT = 500;
-
-    /**
-     * @var string alias директории с шаблонами для форм
-     */
-    public $tplDir;
 
     /**
      * @var array значение сортировки по умолчанию
