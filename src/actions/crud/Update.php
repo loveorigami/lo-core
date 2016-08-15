@@ -3,6 +3,7 @@ namespace lo\core\actions\crud;
 
 use Yii;
 use yii\web\ForbiddenHttpException;
+use lo\core\actions\Base;
 
 /**
  * Class Update
@@ -10,31 +11,18 @@ use yii\web\ForbiddenHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Update extends \lo\core\actions\Base
+class Update extends Base
 {
-
-    /**
-     * @var string сценарий валидации
-     */
-
+    /**@var string сценарий валидации */
     public $modelScenario = 'update';
 
-    /**
-     * @var string имя параметра запроса содержащего признак "применить"
-     */
-
+    /** @var string имя параметра запроса содержащего признак "применить" */
     public $applyParam = "apply";
 
-    /**
-     * @var string имя параметра запроса содержащего url для редиректа в случае успешного обновления
-     */
-
+    /** @var string имя параметра запроса содержащего url для редиректа в случае успешного обновления */
     public $redirectParam = "returnUrl";
 
-    /**
-     * @var string путь к шаблону для отображения
-     */
-
+    /** @var string путь к шаблону для отображения */
     public $tpl = "update";
 
     /**
@@ -43,7 +31,6 @@ class Update extends \lo\core\actions\Base
      * @return string
      * @throws \yii\web\ForbiddenHttpException
      */
-
     public function run($id)
     {
 

@@ -336,10 +336,14 @@ class BaseField extends Object
 
     /**
      * Правила валидации
-     * @return array
+     * @return array|bool
      */
     public function rules()
     {
+        if ($this->relationAttr) {
+            return false;
+        }
+
         $rules = [];
         if ($this->isSafe)
             $rules[] = [$this->attr, 'safe'];

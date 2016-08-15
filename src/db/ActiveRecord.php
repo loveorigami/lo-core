@@ -130,7 +130,7 @@ abstract class ActiveRecord extends YiiRecord
         foreach ($fields AS $field) {
 
             if ($field->rules())
-                $rules = array_merge($rules, $field->rules());
+               $rules = array_merge($rules, $field->rules());
 
         }
 
@@ -184,7 +184,23 @@ abstract class ActiveRecord extends YiiRecord
     {
         $fields = $this->getMetaFields()->getFields();
 
-        $behaviors = [
+        $behaviors = $this->getDefaultBehaviors();
+
+        foreach ($fields AS $field) {
+
+            if ($field->behaviors())
+                $behaviors = array_merge($behaviors, $field->behaviors());
+        }
+        return $behaviors;
+    }
+
+    /**
+     * Поведения по умолчанию
+     * @return array
+     */
+    protected function getDefaultBehaviors()
+    {
+        return [
             'timestamp' => [
                 'class' => TimestampBehavior::class,
             ],
@@ -193,18 +209,11 @@ abstract class ActiveRecord extends YiiRecord
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-            'tagCache' => [
-                'class' => TagCache::class,
-                'activeAttribute' => 'status'
-            ],
+            /*            'tagCache' => [
+                            'class' => TagCache::class,
+                            'activeAttribute' => 'status'
+                        ],*/
         ];
-
-        foreach ($fields AS $field) {
-
-            if ($field->behaviors())
-                $behaviors = array_merge($behaviors, $field->behaviors());
-        }
-        return $behaviors;
     }
 
     /**

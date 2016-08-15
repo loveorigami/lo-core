@@ -3,6 +3,7 @@ namespace lo\core\actions;
 
 use Yii;
 use yii\base\Action;
+use yii\base\Model;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -54,6 +55,7 @@ class Base extends Action
 
     /**
      * Модель
+     * @var Model $class
      */
     protected function findModel($id)
     {

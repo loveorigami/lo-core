@@ -2,8 +2,11 @@
 
 namespace lo\core\models;
 
+use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -105,6 +108,20 @@ class MultiModel extends Model
         return $success;
     }
 
+    public function validateForm($attributes = null)
+    {
+        $result = [];
+
+        foreach ($this->models as $model) {
+            $model->validate($attributes);
+            foreach ($model->getErrors() as $attribute => $errors) {
+                $result[Html::getInputId($model, $attribute)] = $errors;
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * @param bool $runValidation
      * @return bool
@@ -118,11 +135,11 @@ class MultiModel extends Model
         $success = true;
         $transaction = $this->getDb()->beginTransaction();
         foreach ($this->models as $model) {
+            $success = $model->save(false);
             if (!$success) {
                 $transaction->rollBack();
                 return false;
             }
-            $success = $model->save(false);
         }
         $transaction->commit();
         return $success;
@@ -133,6 +150,6 @@ class MultiModel extends Model
      */
     public function getDb()
     {
-        return \Yii::$app->get($this->db);
+        return Yii::$app->get($this->db);
     }
 }
