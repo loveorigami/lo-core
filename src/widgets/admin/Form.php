@@ -59,12 +59,13 @@ class Form extends Widget
     public function run()
     {
         $formOptions = array_merge($this->defaultFormOptions, $this->formOptions);
+        $models = (is_array($this->models)) ? $this->models : [$this->models];
 
         return $this->render($this->tpl, [
                 "model" => $this->model,
                 "formOptions" => $formOptions,
                 "id" => $this->id,
-                'models' => ArrayHelper::merge([$this->model], $this->models)
+                'models' => ArrayHelper::merge([$this->model], $models)
             ]
         );
     }
