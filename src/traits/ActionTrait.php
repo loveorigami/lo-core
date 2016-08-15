@@ -10,9 +10,9 @@ use yii\web\Response;
 use yii\widgets\ActiveForm;
 
 /**
- * Class Base
- * Базовый класс для CRUD действий
- * @package lo\core\actions
+ * Class ActionTrait
+ * Базовый трейт для CRUD действий
+ * @package lo\core\traits
  */
 trait ActionTrait
 {
@@ -62,7 +62,6 @@ trait ActionTrait
         }
     }
 
-
     /**
      * Проверяет попытку изменения запрещенных атрибутов
      * @param \lo\core\db\ActiveRecord $model
@@ -75,6 +74,4 @@ trait ActionTrait
         if ($perm AND $perm->hasForbiddenAttrs($attrs))
             throw new ForbiddenHttpException('Forbidden');
     }
-
-
 }
