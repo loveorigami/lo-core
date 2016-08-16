@@ -1,7 +1,8 @@
 <?php
 namespace lo\core\actions\crud;
 
-use lo\core\db\TActiveRecord;
+use lo\core\actions\Base;
+use lo\core\db\ActiveRecord;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -11,46 +12,36 @@ use yii\web\ForbiddenHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class XEditable extends \lo\core\actions\Base
+class XEditable extends Base
 {
-
-    /**
-     * @var string сценарий валидации
-     */
-
-    public $modelScenario = 'update';
+    /** @var string сценарий валидации */
+    public $modelScenario = ActiveRecord::SCENARIO_UPDATE;
 
     /**
      * Запуск действия
      * @return boolean
      * @throws \yii\web\ForbiddenHttpException
      */
-
     public function run()
     {
-
         $request = Yii::$app->request;
 
         if ($request->isPost) {
-
             $pk = Yii::$app->request->post('pk');
             $pk = unserialize(base64_decode($pk));
 
+            /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
             if (!Yii::$app->user->can($this->access(), array("model" => $model)))
                 throw new ForbiddenHttpException('Forbidden');
 
             $model->setScenario($this->modelScenario);
-
             $model->{$request->post('name')} = $request->post('value');
-
             return $model->save();
-
         }
 
         return false;
-
     }
 
 }

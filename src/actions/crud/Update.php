@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\db\ActiveRecord;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use lo\core\actions\Base;
@@ -14,13 +15,7 @@ use lo\core\actions\Base;
 class Update extends Base
 {
     /**@var string сценарий валидации */
-    public $modelScenario = 'update';
-
-    /** @var string имя параметра запроса содержащего признак "применить" */
-    public $applyParam = "apply";
-
-    /** @var string имя параметра запроса содержащего url для редиректа в случае успешного обновления */
-    public $redirectParam = "returnUrl";
+    public $modelScenario = ActiveRecord::SCENARIO_UPDATE;
 
     /** @var string путь к шаблону для отображения */
     public $tpl = "update";
@@ -33,7 +28,7 @@ class Update extends Base
      */
     public function run($id)
     {
-
+        /** @var ActiveRecord $model */
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can($this->access(), array("model" => $model)))

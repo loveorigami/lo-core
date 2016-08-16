@@ -25,11 +25,23 @@ trait ActionTrait
     /** @var string название параметра запроса, который служит признаком ajax валидации */
     public $validateParam = "ajax";
 
+    /** @var array атрибуты по умолчанию */
+    public $defaultAttrs = [];
+
     /** @var array массив дополнительных параметров передаваемых в представление */
     public $viewParams = [];
 
     /** @var string url для редиректа по умолчанию, используется в отсутствие $redirectParam в запросе */
     public $defaultRedirectUrl = ["/"];
+
+    /** @var string имя параметра запроса содержащего признак "применить" */
+    public $applyParam = "apply";
+
+    /** @var string имя параметра запроса содержащего url для редиректа в случае успешного обновления */
+    public $redirectParam = "returnUrl";
+
+    /** @var string адрес для редиректа в случае нажатия кнопки применить */
+    public $updateUrl = "update";
 
     /**
      * Ajax валидация модели
@@ -70,8 +82,30 @@ trait ActionTrait
     protected function checkForbiddenAttrs($model)
     {
         $attrs = Yii::$app->request->post($model->formName(), []);
+
         $perm = $model->getPermission();
-        if ($perm AND $perm->hasForbiddenAttrs($attrs))
+
+        /*        if($perm && $perm->getForbiddenAttrs()){
+                    var_dump($perm->getForbiddenAttrs());
+                    var_dump($model->getMetaFields()->getFields());
+                };*/
+
+        if ($perm AND $perm->hasForbiddenAttrs($attrs)) {
             throw new ForbiddenHttpException('Forbidden');
+        }
+    }
+
+    /**
+     * Возвращает url после action
+     * @return array|mixed|string
+     */
+    protected function getReturnUrl()
+    {
+        $request = Yii::$app->request;
+        $returnUrl = $request->post($this->redirectParam);
+        if (empty($returnUrl)) {
+            $returnUrl = $this->defaultRedirectUrl;
+        }
+        return $returnUrl;
     }
 }

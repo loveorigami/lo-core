@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -11,13 +12,9 @@ use yii\web\NotFoundHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class View extends \lo\core\actions\Base
+class View extends Base
 {
-
-    /**
-     * @var string путь к шаблону для отображения
-     */
-
+    /** @var string путь к шаблону для отображения */
     public $tpl = "view";
 
     /**
@@ -27,10 +24,8 @@ class View extends \lo\core\actions\Base
      * @throws \yii\web\NotFoundHttpException
      * @throws \yii\web\ForbiddenHttpException
      */
-
     public function run($id)
     {
-
         $model = $this->findModel($id);
 
         if (!$model)
@@ -40,7 +35,5 @@ class View extends \lo\core\actions\Base
             throw new ForbiddenHttpException('Forbidden model');
 
         return $this->render($this->tpl, ["model" => $model]);
-
     }
-
 }

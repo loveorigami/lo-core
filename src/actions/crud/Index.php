@@ -14,34 +14,22 @@ use lo\core\actions\Base;
  */
 class Index extends Base
 {
-    /**
-     * @var string сценарий для валидации
-     */
-    public $modelScenario = 'search';
+    /** @var string сценарий для валидации */
+    public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
 
-    /**
-     * @var array настройки провайдера данных
-     */
+    /** @var array настройки провайдера данных */
     public $dataProviderConfig = [];
 
-    /**
-     * @var string путь к шаблону для отображения
-     */
+    /** @var string путь к шаблону для отображения */
     public $tpl = "index";
 
-    /**
-     * @var int количество элементов на странице
-     */
+    /** @var int количество элементов на странице */
     public $pageSize = 20;
 
-    /**
-     * @var array сортировка
-     */
+    /** @var array сортировка */
     public $orderBy;
 
-    /**
-     * @var array значения атрибутов используемые по умолчанию в фильтре моделей
-     */
+    /** @var array значения атрибутов используемые по умолчанию в фильтре моделей */
     public $defaultSearchAttrs;
 
     /**

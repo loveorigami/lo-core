@@ -1,9 +1,8 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
 use Yii;
-use yii\web\ForbiddenHttpException;
-use yii\web\NotFoundHttpException;
 use lo\core\components\settings\FormModel;
 
 /**
@@ -12,27 +11,22 @@ use lo\core\components\settings\FormModel;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Settings extends \lo\core\actions\Base
+class Settings extends Base
 {
-
     /**
      * @var string путь к шаблону для отображения
      */
-
     public $tpl = "@vendor/loveorigami/lo-core/actions/crud/views/settings";
     public $keys = [];
 
     /**
      * Запуск действия просмотра модели
-     * @param integer $id идентификатор модели
      * @return string
      * @throws \yii\web\NotFoundHttpException
      * @throws \yii\web\ForbiddenHttpException
      */
-
     public function run()
     {
-
         $model = new FormModel([
             'keys'=>$this->keys
         ]);

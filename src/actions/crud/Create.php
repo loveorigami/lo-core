@@ -1,8 +1,11 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
+use lo\core\db\ActiveRecord;
 use Yii;
 use yii\web\ForbiddenHttpException;
+use yii\web\Response;
 
 /**
  * Class Create
@@ -10,43 +13,12 @@ use yii\web\ForbiddenHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Create extends \lo\core\actions\Base
+class Create extends Base
 {
+    /** @var string сценарий для валидации */
+    public $modelScenario = ActiveRecord::SCENARIO_INSERT;
 
-    /**
-     * @var array атрибуты по умолчанию
-     */
-
-    public $defaultAttrs = [];
-
-    /**
-     * @var string сценарий для валидации
-     */
-
-    public $modelScenario = 'insert';
-
-    /**
-     * @var string имя параметра запроса содержащего признак "применить"
-     */
-
-    public $applyParam = "apply";
-
-    /**
-     * @var string имя параметра запроса содержащего url для редиректа в случае успешного обновления
-     */
-
-    public $redirectParam = "returnUrl";
-
-    /**
-     * @var string адрес для редиректа в случае нажатия кнопки применить
-     */
-
-    public $updateUrl = "update";
-
-    /**
-     * @var string путь к шаблону для отображения
-     */
-
+    /** @var string путь к шаблону для отображения */
     public $tpl = "create";
 
     /**
@@ -54,10 +26,9 @@ class Create extends \lo\core\actions\Base
      * @return mixed
      * @throws ForbiddenHttpException
      */
-
     public function run()
     {
-
+        /** @var ActiveRecord $model */
         $model = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
 
         if (!Yii::$app->user->can($this->access(), array("model" => $model)))
@@ -80,11 +51,11 @@ class Create extends \lo\core\actions\Base
 
         if ($load && $model->save()) {
 
-            $returnUrl = $request->post($this->redirectParam);
+            $returnUrl = $this->getReturnUrl();
 
             if (Yii::$app->request->isAjax) {
                 // JSON response is expected in case of successful save
-                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
                     'success' => true,
                     'id' => $model->id,
@@ -92,23 +63,15 @@ class Create extends \lo\core\actions\Base
                 ];
             }
 
-            if (empty($returnUrl))
-                $returnUrl = $this->defaultRedirectUrl;
-
-            if ($request->post($this->applyParam))
+            if ($request->post($this->applyParam)) {
                 return $this->controller->redirect([$this->updateUrl, 'id' => $model->id, $this->redirectParam => $returnUrl]);
-            else {
+            } else {
                 return $this->controller->redirect($returnUrl);
             }
-
         } else {
-
             return $this->render($this->tpl, [
                 'model' => $model,
             ]);
-
         }
-
     }
-
 }

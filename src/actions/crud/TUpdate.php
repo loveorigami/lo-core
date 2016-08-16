@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\db\TActiveRecord;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -12,16 +13,15 @@ use yii\web\ForbiddenHttpException;
  */
 class TUpdate extends Update
 {
-
     /**
      * @inheritdoc
      */
-
     public function run($id)
     {
-
+        /** @var TActiveRecord $class */
 		$class = $this->modelClass;
 
+        /** @var TActiveRecord $model */
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can($this->access(), array("model" => $model)))
@@ -55,14 +55,8 @@ class TUpdate extends Update
             $res = $model->save();
 
         if (!empty($res) && !$request->post($this->applyParam)) {
-
-            $returnUrl = $request->post($this->redirectParam);
-
-            if (empty($returnUrl))
-                $returnUrl = $this->defaultRedirectUrl;
-
+            $returnUrl = $this->getReturnUrl();
             return $this->controller->redirect($returnUrl);
-
         } else {
             return $this->render($this->tpl, [
                 'model' => $model,

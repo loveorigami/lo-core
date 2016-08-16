@@ -1,8 +1,9 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
+use lo\core\db\ActiveRecord;
 use Yii;
-use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 /**
@@ -11,17 +12,15 @@ use yii\web\Response;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class ListId extends \lo\core\actions\Base
+class ListId extends Base
 {
-    /**
-     * @var array атрибут поиска по умолчанию
-     */
-
+    /** @var array атрибут поиска по умолчанию */
     public $defaultAttr = 'name';
 
-    public $modelScenario = 'search';
+    /** @var string сценарий */
+    public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
 
-    public function run($q = null, $id = null)
+    public function run($q = null)
     {
         $obj = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
         $q = urldecode($q);
@@ -38,15 +37,10 @@ class ListId extends \lo\core\actions\Base
             }
         }
 
-
-
         // We know we can use ContentNegotiator filter
         // this way is easier to show you here :)
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         return $out;
-
-
     }
-
 }

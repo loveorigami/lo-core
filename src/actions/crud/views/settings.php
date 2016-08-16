@@ -1,9 +1,12 @@
 <?php
-/**
- * @author Eugene Terentev <eugene@terentev.net>
- */
+
+use lo\core\components\settings\FormWidget;
+use lo\core\db\ActiveRecord;
+
 $this->title = Yii::t('backend', 'Application settings');
-echo \lo\core\components\settings\FormWidget::widget([
+
+/** @var ActiveRecord $model */
+echo FormWidget::widget([
     'model' => $model,
     'formClass' => '\yii\bootstrap\ActiveForm',
     'submitText' => Yii::t('backend', 'Save'),

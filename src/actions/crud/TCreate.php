@@ -14,10 +14,7 @@ use yii\web\ForbiddenHttpException;
  */
 class TCreate extends Create
 {
-
-    /**
-     * @var array массив атрибутов значения которых должны наследоваться от родительской модели
-     */
+    /** @var array массив атрибутов значения которых должны наследоваться от родительской модели */
 
     public $extendedAttrs = [];
 
@@ -28,12 +25,12 @@ class TCreate extends Create
      * @throws ForbiddenHttpException
      * @throws BadRequestHttpException
      */
-
     public function run($parent_id)
     {
-
+        /** @var TActiveRecord $class */
         $class = $this->modelClass;
 
+        /** @var TActiveRecord $model */
         $model = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
 
         $model->parent_id = $parent_id;
@@ -52,14 +49,10 @@ class TCreate extends Create
         $parentModel = $class::find()->where(["id" => (int) $model->parent_id])->one();
 
         if ($parentModel AND $parentModel->id != TActiveRecord::ROOT_ID AND !empty($this->extendedAttrs)) {
-
             foreach ($this->extendedAttrs AS $attr) {
-
 				if(empty($model->attr))
 					$model->$attr = $parentModel->$attr;
-
 			}
-
         }
 
         if ($load && $request->post($this->validateParam)) {
@@ -68,10 +61,7 @@ class TCreate extends Create
 
         if ($load && $model->validate() && $parentModel && $model->appendTo($parentModel)) {
 
-            $returnUrl = $request->post($this->redirectParam);
-
-            if (empty($returnUrl))
-                $returnUrl = $this->defaultRedirectUrl;
+            $returnUrl = $this->getReturnUrl();
 
             if ($request->post($this->applyParam))
                 return $this->controller->redirect([$this->updateUrl, 'id' => $model->id, $this->redirectParam => $returnUrl]);
@@ -80,13 +70,9 @@ class TCreate extends Create
             }
 
         } else {
-
             return $this->render($this->tpl, [
                 'model' => $model,
             ]);
-
         }
-
     }
-
 }
