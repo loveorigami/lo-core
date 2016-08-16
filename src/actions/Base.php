@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\actions;
 
-use lo\core\rbac\AccessRouteTrait;
+use lo\core\traits\AccessRouteTrait;
 use lo\core\traits\ActionTrait;
 use Yii;
 use yii\base\Action;

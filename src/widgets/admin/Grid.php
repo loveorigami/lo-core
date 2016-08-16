@@ -2,7 +2,7 @@
 namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
-use lo\core\rbac\AccessRouteTrait;
+use lo\core\traits\AccessRouteTrait;
 use Yii;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;

@@ -6,6 +6,7 @@ use lo\core\behaviors\upload\UploadImage;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\ImageUploadInput;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * Class ImageUploadField
@@ -94,12 +95,12 @@ class ImageUploadField extends ImageField
     {
         if ($this->relationName && $this->relationAttr) {
             if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $value = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb');
+                $value = Html::img($model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb'));
             } else {
                 $value = null;
             }
         } else {
-            $value = $model->getThumbUploadUrl($this->attr, 'thumb');
+            $value = Html::img($model->getThumbUploadUrl($this->attr, 'thumb'));
         }
         return $value;
     }
