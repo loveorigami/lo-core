@@ -1,7 +1,8 @@
 <?php
 namespace lo\core\db\fields;
 
-use yii\widgets\ActiveForm;
+use lo\core\grid\XEditableColumn;
+use lo\core\inputs\DropDownInput;
 use yii\helpers\ArrayHelper;
 use lo\core\db\ActiveRecord;
 
@@ -13,25 +14,19 @@ use lo\core\db\ActiveRecord;
  */
 class ListField extends BaseField
 {
-
-	/**
-	 * @var bool значения выпадающего списка - числовые
-	 */
+	/** @var bool значения выпадающего списка - числовые */
 	public $numeric = false;
 
-    /**
-     * @inheritdoc
-     */
-    public $inputClass = '\lo\core\inputs\DropDownInput';
+    /** @inheritdoc */
+    public $inputClass = DropDownInput::class;
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function xEditable()
     {
         return [
-
-            'class' => \mcms\xeditable\XEditableColumn::className(),
+            'class' => XEditableColumn::class,
             'url' => $this->getEditableUrl(),
             'dataType' => 'select',
             'format' => 'raw',

@@ -1,10 +1,9 @@
 <?php
 namespace lo\core\db\fields;
 
+use lo\core\grid\XEditableColumn;
 use Yii;
 use Yii\widgets\ActiveForm;
-use mcms\xeditable\XEditableColumn;
-
 use lo\core\db\ActiveRecord;
 use lo\core\inputs;
 
@@ -25,7 +24,6 @@ use lo\core\inputs;
  */
 class CheckBoxField extends BaseField
 {
-
     /**
      * @var $inputClass
      */
@@ -90,7 +88,7 @@ class CheckBoxField extends BaseField
     public function xEditable()
     {
         return [
-            'class' => XEditableColumn::className(),
+            'class' => XEditableColumn::class,
             'url' => $this->getEditableUrl(),
             'dataType' => 'select',
             'format' => 'raw',
