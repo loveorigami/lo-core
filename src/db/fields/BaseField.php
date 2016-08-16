@@ -341,7 +341,7 @@ class BaseField extends Object
     public function rules()
     {
         if ($this->relationAttr) {
-            return false;
+            return [];
         }
 
         $rules = [];

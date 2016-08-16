@@ -48,8 +48,8 @@ class ImageUploadField extends ImageField
                 'thumbUrl' => $this->getStorageUrl() . '/thumb',
                 'generateNewName' => true,
                 'thumbs' => [
-                    'thumb' => ['width' => 400, 'quality' => 90],
-                    'preview' => ['width' => 200, 'height' => 120],
+                    'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
+                    'big' => ['width' => 240, 'height' => 180],
                 ],
                 //'createThumbsOnSave' => false,
                 //'createThumbsOnRequest' => true
@@ -67,18 +67,20 @@ class ImageUploadField extends ImageField
     {
         $rules = parent::rules();
 
-        if (!$this->relationName) {
-            $rules[] = [
-                $this->attr,
-                'image',
-                'extensions' => $this->extensions,
-                'on' => [
-                    ActiveRecord::SCENARIO_INSERT,
-                    ActiveRecord::SCENARIO_UPDATE
-                ],
-                'maxSize' => $this->maxSize
-            ];
+        if ($this->relationAttr) {
+            return [];
         }
+
+        $rules[] = [
+            $this->attr,
+            'image',
+            'extensions' => $this->extensions,
+            'on' => [
+                ActiveRecord::SCENARIO_INSERT,
+                ActiveRecord::SCENARIO_UPDATE
+            ],
+            'maxSize' => $this->maxSize
+        ];
 
         return $rules;
     }
