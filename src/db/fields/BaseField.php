@@ -356,6 +356,7 @@ class BaseField extends Object
             $options[1] = $name;
             $rules[] = $options;
         }
+
         return $rules;
     }
 
