@@ -27,6 +27,9 @@ class ImageUploadInput extends BaseInput
         'options' => ['accept' => 'image/*']
     ];
 
+    /** @var string размер превью */
+    public $thumSize = 'big';
+
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
@@ -38,7 +41,7 @@ class ImageUploadInput extends BaseInput
     {
         $initFile = [];
         $model = $this->getModel();
-        $file = $model->getUploadUrl($this->getAttr());
+        $file = $model->getThumbUploadUrl($this->getAttr(), $this->thumSize);
 
         if ($file && $model->scenario != $model::SCENARIO_INSERT) {
             $initFile = ArrayHelper::merge($this->defaultOptions, [
