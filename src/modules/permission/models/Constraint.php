@@ -8,10 +8,23 @@ use lo\core\interfaces\IPermission;
 use Yii;
 
 /**
- * Class Permission
+ * Class Constraint
  * Модель прав доступа
  * @package lo\core\modules\permission\models
+ *
+ * @property integer $id
+ * @property boolean $status
+ * @property integer $author_id
+ * @property integer $updater_id
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property string $role роль
+ * @property string $model класс модели
+ * @property string $constraint класс ограничения
+ * @property string $forbidden_attrs запрещенные атрибуты
  */
+
 class Constraint extends ActiveRecord implements IPermission
 {
     /** @var Constraint[] */
@@ -105,7 +118,7 @@ class Constraint extends ActiveRecord implements IPermission
         if ($this->_forbiddenAttrs === null) {
 
             $arr = [];
-            $strs = explode("\n", $this->getForbiddenAttrs());
+            $strs = explode("\n", $this->forbidden_attrs);
 
             foreach ($strs AS $str) {
                 $str = trim($str);

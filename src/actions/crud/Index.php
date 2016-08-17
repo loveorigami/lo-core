@@ -48,14 +48,20 @@ class Index extends Base
         $searchModel->setScenario($this->modelScenario);
         $params = Yii::$app->request->getQueryParams();
 
-        if (!empty($this->defaultSearchAttrs))
-            $params = ArrayHelper::merge([$searchModel->formName() => $this->defaultSearchAttrs], $params);
+        if (!empty($this->defaultSearchAttrs)){
+            $params = ArrayHelper::merge(
+                [$searchModel->formName() => $this->defaultSearchAttrs],
+                $params
+            );
+        }
 
         $dataProvider = $searchModel->search($params, $this->dataProviderConfig);
 
         $perm = $searchModel->getPermission();
-        if ($perm)
+
+        if ($perm){
             $perm->applyConstraint($dataProvider->query);
+        }
 
         $dataProvider->getPagination()->pageSize = $this->pageSize;
 
