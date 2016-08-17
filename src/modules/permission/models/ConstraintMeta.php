@@ -2,32 +2,31 @@
 
 namespace lo\core\modules\permission\models;
 
+use lo\core\db\fields;
 use lo\core\db\MetaFields;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ConstraintMeta
  * Мета описание модели прав доступа
  * @package lo\modules\core\models
- * @author Churkin Anton <webadmin87@gmail.com>
  */
 class ConstraintMeta extends MetaFields
 {
-
     /**
-     * @inheritdoc
+     * @return array
      */
-
     protected function config()
     {
         return [
             "role" => [
                 "definition" => [
-                    "class" => \lo\core\db\fields\ListField::class,
+                    "class" => fields\ListField::class,
                     "title" => Yii::t('common', 'Role'),
                     "isRequired" => true,
                     "data" => function () {
-                        return \yii\helpers\ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name');
+                        return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name');
                     },
                     "editInGrid" => true,
                 ],
@@ -36,7 +35,7 @@ class ConstraintMeta extends MetaFields
 
             "model" => [
                 "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
+                    "class" => fields\TextField::class,
                     "title" => Yii::t('core', 'Model class'),
                     "isRequired" => true,
                     "editInGrid" => true,
@@ -46,7 +45,7 @@ class ConstraintMeta extends MetaFields
 
             "constraint" => [
                 "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
+                    "class" => fields\TextField::class,
                     "title" => Yii::t('core', 'Constraint class'),
                     "editInGrid" => true,
                 ],
@@ -55,13 +54,12 @@ class ConstraintMeta extends MetaFields
 
             "forbidden_attrs" => [
                 "definition" => [
-                    "class" => \lo\core\db\fields\TextAreaField::class,
+                    "class" => fields\TextAreaField::class,
                     "title" => Yii::t('core', 'Forbidden attributes'),
                     "editInGrid" => true,
                 ],
                 "params" => [$this->owner, "forbidden_attrs"]
             ],
-
         ];
     }
 

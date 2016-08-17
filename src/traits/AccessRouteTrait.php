@@ -9,7 +9,7 @@ use yii\web\View;
  * Class BaseRouteTrait
  * Получаем роуты для формирования access rules
  * @property View $view
- *  @property Controller $context
+ * @property Controller $context
  * @package lo\core\rbac
  */
 trait AccessRouteTrait
