@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\db;
+namespace lo\core\traits;
 
 /**
  * Class CreatedAtSearchTrait

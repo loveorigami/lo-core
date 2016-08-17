@@ -2,6 +2,7 @@
 namespace lo\core\db;
 
 use lo\core\traits\ConstraintTrait;
+use lo\core\traits\CreatedAtSearchTrait;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord as YiiRecord;
