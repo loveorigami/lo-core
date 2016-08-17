@@ -98,10 +98,13 @@ abstract class MetaFields extends Object
                 $this->_fields[$name] = Yii::createObject($config["definition"], $config["params"]);
             }
         }
+
         $fields = (!empty($names) and is_array($names)) ? array_intersect_key($this->_fields, array_flip($names)) : $this->_fields;
+
         foreach ($except as $key) {
             unset($fields[$key]);
         }
+
         return $fields;
     }
 

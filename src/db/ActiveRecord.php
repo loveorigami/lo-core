@@ -113,8 +113,9 @@ abstract class ActiveRecord extends YiiRecord
         ];
 
         foreach ($fields AS $field) {
-            if ($field->rules())
+            if ($field->rules()) {
                 $rules = array_merge($rules, $field->rules());
+            }
         }
 
         return $rules;
@@ -225,8 +226,9 @@ abstract class ActiveRecord extends YiiRecord
         $this->validate();
 
         foreach ($fields AS $field) {
-            if ($field->search)
+            if ($field->search) {
                 $field->applySearch($query);
+            }
         }
 
         return $dataProvider;

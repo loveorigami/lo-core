@@ -17,7 +17,6 @@ trait ConstraintTrait
     public function getPermission()
     {
         $data = Constraint::findPermission(get_called_class(), $this->getRole());
-        //d($data);
         return $data;
     }
 
