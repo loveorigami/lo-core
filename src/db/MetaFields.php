@@ -18,24 +18,16 @@ use lo\core\inputs;
  */
 abstract class MetaFields extends Object
 {
-    /**
-     * Вкладка формы по умолчанию
-     */
+    /** Вкладка формы по умолчанию */
     const DEFAULT_TAB = "default";
 
-    /**
-     * @var ActiveRecord модель - владелец
-     */
+    /** @var ActiveRecord модель - владелец */
     protected $owner;
 
-    /**
-     * @var array массив объектов полей модели
-     */
+    /** @var array массив объектов полей модели */
     protected $_fields;
 
-    /**
-     * @var array массив конфигураций объектов полей модели
-     */
+    /** @var array массив конфигураций объектов полей модели */
     protected $_fieldsConfig;
 
     /**

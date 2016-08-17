@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\rbac;
+namespace lo\core\interfaces;
 
 /**
  * Interface IPermission
@@ -7,17 +7,12 @@ namespace lo\core\rbac;
  * @package lo\core\rbac
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-
 interface IPermission
 {
-
-    public function applyConstraint($query);
-
     /**
      * Возвращает массив имен атрибутов запрещенных к редактировнаию
      * @return array
      */
-
     public function getForbiddenAttrs();
 
     /**
@@ -25,7 +20,6 @@ interface IPermission
      * @param string $attr атрибут
      * @return bool
      */
-
     public function isAttributeForbidden($attr);
 
     /**
@@ -33,7 +27,6 @@ interface IPermission
      * @param array $attrs массив атрибутов key=>value
      * @return bool
      */
-
     public function hasForbiddenAttrs($attrs);
 
 }

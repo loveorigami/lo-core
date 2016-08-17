@@ -1,7 +1,6 @@
 # Getting started with Yii2-crud-toolkit
 
 ## Need
-- aliases ```@storage``` and ```@storageUrl```
 - lo-module-elfinder
 ```php
     'modules' => [

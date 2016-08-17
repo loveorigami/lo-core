@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\db;
 
+use lo\core\traits\ConstraintTrait;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord as YiiRecord;
@@ -20,40 +21,31 @@ use dektrium\user\models\User;
  */
 abstract class ActiveRecord extends YiiRecord
 {
-
     use CreatedAtSearchTrait; // для поиска по диапазону
+    use ConstraintTrait;
 
-    /**
-     * Сценарии валидации
-     */
+    /** Сценарии валидации*/
     const SCENARIO_INSERT = "insert";
     const SCENARIO_UPDATE = "update";
     const SCENARIO_SEARCH = "search";
 
-    /**
-     * Значение сортировки по умолчанию
-     */
+    /** Значение сортировки по умолчанию */
     const DEFAULT_SORT = 500;
 
-    /**
-     * @var array значение сортировки по умолчанию
-     */
+    /** @var array значение сортировки по умолчанию */
     protected $_defaultSearchOrder = ["id" => SORT_DESC];
 
-    /**
-     * Базовые сценарии
-     * @var array
-     */
-    protected $_baseScenarios = [self::SCENARIO_INSERT, self::SCENARIO_UPDATE, self::SCENARIO_SEARCH];
+    /** @var array Базовые сценарии */
+    protected $_baseScenarios = [
+        self::SCENARIO_INSERT,
+        self::SCENARIO_UPDATE,
+        self::SCENARIO_SEARCH
+    ];
 
-    /**
-     * @var \lo\core\db\MetaFields объект с описанием полей модели
-     */
+    /** @var MetaFields объект с описанием полей модели */
     protected $_metaFields;
 
-    /**
-     * @var array массив сценариев при которых инициалихируются начальные значения
-     */
+    /** @var array массив сценариев при которых инициалихируются начальные значения */
     protected $initScenarios = [self::SCENARIO_INSERT];
 
     /**
@@ -93,7 +85,6 @@ abstract class ActiveRecord extends YiiRecord
     /**
      * Сченари валидации
      * @return array
-     *
      */
     public function scenarios()
     {
@@ -112,7 +103,6 @@ abstract class ActiveRecord extends YiiRecord
      * Правила валидации Формируем из полей
      * @return array
      */
-
     public function rules()
     {
         $fields = $this->getMetaFields()->getFields();
@@ -122,10 +112,8 @@ abstract class ActiveRecord extends YiiRecord
         ];
 
         foreach ($fields AS $field) {
-
             if ($field->rules())
-               $rules = array_merge($rules, $field->rules());
-
+                $rules = array_merge($rules, $field->rules());
         }
 
         return $rules;
@@ -171,24 +159,6 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * Поведения
-     * @return array
-     */
-    public function behaviors()
-    {
-        $fields = $this->getMetaFields()->getFields();
-
-        $behaviors = $this->getDefaultBehaviors();
-
-        foreach ($fields AS $field) {
-
-            if ($field->behaviors())
-                $behaviors = array_merge($behaviors, $field->behaviors());
-        }
-        return $behaviors;
-    }
-
-    /**
      * Поведения по умолчанию
      * @return array
      */
@@ -208,6 +178,25 @@ abstract class ActiveRecord extends YiiRecord
                             'activeAttribute' => 'status'
                         ],*/
         ];
+    }
+
+    /**
+     * Поведения
+     * @return array
+     */
+    public function behaviors()
+    {
+        $fields = $this->getMetaFields()->getFields();
+
+        $behaviors = $this->getDefaultBehaviors();
+
+        foreach ($fields AS $field) {
+            if ($field->behaviors()) {
+                $behaviors = array_merge($behaviors, $field->behaviors());
+            }
+        }
+
+        return $behaviors;
     }
 
     /**
@@ -257,15 +246,6 @@ abstract class ActiveRecord extends YiiRecord
     public function getAuthor()
     {
         return $this->hasOne(User::class, ['id' => 'author_id']);
-    }
-
-    /**
-     * Возвращает модель правил доступа
-     * @return \lo\core\rbac\IPermission|null
-     */
-    public function getPermission()
-    {
-        return null;
     }
 
     /**

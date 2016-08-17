@@ -14,19 +14,13 @@ use \lo\core\db\fields\BaseField;
  */
 abstract class BaseInput extends Object
 {
-    /**
-     * @var BaseField поле модели
-     */
+    /** @var BaseField поле модели */
     public $modelField;
 
-    /**
-     * @var array html атрибуты
-     */
+    /** @var array html атрибуты */
     public $options = [];
 
-    /**
-     * @var array парамеиры виджета
-     */
+    /** @var array парамеиры виджета */
     public $widgetOptions = [];
 
 

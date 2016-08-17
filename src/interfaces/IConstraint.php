@@ -1,5 +1,6 @@
 <?php
-namespace lo\core\rbac;
+namespace lo\core\interfaces;
+use yii\db\ActiveQuery;
 
 /**
  * Interface IConstraint
@@ -7,22 +8,13 @@ namespace lo\core\rbac;
  * @package lo\core\rbac
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-
 interface IConstraint
 {
-
     /**
      * Устанавливает ограничение на критерий запроса
-     * @param \lo\core\db\ActiveQuery $query запрос
+     * @param ActiveQuery $query запрос
      * @return mixed
      */
-
     public function applyConstraint($query);
-
-    /**
-     * Проверка возможности создания модели
-     * @param \lo\core\db\ActiveRecord $model
-     * @return boolean
-     */
 
 }
