@@ -127,6 +127,10 @@ abstract class MetaFields extends Object
      */
     protected function defaultConfig()
     {
+        if (!$this->owner->useDefaultConfig) {
+            return [];
+        }
+
         return [
             "id" => [
                 'definition' => [

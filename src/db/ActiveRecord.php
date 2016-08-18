@@ -49,6 +49,9 @@ abstract class ActiveRecord extends YiiRecord
     /** @var array массив сценариев при которых инициалихируются начальные значения */
     protected $initScenarios = [self::SCENARIO_INSERT];
 
+    /** @var boolean использовать настройки модели по умолчанию */
+    public $useDefaultConfig = true;
+
     /**
      * Возвращает имя сущности
      * @return string
@@ -166,6 +169,10 @@ abstract class ActiveRecord extends YiiRecord
      */
     protected function getDefaultBehaviors()
     {
+        if (!$this->useDefaultConfig) {
+            return [];
+        }
+
         return [
             'timestamp' => [
                 'class' => TimestampBehavior::class,
@@ -175,10 +182,6 @@ abstract class ActiveRecord extends YiiRecord
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-            /*            'tagCache' => [
-                            'class' => TagCache::class,
-                            'activeAttribute' => 'status'
-                        ],*/
         ];
     }
 
