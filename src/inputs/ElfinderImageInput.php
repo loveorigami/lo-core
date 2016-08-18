@@ -4,7 +4,6 @@ namespace lo\core\inputs;
 
 use mihaildev\elfinder\InputFile;
 use yii\helpers\ArrayHelper;
-use lo\core\helpers\FileHelper;
 use yii\widgets\ActiveForm;
 
 /**
