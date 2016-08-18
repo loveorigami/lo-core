@@ -25,28 +25,20 @@ class ElfinderImageInput extends ElfinderFileInput {
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        $widgetOptions = ArrayHelper::merge([
-            "template"=>'<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-            //'path' => 'import',
-            'controller' => $this->fileManagerController,
-            "options" => [
-                "class" => "form-control"
-            ],
-            "buttonOptions" => [
-                "class" => "btn btn-info"
-            ],
-        ], $this->widgetOptions, ['options'=> $options]);
+        $widgetOptions = ArrayHelper::merge(
+            ['controller' => $this->fileManagerController],
+            $this->defaultOptions,
+            $this->widgetOptions,
+            ['options' => $options]
+        );
 
-        $attr = $this->modelField->attr;
-        $img = $this->modelField->model[$attr];
+        //$attr = $this->modelField->attr;
+        ///$img = $this->modelField->model[$attr];
+        //$frm = '';
+        //$frm.= ($img) ? FileHelper::storageImg($img, ['width'=>$this->modelField->viewWidth]) : '';
 
-        $frm = '';
+        $frm = $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(InputFile::class, $widgetOptions);
 
-        $frm.= $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::className(), $widgetOptions);
-        $frm.= ($img) ? FileHelper::storageImg($img, ['width'=>$this->modelField->viewWidth]) : '';
         return $frm;
-
     }
-
-
 } 

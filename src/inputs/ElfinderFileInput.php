@@ -11,12 +11,26 @@ use yii\widgets\ActiveForm;
  * Html поле
  * @package lo\core\inputs
  */
-class ElfinderFileInput extends BaseInput {
-
+class ElfinderFileInput extends BaseInput
+{
     /**
      * @var string контроллер файлового менеджера
      */
     public $fileManagerController = "elfinder/path";
+
+    /**
+     * Опции по умолчанию
+     * @var array
+     */
+    protected $defaultOptions = [
+        "template" => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
+        "options" => [
+            "class" => "form-control"
+        ],
+        "buttonOptions" => [
+            "class" => "btn btn-info"
+        ],
+    ];
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -29,21 +43,13 @@ class ElfinderFileInput extends BaseInput {
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        $widgetOptions = ArrayHelper::merge([
-            "template"=>'<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-            //'path' => 'import',
-            'controller' => $this->fileManagerController,
-            "options" => [
-                "class" => "form-control"
-            ],
-            "buttonOptions" => [
-                "class" => "btn btn-info"
-            ],
-        ], $this->widgetOptions, ['options'=> $options]);
+        $widgetOptions = ArrayHelper::merge(
+            ['controller' => $this->fileManagerController],
+            $this->defaultOptions,
+            $this->widgetOptions,
+            ['options' => $options]
+        );
 
-        $attr = $this->modelField->attr;
-
-        return $form->field($this->modelField->model, $this->getFormAttrName($index, $attr))->widget(InputFile::class, $widgetOptions);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(InputFile::class, $widgetOptions);
     }
-
-} 
+}

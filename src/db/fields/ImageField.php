@@ -3,6 +3,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\inputs;
+use yii\helpers\Html;
 
 /**
  * Class ImageField
@@ -33,7 +34,7 @@ class ImageField extends FileField
     public $inputClass = inputs\ElfinderImageInput::class;
 
     /** Размер по умолчанию для превью изображений в гриде и при детальном просмотре */
-    const DEFAULT_SIZE = 55;
+    const DEFAULT_SIZE = 50;
 
     /** @var int ширина изображения при детальном просмотре */
     public $viewWidth =self::DEFAULT_SIZE;
@@ -58,6 +59,25 @@ class ImageField extends FileField
             'style' => 'width: ' . $this->gridWidth . 'px;',
         ];
         return $grid;
+    }
+
+    /**
+     * Вывод значения в гриде с учетом связи
+     * @param $model
+     * @return string
+     */
+    protected function getGridValue($model)
+    {
+        if ($this->relationName && $this->relationAttr) {
+            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
+                $src = $model->{$this->relationName}->{$this->relationAttr};
+            } else {
+                return null;
+            }
+        } else {
+            $src =$model->{$this->attr};
+        }
+        return Html::img($this->getStorageUrl() . $src, ['width' => $this->gridWidth]);
     }
 
 }
