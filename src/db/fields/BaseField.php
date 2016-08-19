@@ -1,15 +1,16 @@
 <?php
 namespace lo\core\db\fields;
 
-use Yii;
-use Yii\base\Object;
-use Yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\db\MetaFields;
 use lo\core\grid\XEditableColumn;
 use lo\core\inputs;
+use lo\core\interfaces\IField;
+use Yii;
+use Yii\base\Object;
+use yii\helpers\ArrayHelper;
+use Yii\widgets\ActiveForm;
 
 /**
  * Class BaseField
@@ -17,7 +18,7 @@ use lo\core\inputs;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class BaseField extends Object
+class BaseField extends Object implements IField
 {
     /** @var ActiveRecord модель */
     public $model;
