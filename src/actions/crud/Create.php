@@ -68,10 +68,11 @@ class Create extends Base
             } else {
                 return $this->controller->redirect($returnUrl);
             }
-        } else {
-            return $this->render($this->tpl, [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render($this->tpl, [
+            'model' => $model,
+        ]);
+
     }
 }
