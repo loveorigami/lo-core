@@ -48,32 +48,12 @@ class FileField extends BaseField
     public function grid()
     {
         $grid = parent::grid();
+        $grid['label'] = 'File';
         $grid['format'] = 'html';
+        $grid['headerOptions'] = [
+            'style' => 'width: 50 px;',
+        ];
         return $grid;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function view()
-    {
-        $view = parent::view();
-        if (is_array($this->model->{$this->attr})) {
-            $view["value"] = $this->renderFileView($this->model->{$this->attr});
-            $view["format"] = "html";
-        }
-        return $view;
-    }
-
-    /**
-     * Возвращает строку для отображения файла при детальном просмотре
-     * @param string $file
-     * @return string
-     */
-    protected function renderFileView($file)
-    {
-        if (!$file) return '';
-        return '<a href="' . $this->getStorageUrl() . $file . '"><span class="fa fa-download"></span></a>' . "\n";
     }
 
     /**

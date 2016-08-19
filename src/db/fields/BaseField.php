@@ -312,7 +312,8 @@ class BaseField extends Object
      */
     protected function defaultView()
     {
-        $view = ['attribute' => $this->attr, 'label' => $this->title];
+        $view['attribute'] = $this->attr;
+        $view['label'] = $this->title;
         return $view;
     }
 
@@ -322,7 +323,13 @@ class BaseField extends Object
      */
     protected function view()
     {
-        return $this->defaultView();
+        $view = $this->defaultView();
+
+/*        $view["value"] = function ($model) {
+            return $this->getGridValue($model);
+        };*/
+
+        return $view;
     }
 
     /**

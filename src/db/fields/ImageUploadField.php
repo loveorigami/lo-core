@@ -35,27 +35,28 @@ class ImageUploadField extends ImageField
      */
     public function behaviors()
     {
-        $parent = parent::behaviors();
-
-        if (!$this->relationName) {
-            $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
-            $parent[$code] = ArrayHelper::merge([
-                'class' => UploadImage::class,
-                'attribute' => $this->attr,
-                'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
-                'path' => $this->getStoragePath(),
-                'url' => $this->getStorageUrl(),
-                'thumbPath' => $this->getStoragePath() . '/thumb',
-                'thumbUrl' => $this->getStorageUrl() . '/thumb',
-                'generateNewName' => true,
-                'thumbs' => [
-                    'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
-                    'big' => ['width' => 240, 'height' => 180],
-                ],
-                //'createThumbsOnSave' => false,
-                //'createThumbsOnRequest' => true
-            ], $this->uploadOptions);
+        if ($this->relationAttr) {
+            return [];
         }
+
+        $parent = parent::behaviors();
+        $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+        $parent[$code] = ArrayHelper::merge([
+            'class' => UploadImage::class,
+            'attribute' => $this->attr,
+            'scenarios' => [ActiveRecord::SCENARIO_INSERT, ActiveRecord::SCENARIO_UPDATE],
+            'path' => $this->getStoragePath(),
+            'url' => $this->getStorageUrl(),
+            'thumbPath' => $this->getStoragePath() . '/thumb',
+            'thumbUrl' => $this->getStorageUrl() . '/thumb',
+            'generateNewName' => true,
+            'thumbs' => [
+                'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
+                'big' => ['width' => 240, 'height' => 180],
+            ],
+            'createThumbsOnSave' => false,
+            'createThumbsOnRequest' => true
+        ], $this->uploadOptions);
 
         return $parent;
     }
@@ -66,12 +67,11 @@ class ImageUploadField extends ImageField
      */
     public function rules()
     {
-        $rules = parent::rules();
-
         if ($this->relationAttr) {
             return [];
         }
 
+        $rules = parent::rules();
         $rules[] = [
             $this->attr,
             'image',
@@ -95,13 +95,14 @@ class ImageUploadField extends ImageField
     {
         if ($this->relationName && $this->relationAttr) {
             if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $value = Html::img($model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb'));
+                $src = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb');
             } else {
-                $value = null;
+                return null;
             }
         } else {
-            $value = Html::img($model->getThumbUploadUrl($this->attr, 'thumb'));
+            $src = $model->getThumbUploadUrl($this->attr, 'thumb');
         }
-        return $value;
+
+        return Html::img($src);
     }
 }
