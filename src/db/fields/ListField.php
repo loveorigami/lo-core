@@ -14,8 +14,8 @@ use lo\core\db\ActiveRecord;
  */
 class ListField extends BaseField
 {
-	/** @var bool значения выпадающего списка - числовые */
-	public $numeric = false;
+    /** @var bool значения выпадающего списка - числовые */
+    public $numeric = false;
 
     /** @inheritdoc */
     public $inputClass = DropDownInput::class;
@@ -42,63 +42,58 @@ class ListField extends BaseField
         return $this->getDataValue();
     }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		$rules = parent::rules();
-		
-		if ($this->numeric) {
-			$rules[] = [$this->attr, 'integer', 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
-		}
-		
-		if($this->numeric AND $this->defaultValue === null) {
-			$rules[] = [$this->attr, 'default', 'value'=>0, 'except'=>[ActiveRecord::SCENARIO_SEARCH]];
-		}
-		
-		return $rules;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function grid()
-	{
+        if ($this->numeric) {
+            $rules[] = [$this->attr, 'integer', 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+        }
 
-		$grid = $this->defaultGrid();
+        if ($this->numeric AND $this->defaultValue === null) {
+            $rules[] = [$this->attr, 'default', 'value' => 0, 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+        }
 
-		$grid["value"] = function ($model, $index, $widget) {
+        return $rules;
+    }
 
-			$value = $model->{$this->attr};
+    /**
+     * @inheritdoc
+     */
+    protected function grid()
+    {
+        $grid = $this->defaultGrid();
 
-			if(is_string($value) OR is_int($value))
-				return ArrayHelper::getValue($this->getDataValue(), $value, $value);
-			else
-				return $value;
+        $grid["value"] = function ($model, $index, $widget) {
 
-		};
+            $value = $model->{$this->attr};
 
-		return $grid;
+            if (is_string($value) OR is_int($value))
+                return ArrayHelper::getValue($this->getDataValue(), $value, $value);
+            else
+                return $value;
+        };
 
-	}
+        return $grid;
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function view()
-	{
+    }
 
-		$view = $this->defaultView();
+    /**
+     * @inheritdoc
+     */
+    protected function view()
+    {
+        $view = $this->defaultView();
 
-		$value = $this->model->{$this->attr};
+        $value = $this->model->{$this->attr};
 
-		if(is_string($value) OR is_int($value))
-			$view["value"] = ArrayHelper::getValue($this->getDataValue(), $value, $value);
+        if (is_string($value) OR is_int($value)) {
+            $view["value"] = ArrayHelper::getValue($this->getDataValue(), $value, $value);
+        }
 
-		return $view;
-
-	}
-
-
+        return $view;
+    }
 }

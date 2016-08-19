@@ -3,10 +3,11 @@
 namespace lo\core\inputs;
 
 use lo\core\widgets\DependDropDown;
+use lo\widgets\modal\Modal;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
-use karnbrockgmbh\modal\Modal;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -19,10 +20,9 @@ use yii\helpers\Html;
  */
 class DropDownInput extends BaseInput
 {
-
     protected $formTemplate = [];
-    public $modalUrl = '';
-    public $fieldId = '';
+    public $modalUrl;
+    public $fieldId;
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -33,8 +33,9 @@ class DropDownInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        $attr = $this->modelField->attr;
-        $model = $this->modelField->model;
+        $attr = $this->getAttr();
+        $model = $this->getModel();
+
         $options = ArrayHelper::merge($this->options, $options);
         $this->fieldId = Html::getInputId($model, $attr);
 
@@ -54,15 +55,15 @@ class DropDownInput extends BaseInput
             ["options" => $options]
         );
 
-        return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate
-        )->widget(
-            DependDropDown::className(), $widgetOptions
-        );
+        return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate)->widget(DependDropDown::class, $widgetOptions);
     }
 
     protected function getTpl()
     {
-        if (!$this->modalUrl) return false;
+        if (!$this->modalUrl) {
+            return null;
+        }
+
         Modal::begin([
             'id' => 'add-' . $this->fieldId,
             'url' => Url::to($this->modalUrl), // Ajax view with form to load
@@ -72,7 +73,6 @@ class DropDownInput extends BaseInput
             'size' => 'modal-lg',
             'clientOptions' => false,
         ]);
-
         Modal::end();
 
         $this->formTemplate = [
@@ -89,7 +89,8 @@ class DropDownInput extends BaseInput
         $this->setJs();
     }
 
-    protected function setJs(){
+    protected function setJs()
+    {
         $js = <<<JS
 
 $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
@@ -101,8 +102,7 @@ $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) 
 });
 
 JS;
-
-        $view=\Yii::$app->getView();
+        $view = Yii::$app->getView();
         $view->registerJs($js);
     }
 
