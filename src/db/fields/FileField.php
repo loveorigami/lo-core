@@ -4,6 +4,7 @@ namespace lo\core\db\fields;
 
 use lo\core\inputs\ElfinderFileInput;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * Class FileField
@@ -102,4 +103,23 @@ class FileField extends BaseField
         $this->_storageUrl = $storageUrl;
     }
 
+    /**
+     * Вывод значения в гриде с учетом связи
+     * @param $model
+     * @return string
+     */
+    protected function getGridValue($model)
+    {
+        if ($this->relationName && $this->relationAttr) {
+            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
+                $src = $model->{$this->relationName}->{$this->relationAttr};
+            } else {
+                return null;
+            }
+        } else {
+            $src =$model->{$this->attr};
+        }
+
+        return Html::a('<span class="fa fa-download"></span>', $src);
+    }
 }
