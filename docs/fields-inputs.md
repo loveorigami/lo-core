@@ -28,7 +28,11 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
 - HtmlField ```extends TextAreaField```
     - CKEditorInput ```use mihaildev\ckeditor\CKEditor```
     - TinyMceInput ```use milano\tinymce\TinyMce```
-- FileField 
-    - FileUploadField
-- ImageField
-    - ElfinderImageField
+- FileField ```extends BaseField```
+    - ElfinderFileInput ```use mihaildev\elfinder\InputFile```
+- ImageField ```extends FileField```
+    - ElfinderImageInput ```extends ElfinderFileInput``` and ```use mihaildev\elfinder\InputFile```
+- FileUploadField ```extends FileField``` and ```use mongosoft\file\UploadBehavior```
+    - FileUploadInput ```use kartik\file\FileInput```
+- ImageUploadField ```extends FileField``` and ```use mongosoft\file\UploadImageBehavior``` and ```use abeautifulsite\SimpleImage;```
+    - ImageUploadInput ```use kartik\file\FileInput```

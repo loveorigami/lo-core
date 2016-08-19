@@ -4,7 +4,6 @@ namespace lo\core\inputs;
 
 use kartik\file\FileInput;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
@@ -35,7 +34,6 @@ class FileUploadInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-
         $options = ArrayHelper::merge($this->options, $options);
         $widgetOptions = ArrayHelper::merge($this->defaultOptions, $this->widgetOptions, ["options" => $options]);
 

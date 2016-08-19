@@ -8,14 +8,11 @@ use yii\widgets\ActiveForm;
 
 /**
  * Class ElfinderFileInput
- * Html поле
  * @package lo\core\inputs
  */
 class ElfinderFileInput extends BaseInput
 {
-    /**
-     * @var string контроллер файлового менеджера
-     */
+    /** @var string контроллер файлового менеджера */
     public $fileManagerController = "elfinder/path";
 
     /**
