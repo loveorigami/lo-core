@@ -23,10 +23,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/DevGroup-ru/yii2-jstree-widget.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/loveorigami/yii2-modal-ajax.git"
     }
   ],
   "require": {
@@ -38,6 +34,7 @@
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"*",
 	"loveorigami/yii2-ckeditor": "*",
+	"loveorigami/yii2-modal-ajax": "*",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
@@ -52,7 +49,6 @@
     "zelenin/yii2-slug-behavior": "*",
     "mongosoft/yii2-upload-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
-	"karnbrockgmbh/yii2-modal-ajax": "@dev",
     "creocoder/yii2-nested-sets": "0.9.*",
     "creocoder/yii2-taggable": "~2.0",
     "voskobovich/yii2-many-many-behavior": "^3.0",
