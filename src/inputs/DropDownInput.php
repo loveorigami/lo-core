@@ -11,7 +11,6 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-
 /**
  * Class DropDownInput
  * Выпадающий список
@@ -69,7 +68,7 @@ class DropDownInput extends BaseInput
             'url' => Url::to($this->modalUrl), // Ajax view with form to load
             'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
             // ... any other yii2 bootstrap modal option you need
-            'header' => 'Add Author',
+            'header' => 'New item',
             'size' => 'modal-lg',
             'clientOptions' => false,
         ]);
