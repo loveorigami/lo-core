@@ -14,6 +14,17 @@ use yii\helpers\ArrayHelper;
  *          "class" => fields\ImagePathField::class,
  *          "title" => Yii::t('backend', 'Image'),
  *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
+ *          'uploadOptions' => [
+ *              'path' => '@storage/'.self::PATH,
+ *              'url' => '@storageUrl/'.self::PATH,
+ *              // для генирации thumbs, если нужно
+ *              'thumbPath' => '@storage/'.self::PATH.'/thumb',
+ *              'thumbUrl' => '@storageUrl/'.self::PATH.'/thumb',
+ *              'thumbs' => [
+ *                  'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
+ *                  'big' => ['width' => 280, 'height' => 210],
+ *              ],
+ *          ],
  *          "inputClassOptions" => [
  *              "widgetOptions" => [
  *                  'path' => self::PATH
@@ -74,7 +85,7 @@ class ImagePathField extends ImageField
         $rules = parent::rules();
         $rules[] = [
             $this->attr,
-            'filter', 'filter' => function($value) {
+            'filter', 'filter' => function ($value) {
                 return basename($value);
             }
         ];
