@@ -61,4 +61,25 @@ class ImagePathField extends ImageField
         return $parent;
     }
 
+    /**
+     * Правила валидации
+     * @return array
+     */
+    public function rules()
+    {
+        if ($this->relationAttr) {
+            return [];
+        }
+
+        $rules = parent::rules();
+        $rules[] = [
+            $this->attr,
+            'filter', 'filter' => function($value) {
+                return basename($value);
+            }
+        ];
+
+        return $rules;
+    }
+
 }
