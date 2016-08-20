@@ -71,6 +71,7 @@ class DropDownInput extends BaseInput
             'header' => 'New item',
             'size' => 'modal-lg',
             'clientOptions' => false,
+            'options' =>['class'=>'header-success']
         ]);
         Modal::end();
 
