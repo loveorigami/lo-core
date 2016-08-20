@@ -2,25 +2,12 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\inputs;
+use lo\core\interfaces\IUploadImage;
 use yii\helpers\Html;
 
 /**
  * Class ImageField
- * Для загрузки изображений
- *  "image" => [
- *      "definition" => [
- *          "class" => fields\ImageField::class,
- *          "title" => Yii::t('backend', 'Image'),
- *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
- *          "inputClassOptions" => [
- *              "widgetOptions" => [
- *                  'path' => self::PATH
- *              ],
- *          ],
- *      ],
- *      "params" => [$this->owner, "image"]
- *  ],
+ * Общий класс изображений
  * @package lo\core\db\fields
  */
 class ImageField extends FileField
@@ -31,13 +18,14 @@ class ImageField extends FileField
     public $editInGrid = false;
     public $showInExtendedFilter = false;
 
-    public $inputClass = inputs\ElfinderImageInput::class;
-
     /** Размер по умолчанию для превью изображений в гриде и при детальном просмотре */
     const DEFAULT_SIZE = 50;
 
+    /** Префикс иконки */
+    const THUMB = 'thumb';
+
     /** @var int ширина изображения при детальном просмотре */
-    public $viewWidth =self::DEFAULT_SIZE;
+    public $viewWidth = self::DEFAULT_SIZE;
 
     /** @var int высота изображения при детальном просмотре */
     public $viewHeight = self::DEFAULT_SIZE;
@@ -63,21 +51,22 @@ class ImageField extends FileField
 
     /**
      * Вывод значения в гриде с учетом связи
-     * @param $model
+     * @param IUploadImage $model
      * @return string
      */
     protected function getGridValue($model)
     {
         if ($this->relationName && $this->relationAttr) {
             if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $src = $model->{$this->relationName}->{$this->relationAttr};
+                $src = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, self::THUMB);
             } else {
                 return null;
             }
         } else {
-            $src =$model->{$this->attr};
+            $src = $model->getThumbUploadUrl($this->attr, self::THUMB);
         }
-        return Html::img($this->getStorageUrl() . $src, ['width' => $this->gridWidth]);
+
+        return Html::img($src, ['width' => $this->gridWidth]);
     }
 
 }

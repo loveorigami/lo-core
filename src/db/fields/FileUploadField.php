@@ -6,7 +6,6 @@ use lo\core\behaviors\upload\UploadFile;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\FileUploadInput;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
  * Class FileUploadField
@@ -80,23 +79,4 @@ class FileUploadField extends FileField
         return $rules;
     }
 
-    /**
-     * Вывод значения в гриде с учетом связи
-     * @param UploadFile $model
-     * @return string
-     */
-    protected function getGridValue($model)
-    {
-        if ($this->relationName && $this->relationAttr) {
-            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $src = $model->{$this->relationName}->getUploadUrl($this->relationAttr);
-            } else {
-                return null;
-            }
-        } else {
-            $src = $model->getUploadUrl($this->attr);
-        }
-
-        return Html::a('<span class="fa fa-download"></span>', $src);
-    }
 }

@@ -6,7 +6,6 @@ use lo\core\behaviors\upload\UploadImage;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\ImageUploadInput;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
  * Class ImageUploadField
@@ -51,8 +50,7 @@ class ImageUploadField extends ImageField
             'thumbUrl' => $this->getStorageUrl() . '/thumb',
             'generateNewName' => true,
             'thumbs' => [
-                'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
-                'big' => ['width' => 240, 'height' => 180],
+                self::THUMB => ['width' => 75, 'height' => 50, 'quality' => 90],
             ],
             'createThumbsOnSave' => false,
             'createThumbsOnRequest' => true
@@ -84,25 +82,5 @@ class ImageUploadField extends ImageField
         ];
 
         return $rules;
-    }
-
-    /**
-     * Вывод значения в гриде с учетом связи
-     * @param UploadImage $model
-     * @return string
-     */
-    protected function getGridValue($model)
-    {
-        if ($this->relationName && $this->relationAttr) {
-            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $src = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, 'thumb');
-            } else {
-                return null;
-            }
-        } else {
-            $src = $model->getThumbUploadUrl($this->attr, 'thumb');
-        }
-
-        return Html::img($src);
     }
 }

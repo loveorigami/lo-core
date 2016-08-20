@@ -3,6 +3,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\inputs\ElfinderFileInput;
+use lo\core\interfaces\IUploadFile;
 use Yii;
 use yii\helpers\Html;
 
@@ -105,19 +106,19 @@ class FileField extends BaseField
 
     /**
      * Вывод значения в гриде с учетом связи
-     * @param $model
+     * @param IUploadFile $model
      * @return string
      */
     protected function getGridValue($model)
     {
         if ($this->relationName && $this->relationAttr) {
             if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $src = $model->{$this->relationName}->{$this->relationAttr};
+                $src = $model->{$this->relationName}->getUploadUrl($this->relationAttr);
             } else {
                 return null;
             }
         } else {
-            $src =$model->{$this->attr};
+            $src = $model->getUploadUrl($this->attr);
         }
 
         return Html::a('<span class="fa fa-download"></span>', $src);

@@ -3,19 +3,19 @@
 namespace lo\core\behaviors\upload;
 
 use abeautifulsite\SimpleImage;
+use lo\core\interfaces\IUploadImage;
 use mongosoft\file\UploadImageBehavior;
 use yii\helpers\ArrayHelper;
 
-class UploadImage extends UploadImageBehavior
+class UploadImage extends UploadImageBehavior implements IUploadImage
 {
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
+    public $createThumbs = true;
+
+    /** @var boolean */
     public $createThumbsOnSave = false;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     public $createThumbsOnRequest = true;
 
     /**
