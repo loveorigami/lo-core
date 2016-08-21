@@ -15,10 +15,10 @@ use yii\helpers\ArrayHelper;
  *          "title" => Yii::t('backend', 'Image'),
  *          "initValue" => '/'.self::PATH.'/manager-none.jpg',
  *          'uploadOptions' => [
- *              'path' => '@storage/'.self::PATH,
+ *              'path' => '@storagePath/'.self::PATH,
  *              'url' => '@storageUrl/'.self::PATH,
  *              // для генирации thumbs, если нужно
- *              'thumbPath' => '@storage/'.self::PATH.'/thumb',
+ *              'thumbPath' => '@storagePath/'.self::PATH.'/thumb',
  *              'thumbUrl' => '@storageUrl/'.self::PATH.'/thumb',
  *              'thumbs' => [
  *                  'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],

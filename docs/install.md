@@ -1,6 +1,6 @@
 # Install
 
-- Определить алиасы ```@storage``` и ```@storageUrl```
+- Определить алиасы ```@storagePath``` и ```@storageUrl```
 - Запустить миграции
 ```bash
 $ php yii migrate/up --migrationPath=@vendor/loveorigami/lo-core/migrations

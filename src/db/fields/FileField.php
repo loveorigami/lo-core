@@ -72,7 +72,7 @@ class FileField extends BaseField
     public function getStoragePath()
     {
         if (!$this->_storagePath) {
-            $this->_storagePath = Yii::getAlias('@storage');
+            $this->_storagePath = Yii::getAlias('@storagePath');
         }
         return $this->_storagePath;
     }

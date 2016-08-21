@@ -2,8 +2,6 @@
 
 namespace lo\core\helpers;
 
-use Yii;
-use yii\helpers\Html;
 use yii\helpers\FileHelper as YiiFileHelper;
 
 /**
@@ -21,10 +19,8 @@ class FileHelper extends YiiFileHelper
      * @param boolean $lower приводить ли к нижнему регистру расширение
      * @return string|boolean
      */
-
     public static function getExtension($path, $lower = true)
     {
-
         $arr = explode(".", $path);
 
         if (count($arr) <= 1)
@@ -36,7 +32,6 @@ class FileHelper extends YiiFileHelper
             $ext = strtolower($ext);
 
         return $ext;
-
     }
 
     /**
@@ -45,21 +40,17 @@ class FileHelper extends YiiFileHelper
      * @param string $name исходное имя файла
      * @return string
      */
-
     public static function getNameForSave($path, $name)
     {
-
         $last = substr($path, -1);
 
         if ($last != DIRECTORY_SEPARATOR)
             $path .= DIRECTORY_SEPARATOR;
 
         $fp = explode(".", $name);
-
         $ext = (count($fp) > 1) ? array_pop($fp) : null;
 
         $fileName = implode(".", $fp);
-
         $fileName = static::ruTranslit($fileName);
 
         $newFileName = $fileName;
@@ -69,14 +60,11 @@ class FileHelper extends YiiFileHelper
         $extWithDot = $ext ? "." . $ext : null;
 
         while (file_exists($path . $newFileName . $extWithDot)) {
-
             $i++;
-
             $newFileName = $fileName . "_" . $i;
         }
 
         return $newFileName . $extWithDot;
-
     }
 
     /**
@@ -84,10 +72,8 @@ class FileHelper extends YiiFileHelper
      * @param string $name имя файла
      * @return string
      */
-
     public static function ruTranslit($name)
     {
-
         $tr = array(
             "А" => "a", "Б" => "b", "В" => "v", "Г" => "g",
             "Д" => "d", "Е" => "e", "Ж" => "j", "З" => "z", "И" => "i",
@@ -109,7 +95,6 @@ class FileHelper extends YiiFileHelper
         );
 
         return strtr($name, $tr);
-
     }
 
     /**
@@ -117,36 +102,12 @@ class FileHelper extends YiiFileHelper
      * @param string $path путь к файлу
      * @return bool
      */
-
     public static function isImage($path)
     {
-
         if (preg_match('/image/i', static::getMimeType($path)) > 0)
             return true;
         else
             return false;
-
-    }
-    /**
-     * Является ли файл изображением
-     * @param string $path путь к файлу
-     * @return bool
-     */
-    public static function storageImg($img, $op=[])
-    {
-        $path = Yii::getAlias('@storage') . $img;
-        $src = Yii::getAlias('@storageUrl') . $img;
-
-        if (!is_file($path) OR !self::isImage($path))
-            return $img ? $path : '';
-
-        $options = array_merge([
-            "src" => $src,
-            "class" => "img-thumbnail detail-img",
-            "width" =>'80'
-        ], $op);
-
-        return Html::tag('img', '', $options);
 
     }
 }
