@@ -2,7 +2,7 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\behaviors\upload\UploadPathFile;
+use lo\core\behaviors\upload\UploadFile;
 use lo\core\inputs;
 use yii\helpers\ArrayHelper;
 
@@ -34,10 +34,11 @@ class FilePathField extends FileField
         $parent = parent::behaviors();
         $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
         $parent[$code] = ArrayHelper::merge([
-            'class' => UploadPathFile::class,
+            'class' => UploadFile::class,
             'attribute' => $this->attr,
             'path' => $this->getStoragePath(),
             'url' => $this->getStorageUrl(),
+            'unlinkOnSave' => false,
         ], $this->uploadOptions);
 
         return $parent;

@@ -22,7 +22,7 @@ class ImageField extends FileField
     const DEFAULT_SIZE = 50;
 
     /** Префикс иконки */
-    const THUMB = 'thumb';
+    const THUMB = 'tmb';
 
     /** @var int ширина изображения при детальном просмотре */
     public $viewWidth = self::DEFAULT_SIZE;

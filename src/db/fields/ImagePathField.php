@@ -2,7 +2,7 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\behaviors\upload\UploadPathImage;
+use lo\core\behaviors\upload\UploadImage;
 use lo\core\inputs;
 use yii\helpers\ArrayHelper;
 
@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  *              'thumbPath' => '@storagePath/'.self::PATH.'/thumb',
  *              'thumbUrl' => '@storageUrl/'.self::PATH.'/thumb',
  *              'thumbs' => [
- *                  'thumb' => ['width' => 100, 'height' => 75, 'quality' => 90],
+ *                  'tmb' => ['width' => 100, 'height' => 75, 'quality' => 90],
  *                  'big' => ['width' => 280, 'height' => 210],
  *              ],
  *          ],
@@ -58,13 +58,14 @@ class ImagePathField extends ImageField
         $parent = parent::behaviors();
         $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
         $parent[$code] = ArrayHelper::merge([
-            'class' => UploadPathImage::class,
+            'class' => UploadImage::class,
             'attribute' => $this->attr,
             'path' => $this->getStoragePath(),
             'url' => $this->getStorageUrl(),
             'thumbs' => [
                 self::THUMB => ['width' => 75, 'height' => 50, 'quality' => 90],
             ],
+            'unlinkOnSave' => false,
             'createThumbsOnSave' => false,
             'createThumbsOnRequest' => true
         ], $this->uploadOptions);

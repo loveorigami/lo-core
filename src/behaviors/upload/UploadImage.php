@@ -19,6 +19,33 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
     public $createThumbsOnRequest = true;
 
     /**
+     * @param string $attribute
+     * @param string $profile
+     * @param boolean $old
+     * @return string
+     */
+    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false)
+    {
+        if (!$this->thumbPath) {
+            return $this->getUploadPath($attribute);
+        }
+        return parent::getThumbUploadPath($attribute, $profile = 'thumb', $old = false);
+    }
+
+    /**
+     * @param string $attribute
+     * @param string $profile
+     * @return string|null
+     */
+    public function getThumbUploadUrl($attribute, $profile = 'thumb')
+    {
+        if (!$this->thumbUrl) {
+            return $this->getUploadUrl($attribute);
+        }
+        return parent::getThumbUploadUrl($attribute, $profile = 'thumb');
+    }
+
+    /**
      * @param $config
      * @param $path
      * @param $thumbPath
