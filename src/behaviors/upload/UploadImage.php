@@ -24,12 +24,12 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
      * @param boolean $old
      * @return string
      */
-    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false)
+    public function getThumbUploadPath($attribute, $profile = 'tmb', $old = false)
     {
         if (!$this->thumbPath) {
             return $this->getUploadPath($attribute);
         }
-        return parent::getThumbUploadPath($attribute, $profile = 'thumb', $old = false);
+        return parent::getThumbUploadPath($attribute, $profile, $old = false);
     }
 
     /**
@@ -37,12 +37,12 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
      * @param string $profile
      * @return string|null
      */
-    public function getThumbUploadUrl($attribute, $profile = 'thumb')
+    public function getThumbUploadUrl($attribute, $profile = 'tmb')
     {
         if (!$this->thumbUrl) {
             return $this->getUploadUrl($attribute);
         }
-        return parent::getThumbUploadUrl($attribute, $profile = 'thumb');
+        return parent::getThumbUploadUrl($attribute, $profile);
     }
 
     /**
