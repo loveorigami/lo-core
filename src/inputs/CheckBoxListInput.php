@@ -19,8 +19,9 @@ use lo\core\widgets\awcheckbox\AwesomeCheckbox;
  *          "showInGrid" => false,
  *          "data" => [$this, "getGroupsList"],
  *          "tab" => self::GROUP_TAB,
+ *          "relationName" => "groups"
  *      ],
- *      "params" => [$this->owner, "group_ids", "groups"]
+ *      "params" => [$this->owner, "group_ids"]
  *  ],
  * ```
  * @package lo\core\inputs
@@ -32,7 +33,7 @@ class CheckBoxListInput extends DropDownInput
      * Настройки по умолчанию
      * @var array
      */
-    public $options = [
+    protected $defaultOptions = [
         'type' => AwesomeCheckbox::TYPE_CHECKBOX,
         'style' => AwesomeCheckbox::STYLE_PRIMARY,
     ];
@@ -48,13 +49,17 @@ class CheckBoxListInput extends DropDownInput
     {
         $data = $this->modelField->getDataValue();
 
-        if (empty($data))
+        if (empty($data)){
             return false;
+        }
 
-        $options = ArrayHelper::merge($this->options, $this->widgetOptions, $options, ['list' => $data]);
+        $options = ArrayHelper::merge(
+            $this->defaultOptions,
+            $this->widgetOptions,
+            $this->options,
+            $options, ['list' => $data]
+        );
 
-        $attr = $this->getFormAttrName($index, $this->modelField->attr);
-
-        return $form->field($this->modelField->model, $attr)->widget(AwesomeCheckbox::class, $options);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(AwesomeCheckbox::class, $options);
     }
 }

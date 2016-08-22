@@ -50,3 +50,4 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - Select2Input ```use kartik\select2\Select2```
 - ManyManyField
     - Select2MultiInput ```use kartik\select2\Select2```
+    - CheckBoxListInput ```use lo\core\widgets\awcheckbox\AwesomeCheckbox```

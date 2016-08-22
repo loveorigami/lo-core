@@ -50,6 +50,9 @@ class ManyManyField extends HasOneField
     /** @var string Класс обработчик по умолчанию */
     public $inputClass = Select2MultiInput::class;
 
+    /** @var string|array имя класса, либо конфигурация компонента который рендерит поле ввода расширенного фильтра */
+    public $filterInputClass = Select2MultiInput::class;
+
     /**
      * Отображение в гриде
      */
