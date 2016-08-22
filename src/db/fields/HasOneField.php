@@ -32,42 +32,14 @@ use yii\helpers\ArrayHelper;
  */
 class HasOneField extends ListField
 {
-    /**
-     * @var bool жадная загрузка
-     */
-    public $eagerLoading = true;
-
-    /**
-     * @var string имя связи
-     */
-    public $relation;
-
-    /**
-     * @var string имя атрибута связанной модели отображаемого в гриде
-     */
+    /** @var string имя атрибута связанной модели отображаемого в гриде */
     public $gridAttr = "name";
 
-    /**
-     * @inheritdoc
-     */
+    /** @var boolean */
     public $numeric = true;
 
-    /**
-     * @var проверять наличие связанной модели
-     */
+    /** @var boolean проверить наличие связанной модели */
     public $checkExist = true;
-
-    /**
-     * Конструктор
-     * @param ActiveRecord $model модель
-     * @param string $attr атрибут
-     * @param string $relation имя Has One связи
-     */
-    public function __construct(ActiveRecord $model, $attr, $relation, $config = [])
-    {
-        $this->relation = $relation;
-        parent::__construct($model, $attr, $config);
-    }
 
     /**
      * @inheritdoc
@@ -76,7 +48,7 @@ class HasOneField extends ListField
     {
         $rules = parent::rules();
         if ($this->checkExist) {
-            $relation = $this->model->getRelation($this->relation);
+            $relation = $this->model->getRelation($this->relationName);
             $rules[] = [$this->attr, 'exist', 'isEmpty' => [$this, "isEmpty"], 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except' => [ActiveRecord::SCENARIO_SEARCH]];
         }
         return $rules;
@@ -94,7 +66,7 @@ class HasOneField extends ListField
     {
         $grid = $this->defaultGrid();
         $grid["value"] = function ($model, $index, $widget) {
-            return ArrayHelper::getValue($model, "{$this->relation}.{$this->gridAttr}");
+            return ArrayHelper::getValue($model, "{$this->relationName}.{$this->gridAttr}");
         };
 
         return $grid;
@@ -106,7 +78,7 @@ class HasOneField extends ListField
     protected function view()
     {
         $view = $this->defaultView();
-        $view["value"] = ArrayHelper::getValue($this->model, "{$this->relation}.{$this->gridAttr}");
+        $view["value"] = ArrayHelper::getValue($this->model, "{$this->relationName}.{$this->gridAttr}");
         return $view;
     }
 
@@ -118,7 +90,7 @@ class HasOneField extends ListField
     {
         parent::search($query);
         if ($this->eagerLoading) {
-            $query->with($this->relation);
+            $query->with($this->relationName);
         }
     }
 }

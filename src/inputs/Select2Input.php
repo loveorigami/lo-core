@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
  */
 class Select2Input extends DropDownInput
 {
-
+    const THEME = Select2::THEME_KRAJEE;
     public $options = [
         "multiple" => false,
         'encode' => false
@@ -31,19 +31,18 @@ class Select2Input extends DropDownInput
     {
         $data = $this->modelField->getDataValue();
 
-        if (empty($data))
+        if (empty($data)){
             return false;
+        }
 
         $options = ArrayHelper::merge($this->options, $options);
 
         $widgetOptions = ArrayHelper::merge([
-            'theme' => Select2::THEME_KRAJEE,
+            'theme' => self::THEME,
             "data" => $data,
         ], $this->widgetOptions, ["options" => $options]);
 
-        $attr = $this->getFormAttrName($index, $this->modelField->attr);
-
-        return $form->field($this->modelField->model, $attr)->widget(Select2::class, $widgetOptions);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->fieldTemplate)->widget(Select2::class, $widgetOptions);
     }
 
-} 
+}

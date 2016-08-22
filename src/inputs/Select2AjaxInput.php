@@ -34,7 +34,7 @@ class Select2AjaxInput extends DropDownInput {
         $options = ArrayHelper::merge($this->options, $options);
         $this->fieldId = Html::getInputId($model, $attr);
 
-        $this->getTpl();
+        $this->setFieldTemplate();
 
         $url = \yii\helpers\Url::to($this->loadUrl);
 
@@ -68,7 +68,7 @@ class Select2AjaxInput extends DropDownInput {
         );
     }
 
-    protected function setJs(){
+    protected function registerJs(){
         $theme = Select2::THEME_DEFAULT;
         $js = <<<JS
 

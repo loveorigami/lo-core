@@ -149,8 +149,9 @@ abstract class MetaFields extends Object
                     "data" => [$this, "getAuthorsList"],
                     "gridAttr" => "username",
                     "eagerLoading" => true,
+                    "relationName" => 'author'
                 ],
-                "params" => [$this->owner, "author_id", "author"],
+                "params" => [$this->owner, "author_id"],
                 "pos" => 20
             ],
             "created_at" => [

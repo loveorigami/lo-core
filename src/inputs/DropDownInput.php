@@ -19,26 +19,30 @@ use yii\helpers\Html;
  */
 class DropDownInput extends BaseInput
 {
-    protected $formTemplate = [];
-    public $modalUrl;
     public $fieldId;
+    public $modalUrl;
+    protected $fieldTemplate = [];
+
+    public function init()
+    {
+        parent::init();
+
+        $this->setFieldId();
+        $this->setFieldTemplate();
+        $this->setModal();
+        $this->registerJs();
+    }
 
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
      * @param array $options массив html атрибутов поля
-     * @param bool|int $index инднкс модели при табличном вводе
+     * @param bool|int $index индекс модели при табличном вводе
      * @return string
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        $attr = $this->getAttr();
-        $model = $this->getModel();
-
         $options = ArrayHelper::merge($this->options, $options);
-        $this->fieldId = Html::getInputId($model, $attr);
-
-        $this->getTpl();
 
         $widgetOptions = ArrayHelper::merge(
             [
@@ -54,10 +58,21 @@ class DropDownInput extends BaseInput
             ["options" => $options]
         );
 
-        return $form->field($model, $this->getFormAttrName($index, $attr), $this->formTemplate)->widget(DependDropDown::class, $widgetOptions);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->fieldTemplate)->widget(DependDropDown::class, $widgetOptions);
     }
 
-    protected function getTpl()
+    /**
+     * set fieldId
+     */
+    protected function setFieldId()
+    {
+        $this->fieldId = Html::getInputId($this->getModel(), $this->getAttr());
+    }
+
+    /**
+     * set Modal
+     */
+    protected function setModal()
     {
         if (!$this->modalUrl) {
             return null;
@@ -71,11 +86,21 @@ class DropDownInput extends BaseInput
             'header' => 'New item',
             'size' => 'modal-lg',
             'clientOptions' => false,
-            'options' =>['class'=>'header-success']
+            'options' => ['class' => 'header-success']
         ]);
         Modal::end();
+    }
 
-        $this->formTemplate = [
+    /**
+     * @return null
+     */
+    protected function setFieldTemplate()
+    {
+        if (!$this->modalUrl) {
+            return null;
+        }
+
+        $this->fieldTemplate = [
             'template' => '{label}
                     <div class="input-group">{input}
                         <div class="input-group-btn">
@@ -86,15 +111,16 @@ class DropDownInput extends BaseInput
                     </div>
                     {error}{hint}',
         ];
-        $this->setJs();
     }
 
-    protected function setJs()
+    /**
+     * Регистрация js
+     */
+    protected function registerJs()
     {
         $js = <<<JS
 
 $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
-    console.log('kbModalSubmit' + status);
     if(status){
         $(this).modal('toggle');
         $('#$this->fieldId').append($('<option></option>').attr('value', data['id']).prop("selected","selected").text(data['name']));

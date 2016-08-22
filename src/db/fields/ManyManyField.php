@@ -78,7 +78,7 @@ class ManyManyField extends HasOneField
      */
     protected function getStringValue($model)
     {
-        $relatedAll = $model->{$this->relation};
+        $relatedAll = $model->{$this->relationName};
         $arr = [];
 
         foreach ($relatedAll AS $related) {
@@ -117,11 +117,11 @@ class ManyManyField extends HasOneField
          * @var ActiveRecord $relatedClass
          */
         $table = $this->model->tableName();
-        $relatedClass = $this->model->{"get" . ucfirst($this->relation)}()->modelClass;
+        $relatedClass = $this->model->{"get" . ucfirst($this->relationName)}()->modelClass;
         $tableRelated = $relatedClass::tableName();
 
         $query->
-        joinWith($this->relation, $this->eagerLoading)->
+        joinWith($this->relationName, $this->eagerLoading)->
         andFilterWhere(["$tableRelated.id" => $this->model->{$this->attr}])->
         groupBy("$table.id");
     }
