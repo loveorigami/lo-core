@@ -1,7 +1,7 @@
 # Fields and Inputs
 
 Field (lo\core\db\fields)  Input (lo\core\inputs)
-
+## One fields
 - PkField  
 - NumberField ```extends BaseField```
     - NumberInput ```use lo\core\widgets\FormattedNumberInput```
@@ -36,3 +36,17 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - FileUploadInput ```use kartik\file\FileInput```
 - ImageUploadField ```extends FileField``` and ```use mongosoft\file\UploadImageBehavior``` and ```use abeautifulsite\SimpleImage;```
     - ImageUploadInput ```use kartik\file\FileInput```
+- CheckBoxField ```extends BaseField```
+    - CheckBoxInput
+    - CheckBoxInputA ```use lo\core\widgets\awcheckbox\AwesomeCheckbox```
+    - CheckBoxInputB ```use lo\widgets\Toggle```
+
+
+## Many Fields 
+- ListField ```extends BaseField```
+    - DropDownInput
+- HasOneField ```extends ListField``` for relation data
+    - DropDownInput
+    - Select2Input ```use kartik\select2\Select2```
+- ManyManyField
+    - Select2MultiInput ```use kartik\select2\Select2```

@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
  * Class HasOneField
  * Поле для связей Has One. Интерфейс привязки в форме в виде выпадающего списка.
  *
- *  public function getCats()
+ *  public function getCategories()
  *  {
  *      $models = Category::find()->published()->orderBy(["name" => SORT_ASC])->all();
  *      return ArrayHelper::map($models, "id", "name");
@@ -20,12 +20,13 @@ use yii\helpers\ArrayHelper;
  *          "class" => fields\HasOneField::class,
  *          "title" => Yii::t('backend', 'Category'),
  *          "isRequired" => false,
- *          "data" => [$this, "getCats"], // массив всех категорий (см. выше)
+ *          "data" => [$this, "getCategories"], // массив всех категорий (см. выше)
  *          "eagerLoading" => true,
  *          "numeric" => false,
  *          "showInGrid" => false,
+ *          "relationName" => 'category', //relation getCategory
  *      ],
- *      "params" => [$this->owner, "cat_id", "cat"] // id и relation getCat
+ *      "params" => [$this->owner, "cat_id"]
  *  ],
  *
  * @package lo\core\db\fields
@@ -49,7 +50,14 @@ class HasOneField extends ListField
         $rules = parent::rules();
         if ($this->checkExist) {
             $relation = $this->model->getRelation($this->relationName);
-            $rules[] = [$this->attr, 'exist', 'isEmpty' => [$this, "isEmpty"], 'targetClass' => $relation->modelClass, 'targetAttribute' => key($relation->link), 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+            $rules[] = [
+                $this->attr,
+                'exist',
+                'isEmpty' => [$this, "isEmpty"],
+                'targetClass' => $relation->modelClass,
+                'targetAttribute' => key($relation->link),
+                'except' => [ActiveRecord::SCENARIO_SEARCH]
+            ];
         }
         return $rules;
     }

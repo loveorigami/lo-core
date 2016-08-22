@@ -24,9 +24,7 @@ use lo\core\inputs;
  */
 class CheckBoxField extends BaseField
 {
-    /**
-     * @var $inputClass
-     */
+    /** @var $inputClass */
     public $inputClass = inputs\CheckBoxInput::class;
 
     /**

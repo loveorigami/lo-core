@@ -3,6 +3,7 @@ namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
 use lo\core\db\ActiveQuery;
+use lo\core\grid\Select2Column;
 use lo\core\inputs\Select2MultiInput;
 use yii\helpers\ArrayHelper;
 
@@ -19,8 +20,9 @@ use yii\helpers\ArrayHelper;
  *          "isRequired" => true,
  *          "showInGrid" => false,
  *          "data" => [$this, "getСategoriesList"],
+ *          "relationName" => "categories" // relation getCategories()
  *      ],
- *      "params" => [$this->owner, "categoriesIds", "categories"] // свойство $_categoriesIds и relation getCategories()
+ *      "params" => [$this->owner, "categoriesIds"]
  *  ],
  * ```
  *
@@ -36,27 +38,16 @@ use yii\helpers\ArrayHelper;
  */
 class ManyManyField extends HasOneField
 {
-    /**
-     * Жадная загрузка
-     * @var bool
-     */
+    /** @var bool Жадная загрузка */
     public $eagerLoading = true;
 
-    /**
-     * Проверку на целое число пропускаем, т.к. работаем с массивом
-     * @var bool
-     */
+    /** @var bool Проверку на целое число пропускаем, т.к. работаем с массивом */
     public $numeric = false;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $checkExist = false;
 
-    /**
-     * Класс обработчик по умолчанию
-     * @var
-     */
+    /** @var string Класс обработчик по умолчанию */
     public $inputClass = Select2MultiInput::class;
 
     /**
@@ -68,6 +59,7 @@ class ManyManyField extends HasOneField
         $grid["value"] = function ($model, $index, $widget) {
             return $this->getStringValue($model);
         };
+        //$grid["class"] = Select2Column::class;
         return $grid;
     }
 
@@ -108,21 +100,25 @@ class ManyManyField extends HasOneField
     }
 
     /**
-     * Поиск
      * @param ActiveQuery $query
+     * @return null
      */
     protected function search(ActiveQuery $query)
     {
-        /**
-         * @var ActiveRecord $relatedClass
-         */
+        $params = $this->model->{$this->attr};
+        if (!$params) return null;
+
+        /** @var ActiveRecord $relatedClass */
         $table = $this->model->tableName();
         $relatedClass = $this->model->{"get" . ucfirst($this->relationName)}()->modelClass;
         $tableRelated = $relatedClass::tableName();
 
-        $query->
-        joinWith($this->relationName, $this->eagerLoading)->
-        andFilterWhere(["$tableRelated.id" => $this->model->{$this->attr}])->
-        groupBy("$table.id");
+        $query->select(["$table.*, COUNT(*) AS countParams"]);
+
+        $query->joinWith($this->relationName, $this->eagerLoading);
+        $query->andFilterWhere(["$tableRelated.id" => $params]);
+        $query->groupBy("$table.id");
+
+        $query->andHaving(['countParams' => count($params)]);
     }
 }

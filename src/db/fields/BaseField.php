@@ -151,7 +151,7 @@ class BaseField extends Object implements IField
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
      * @param array $options массив html атрибутов поля
-     * @param bool|int $index инднкс модели при табличном вводе
+     * @param bool|int $index индекс модели при табличном вводе
      * @param string|array $cls класс поля, либо конфигурационный массив
      * @return string
      */
@@ -172,7 +172,7 @@ class BaseField extends Object implements IField
      * Формирует html код поля формы обернутый в шаблон
      * @param ActiveForm $form объект форма
      * @param array $options массив html атрибутов поля
-     * @param bool|int $index инднкс модели при табличном вводе
+     * @param bool|int $index индекс модели при табличном вводе
      * @return string
      */
     public function getWrappedForm(ActiveForm $form, Array $options = [], $index = false)

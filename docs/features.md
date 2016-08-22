@@ -8,8 +8,13 @@
 - [yii2-upload-behavior](https://github.com/mohorev/yii2-upload-behavior)
 
 ## Widgets
+- [AwesomeCheckbox](https://github.com/loveorigami/lo-core/tree/master/src/widgets/awcheckbox) - Font Awesome Bootstrap Checkboxes & Radios. 
+    - [Plugin](https://github.com/flatlogic/awesome-bootstrap-checkbox)
+- [Bootstrap Toggle](https://github.com/loveorigami/yii2-bootstrap-toggle) - Bootstrap Toggle is a highly flexible Bootstrap plugin that converts checkboxes into toggles
+    - [Plugin](https://github.com/minhur/bootstrap-toggle)
 - [DatePicker](https://github.com/kartik-v/yii2-widget-datepicker) -  for the bootstrap datepicker plugin
 - [FileInput](https://github.com/kartik-v/yii2-widget-fileinput) -  is a customized file input widget
+- [Select2](https://github.com/kartik-v/yii2-widget-select2) - for the Select2 jQuery plugin
 - [TouchSpin](https://github.com/kartik-v/yii2-widget-touchspin) - for the bootstrap-touchspin spinner component
 
 ## Editors

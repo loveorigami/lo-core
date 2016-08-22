@@ -4,7 +4,7 @@ namespace lo\core\grid;
 
 use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
 
@@ -17,7 +17,7 @@ use kartik\select2\Select2;
 class Select2Column extends DataColumn
 {
     public $loadUrl = [];
-    public $initValueText = '';
+    public $initValueText;
 
     /**
      * @inheritdoc
@@ -25,28 +25,34 @@ class Select2Column extends DataColumn
 
     protected function renderFilterCellContent()
     {
-        $url = \yii\helpers\Url::to($this->loadUrl);
-
         $widgetOptions = [
             'initValueText' => $this->initValueText, // set the initial display text
             'model' => $this->grid->filterModel,
             'attribute' => $this->attribute,
-            'options' => $this->filterInputOptions,
-            'pluginOptions' => [
-                'allowClear' => true,
-                'minimumInputLength' => 2,
-                'ajax' => [
-                    'url' => $url,
-                    'dataType' => 'json',
-                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                ],
-                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                'templateResult' => new JsExpression('function(data) { return data.text; }'),
-                'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-            ]
+            'options' => ['multiple' => true],
         ];
 
-        return Select2::widget($widgetOptions);
+        $ajaxWidgetOptions = [];
+
+        if ($this->loadUrl) {
+            $url = Url::to($this->loadUrl);
+            $ajaxWidgetOptions = [
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 2,
+                    'ajax' => [
+                        'url' => $url,
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(data) { return data.text; }'),
+                    'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                ]
+            ];
+        }
+
+        return Select2::widget(ArrayHelper::merge($widgetOptions, $ajaxWidgetOptions));
     }
 
 }
