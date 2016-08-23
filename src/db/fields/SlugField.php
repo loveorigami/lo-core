@@ -24,7 +24,7 @@ class SlugField extends TextField
     public $uniqueParams = [];
 
     /** @var string атрибут из которого генерировать символьный код */
-    public $generateFrom;
+    public $generateFrom = 'name';
 
     /** @var array настройки поведения генерации символьного кода */
     public $slugOptions = [];
