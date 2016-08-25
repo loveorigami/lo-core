@@ -222,7 +222,7 @@ class TaggableStr extends Behavior
             ->where([key($relation->via->link) => $this->owner->getPrimaryKey()])
             ->column($this->owner->getDb());
 
-        if (!empty($pks)) {
+        if (!empty($pks) && ($this->tagFrequencyAttribute !== false)) {
             $class::updateAllCounters([$this->tagFrequencyAttribute => -1], ['in', $class::primaryKey(), $pks]);
         }
 
