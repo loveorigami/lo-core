@@ -12,8 +12,7 @@ use yii\db\Query;
  * Поведение для сохранения связанных через MANY MANY записей
  * @package lo\core\behaviors
  * @author Alexander Kochetov <creocoder@gmail.com>
-*/
-
+ */
 class TaggableStr extends Behavior
 {
     /**
@@ -31,12 +30,12 @@ class TaggableStr extends Behavior
     /**
      * @var string
      */
-    public $frequency = 'frequency';
+    public $tagFrequencyAttribute = 'frequency';
     /**
      * @var string
      */
     public $relation = 'tags';
-	
+
     /**
      * Sort column
      * @var array|string
@@ -82,7 +81,7 @@ class TaggableStr extends Behavior
      */
     public function __get($name)
     {
-        if ($this->owner->scenario=='search')  return $this->getTagIds();
+        if ($this->owner->scenario == 'search') return $this->getTagIds();
         return $this->getTagNames();
     }
 
@@ -124,7 +123,6 @@ class TaggableStr extends Behavior
 
     /**
      * Возвращает массив идентификаторов связанных записей
-     * @param string $name имя связи
      * @return array
      */
 
@@ -133,7 +131,7 @@ class TaggableStr extends Behavior
         $ids = [];
         $pk = $this->owner->getPrimaryKey();
 
-        if(empty($pk))
+        if (empty($pk))
             return $ids;
 
         $models = $this->owner->{$this->relation};
@@ -177,7 +175,7 @@ class TaggableStr extends Behavior
         $class = $relation->modelClass;
         $rows = [];
         $updatedTags = [];
-        $order=1;
+        $order = 1;
 
         foreach ($names as $name) {
             $tag = $class::findOne([$this->name => $name]);
@@ -186,9 +184,11 @@ class TaggableStr extends Behavior
                 $tag = new $class();
                 $tag->{$this->name} = $name;
             }
-
-            $tag->{$this->frequency}++;
-
+            if ($this->tagFrequencyAttribute !== false) {
+                $frequency = $tag->getAttribute($this->tagFrequencyAttribute);
+                $tag->setAttribute($this->tagFrequencyAttribute, ++$frequency);
+                //$tag->{$this->frequency}++;
+            }
             if ($tag->save()) {
                 $updatedTags[] = $tag;
                 $rows[] = $this->order ? [$this->owner->getPrimaryKey(), $tag->getPrimaryKey(), $order++] : [$this->owner->getPrimaryKey(), $tag->getPrimaryKey()];
@@ -196,7 +196,7 @@ class TaggableStr extends Behavior
         }
 
         if (!empty($rows)) {
-			$data = $this->order ? [key($relation->via->link), current($relation->link), $this->order] : [key($relation->via->link), current($relation->link)];
+            $data = $this->order ? [key($relation->via->link), current($relation->link), $this->order] : [key($relation->via->link), current($relation->link)];
             $this->owner->getDb()
                 ->createCommand()
                 ->batchInsert($pivot, $data, $rows)
@@ -223,7 +223,7 @@ class TaggableStr extends Behavior
             ->column($this->owner->getDb());
 
         if (!empty($pks)) {
-            $class::updateAllCounters([$this->frequency => -1], ['in', $class::primaryKey(), $pks]);
+            $class::updateAllCounters([$this->tagFrequencyAttribute => -1], ['in', $class::primaryKey(), $pks]);
         }
 
         $this->owner->getDb()
