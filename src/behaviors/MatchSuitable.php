@@ -11,16 +11,12 @@ use yii\base\Behavior;
  * @package lo\core\behaviors
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class MatchSuitable extends Behavior {
-
-    /**
-     * @var string имя атрибута содержащего условие
-     */
+class MatchSuitable extends Behavior
+{
+    /** @var string имя атрибута содержащего условие */
     public $condAttr = "cond";
 
-    /**
-     * @var string имя атрибута содержащего тип условия
-     */
+    /** @var string имя атрибута содержащего тип условия */
     public $condTypeAttr = "cond_type";
 
     /**
@@ -29,19 +25,15 @@ class MatchSuitable extends Behavior {
      */
     public function isSuitable()
     {
-
-        if (empty($this->owner->{$this->condAttr}))
+        if (empty($this->owner->{$this->condAttr})) {
             return true;
-        else {
-
+        } else {
             $match = Match::getMatch($this->owner->{$this->condTypeAttr});
-
-            if ($match)
+            if ($match) {
                 return $match->test($this->owner->{$this->condAttr});
-            else
+            } else {
                 return false;
+            }
         }
-
     }
-
-} 
+}

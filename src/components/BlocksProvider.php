@@ -14,15 +14,10 @@ use yii\base\Object;
  */
 class BlocksProvider extends Object
 {
-
-    /**
-     * @var array массив сопоставлений для меню
-     */
+    /** @var array массив сопоставлений для меню */
     public $menus = [];
 
-    /**
-     * @var array массив сопоставлений для включаемых областей
-     */
+    /** @var array массив сопоставлений для включаемых областей */
     public $areas = [];
 
     /**
@@ -30,10 +25,9 @@ class BlocksProvider extends Object
      * @param string $placeCode код места
      * @param string $menuCode символьный код меню
      */
-    public function setMenu($placeCode, $menuCode) {
-
+    public function setMenu($placeCode, $menuCode)
+    {
         $this->menus[$placeCode] = $menuCode;
-
     }
 
     /**
@@ -42,20 +36,18 @@ class BlocksProvider extends Object
      * @param string|null $default значение по умолчанию
      * @return string|null
      */
-    public function getMenu($placeCode, $default = null) {
-
-        return isset($this->menus[$placeCode])?$this->menus[$placeCode]:$default;
-
+    public function getMenu($placeCode, $default = null)
+    {
+        return isset($this->menus[$placeCode]) ? $this->menus[$placeCode] : $default;
     }
 
     /**
      * @param string $placeCode код места
      * @param string $areaCode символьный код включаемой области
      */
-    public function setArea($placeCode, $areaCode) {
-
-        $this->menus[$placeCode] = $areaCode;
-
+    public function setArea($placeCode, $areaCode)
+    {
+        $this->areas[$placeCode] = $areaCode;
     }
 
     /**
@@ -64,11 +56,8 @@ class BlocksProvider extends Object
      * @param string|null $default значение по умолчанию
      * @return string|null
      */
-    public function getArea($placeCode, $default = null) {
-
-        return isset($this->areas[$placeCode])?$this->menus[$placeCode]:$default;
-
+    public function getArea($placeCode, $default = null)
+    {
+        return isset($this->areas[$placeCode]) ? $this->areas[$placeCode] : $default;
     }
-
-
 }

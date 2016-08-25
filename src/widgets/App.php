@@ -12,45 +12,30 @@ use yii\base\Widget;
  */
 class App extends Widget
 {
-
-    /**
-     * @var int тип условия для отображения виджета
-     */
-
+    /** @var int тип условия для отображения виджета */
     public $showCondType = Match::COND_NO;
 
-    /**
-     * @var string условие отображения виджета
-     */
-
+    /** @var string условие отображения виджета */
     public $showCond;
 
-    /**
-     * @var string представление виджета
-     */
-
+    /** @var string представление виджета */
     public $tpl = "index";
 
     /**
      * Отображать ли данный виджет
      * @return bool
      */
-
     public function isShow()
     {
-
-        if (empty($this->showCondType))
+        if (empty($this->showCondType)) {
             return true;
-        else {
-
+        } else {
             $match = Match::getMatch($this->showCondType);
-
-            if ($match)
+            if ($match) {
                 return $match->test($this->showCond);
-            else
+            } else {
                 return false;
+            }
         }
-
     }
-
 }
