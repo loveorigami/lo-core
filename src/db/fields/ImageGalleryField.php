@@ -23,9 +23,6 @@ class ImageGalleryField extends ImageField
     /** @var string название поведения */
     public $galleryBehavior;
 
-    /** @var string сущность */
-    public $entity;
-
     /**
      * @return array
      */
