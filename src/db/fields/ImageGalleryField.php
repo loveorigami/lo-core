@@ -5,6 +5,7 @@ namespace lo\core\db\fields;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs;
 use lo\modules\gallery\behaviors\GalleryImageBehavior;
+use lo\modules\gallery\models\GalleryItem;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -38,6 +39,7 @@ class ImageGalleryField extends ImageField
 
         $parent[$code] = ArrayHelper::merge([
             'class' => GalleryImageBehavior::class,
+            "modelClass" => GalleryItem::class,
             'scenarios' => [ActiveRecord::SCENARIO_UPDATE],
             'attribute' => $this->attr,
             'path' => $this->getStoragePath(),
