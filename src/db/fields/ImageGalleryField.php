@@ -48,7 +48,7 @@ class ImageGalleryField extends ImageField
                 self::THUMB => ['width' => 75, 'height' => 50, 'quality' => 90],
             ],
             'entity' => $model::getEntityName(),
-            'unlinkOnSave' => false,
+            'removeDirectoryOnDelete' => false,
             'createThumbsOnSave' => true,
             'createThumbsOnRequest' => true
         ], $this->uploadOptions);
