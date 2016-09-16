@@ -2,7 +2,6 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\db\ActiveRecord;
 use lo\core\inputs;
 use lo\modules\gallery\behaviors\GalleryImageBehavior;
 use lo\modules\gallery\models\GalleryItem;
@@ -39,15 +38,18 @@ class ImageGalleryField extends ImageField
 
         $parent[$code] = ArrayHelper::merge([
             'class' => GalleryImageBehavior::class,
-            "modelClass" => GalleryItem::class,
-            'scenarios' => [ActiveRecord::SCENARIO_UPDATE],
+            'modelClass' => GalleryItem::class,
+            'owner' => $model,
+            'entity' => $model::getEntityName(),
+            'scenarios' => [$model::SCENARIO_UPDATE],
             'attribute' => $this->attr,
+            'extensions' => 'jpeg, jpg, png, gif',
+            'maxSize' => 1024 * 1024 * 2,
             'path' => $this->getStoragePath(),
             'url' => $this->getStorageUrl(),
             'thumbs' => [
                 self::THUMB => ['width' => 75, 'height' => 50, 'quality' => 90],
             ],
-            'entity' => $model::getEntityName(),
             'removeDirectoryOnDelete' => false,
             'createThumbsOnSave' => true,
             'createThumbsOnRequest' => true
