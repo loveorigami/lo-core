@@ -23,6 +23,17 @@ class ActiveQuery extends YiiQuery
     }
 
     /**
+     * Устанавливает ограничение по признаку на главной
+     * @param bool $state если true выбираем активные иначе не активные
+     * @return $this
+     */
+    public function onmain($state = true)
+    {
+        $this->andWhere([$this->getAlias().".on_main" => $state]);
+        return $this;
+    }
+
+    /**
      * @param $slug
      * @return $this
      */
