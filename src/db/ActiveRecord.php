@@ -225,6 +225,7 @@ abstract class ActiveRecord extends YiiRecord
             "query" => $query,
         ], $dataProviderConfig);
 
+        /**@var ActiveDataProvider $dataProvider*/
         $dataProvider = Yii::createObject($config);
         $dataProvider->getSort()->defaultOrder = $this->_defaultSearchOrder;
 
