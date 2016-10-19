@@ -35,6 +35,7 @@
     "abeautifulsite/simpleimage":"*",
 	"loveorigami/yii2-ckeditor": "*",
 	"loveorigami/yii2-modal-ajax": "*",
+    "loveorigami/yii2-icofont": "*",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
