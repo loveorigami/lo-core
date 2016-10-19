@@ -51,6 +51,7 @@
     "marciocamello/yii2-x-editable": "*",
     "creocoder/yii2-nested-sets": "0.9.*",
     "creocoder/yii2-taggable": "~2.0",
+    "rmrevin/yii2-fontawesome": "~2.15",
     "voskobovich/yii2-many-many-behavior": "^3.0",
     "devgroup/yii2-jstree-widget": "*",
     
