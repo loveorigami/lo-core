@@ -12,6 +12,33 @@ use yii\helpers\StringHelper as YiiStringHelper;
  */
 class StringHelper extends YiiStringHelper
 {
+    /**
+     * Получим все ссылки из текста
+     * @param string $text - текст
+     * @return array
+     */
+    function getArrUrl($text){
+        preg_match_all(
+            "#\s(?:href|src|url)=(?:[\"\'])?(.*?)(?:[\"\'])?(?:[\s\>])#i",
+            $text,
+            $matches
+        );
+        return $matches[1];
+    }
+
+    /**
+     * Получим все ссылки из текста
+     * @param string $text - текст
+     * @return array
+     */
+    function getArrSrc($text){
+        preg_match_all(
+            "#\s(?:src)=(?:[\"\'])?(.*?)(?:[\"\'])?(?:[\s\>])#i",
+            $text,
+            $matches
+        );
+        return $matches[1];
+    }
 
     /**
      * Возвращает строку, обрезая по последний разделитель
@@ -20,7 +47,6 @@ class StringHelper extends YiiStringHelper
      * @param bool $with_delimiter вместе с разделителем
      * @return string
      */
-
     public static function strToDelimiter($str, $delimiter = '/', $with_delimiter = true)
     {
         //$str = preg_replace('~[^$delimiter]+$~s', '', $str); // вариант
