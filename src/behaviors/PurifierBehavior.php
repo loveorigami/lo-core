@@ -3,7 +3,7 @@
 namespace lo\core\behaviors;
 
 use yii\base\Behavior;
-use yii\base\Event;
+use yii\db\ActiveRecord;
 use yii\helpers\HtmlPurifier;
 
 /**
@@ -16,17 +16,12 @@ use yii\helpers\HtmlPurifier;
  * 'purifierBehavior' => [
  *     'class' => PurifierBehavior::className(),
  *     'attributes' => [
- *         self::EVENT_BEFORE_VALIDATE => [
  *             'snippet',
  *             'content' => [
  *                 'HTML.AllowedElements' => '',
  *                 'AutoFormat.RemoveEmpty' => true
  *             ]
  *         ]
- *     ],
- *     'textAttributes' => [
- *         self::EVENT_BEFORE_VALIDATE => ['title', 'alias']
- *     ]
  * ]
  * ...
  * ```
@@ -43,11 +38,6 @@ class PurifierBehavior extends Behavior
     public $attributes = [];
 
     /**
-     * @var array Text attributes array
-     */
-    public $textAttributes = [];
-
-    /**
      * @var array Purifier settings
      */
     public $purifierSettings = [
@@ -58,60 +48,46 @@ class PurifierBehavior extends Behavior
     ];
 
     /**
+     * @var HtmlPurifier
+     */
+    private $purifier;
+
+    public function __construct(HtmlPurifier $purifier, array $config = [])
+    {
+        $this->purifier = $purifier;
+        parent::__construct($config);
+    }
+
+    /**
      * @inheritdoc
      */
     public function events()
     {
-        $events = [];
-        foreach ($this->attributes as $event => $attributes) {
-            $events[$event] = 'purify';
+        return [
+            ActiveRecord::EVENT_BEFORE_VALIDATE => "beforeValidate",
+        ];
+    }
+
+    public function beforeValidate()
+    {
+        if (!empty($this->attributes)) {
+            $this->purify();
         }
-        foreach ($this->textAttributes as $event => $attributes) {
-            $events[$event] = 'textPurify';
-        }
-        return $events;
     }
 
     /**
      * Purify attributes
-     *
-     * @param Event $event Current event
      */
-    public function purify($event)
+    public function purify()
     {
-        $attributes = isset($this->attributes[$event->name]) ? (array)$this->attributes[$event->name] : [];
-        if (!empty($attributes)) {
-            $purifier = new HtmlPurifier;
-            foreach ($attributes as $attribute => $config) {
-                if (is_array($config)) {
-                    $settings = $config;
-                } else {
-                    $attribute = $config;
-                    $settings = $this->purifierSettings;
-                }
-                $this->owner->$attribute = $purifier->process($this->owner->$attribute, $settings);
+        foreach ($this->attributes as $attribute => $config) {
+            if (is_array($config)) {
+                $settings = $config;
+            } else {
+                $attribute = $config;
+                $settings = $this->purifierSettings;
             }
-        }
-    }
-
-    /**
-     * Purify text attributes
-     *
-     * @param Event $event Current event
-     */
-    public function textPurify($event)
-    {
-        $attributes = isset($this->textAttributes[$event->name]) ? (array)$this->textAttributes[$event->name] : [];
-        if (!empty($attributes)) {
-            $purifier = new HtmlPurifier;
-            $settings = [
-                'HTML.AllowedElements' => '',
-                'AutoFormat.RemoveEmpty' => true,
-                'AutoFormat.RemoveEmpty.RemoveNbsp' => true,
-            ];
-            foreach ($attributes as $attribute) {
-                $this->owner->$attribute = $purifier->process($this->owner->$attribute, $settings);
-            }
+            $this->owner->$attribute = $this->purifier->process($this->owner->$attribute, $settings);
         }
     }
 }
