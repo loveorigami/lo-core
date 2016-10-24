@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\db;
 
+use lo\core\behaviors\BlameableBehavior;
 use lo\core\traits\ConstraintTrait;
 use lo\core\traits\CreatedAtSearchTrait;
 use Yii;
@@ -8,7 +9,6 @@ use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord as YiiRecord;
 use Yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
-use yii\behaviors\BlameableBehavior;
 
 use dektrium\user\models\User;
 
@@ -184,6 +184,7 @@ abstract class ActiveRecord extends YiiRecord
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
+                'defaultUserId' => 1,
             ],
         ];
     }
