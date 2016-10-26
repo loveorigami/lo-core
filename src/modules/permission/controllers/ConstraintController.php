@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\permission\modules\admin\controllers;
+namespace lo\core\modules\permission\controllers;
 
 use lo\core\actions\crud;
 use lo\core\modules\permission\models\Constraint;

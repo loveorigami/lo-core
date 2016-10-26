@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var Constraint $searchModel
+ * @var \lo\core\modules\permission\models\Constraint $searchModel
  */
 
 $this->title = \Yii::t('common', 'Constraint');

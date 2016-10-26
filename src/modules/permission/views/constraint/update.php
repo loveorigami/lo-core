@@ -1,10 +1,8 @@
 <?php
 
-use yii\helpers\Html;
-
 /**
  * @var yii\web\View $this
- * @var common\models\Constraint $model
+ * @var \lo\core\modules\permission\models\Constraint $model
  */
 
 $this->title = \Yii::t('common', 'Update Constraint') . ': ' . $model->id;

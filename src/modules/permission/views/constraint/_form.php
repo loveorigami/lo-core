@@ -2,7 +2,7 @@
 use lo\core\widgets\admin\Form;
 
 /**
- * @var common\models\Constraint $model модель
+ * @var \lo\core\modules\permission\models\Constraint $model
  */
 
 echo Form::widget(["model" => $model]);

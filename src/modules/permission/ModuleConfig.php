@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\permissions;
+namespace lo\core\modules\permission;
 
 use Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider;
 use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;

@@ -4,7 +4,7 @@ use lo\core\widgets\admin\Detail;
 
 /**
  * @var yii\web\View $this
- * @var common\models\Constraint $model
+ * @var \lo\core\modules\permission\models\Constraint $model
  */
 
 $this->title = $model->id;

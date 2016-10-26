@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\permissions;
+namespace lo\core\modules\permission;
 
 class Module extends \yii\base\Module
 {
