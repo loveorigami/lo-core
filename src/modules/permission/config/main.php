@@ -3,8 +3,8 @@
 return [
     'modules' => [
         'permissions' => [
-            'class' => 'lo\core\modules\permissions\Module',
-			'controllerNamespace' => 'lo\core\modules\permissions\controllers',
+            'class' => 'lo\core\modules\permission\Module',
+			'controllerNamespace' => 'lo\core\modules\permission\controllers',
 			'defaultRoute' => 'constraint'
         ],
     ],
