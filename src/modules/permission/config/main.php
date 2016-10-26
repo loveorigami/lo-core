@@ -2,7 +2,7 @@
 
 return [
     'modules' => [
-        'permissions' => [
+        'permission' => [
             'class' => 'lo\core\modules\permission\Module',
 			'controllerNamespace' => 'lo\core\modules\permission\controllers',
 			'defaultRoute' => 'constraint'
