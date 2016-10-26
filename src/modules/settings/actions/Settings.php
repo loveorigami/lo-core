@@ -15,7 +15,7 @@ class Settings extends Base
     /**
      * @var string путь к шаблону для отображения
      */
-    public $tpl = __DIR__."/views/settings";
+    public $tpl = '@lo/core/modules/settings/actions/views/settings';
     public $keys = [];
 
     /**
@@ -27,7 +27,7 @@ class Settings extends Base
     public function run()
     {
         $model = new FormModel([
-            'keys'=>$this->keys
+            'keys' => $this->keys
         ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
