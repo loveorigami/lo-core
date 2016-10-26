@@ -1,11 +1,12 @@
 <?php
 
-namespace lo\modules\core\modules\i18n\controllers;
+namespace lo\core\modules\i18n\controllers;
 
-use lo\modules\core\modules\i18n\models\I18nSourceMessage;
+
+use lo\core\modules\i18n\models\I18nMessage;
+use lo\core\modules\i18n\models\I18nSourceMessage;
+use lo\core\modules\i18n\models\search\I18nMessageSearch;
 use Yii;
-use lo\modules\core\modules\i18n\models\I18nMessage;
-use lo\modules\core\modules\i18n\models\search\I18nMessageSearch;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;

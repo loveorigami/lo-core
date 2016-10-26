@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\modules\core\modules\i18n\models;
+namespace lo\core\modules\i18n\models;
 
 use Yii;
 

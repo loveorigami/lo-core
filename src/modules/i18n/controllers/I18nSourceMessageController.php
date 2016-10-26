@@ -1,10 +1,10 @@
 <?php
 
-namespace lo\modules\core\modules\i18n\controllers;
+namespace lo\core\modules\i18n\controllers;
 
+use lo\core\modules\i18n\models\I18nSourceMessage;
+use lo\core\modules\i18n\models\search\I18nSourceMessageSearch;
 use Yii;
-use lo\modules\core\modules\i18n\models\I18nSourceMessage;
-use lo\modules\core\modules\i18n\models\search\I18nSourceMessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

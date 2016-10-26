@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\modules\core\modules\i18n\models;
+namespace lo\core\modules\i18n\models;
 
 use Yii;
 
@@ -11,7 +11,7 @@ use Yii;
  * @property string $category
  * @property string $message
  *
- * @property I18nMessage[] $i18nMessages
+ * @property i18nMessage[] $messages
  */
 class I18nSourceMessage extends \yii\db\ActiveRecord
 {
@@ -77,7 +77,6 @@ class I18nSourceMessage extends \yii\db\ActiveRecord
 
     public function saveI18nMessages()
     {
-        /** @var Message $message */
         foreach ($this->messages as $message) {
             $this->link('messages', $message);
             $message->save();
