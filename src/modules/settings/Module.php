@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\settings\;
+namespace lo\core\modules\settings;
 
 class Module extends \yii\base\Module
 {
