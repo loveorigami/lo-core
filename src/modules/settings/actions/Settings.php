@@ -1,13 +1,12 @@
 <?php
-namespace lo\core\actions\crud;
+namespace lo\core\modules\settings\actions;
 
 use lo\core\actions\Base;
+use lo\core\modules\settings\models\FormModel;
 use Yii;
-use lo\core\components\settings\FormModel;
 
 /**
- * Class View
- * Класс действия просмотра модели
+ * Class Settings
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
@@ -16,7 +15,7 @@ class Settings extends Base
     /**
      * @var string путь к шаблону для отображения
      */
-    public $tpl = "@vendor/loveorigami/lo-core/actions/crud/views/settings";
+    public $tpl = __DIR__."/views/settings";
     public $keys = [];
 
     /**

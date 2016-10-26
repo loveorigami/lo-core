@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\components\settings;
+namespace lo\core\modules\settings\components;
 
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
@@ -22,7 +22,7 @@ class Settings extends Component
     /**
      * @var string
      */
-    public $modelClass = '\lo\modules\core\models\KeyStorageItem';
+    public $modelClass = 'lo\core\modules\settings\models\KeyStorageItem';
 
     /**
      * @var array Runtime values cache
@@ -107,6 +107,7 @@ class Settings extends Component
 
     /**
      * @param $key
+     * @param $cache
      * @return bool
      */
     public function has($key, $cache = true)

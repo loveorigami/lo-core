@@ -1,11 +1,10 @@
 <?php
 
-use lo\core\components\settings\FormWidget;
-use lo\core\db\ActiveRecord;
+use lo\core\modules\settings\widgets\FormWidget;
 
 $this->title = Yii::t('backend', 'Application settings');
 
-/** @var ActiveRecord $model */
+/** @var \lo\core\modules\settings\models\FormModel $model */
 echo FormWidget::widget([
     'model' => $model,
     'formClass' => '\yii\bootstrap\ActiveForm',

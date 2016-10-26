@@ -1,25 +1,29 @@
 <?php
 
-namespace lo\core\components\settings;
+namespace lo\core\modules\settings\widgets;
 
+use lo\core\modules\settings\models\FormModel;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
- * @author Eugene Terentev <eugene@terentev.net>
+ * Class FormWidget
+ * @package lo\core\modules\settings\widgets
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class FormWidget extends Widget
 {
     /**
-     * @var \lo\core\components\settings\FormModel
+     * @var FormModel
      */
     public $model;
     /**
      * @var string
      */
-    public $formClass = '\yii\widgets\ActiveForm';
+    public $formClass = 'yii\widgets\ActiveForm';
     /**
      * @var array
      */
@@ -39,10 +43,12 @@ class FormWidget extends Widget
     public function run()
     {
         $model = $this->model;
+        /** @var ActiveForm $form */
         $form = call_user_func([$this->formClass, 'begin'], $this->formOptions);
         foreach ($model->keys as $key => $config) {
             $type = ArrayHelper::getValue($config, 'type', FormModel::TYPE_TEXTINPUT);
             $options = ArrayHelper::getValue($config, 'options', []);
+
             $field = $form->field($model, $key);
             $items = ArrayHelper::getValue($config, 'items', []);
             switch ($type) {

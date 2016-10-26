@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\components\settings;
+namespace lo\core\modules\settings\models;
 
 use Yii;
 use yii\base\Exception;
