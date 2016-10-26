@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\i18n\Module;
+namespace lo\core\modules\i18n;
 
 use Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider;
 use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
