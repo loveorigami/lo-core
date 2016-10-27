@@ -9,7 +9,7 @@ use Yii;
  * Class Setings
  * @package lo\core\components\Setings
  */
-class Settings extends Component
+class Settings extends Component implements SettingsInterface
 {
     /**
      * @var string
