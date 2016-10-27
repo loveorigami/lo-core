@@ -107,7 +107,7 @@ class Settings extends Component implements SettingsInterface
 
     /**
      * @param $key
-     * @param $cache
+     * @param bool $cache
      * @return bool
      */
     public function has($key, $cache = true)
@@ -136,7 +136,7 @@ class Settings extends Component implements SettingsInterface
     public function remove($key)
     {
         unset($this->values[$key]);
-        return call_user_func($this->modelClass.'::deleteAll', ['key' => $key]);
+        return call_user_func($this->modelClass . '::deleteAll', ['key' => $key]);
     }
 
     /**
@@ -155,8 +155,8 @@ class Settings extends Component implements SettingsInterface
      */
     protected function getModel($key)
     {
-        $query = call_user_func($this->modelClass.'::find');
-        return $query->where(['key'=>$key])->select(['key', 'value'])->one();
+        $query = call_user_func($this->modelClass . '::find');
+        return $query->where(['key' => $key])->one();
     }
 
     /**
