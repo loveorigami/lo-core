@@ -8,6 +8,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * KeyStorageController implements the CRUD actions for KeyStorageItem model.
@@ -53,6 +54,14 @@ class KeyStorageController extends Controller
         $model = new KeyStorageItem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (Yii::$app->request->isAjax) {
+                // JSON response is expected in case of successful save
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return [
+                    'success' => true
+                ];
+            }
+
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -72,6 +81,13 @@ class KeyStorageController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (Yii::$app->request->isAjax) {
+                // JSON response is expected in case of successful save
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return [
+                    'success' => true
+                ];
+            }
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [

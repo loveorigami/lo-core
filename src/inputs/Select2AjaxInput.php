@@ -4,6 +4,7 @@ namespace lo\core\inputs;
 
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use yii\helpers\Html;
@@ -36,7 +37,7 @@ class Select2AjaxInput extends DropDownInput {
 
         $this->setFieldTemplate();
 
-        $url = \yii\helpers\Url::to($this->loadUrl);
+        $url = Url::to($this->loadUrl);
 
         $val = ArrayHelper::getValue($model, "{$relation}.name");
         $val = $val ? $val : '---';
