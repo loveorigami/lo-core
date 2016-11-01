@@ -14,12 +14,12 @@ class CalculationHelper
      * @param $total
      * @return int
      */
-    public static function getPersent($value, $total)
+    public static function persent($value, $total)
     {
         if ($total < 0) return 0;
         if ($total < $value) return 100;
 
-        return ($total - $value) / $total;
+        return (($total - $value) / $total) * 100;
     }
 
 }
