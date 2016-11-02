@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\modules\settings\components;
+namespace lo\core\components;
 
 use yii\base\Component;
 use yii\helpers\ArrayHelper;

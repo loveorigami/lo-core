@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\modules\settings\actions;
+namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\modules\settings\models\FormModel;
@@ -24,7 +24,7 @@ class Settings extends Base
     /**
      * @var string путь к шаблону для отображения
      */
-    public $tpl = '@lo/core/modules/settings/actions/views/settings';
+    public $tpl = '@lo/core/actions/crud/views/settings';
     public $keys = [];
 
     /**

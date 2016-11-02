@@ -1,6 +1,6 @@
 <?php
 
-namespace lo\core\modules\settings\components;
+namespace lo\core\components;
 
 /**
  * Interface SettingsInterface

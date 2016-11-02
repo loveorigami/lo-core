@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\modules\settings\controllers;
 
-use lo\core\modules\settings\actions\Settings;
+use lo\core\actions\crud\Settings;
 use lo\core\modules\settings\models\FormModel;
 use Yii;
 use yii\web\Controller;
