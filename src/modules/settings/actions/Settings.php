@@ -13,6 +13,14 @@ use yii\web\Response;
  */
 class Settings extends Base
 {
+    const TYPE_DROPDOWN = FormModel::TYPE_DROPDOWN;
+    const TYPE_TEXTINPUT = FormModel::TYPE_TEXTINPUT;
+    const TYPE_TEXTAREA = FormModel::TYPE_TEXTAREA;
+    const TYPE_CHECKBOX = FormModel::TYPE_CHECKBOX;
+    const TYPE_RADIOLIST = FormModel::TYPE_RADIOLIST;
+    const TYPE_CHECKBOXLIST = FormModel::TYPE_CHECKBOXLIST;
+    const TYPE_WIDGET = FormModel::TYPE_WIDGET;
+
     /**
      * @var string путь к шаблону для отображения
      */
