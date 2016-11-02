@@ -14,7 +14,7 @@ class CalculationHelper
      * @param $total
      * @return int
      */
-    public static function persent($value, $total)
+    public static function percent($value, $total)
     {
         if ($total <= 0) return 0;
         if ($total < $value) return 100;
