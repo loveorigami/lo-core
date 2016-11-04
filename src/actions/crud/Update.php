@@ -5,6 +5,7 @@ use lo\core\db\ActiveRecord;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use lo\core\actions\Base;
+use yii\web\Response;
 
 /**
  * Class Update
@@ -49,21 +50,29 @@ class Update extends Base
         if ($load && !Yii::$app->user->can($this->access(), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden load');
 
-        if ($load && $model->save() && !$request->post($this->applyParam)) {
 
-            $returnUrl = $request->post($this->redirectParam);
 
-            if (empty($returnUrl))
-                $returnUrl = $this->defaultRedirectUrl;
+        if ($load && $model->save()) {
 
-            return $this->controller->redirect($returnUrl);
+            if (Yii::$app->request->isAjax) {
+                // JSON response is expected in case of successful save
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return [
+                    'success' => true,
+                    'id' => $model->id
+                ];
+            }
 
-        } else {
-            return $this->render($this->tpl, [
-                'model' => $model,
-            ]);
+            if (!$request->post($this->applyParam)){
+                $returnUrl = $this->getReturnUrl();
+                return $this->controller->redirect($returnUrl);
+            }
+
         }
 
+        return $this->render($this->tpl, [
+            'model' => $model,
+        ]);
     }
 
 }
