@@ -3,7 +3,7 @@
 namespace lo\core\inputs;
 
 use lo\core\widgets\DependDropDown;
-use lo\widgets\modal\Modal;
+use lo\widgets\modal\AjaxModal;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
@@ -78,7 +78,7 @@ class DropDownInput extends BaseInput
             return null;
         }
 
-        Modal::begin([
+        AjaxModal::begin([
             'id' => 'add-' . $this->fieldId,
             'url' => Url::to($this->modalUrl), // Ajax view with form to load
             'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
@@ -88,7 +88,7 @@ class DropDownInput extends BaseInput
             'clientOptions' => false,
             'options' => ['class' => 'header-success']
         ]);
-        Modal::end();
+        AjaxModal::end();
     }
 
     /**
