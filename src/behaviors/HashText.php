@@ -20,10 +20,13 @@ class HashText extends Behavior
     public $hashAttribute = 'hash';
 
     /**
-     * @var string|array
+     * @var string
      */
     public $attribute = 'text';
 
+    /**
+     * @return array
+     */
     public function events()
     {
         return [
@@ -31,6 +34,9 @@ class HashText extends Behavior
         ];
     }
 
+    /**
+     * @param $event
+     */
     public function beforeValidate($event)
     {
         /** @var ActiveRecord $model */
@@ -41,7 +47,10 @@ class HashText extends Behavior
         $validator->validateAttribute($model, $this->hashAttribute);
     }
 
-    private function getHash()
+    /**
+     * @return string
+     */
+    protected function getHash()
     {
         $owner = $this->owner;
         $str = $owner->{$this->attribute};
