@@ -7,7 +7,7 @@ namespace lo\core\helpers;
  * @package lo\core\helpers
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class CalculationHelper
+class MathHelper
 {
     /**
      * @param $value
