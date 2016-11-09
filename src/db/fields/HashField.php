@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\db\fields;
 
-use lo\core\behaviors\HashEmail;
+use lo\core\behaviors\HashString;
 use lo\core\db\ActiveRecord;
 use lo\core\behaviors\HashText;
 use lo\core\inputs\ReadOnlyInput;
@@ -28,7 +28,7 @@ class HashField extends TextField
      * hash modes
      */
     const MODE_TEXT = "text";
-    const MODE_EMAIL = "email";
+    const MODE_STRING = "string";
 
     /**
      * @var string атрибут из которого генерировать хеш
@@ -52,8 +52,8 @@ class HashField extends TextField
     {
         parent::init();
         switch ($this->hashMode){
-            case self::MODE_EMAIL:
-                $this->_class = HashEmail::class;
+            case self::MODE_STRING:
+                $this->_class = HashString::class;
                 break;
             default:
                 $this->_class = HashText::class;
