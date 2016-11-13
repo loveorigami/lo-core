@@ -27,7 +27,7 @@ use lo\core\widgets\awcheckbox\AwesomeCheckbox;
  * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class CheckBoxListInput extends DropDownInput
+class CheckBoxListInput extends BaseInput
 {
     /**
      * Настройки по умолчанию
