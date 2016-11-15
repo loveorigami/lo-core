@@ -47,7 +47,7 @@
     "kartik-v/yii2-widget-touchspin": "*",
 	"kartik-v/yii2-field-range": "*",
 
-    "notamedia/yii2-relation": "*",
+    "la-haute-societe/yii2-save-relations-behavior": "*",
     "zelenin/yii2-slug-behavior": "*",
     "mongosoft/yii2-upload-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
