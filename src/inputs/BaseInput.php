@@ -79,6 +79,7 @@ abstract class BaseInput extends Object
     {
         $attr = $this->modelField->attr;
         $relationAttr = $this->modelField->relationAttr;
+        //$relationName = $this->modelField->relationName;
         $model = $this->modelField->model;
 
         if ($relationAttr && $model->scenario != $model::SCENARIO_SEARCH) {
