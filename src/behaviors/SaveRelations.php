@@ -2,6 +2,8 @@
 
 namespace lo\core\behaviors;
 
-class SaveRelations
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+
+class SaveRelations extends SaveRelationsBehavior
 {
 }

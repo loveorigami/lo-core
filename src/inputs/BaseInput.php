@@ -61,12 +61,12 @@ abstract class BaseInput extends Object
     public function getModel()
     {
         $model = $this->modelField->model;
-/*        $relation = $this->modelField->relationName;
+        $relation = $this->modelField->relationName;
         $attr = $this->modelField->relationAttr;
 
         if ($attr && $relation && $model->scenario != $model::SCENARIO_SEARCH) {
             return $this->modelField->getRelationModel();
-        }*/
+        }
 
         return $model;
     }
@@ -79,11 +79,11 @@ abstract class BaseInput extends Object
     {
         $attr = $this->modelField->attr;
         $relationAttr = $this->modelField->relationAttr;
-        $relationName = $this->modelField->relationName;
         $model = $this->modelField->model;
 
         if ($relationAttr && $model->scenario != $model::SCENARIO_SEARCH) {
-            //return $relationName.[$relationAttr];
+            //return $relationName.'['.$relationAttr.']';
+            return $relationAttr;
         }
 
         return $attr;

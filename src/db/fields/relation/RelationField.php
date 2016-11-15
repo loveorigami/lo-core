@@ -19,7 +19,7 @@ class RelationField extends BaseField
 
     /**
      * @return array
-     */
+
     public function behaviors()
     {
         $parent = parent::behaviors();
@@ -32,20 +32,21 @@ class RelationField extends BaseField
             $code = self::BEHAVIOR_PREF . ucfirst($this->relationName);
             $behavior[$code] = [
                 'class' => SaveRelations::class,
+                'relations' => [$this->relationName],
             ];
             $parent = ArrayHelper::merge($parent, $behavior);
         }
 
         return $parent;
     }
-
+*/
     /**
      * @inheritdoc
      */
     public function rules()
     {
         $rules = parent::rules();
-            $rules[] = [$this->relationName, 'safe'];
+        //$rules[] = [$this->relationName, 'safe'];
         return $rules;
     }
 
