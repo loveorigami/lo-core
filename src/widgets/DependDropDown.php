@@ -2,6 +2,7 @@
 
 namespace lo\core\widgets;
 
+use yii\web\View;
 use yii\widgets\InputWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -15,63 +16,44 @@ use yii\base\InvalidConfigException;
  */
 class DependDropDown extends InputWidget
 {
+    /** @var array маршрут для подгрузки зависимого списка */
+    public $loadUrl;
 
-	/**
-	 * @var array маршрут для подгрузки зависимого списка
-	 */
-	public $source;
+    /** @var string имя зависимого атрибута модели. используется если в виджет передана модель */
+    public $dependAttr;
 
-	/**
-	 * @var string имя зависимого атрибута модели. используется если в виджет передана модель
-	 */
-	public $dependAttr;
+    /** @var string jQuery селектор зависимого списка. используется если модель отсутствует */
+    public $dependSelector;
 
-	/**
-	 * @var string jQuery селектор зависимого списка. используется если модель отсутствует
-	 */
-	public $dependSelector;
+    /** @var bool генерировать событие change на элементе при его загрузке в структуру документа */
+    public $triggerChange = false;
 
-	/**
-	 * @var bool генерировать событие change на элементе при его загрузке в структуру документа
-	 */
-	public $triggerChange = false;
+    /** @var array массив значений зависмого списка ($key=>$value) */
+    public $data = [];
 
-	/**
-	 * @var array массив значений зависмого списка ($key=>$value)
-	 */
-	public $data = [];
+    /** @var string имя атрибута передаваемого на сервер */
+    public $serverAttr = "id";
 
-	/**
-	 * @var string имя атрибута передаваемого на сервер
-	 */
-	public $serverAttr = "id";
+    /**
+     * @inheritdoc
+     * @throws InvalidConfigException
+     */
+    public function init()
+    {
+        parent::init();
 
-	/**
-	 * @inheritdoc
-	 * @throws InvalidConfigException
-	 */
-	public function init()
-	{
+        if (empty($this->dependAttr) AND empty($this->dependSelector))
+            return;
 
-		parent::init();
+        if ($this->hasModel() AND empty($this->dependSelector)) {
+            $dependSelector = "#" . Html::getInputId($this->model, $this->dependAttr);
+        } else {
+            $dependSelector = $this->dependSelector;
+        }
 
-		if (empty($this->dependAttr) AND empty($this->dependSelector))
-			return;
+        $url = Url::toRoute($this->loadUrl);
 
-		if ($this->hasModel() AND empty($this->dependSelector)) {
-
-			$dependSelector = "#" . Html::getInputId($this->model, $this->dependAttr);
-
-		} else {
-
-			$dependSelector = $this->dependSelector;
-
-		}
-
-		$url = Url::toRoute($this->source);
-
-		$this->view->registerJs("
-
+        $this->view->registerJs("
 			$('#{$this->options["id"]}').on('change', function(){
 
 				var val = $(this).val();
@@ -89,42 +71,31 @@ class DependDropDown extends InputWidget
 				inp.attr('disabled', false),
 
 				$.get('$url', {'{$this->serverAttr}': val}, function(data){
-
 					inp.html(data);
 					inp.val(hidden.val()).trigger('change');
-
 				});
-
 			});
+		", View::POS_END);
 
-		", \yii\web\View::POS_END);
-
-		if($this->triggerChange) {
-
-			$this->view->registerJs("
-
+        if ($this->triggerChange) {
+            $this->view->registerJs("
 				$('#{$this->options["id"]}').trigger('change');
+			", View::POS_READY);
+        }
+    }
 
-			", \yii\web\View::POS_READY);
-
-		}
-
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function run()
-	{
-		if ($this->hasModel()) {
-			$html = Html::activeHiddenInput($this->model, $this->attribute, ["id"=>null]);
-			$html .= Html::activeDropDownList($this->model, $this->attribute, $this->data, $this->options);
-		} else {
-			$html = Html::hiddenInput($this->name, $this->value, ["id"=>null]);
-			$html .= Html::dropDownList($this->name, $this->value, $this->options);
-		}
-
-		return $html;
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function run()
+    {
+        if ($this->hasModel()) {
+            $html = Html::activeHiddenInput($this->model, $this->attribute, ["id" => null]);
+            $html .= Html::activeDropDownList($this->model, $this->attribute, $this->data, $this->options);
+        } else {
+            $html = Html::hiddenInput($this->name, $this->value, ["id" => null]);
+            $html .= Html::dropDownList($this->name, $this->value, $this->options);
+        }
+        return $html;
+    }
 }
