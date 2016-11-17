@@ -16,29 +16,39 @@ use kartik\select2\Select2;
  */
 class Select2Column extends DataColumn
 {
-    public $loadUrl = [];
+    /**
+     * Load json data from url
+     * @var array
+     */
+    public $loadUrl;
+
     public $initValueText;
 
     /**
      * @inheritdoc
      */
-
     protected function renderFilterCellContent()
     {
+        $ajaxWidgetOptions = [];
+
         $widgetOptions = [
             'initValueText' => $this->initValueText, // set the initial display text
             'model' => $this->grid->filterModel,
             'attribute' => $this->attribute,
-            'options' => ['multiple' => true],
+            'options' => [
+                'multiple' => false,
+                'id' => 'fs-'.$this->attribute,
+            ],
         ];
-
-        $ajaxWidgetOptions = [];
 
         if ($this->loadUrl) {
             $url = Url::to($this->loadUrl);
             $ajaxWidgetOptions = [
                 'pluginOptions' => [
-                    'allowClear' => true,
+                    'options' => [
+                        'prompt' => ' --- ',
+                    ],
+                    'allowClear' => false,
                     'minimumInputLength' => 2,
                     'ajax' => [
                         'url' => $url,
