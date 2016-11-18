@@ -10,6 +10,7 @@ use lo\core\interfaces\IField;
 use Yii;
 use Yii\base\Object;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use Yii\widgets\ActiveForm;
 
 /**
@@ -37,6 +38,9 @@ class BaseField extends Object implements IField
 
     /** @var ActiveRecord $_relationModel связующая модель */
     protected $_relationModel;
+
+    /** @var string || array url для подзагрузки данных через ajax */
+    public $loadUrl;
 
     /** @var bool жадная загрузка */
     public $eagerLoading = true;
@@ -326,9 +330,9 @@ class BaseField extends Object implements IField
     {
         $view = $this->defaultView();
 
-/*        $view["value"] = function ($model) {
-            return $this->getGridValue($model);
-        };*/
+        /*        $view["value"] = function ($model) {
+                    return $this->getGridValue($model);
+                };*/
 
         return $view;
     }
@@ -481,5 +485,13 @@ class BaseField extends Object implements IField
     {
         $relationClass = $this->model->{'get' . ucfirst($this->relationName)}()->modelClass;
         return $relationClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoadUrl()
+    {
+        return (is_array($this->loadUrl)) ? Url::to($this->loadUrl) : $this->loadUrl;
     }
 }

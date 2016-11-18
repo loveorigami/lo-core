@@ -91,7 +91,7 @@ class DropDownInput extends BaseInput
     }
 
     /**
-     * @return null
+     * Set Template
      */
     protected function setFieldTemplate()
     {

@@ -4,7 +4,6 @@ namespace lo\core\grid;
 
 use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
 
@@ -42,7 +41,6 @@ class Select2Column extends DataColumn
         ];
 
         if ($this->loadUrl) {
-            $url = Url::to($this->loadUrl);
             $ajaxWidgetOptions = [
                 'pluginOptions' => [
                     'options' => [
@@ -51,7 +49,7 @@ class Select2Column extends DataColumn
                     'allowClear' => false,
                     'minimumInputLength' => 2,
                     'ajax' => [
-                        'url' => $url,
+                        'url' => $this->loadUrl,
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {q:params.term}; }')
                     ],

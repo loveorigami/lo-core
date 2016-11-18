@@ -1,15 +1,13 @@
 <?php
 
-namespace lo\core\inputs;
+namespace lo\core\inputs\ajax;
 
 use kartik\select2\Select2;
-use lo\core\db\fields\AjaxOneField;
+use lo\core\db\fields\ajax\AjaxField;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
-use yii\helpers\Html;
 
 /**
  * Class Select2AjaxInput
@@ -36,7 +34,7 @@ use yii\helpers\Html;
  * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class Select2AjaxInput extends DropDownInput
+class Select2AjaxInput extends AjaxInput
 {
     /**
      * Формирование Html кода поля для вывода в форме
@@ -47,23 +45,31 @@ class Select2AjaxInput extends DropDownInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
-        /** @var AjaxOneField $modelField */
+        $options = ArrayHelper::merge($this->options, $options);
+
+        $widgetOptions = ArrayHelper::merge(
+            $this->defaultWidgetOptions(),
+            $this->widgetOptions, ["options" => $options]
+        );
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->fieldTemplate)->widget(
+            Select2::class, $widgetOptions
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected function defaultWidgetOptions()
+    {
+        /** @var AjaxField $modelField */
         $modelField = $this->modelField;
         $model = $modelField->model;
         $relation = $modelField->relationName;
-        $attr = $modelField->attr;
-
-        $options = ArrayHelper::merge($this->options, $options);
-        $this->fieldId = Html::getInputId($model, $attr);
-
-        $this->setFieldTemplate();
-
-        $url = Url::to($modelField->loadUrl);
 
         $val = ArrayHelper::getValue($model, "{$relation}.name");
         $val = $val ? $val : '---';
 
-        $widgetOptions = ArrayHelper::merge([
+        return [
             'initValueText' => $val, // set the initial display text
             'options' => [
                 'prompt' => '',
@@ -73,7 +79,7 @@ class Select2AjaxInput extends DropDownInput
                 'allowClear' => false,
                 'minimumInputLength' => 2,
                 'ajax' => [
-                    'url' => $url,
+                    'url' => $this->getLoadUrl(),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(params) { return {q:params.term}; }')
                 ],
@@ -81,14 +87,12 @@ class Select2AjaxInput extends DropDownInput
                 'templateResult' => new JsExpression('function(data) { return data.text; }'),
                 'templateSelection' => new JsExpression('function (data) { return data.text; }'),
             ],
-        ], $this->widgetOptions, ["options" => $options]);
-
-
-        return $form->field($model, $this->getFormAttrName($index, $attr), $this->fieldTemplate)->widget(
-            Select2::class, $widgetOptions
-        );
+        ];
     }
 
+    /**
+     * register js
+     */
     protected function registerJs()
     {
         $theme = Select2::THEME_DEFAULT;
@@ -113,4 +117,5 @@ JS;
         $view = Yii::$app->getView();
         $view->registerJs($js);
     }
+
 } 
