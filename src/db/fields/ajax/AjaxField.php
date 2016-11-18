@@ -30,7 +30,7 @@ abstract class AjaxField extends BaseField
         $grid["value"] = function ($model) {
             return ArrayHelper::getValue($model, "{$this->relationName}.{$this->gridAttr}");
         };
-        $grid["contentOptions"] = ['style'=>'width: 150px;'];
+        $grid["contentOptions"] = ['style'=>'min-width: 200px;'];
         $grid["initValueText"] = ArrayHelper::getValue($this->model, "{$this->relationName}.{$this->gridAttr}");
         $grid["class"] = Select2Column::class;
         $grid["loadUrl"] = $this->getLoadUrl();
