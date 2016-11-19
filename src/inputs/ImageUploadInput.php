@@ -24,7 +24,10 @@ class ImageUploadInput extends BaseInput
             'showRemove' => false,
             'showUpload' => false,
         ],
-        'options' => ['accept' => 'image/*']
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => false,
+        ]
     ];
 
     /** @var string размер превью */
@@ -46,10 +49,10 @@ class ImageUploadInput extends BaseInput
         if ($file && $model->scenario != $model::SCENARIO_INSERT) {
             $initFile = ArrayHelper::merge($this->defaultOptions, [
                 'pluginOptions' => [
-                    'initialPreview'=>[
+                    'initialPreview' => [
                         $file
                     ],
-                    'overwriteInitial'=>true,
+                    'overwriteInitial' => true,
                     'initialPreviewAsData' => true,
                 ]
             ]);
