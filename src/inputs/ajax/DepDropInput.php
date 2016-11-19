@@ -81,7 +81,7 @@ class DepDropInput extends AjaxInput
     {
         return [
             'type' => self::TYPE_DEFAULT,
-            'data' => [],
+            'data' => $this->modelField->getDataValue(),
             'pluginOptions' => [
                 'depends' => [],
                 'placeholder' => 'Select...',
