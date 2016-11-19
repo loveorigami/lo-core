@@ -34,11 +34,8 @@ class ImageUploadField extends ImageField
      */
     public function behaviors()
     {
-        if ($this->relationAttr) {
-            return [];
-        }
-
         $parent = parent::behaviors();
+
         $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadImage::class,
@@ -65,10 +62,6 @@ class ImageUploadField extends ImageField
      */
     public function rules()
     {
-        if ($this->relationAttr) {
-            return [];
-        }
-
         $rules = parent::rules();
         $rules[] = [
             $this->attr,

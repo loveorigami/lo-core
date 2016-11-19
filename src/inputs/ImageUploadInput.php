@@ -41,7 +41,7 @@ class ImageUploadInput extends BaseInput
     {
         $initFile = [];
         $model = $this->getModel();
-        $file = $model->getThumbUploadUrl($this->getAttr(), $this->thumSize);
+        $file = $model->getUploadUrl($this->getAttr());
 
         if ($file && $model->scenario != $model::SCENARIO_INSERT) {
             $initFile = ArrayHelper::merge($this->defaultOptions, [

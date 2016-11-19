@@ -11,24 +11,16 @@ use lo\core\inputs\NumberInput;
  */
 class NumberField extends BaseField
 {
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public $inputClass = NumberInput::class;
 
-    /**
-     * @var bool число должно быть целым
-     */
+    /** @var bool число должно быть целым */
     public $integerOnly = false;
 
-    /**
-     * @var integer|float минимальное значение
-     */
+    /** @var integer|float минимальное значение */
     public $min;
 
-    /**
-     * @var integer|float максимальное значение
-     */
+    /** @var integer|float максимальное значение */
     public $max;
 
     /**

@@ -18,6 +18,9 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
     /** @var boolean */
     public $createThumbsOnRequest = true;
 
+    /** @var boolean */
+    public $instanceByName = false;
+
     /**
      * @param string $attribute
      * @param string $profile

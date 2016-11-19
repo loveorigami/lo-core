@@ -1,5 +1,6 @@
 <?php
 namespace lo\core\db;
+use yii\db\ColumnSchemaBuilder;
 use yii\helpers\Console;
 
 /**
@@ -48,6 +49,46 @@ class Migration extends \yii\db\Migration
     protected function fk($table1, $table2)
     {
         return 'fk_' . $this->tableGroup . '__' . $table1 . '_' . $table2;
+    }
+
+
+    /**
+     * Creates a smallint column.
+     * @param int $length column size or precision definition.
+     * This parameter will be ignored if not supported by the DBMS.
+     * @return ColumnSchemaBuilder the column instance which can be further customized.
+     * @since 2.0.6
+     */
+    public function tinyInteger($length = null)
+    {
+        return $this->getDb()->getSchema()->createColumnSchemaBuilder('tinyint', $length);
+    }
+
+    /**
+     * Creates a medium text column.
+     * @return ColumnSchemaBuilder the column instance which can be further customized.
+     */
+    public function mediumText()
+    {
+        return $this->getDb()->getSchema()->createColumnSchemaBuilder('mediumtext');
+    }
+
+    /**
+     * Creates a long text column.
+     * @return ColumnSchemaBuilder the column instance which can be further customized.
+     */
+    public function longText()
+    {
+        return $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext');
+    }
+
+    /**
+     * Creates a tiny text column.
+     * @return ColumnSchemaBuilder the column instance which can be further customized.
+     */
+    public function tinyText()
+    {
+        return $this->getDb()->getSchema()->createColumnSchemaBuilder('tinytext');
     }
 
 }
