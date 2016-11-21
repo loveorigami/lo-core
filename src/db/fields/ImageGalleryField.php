@@ -28,10 +28,6 @@ class ImageGalleryField extends ImageField
      */
     public function behaviors()
     {
-        if ($this->relationAttr) {
-            return [];
-        }
-
         $parent = parent::behaviors();
         $code = $this->galleryBehavior;
         $model = $this->model;

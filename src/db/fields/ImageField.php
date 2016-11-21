@@ -56,16 +56,7 @@ class ImageField extends FileField
      */
     protected function getGridValue($model)
     {
-        if ($this->relationName && $this->relationAttr) {
-            if ($this->getRelationModel()->hasAttribute($this->relationAttr) && is_object($model->{$this->relationName})) {
-                $src = $model->{$this->relationName}->getThumbUploadUrl($this->relationAttr, self::THUMB);
-            } else {
-                return null;
-            }
-        } else {
-            $src = $model->getThumbUploadUrl($this->attr, self::THUMB);
-        }
-
+        $src = $model->getThumbUploadUrl($this->attr, self::THUMB);
         return Html::img($src, ['width' => $this->gridWidth]);
     }
 

@@ -24,7 +24,7 @@ class TextField extends BaseField
     /**
      * @inheritdoc
      */
-    protected function serarchByModel(ActiveQuery $query)
+    protected function serarch(ActiveQuery $query)
     {
         if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
@@ -32,18 +32,4 @@ class TextField extends BaseField
             $query->andFilterWhere(["like", "$table.$attr", preg_quote($this->model->{$this->attr})]);
         }
     }
-
-    protected function serarchByRelation(ActiveQuery $query)
-    {
-        if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-
-            $relationClass = $this->getRelationClass();
-            $relationTable = $relationClass::tableName();
-
-            $query->
-            joinWith($this->relationName, $this->eagerLoading)->
-            andFilterWhere(["like", $relationTable . '.' . $this->relationAttr, $this->model->{$this->attr}]);
-        }
-    }
-
 }

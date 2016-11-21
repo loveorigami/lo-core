@@ -33,9 +33,6 @@ class BaseField extends Object implements IField
     /** @var string имя связи */
     public $relationName;
 
-    /** @var string имя атрибута связанной модели */
-    public $relationAttr;
-
     /** @var ActiveRecord $_relationModel связующая модель */
     protected $_relationModel;
 
@@ -246,16 +243,7 @@ class BaseField extends Object implements IField
      */
     protected function getGridValue($model)
     {
-        if ($this->relationName && $this->relationAttr) {
-            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $value = $model->{$this->relationName}->{$this->relationAttr};
-            } else {
-                $value = null;
-            }
-        } else {
-            $value = $model->{$this->attr};
-        }
-
+        $value = $model->{$this->attr};
         return $value;
     }
 
@@ -329,11 +317,6 @@ class BaseField extends Object implements IField
     protected function view()
     {
         $view = $this->defaultView();
-
-        /*        $view["value"] = function ($model) {
-                    return $this->getGridValue($model);
-                };*/
-
         return $view;
     }
 
@@ -352,10 +335,6 @@ class BaseField extends Object implements IField
      */
     public function rules()
     {
-        if ($this->relationAttr) {
-            return [];
-        }
-
         $rules = [];
         if ($this->isSafe)
             $rules[] = [$this->attr, 'safe'];
@@ -401,40 +380,10 @@ class BaseField extends Object implements IField
      */
     protected function search(ActiveQuery $query)
     {
-        if ($this->relationName && $this->relationAttr) {
-            $this->serarchByRelation($query);
-        } else {
-            $this->serarchByModel($query);
-        }
-    }
-
-    /**
-     * Обычный поиск
-     * @param ActiveQuery $query
-     */
-    protected function serarchByModel(ActiveQuery $query)
-    {
         if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
             $attr = $this->attr;
             $query->andFilterWhere(["$table.$attr" => $this->model->{$this->attr}]);
-        }
-    }
-
-    /**
-     * Поиск по связи
-     * @param ActiveQuery $query
-     */
-    protected function serarchByRelation(ActiveQuery $query)
-    {
-        if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-
-            $relationClass = $this->getRelationClass();
-            $relationTable = $relationClass::tableName();
-
-            $query->
-            joinWith($this->relationName, $this->eagerLoading)->
-            andFilterWhere([$relationTable . '.' . $this->relationAttr => $this->model->{$this->attr}]);
         }
     }
 
@@ -458,33 +407,6 @@ class BaseField extends Object implements IField
     public function getAttributeLabel()
     {
         return [$this->attr => $this->title];
-    }
-
-    /**
-     * @return mixed объект модели
-     */
-    public function getRelationModel()
-    {
-        if ($this->_relationModel === null) {
-            $relationClass = $this->getRelationClass();
-            if ($this->model->{$this->relationName} === null) {
-                $relationModel = new $relationClass();
-            } else {
-                $relationModel = $this->model->{$this->relationName};
-            }
-            $this->_relationModel = $relationModel;
-        }
-
-        return $this->_relationModel;
-    }
-
-    /**
-     * @return mixed объект модели
-     */
-    public function getRelationClass()
-    {
-        $relationClass = $this->model->{'get' . ucfirst($this->relationName)}()->modelClass;
-        return $relationClass;
     }
 
     /**

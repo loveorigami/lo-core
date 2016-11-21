@@ -111,16 +111,7 @@ class FileField extends BaseField
      */
     protected function getGridValue($model)
     {
-        if ($this->relationName && $this->relationAttr) {
-            if ($this->getRelationModel()->hasAttribute($this->relationAttr)) {
-                $src = $model->{$this->relationName}->getUploadUrl($this->relationAttr);
-            } else {
-                return null;
-            }
-        } else {
-            $src = $model->getUploadUrl($this->attr);
-        }
-
+        $src = $model->getUploadUrl($this->attr);
         return Html::a('<span class="fa fa-download"></span>', $src);
     }
 }
