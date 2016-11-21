@@ -33,9 +33,6 @@ class BaseField extends Object implements IField
     /** @var string имя связи */
     public $relationName;
 
-    /** @var ActiveRecord $_relationModel связующая модель */
-    protected $_relationModel;
-
     /** @var string || array url для подзагрузки данных через ajax */
     public $loadUrl;
 
