@@ -21,7 +21,7 @@ class <?= $className ?> extends Migration
     {
         $this->createTable($this->tn(self::TBL), [
             'id' => $this->primaryKey(),
-            'status' => 'tinyint(1) NOT NULL DEFAULT 0',
+            'status' => $this->tinyInteger(),
             'author_id' => $this->integer()->notNull(),
             'updater_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
@@ -45,13 +45,13 @@ class <?= $className ?> extends Migration
 
     public function down()
     {
-        $this->dropTable($this->tn(self::TBL));
 /*
         $this->dropForeignKey(
             $this->fk(self::TBL, self::TBL_PARENT),
             $this->tn(self::TBL)
         );
 */
+        $this->dropTable($this->tn(self::TBL));
     }
 
 
