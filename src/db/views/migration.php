@@ -21,7 +21,7 @@ class <?= $className ?> extends Migration
     {
         $this->createTable($this->tn(self::TBL), [
             'id' => $this->primaryKey(),
-            'status' => $this->tinyInteger(),
+            'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
             'author_id' => $this->integer()->notNull(),
             'updater_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
