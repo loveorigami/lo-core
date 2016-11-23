@@ -24,7 +24,7 @@ class TextField extends BaseField
     /**
      * @inheritdoc
      */
-    protected function serarch(ActiveQuery $query)
+    protected function search(ActiveQuery $query)
     {
         if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
