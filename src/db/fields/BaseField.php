@@ -197,10 +197,11 @@ class BaseField extends Object implements IField
     {
         $grid = ['attribute' => $this->attr, 'label' => $this->title];
 
-        if ($this->showInFilter)
+        if ($this->showInFilter) {
             $grid['filter'] = $this->getGridFilter();
-        else
+        } else {
             $grid['filter'] = false;
+        }
 
         if ($this->editInGrid) {
             $grid = array_merge($grid, $this->xEditable());
@@ -234,7 +235,7 @@ class BaseField extends Object implements IField
     }
 
     /**
-     * Вывод значения в гриде с учетом связи
+     * Вывод значения в гриде
      * @param $model
      * @return string
      */

@@ -47,6 +47,9 @@ class Grid extends Widget
     /** @var bool вывод древовидных моделей */
     public $tree = false;
 
+    /** @var bool вывод древовидных моделей */
+    public $actions;
+
     /** @var string шаблон */
     public $tpl = "grid";
 
@@ -113,16 +116,18 @@ class Grid extends Widget
         $columns = [
             [
                 'class' => 'yii\grid\CheckboxColumn',
-/*                'contentOptions' => function ($model, $key, $index, $gridView) {
-                    $arr = [];
-                    if (
-                        !Yii::$app->user->can($this->access('update'), ['model' => $model]) AND
-                        !Yii::$app->user->can($this->access('delete'), ['model' => $model])
-                    ) {
-                        $arr = ["class" => "grid-checkbox-disabled"];
-                    }
-                    return $arr;
-                },*/
+                /**
+                 * 'contentOptions' => function ($model, $key, $index, $gridView) {
+                 * $arr = [];
+                 * if (
+                 * !Yii::$app->user->can($this->access('update'), ['model' => $model]) AND
+                 * !Yii::$app->user->can($this->access('delete'), ['model' => $model])
+                 * ) {
+                 * $arr = ["class" => "grid-checkbox-disabled"];
+                 * }
+                 * return $arr;
+                 * },
+                 */
                 'headerOptions' => ['style' => 'width: 30px;']
             ],
         ];
@@ -148,21 +153,90 @@ class Grid extends Widget
      */
     public function defaultRowButtons()
     {
+
+        $arr = [
+            'class' => 'yii\grid\ActionColumn',
+            'headerOptions' => ['style' => 'width: 95px;']
+        ];
+
+        $buttonsDefault = ['view', 'update', 'delete'];
+        $buttonsTree = ['up', 'down', 'enter'];
+
+        if ($this->actions) {
+            $actions = $this->actions;
+        } else {
+            if ($this->tree) {
+                $arr['template'] = '{enter} {up} {down}<div class="clear_small2"></div>{update} {view} {delete}';
+                $actions = array_merge($buttonsTree, $buttonsDefault);
+            } else {
+                $actions = $buttonsDefault;
+            }
+        }
+
+        $preset = $this->getButtonsFromPreset($actions);
+
+        $arr['buttons'] = $preset['buttons'];
+        $arr['template'] = $preset['template'];
+
+        return $arr;
+    }
+
+    /**
+     * @param $preset
+     * @return array
+     */
+    protected function getButtonsFromPreset($preset)
+    {
+        $buttons = $this->buttonsPreset();
+        $row = ['buttons' => [], 'template' => ''];
+
+        foreach ($preset as $button) {
+            if (isset($buttons[$button])) {
+                $row['buttons'][$button] = $buttons[$button];
+                $row['template'] = $row['template'] . ' {' . $button . '}';
+            }
+        }
+        return $row;
+    }
+
+    /**
+     * @return array
+     */
+    protected function buttonsPreset()
+    {
         $js = function ($u) {
             return '$.get("' . $u . '", function(){ $.pjax.reload({container: "#' . $this->pjaxId . '", timeout: false}); }); return false;';
         };
 
-        $buttonsTree = [
+        return [
+            'view' => function ($url, $model) use ($js) {
+                $url = Url::toRoute([$this->baseRoute . '/view', 'id' => $model->id]);
+                //if (Yii::$app->user->can($this->access('view'), ['model' => $model]))
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
+            },
+
+            'update' => function ($url, $model) use ($js) {
+                $url = Url::toRoute([$this->baseRoute . '/update', 'id' => $model->id]);
+                //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
+            },
+
+            'delete' => function ($url, $model) use ($js) {
+                $url = Url::toRoute([$this->baseRoute . '/delete', 'id' => $model->id]);
+                //if (Yii::$app->user->can($this->access('delete'), ['model' => $model]))
+                return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
+            },
+
             'up' => function ($url, $model) use ($js) {
                 $url = Url::toRoute([$this->baseRoute . '/up', 'id' => $model->id]);
                 //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
             },
 
             'down' => function ($url, $model) use ($js) {
                 $url = Url::toRoute([$this->baseRoute . '/down', 'id' => $model->id]);
                 //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
             },
 
             'enter' => function ($url, $model) {
@@ -178,43 +252,6 @@ class Grid extends Widget
                 }
             },
         ];
-
-        $buttonsDefault = [
-            'view' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/view', 'id' => $model->id]);
-                //if (Yii::$app->user->can($this->access('view'), ['model' => $model]))
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
-            },
-
-            'update' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/update', 'id' => $model->id]);
-                //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
-            },
-
-            'delete' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/delete', 'id' => $model->id]);
-                //if (Yii::$app->user->can($this->access('delete'), ['model' => $model]))
-                    return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
-            },
-
-        ];
-
-        if ($this->tree) {
-            return [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{enter} {up} {down}<div class="clear_small2"></div>{update} {view} {delete}',
-                'buttons' => array_merge($buttonsTree, $buttonsDefault),
-                'headerOptions' => ['style' => 'width: 95px;']
-            ];
-
-        } else {
-            return [
-                'class' => 'yii\grid\ActionColumn',
-                'buttons' => $buttonsDefault,
-                'headerOptions' => ['style' => 'width: 95px;']
-            ];
-        }
     }
 
     /**
