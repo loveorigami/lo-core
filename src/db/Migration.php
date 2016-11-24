@@ -8,16 +8,21 @@ use yii\helpers\Console;
  */
 class Migration extends \yii\db\Migration
 {
+    const ROW_COMPACT = 'COMPACT';
+    const ROW_REDUNDANT = 'REDUNDANT';
+    const ROW_DYNAMIC = 'DYNAMIC';
+    const ROW_COMPRESSED = 'COMPRESSED';
     /**
      * @inheritdoc
      */
-    protected $tableGroup = 'gin_';
+    public $tableGroup = 'gin_';
+    public $rowFormat = self::ROW_COMPACT;
 
     public function createTable($table, $columns, $options = null)
     {
         if ($options === null && $this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $options = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $options = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB ROW_FORMAT = '.$this->rowFormat;
         }
         parent::createTable($table, $columns, $options);
     }
