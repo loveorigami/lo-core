@@ -21,7 +21,7 @@ class I18nMessageController extends Controller
             'index' => [
                 'class' => crud\Index::class,
                 'modelClass' => $class,
-                'orderBy' => ['translation' => SORT_ASC, 'id' => SORT_DESC]
+                'orderBy' => ['id' => SORT_DESC]
             ],
             'view' => [
                 'class' => crud\View::class,
