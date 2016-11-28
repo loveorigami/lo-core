@@ -30,9 +30,6 @@ class BaseField extends Object implements IField
     /** @var string подпись атрибута */
     public $title;
 
-    /** @var string имя связи */
-    public $relationName;
-
     /** @var string || array url для подзагрузки данных через ajax */
     public $loadUrl;
 
@@ -340,9 +337,20 @@ class BaseField extends Object implements IField
             $rules[] = [$this->attr, 'required', 'except' => ActiveRecord::SCENARIO_SEARCH];
         if ($this->defaultValue !== null)
             $rules[] = [$this->attr, 'default', 'value' => $this->defaultValue, 'except' => [ActiveRecord::SCENARIO_SEARCH]];
-        foreach ($this->rules AS $name => $options) {
+
+        foreach ($this->rules AS $name => $option) {
+            // 'lang', 'unique', 'targetAttribute' => ['id', 'lang']
             $options[0] = $this->attr;
             $options[1] = $name;
+
+            if (is_array($option)) {
+                foreach ($option as $key => $value) {
+                    $options[$key] = $value;
+                }
+            } else {
+                $options[] = $option;
+            }
+
             $rules[] = $options;
         }
 

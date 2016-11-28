@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model backend\modules\i18n\models\I18nSourceMessage */
+/**
+ * @var  yii\web\View $this
+ * @var \lo\core\modules\i18n\models\I18nSourceMessage $model
+ */
 
 $this->title = Yii::t('backend', 'Update {modelClass}: ', [
     'modelClass' => 'I18n Source Message',
@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'I18n Source Mess
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'Update');
 ?>
-<div class="i18n-source-message-update">
+<div class="page-update">
 
     <?php echo $this->render('_form', [
         'model' => $model,

@@ -42,6 +42,9 @@ class HasOneField extends ListField
     /** @var boolean проверить наличие связанной модели */
     public $checkExist = true;
 
+    /** @var string имя связи */
+    public $relationName;
+
     /**
      * @inheritdoc
      */

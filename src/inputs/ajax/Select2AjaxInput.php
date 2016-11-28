@@ -65,18 +65,23 @@ class Select2AjaxInput extends AjaxInput
         $modelField = $this->modelField;
         $model = $modelField->model;
         $relation = $modelField->relationName;
+        $attr = $modelField->gridAttr;
 
-        $val = ArrayHelper::getValue($model, "{$relation}.name");
+        $val = ArrayHelper::getValue($model, "{$relation}.$attr");
         $val = $val ? $val : '---';
 
         return [
             'initValueText' => $val, // set the initial display text
             'options' => [
-                'prompt' => '',
+                ['placeholder' => 'Select...'],
                 'id' => $this->fieldId,
             ],
             'pluginOptions' => [
-                'allowClear' => false,
+                'allowClear' => true,
+                'placeholder' => [
+                    'id' => '',
+                    'placeholder' => 'Select...'
+                ],
                 'minimumInputLength' => 2,
                 'ajax' => [
                     'url' => $this->getLoadUrl(),

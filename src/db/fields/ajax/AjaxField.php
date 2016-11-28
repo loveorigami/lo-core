@@ -2,7 +2,7 @@
 namespace lo\core\db\fields\ajax;
 
 use lo\core\db\ActiveQuery;
-use lo\core\db\fields\BaseField;
+use lo\core\db\fields\HasOneField;
 use lo\core\grid\Select2Column;
 use yii\helpers\ArrayHelper;
 
@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property $relationName
  * @property $loadUrl
  */
-abstract class AjaxField extends BaseField
+abstract class AjaxField extends HasOneField
 {
     public $gridAttr = 'name';
     public $eagerLoading = true;

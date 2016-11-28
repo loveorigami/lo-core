@@ -46,7 +46,11 @@ class Select2Column extends DataColumn
                     'options' => [
                         'prompt' => ' --- ',
                     ],
-                    'allowClear' => false,
+                    'allowClear' => true,
+                    'placeholder' => [
+                        'id' => '',
+                        'placeholder' => 'Select...'
+                    ],
                     'minimumInputLength' => 2,
                     'ajax' => [
                         'url' => $this->loadUrl,
@@ -54,8 +58,8 @@ class Select2Column extends DataColumn
                         'data' => new JsExpression('function(params) { return {q:params.term}; }')
                     ],
                     'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(data) { return data.text; }'),
-                    'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                    'templateResult' => new JsExpression('function(data) { if (data.placeholder) return data.placeholder; return data.text; }'),
+                    'templateSelection' => new JsExpression('function (data) { if (data.placeholder) return data.placeholder; return data.text; }'),
                 ]
             ];
         }

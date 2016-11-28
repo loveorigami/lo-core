@@ -28,11 +28,11 @@ class ListId extends Base
         $out['results'][] = ['id' => 1, 'text' => ''];
 
         if (!is_null($q)) {
-            $query = $obj::find()->select('id, name')->where(['like', 'name', $q])->limit(10)->all();
+            $query = $obj::find()->select('id,' . $this->defaultAttr)->where(['like', $this->defaultAttr, $q])->limit(10)->all();
             foreach ($query as $m) {
                 $out['results'][] = [
                     'id' => (int)$m->id,
-                    'text' => $m->name
+                    'text' => $m->{$this->defaultAttr}
                 ];
             }
         }

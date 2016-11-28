@@ -1,37 +1,27 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use lo\core\widgets\admin\CrudLinks;
+use lo\core\widgets\admin\Grid;
+use lo\core\widgets\admin\TabMenu;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\modules\i18n\models\search\I18nSourceMessageSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var yii\web\View $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ */
 
 $this->title = Yii::t('backend', 'I18n Source Messages');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="i18n-source-message-index">
+<div class="page-index">
+    <?php
+    echo TabMenu::widget();
+    echo CrudLinks::widget(["action"=>CrudLinks::CRUD_LIST, "model"=>$searchModel]);
+    echo  $this->render('_filter', ['model' => $searchModel]);
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?php echo Html::a(Yii::t('backend', 'Create {modelClass}', [
-    'modelClass' => 'I18n Source Message',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php echo GridView::widget([
+    echo Grid::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'category',
-            'message:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        'model' => $searchModel,
+    ]);
+    ?>
 
 </div>

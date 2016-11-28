@@ -2,7 +2,8 @@
 
 namespace lo\core\modules\i18n\models;
 
-use Yii;
+use lo\core\db\ActiveRecord;
+use lo\core\modules\i18n\models\meta\I18nMessageMeta;
 
 /**
  * This is the model class for table "{{%i18n_message}}".
@@ -15,10 +16,19 @@ use Yii;
  *
  * @property I18nSourceMessage $sourceMessageModel
  */
-class I18nMessage extends \yii\db\ActiveRecord
+class I18nMessage extends ActiveRecord
 {
     public $category;
     public $sourceMessage;
+    public $useDefaultConfig = false;
+
+    /**
+     * @return array
+     */
+    public static function primaryKey()
+    {
+        return ['id', 'language'];
+    }
 
     /**
      * @inheritdoc
@@ -29,31 +39,11 @@ class I18nMessage extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @return mixed
      */
-    public function rules()
+    public function metaClass()
     {
-        return [
-            [['id', 'language'], 'required'],
-            [['id'], 'exist', 'targetClass'=>I18nSourceMessage::class, 'targetAttribute'=>'id'],
-            [['translation'], 'string'],
-            [['language'], 'string', 'max' => 16],
-            [['language'], 'unique', 'targetAttribute' => ['id', 'language']]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('backend', 'ID'),
-            'language' => Yii::t('backend', 'Language'),
-            'translation' => Yii::t('backend', 'Translation'),
-            'sourceMessage' => Yii::t('backend', 'Source Message'),
-            'category' => Yii::t('backend', 'Category'),
-        ];
+        return I18nMessageMeta::class;
     }
 
     public function afterFind()
@@ -62,7 +52,6 @@ class I18nMessage extends \yii\db\ActiveRecord
         $this->category = $this->sourceMessageModel ? $this->sourceMessageModel->category : null;
         return parent::afterFind();
     }
-
 
     /**
      * @return \yii\db\ActiveQuery

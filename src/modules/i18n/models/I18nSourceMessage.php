@@ -2,7 +2,10 @@
 
 namespace lo\core\modules\i18n\models;
 
+use lo\core\db\ActiveRecord;
+use lo\core\modules\i18n\models\meta\I18nSourceMessageMeta;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%i18n_source_message}}".
@@ -13,8 +16,10 @@ use Yii;
  *
  * @property i18nMessage[] $messages
  */
-class I18nSourceMessage extends \yii\db\ActiveRecord
+class I18nSourceMessage extends ActiveRecord
 {
+    public $useDefaultConfig = false;
+
     /**
      * @inheritdoc
      */
@@ -24,26 +29,11 @@ class I18nSourceMessage extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @return mixed
      */
-    public function rules()
+    public function metaClass()
     {
-        return [
-            [['message'], 'string'],
-            [['category'], 'string', 'max' => 32]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('backend', 'ID'),
-            'category' => Yii::t('backend', 'Category'),
-            'message' => Yii::t('backend', 'Message'),
-        ];
+        return I18nSourceMessageMeta::class;
     }
 
     /**
@@ -54,12 +44,17 @@ class I18nSourceMessage extends \yii\db\ActiveRecord
         return $this->hasMany(I18nMessage::class, ['id' => 'id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
     public function getMessages()
     {
         return $this->hasMany(I18nMessage::class, ['id' => 'id'])->indexBy('language');
     }
 
-
+    /**
+     * populate messages
+     */
     public function initI18nMessages()
     {
         $messages = [];
@@ -75,6 +70,9 @@ class I18nSourceMessage extends \yii\db\ActiveRecord
         $this->populateRelation('messages', $messages);
     }
 
+    /**
+     * save messages
+     */
     public function saveI18nMessages()
     {
         foreach ($this->messages as $message) {

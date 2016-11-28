@@ -1,37 +1,28 @@
 <?php
+/**
+ * @var  yii\web\View $this
+ * @var \lo\core\modules\i18n\models\I18nSourceMessage $model
+ */
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model backend\modules\i18n\models\I18nSourceMessage */
+use lo\core\widgets\admin\CrudLinks;
+use lo\core\widgets\admin\Detail;
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'I18n Source Messages'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="i18n-source-message-view">
 
-    <h1><?php echo Html::encode($this->title) ?></h1>
+<div class="page-view">
 
-    <p>
-        <?php echo Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php echo Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('backend', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <?php
+    echo CrudLinks::widget([
+        "action" => CrudLinks::CRUD_VIEW,
+        "model" => $model
+    ]);
 
-    <?php echo DetailView::widget([
+    echo Detail::widget([
         'model' => $model,
-        'attributes' => [
-            'id',
-            'category',
-            'message:ntext',
-        ],
-    ]) ?>
+    ]);
+    ?>
 
 </div>
