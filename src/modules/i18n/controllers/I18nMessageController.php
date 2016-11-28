@@ -4,7 +4,6 @@ namespace lo\core\modules\i18n\controllers;
 
 use lo\core\modules\i18n\models\I18nMessage;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use lo\core\actions\crud;
 
 /**
@@ -12,18 +11,6 @@ use lo\core\actions\crud;
  */
 class I18nMessageController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * @return array
      */
@@ -34,7 +21,7 @@ class I18nMessageController extends Controller
             'index' => [
                 'class' => crud\Index::class,
                 'modelClass' => $class,
-                'orderBy' => ['id' => SORT_DESC]
+                'orderBy' => ['translation' => SORT_ASC, 'id' => SORT_DESC]
             ],
             'view' => [
                 'class' => crud\View::class,

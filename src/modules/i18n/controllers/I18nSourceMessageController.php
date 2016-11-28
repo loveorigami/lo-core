@@ -4,7 +4,6 @@ namespace lo\core\modules\i18n\controllers;
 
 use lo\core\modules\i18n\models\I18nSourceMessage;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use lo\core\actions\crud;
 
 /**
@@ -12,18 +11,6 @@ use lo\core\actions\crud;
  */
 class I18nSourceMessageController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         $class = I18nSourceMessage::class;

@@ -46,13 +46,6 @@ class I18nMessage extends ActiveRecord
         return I18nMessageMeta::class;
     }
 
-    public function afterFind()
-    {
-        $this->sourceMessage = $this->sourceMessageModel ? $this->sourceMessageModel->message : null;
-        $this->category = $this->sourceMessageModel ? $this->sourceMessageModel->category : null;
-        return parent::afterFind();
-    }
-
     /**
      * @return \yii\db\ActiveQuery
      */
