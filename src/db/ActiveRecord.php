@@ -84,8 +84,12 @@ abstract class ActiveRecord extends YiiRecord
 
         foreach ($fields AS $field) {
             $attr = $field->attr;
-            if ($field->initValue !== null)
+
+            if ($field->initValue instanceof \Closure) {
+                $this->$attr = call_user_func($field->initValue);
+            } elseif ($field->initValue != null) {
                 $this->$attr = $field->initValue;
+            }
         }
     }
 
@@ -226,7 +230,7 @@ abstract class ActiveRecord extends YiiRecord
             "query" => $query,
         ], $dataProviderConfig);
 
-        /**@var ActiveDataProvider $dataProvider*/
+        /**@var ActiveDataProvider $dataProvider */
         $dataProvider = Yii::createObject($config);
         $dataProvider->getSort()->defaultOrder = $this->_defaultSearchOrder;
 
