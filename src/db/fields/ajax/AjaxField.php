@@ -30,10 +30,13 @@ abstract class AjaxField extends HasOneField
         $grid["value"] = function ($model) {
             return ArrayHelper::getValue($model, "{$this->relationName}.{$this->gridAttr}");
         };
-        $grid["contentOptions"] = ['style'=>'min-width: 200px;'];
-        $grid["initValueText"] = ArrayHelper::getValue($this->model, "{$this->relationName}.{$this->gridAttr}");
-        $grid["class"] = Select2Column::class;
-        $grid["loadUrl"] = $this->getLoadUrl();
+
+        if ($this->showInFilter) {
+            $grid["contentOptions"] = ['style' => 'min-width: 200px;'];
+            $grid["initValueText"] = ArrayHelper::getValue($this->model, "{$this->relationName}.{$this->gridAttr}");
+            $grid["class"] = Select2Column::class;
+            $grid["loadUrl"] = $this->getLoadUrl();
+        }
 
         return $grid;
     }
