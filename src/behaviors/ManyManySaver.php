@@ -2,7 +2,7 @@
 
 namespace lo\core\behaviors;
 
-use voskobovich\manytomany\ManyToManyBehavior;
+use voskobovich\linker\LinkerBehavior;
 
 /**
  * Class ManyManySaver
@@ -43,7 +43,7 @@ use voskobovich\manytomany\ManyToManyBehavior;
  *  }
  * ```
  */
-class ManyManySaver extends ManyToManyBehavior
+class ManyManySaver extends LinkerBehavior
 {
 
 }
