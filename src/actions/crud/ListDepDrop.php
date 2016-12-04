@@ -3,6 +3,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\ArrayHelper;
 use Yii;
 use yii\web\Response;
 
@@ -20,6 +21,8 @@ class ListDepDrop extends Base
     /** @var string атрибут категории */
     public $idCatAttr = 'cat_id';
 
+    public $optgroup;
+
     /** @var string сценарий */
     public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
 
@@ -36,33 +39,46 @@ class ListDepDrop extends Base
 
             if ($cat_id != null) {
 
-                $data = ['out' => [], 'selected' => ''];
+                $data = ['out' => [], 'selected' => $subcat_id];
 
-                $query = $obj::find()->select('id, name')->where([$this->idCatAttr => $cat_id])->all();
-                foreach ($query as $m) {
-                    if ($m->id != $subcat_id) {
-                        $data['out'][] = [
-                            'id' => (int)$m->id,
-                            'name' => $m->name
-                        ];
+                $array = $obj::find()->where([$this->idCatAttr => $cat_id])->orderBy([
+                    $this->idCatAttr => SORT_ASC
+                ])->all();
+
+
+                foreach ($array as $element) {
+                    $key = ArrayHelper::getValue($element, 'id');
+                    $value = ArrayHelper::getValue($element, 'name');
+
+                    if ($this->optgroup !== null) {
+                        $group = ArrayHelper::getValue($element, $this->optgroup);
+                        $data['out'][$group][] =
+                            [
+                                'id' => $key,
+                                'name' => $value
+                            ];
                     } else {
-                        $data['selected'] = (int)$m->id;
+                        $data['out'][] = [
+                            'id' => $key,
+                            'name' => $value
+                        ];
                     }
-
-                    /**
-                     * the getProdList function will query the database based on the
-                     * cat_id and sub_cat_id and return an array like below:
-                     *  [
-                     *      'out'=>[
-                     *          ['id'=>'<prod-id-1>', 'name'=>'<prod-name1>'],
-                     *          ['id'=>'<prod_id_2>', 'name'=>'<prod-name2>']
-                     *       ],
-                     *       'selected'=>'<prod-id-1>'
-                     *  ]
-                     */
-
-                    $out = ['output' => $data['out'], 'selected' => $data['selected']];
                 }
+
+                /**
+                 * the getProdList function will query the database based on the
+                 * cat_id and sub_cat_id and return an array like below:
+                 *  [
+                 *      'out'=>[
+                 *          ['id'=>'<prod-id-1>', 'name'=>'<prod-name1>'],
+                 *          ['id'=>'<prod_id_2>', 'name'=>'<prod-name2>']
+                 *       ],
+                 *       'selected'=>'<prod-id-1>'
+                 *  ]
+                 */
+
+                $out = ['output' => $data['out'], 'selected' => $data['selected']];
+
             }
         }
 
