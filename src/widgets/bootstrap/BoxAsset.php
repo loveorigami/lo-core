@@ -8,16 +8,12 @@ use yii\web\AssetBundle;
  * @package lo\core\bootstrap\widgets
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class BaseAsset extends AssetBundle
+class BoxAsset extends AssetBundle
 {
     public $sourcePath = '@lo/core/widgets/bootstrap/assets';
 
     public $js = [
-            'admlteext.js',
-    ];
-
-    public $css = [
-            'admlteext.css',
+            'box.js',
     ];
 
     public $depends = [

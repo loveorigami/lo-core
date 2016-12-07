@@ -74,9 +74,9 @@ class Box extends BaseWidget
         if ($this->solid) {
             Html::addCssClass($this->options, 'box-solid');
         }
-/*        if ($this->collapse and $this->collapseDefault and !$this->collapse_remember) {
+        if ($this->collapse and $this->collapseDefault and !$this->collapse_remember) {
             Html::addCssClass($this->options, 'collapsed-box');
-        }*/
+        }
         if (is_array($this->customTools)) {
             if ($this->collapse) {
                 $this->customTools[] = '<button class="btn btn-box-tool" type="button" data-widget="collapse" id="' . $this->_cid . '_btn"><i class="collapsed fa fa-minus"></i></button>';
@@ -146,7 +146,7 @@ class Box extends BaseWidget
     {
         if ($this->collapse_remember && $this->collapse) {
             $view = $this->getView();
-            BaseAsset::register($view);
+            BoxAsset::register($view);
         }
     }
 }

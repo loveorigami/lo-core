@@ -28,6 +28,12 @@ class Panel extends BaseWidget
     /** @var $footer bool showing footer */
     public $footer = false;
 
+    /** @var string $leftTools code of custom box toolbar in left corner - string html code */
+    public $leftTools;
+
+    /** @var string $leftTools code of custom box toolbar in right corner - string html code */
+    public $rightTools;
+
     /**
      * @inheritdoc
      */
@@ -61,8 +67,7 @@ class Panel extends BaseWidget
         if (!isset($this->options['class'])) {
             $this->options['class'] = ' panel panel-' . $this->type;
         }
-        $view = $this->getView();
-        BaseAsset::register($view);
+
     }
 
     /**
@@ -70,8 +75,21 @@ class Panel extends BaseWidget
      */
     private function _initHeader()
     {
-        if ($this->header)
-            echo Html::tag('div', Html::tag('h3', $this->header, ['class' => 'panel-title']), ['class' => 'panel-heading']);
+        if ($this->header) {
+
+            $left = '';
+            $right = '';
+
+            if ($this->leftTools) {
+                $left = Html::tag('div', $this->leftTools, ['class' => 'pull-left', 'style' => 'margin-right:5px;']);
+            }
+            if ($this->rightTools) {
+                $right = Html::tag('div', $this->rightTools, ['class' => 'pull-right', 'style' => 'margin-left:5px;']);
+            }
+            echo Html::tag('div', $left . Html::tag('span', $this->header, ['class' => 'panel-title']) . $right, ['class' => 'panel-heading']);
+        }
+
+
     }
 
     /**
