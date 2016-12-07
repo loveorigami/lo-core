@@ -42,7 +42,7 @@ class Box extends BaseWidget
     public $footer = '';
 
     /** @var boolean $collapse show or not Box - collapse button */
-    public $collapse = false;
+    public $collapse = true;
 
     /** @var boolean $collapse_remember - set cookies for rememer collapse stage */
     public $collapse_remember = true;
