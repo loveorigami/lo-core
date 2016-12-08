@@ -15,6 +15,9 @@ use yii\web\Response;
  */
 class Delete extends Base
 {
+    public $canDelete = true;
+    public $canDeleteError = 'error';
+
     /**
      * Запуск действия удаления модели
      * @param integer $id идентификатор модели
@@ -29,7 +32,19 @@ class Delete extends Base
             if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
                 throw new ForbiddenHttpException('Forbidden');
             }
-            $model->delete();
+
+            if ($this->canDelete instanceof \Closure) {
+                $canDelete = call_user_func($this->canDelete, $model);
+            } else {
+                $canDelete = $this->canDelete;
+            }
+
+            if ($canDelete) {
+                $model->delete();
+            } else {
+                Yii::$app->session->setFlash('error', $this->canDeleteError);
+            }
+
         }
 
         if (!Yii::$app->request->isAjax) {
