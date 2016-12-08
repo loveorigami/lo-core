@@ -106,7 +106,7 @@ class Box extends BaseWidget
 
         $custTools = Html::tag('div', $this->customTools, ['class' => 'box-tools pull-right']);
 
-        $headerContent = (!$this->leftTools ? '' : '<div class="box-tools-left pull-left">' . $this->leftTools . '</div>');
+        $headerContent = !$this->leftTools ? '' : Html::tag('div', $this->leftTools, ['class'=>'pull-left', 'style'=>'margin-right:5px;']);
 
         $headerContent .= (!$this->header ? '' : Html::tag($this->header_tag, $this->header, ['class' => 'box-title']));
         $headerContent .= ($this->customTools || $this->collapse) ? $custTools : '';

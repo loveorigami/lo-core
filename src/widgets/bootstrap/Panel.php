@@ -67,7 +67,8 @@ class Panel extends BaseWidget
         if (!isset($this->options['class'])) {
             $this->options['class'] = ' panel panel-' . $this->type;
         }
-
+        $view = $this->getView();
+        PanelAsset::register($view);
     }
 
     /**

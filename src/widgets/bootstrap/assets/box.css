@@ -1,0 +1,9 @@
+.box.box-solid > .box-header .btn-group > ul.dropdown-menu > li > a,
+.btn-group > ul.dropdown-menu > li > a
+{
+    color: #000;
+}
+
+ul.dropdown-menu{
+    border: 1px #000000 solid;
+}
