@@ -42,7 +42,7 @@ class Delete extends Base
             if ($canDelete) {
                 $model->delete();
             } else {
-                Yii::$app->session->setFlash('error', $this->canDeleteError);
+                Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
             }
 
         }

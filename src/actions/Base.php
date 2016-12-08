@@ -13,6 +13,9 @@ use yii\base\Action;
  */
 class Base extends Action
 {
+    const FLASH_ERROR = 'error';
+    const FLASH_SUCCESS = 'success';
+
     use AccessRouteTrait;
     use ActionTrait;
 
