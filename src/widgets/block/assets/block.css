@@ -1,238 +1,107 @@
-/* Add here all your css styles (customizations) */
-/*
- * Off Canvas
- * --------------------------------------------------
- */
-/* clear paddings */
-.clear {
-	clear:both;
-	font-size:1px;
-	height:1px;
-	overflow:hidden;
-}
-.clear2 {
-	clear:both;
-	font-size:0px;
-	height:0px;
-	overflow:hidden;
-}
-.clear_small {
-	clear:both;
-	font-size:1px;
-	height:5px;
-	overflow:hidden;
-}
-.clear_small2 {
-	clear: both;
-	font-size: 1px;
-	height: 2px;
-	overflow:hidden;
-}
-.clear_medium {
-	clear: both;
-	font-size: 1px;
-	height: 10px;
-	overflow:hidden;
-}
-.clear_big {
-	clear: both;
-	font-size: 1px;
-	height: 15px;
-	overflow:hidden;
-}
-/* end clear paddings */
-
-.box {
-	margin:0px 2px;
-	overflow: hidden; 
-    font-size:1px;
-	height:1px;
-
-
-}
-.box2 {
-	margin:0px 1px;
-	overflow: hidden; 
-    font-size:1px;
-	height:1px;
-}
-.box3 {
-	margin:0px auto;
-	overflow: hidden; 
-   font-size:1px;
-	height:1px;
-}
-.box4 {
-	margin: 0px auto;
-	background-color: #fff;
-	overflow: hidden; 
-    font-size:1px;
-	height: 1px;
+.cboxl {
+    margin: 0 0 5px 0;
+    border-radius: 4px;
 }
 
-/*Blocks - conent*/
-
-.box_content_s {
-	background-color: #87ceeb;
-}
-.box_content {
-	background-color: #C5EAFD;
-	border-left:1px solid #87ceeb;
-	border-right:1px solid #87ceeb;
-}
-.box_content2_s {
-	border-left: 1px solid #87ceeb;
-	border-right: 1px solid #87ceeb;
-}
-.box_content2 {
-	border-left: 3px solid #C5EAFD;
-	border-right: 3px solid #C5EAFD;
-	background-color: white;
-}
-.box_content3_s {
-	border-left: 1px solid #87ceeb;
-	border-right: 1px solid #87ceeb;
-}
-.box_content3 {
-	border-left: 2px solid #C5EAFD;
-	border-right: 2px solid #C5EAFD;
-	padding: 7px;
-	background-color: white;
-}
-.box_content_full {
-	background-color: #87ceeb;
+.cboxl_header {
+    margin: 2px;
 }
 
-
-/*-------------*/
-
-.box_orange_s {
-	background-color: #ffc446;
-}
-.box_orange {
-	background-color: #ffd886;
-	border-left:1px solid #ffc446;
-	border-right:1px solid #ffc446;
-}
-.box_orange2_s {
-	border-left: 1px solid #ffc446;
-	border-right: 1px solid #ffc446;
-	background-color: #ffefd5;
-}
-.box_orange2 {
-	border-left: 3px solid #ffd886;
-	border-right: 3px solid #ffd886;
-	background-color: #ffefd5;
-}
-.box_orange3_s {
-	border-left: 1px solid #ffc446;
-	border-right: 1px solid #ffc446;
-	background-color: #ffefd5;
-}
-.box_orange3 {
-	border-left: 2px solid #ffd886;
-	border-right: 2px solid #ffd886;
-	background-color: #ffefd5;
-}
-.box_orange_full {
-	background-color: #ffc446;
+.cboxl_header > span {
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 5px;
+    color: inherit;
 }
 
-/*-------------*/
-
-.box_cyan_s {
-	background-color: #87ceeb;
-}
-.box_cyan {
-	background-color: #C5EAFD;
-	border-left:1px solid #87ceeb;
-	border-right:1px solid #87ceeb;
-}
-.box_cyan2_s {
-	border-left: 1px solid #87ceeb;
-	border-right: 1px solid #87ceeb;
-	background-color: #e5f5ff;
-}
-.box_cyan2 {
-	border-left: 3px solid #C5EAFD;
-	border-right: 3px solid #C5EAFD;
-	background-color: #e5f5ff;
-}
-.box_cyan3_s {
-	border-left: 1px solid #87ceeb;
-	border-right: 1px solid #87ceeb;
-	background-color: #e5f5ff;
-}
-.box_cyan3 {
-	border-left: 2px solid #C5EAFD;
-	border-right: 2px solid #C5EAFD;
-	background-color: #e5f5ff;
-}
-.box_cyan_full {
-	background-color: #87ceeb;
+.cboxl_content {
+    margin: 2px;
+    padding: 2px;
+    border-radius: 2px;
 }
 
-/*-------------*/
-
-.box_green_s {
-    background-color:#B9E37A;
-}
-.box_green {
-    background-color:#D4F89C;
-    border-left:1px solid #B9E37A;
-    border-right:1px solid #B9E37A;
-}
-.box_green2_s {
-    border-left:1px solid #B9E37A;
-    border-right:1px solid #B9E37A;
-}
-.box_green2 {
-    border-left:3px solid #D4F89C;
-    border-right:3px solid #D4F89C;
-}
-.box_green3_s {
-    border-left:1px solid #B9E37A;
-    border-right:1px solid #B9E37A;
-}
-.box_green3 {
-    border-left:2px solid #D4F89C;
-    border-right:2px solid #D4F89C;
-	background-color: white;
-	padding: 7px;
+/* Style default */
+.cboxl_default {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
 }
 
-.box_green_full {
-	background-color: #B9E37A;
+.cboxl_header_default {
+    color: #333;
 }
 
-/*-------------*/
-
-.box_pink_s {
-    background-color:#d879e3;
-}
-.box_pink {
-    background-color:#ec9cf8;
-    border-left:1px solid #d879e3;
-    border-right:1px solid #d879e3;
-}
-.box_pink2_s {
-    border-left:1px solid #d879e3;
-    border-right:1px solid #d879e3;
-}
-.box_pink2 {
-    border-left:3px solid #ec9cf8;
-    border-right:3px solid #ec9cf8;
-}
-.box_pink3_s {
-    border-left:1px solid #d879e3;
-    border-right:1px solid #d879e3;
-}
-.box_pink3 {
-    border-left:2px solid #ec9cf8;
-    border-right:2px solid #ec9cf8;
-	 background-color: white;
+.cboxl_content_default {
+    background-color: #fff;
 }
 
-.box_pink_full {
-	background-color: #d879e3;
+/* Style primary */
+.cboxl_primary {
+    background-color: #337ab7;
+    border: 1px solid #337ab7;
 }
+
+.cboxl_header_primary {
+    color: #fff;
+}
+
+.cboxl_content_primary {
+    background-color: #fff;
+}
+
+/* Style info */
+.cboxl_info {
+    border: 1px solid #87ceeb;
+    background-color: #C5EAFD;
+}
+
+.cboxl_header_info {
+    color: #31708f;
+}
+
+.cboxl_content_info {
+    background-color: #fff;
+}
+
+/* Style warning */
+.cboxl_warning {
+    border: 1px solid #ffd886;
+    background-color: #ffefd5;
+}
+
+.cboxl_header_warning {
+    color: #8a6d3b;
+}
+
+.cboxl_content_warning {
+    background-color: #fff;
+}
+
+/* Style danger */
+.cboxl_danger {
+    border: 1px solid #ebccd1;
+    background-color: #f2dede;
+}
+
+.cboxl_header_danger {
+    color: #a94442;
+}
+
+.cboxl_content_danger {
+    background-color: #fff;
+}
+
+/* Style success */
+.cboxl_success {
+    border: 1px solid #d6e9c6;
+    background-color: #dff0d8;
+}
+
+.cboxl_header_success {
+    color: #3c763d;
+}
+
+.cboxl_content_success {
+    background-color: #fff;
+}
+
