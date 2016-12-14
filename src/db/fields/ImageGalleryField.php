@@ -44,7 +44,7 @@ class ImageGalleryField extends ImageField
             'path' => $this->getStoragePath(),
             'url' => $this->getStorageUrl(),
             'thumbs' => [
-                self::THUMB => ['width' => 75, 'height' => 50, 'quality' => 90],
+                self::THUMB => ['width' => 280, 'height' => 210, 'quality' => 90],
             ],
             'removeDirectoryOnDelete' => false,
             'createThumbsOnSave' => true,
