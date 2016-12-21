@@ -186,27 +186,36 @@ abstract class MetaFields extends Object
                 ],
                 "params" => [$this->owner, "updated_at"]
             ],
-            "status" => [
-                "definition" => [
-                    "class" => fields\CheckBoxField::class,
-                    'inputClass' => inputs\CheckBoxInputB::class, // bootstrap toggle
-                    "title" => Yii::t('core', 'Status'),
-                    "editInGrid" => true,
-                    "initValue" => true,
-                    "inputClassOptions" => [
-                        "widgetOptions" => [
-                            'options' => [
-                                'label' => null,
-                                'inline' => true,
-                                'data-on' => Yii::t('common', 'Yes'),
-                                'data-off' => Yii::t('common', 'No'),
-                            ],
+            "status" => $this->getMetaStatus()
+        ];
+    }
+
+    /**
+     * Status field
+     * @return array
+     */
+    public function getMetaStatus()
+    {
+        return [
+            "definition" => [
+                "class" => fields\CheckBoxField::class,
+                'inputClass' => inputs\CheckBoxInputB::class, // bootstrap toggle
+                "title" => Yii::t('core', 'Status'),
+                "editInGrid" => true,
+                "initValue" => true,
+                "inputClassOptions" => [
+                    "widgetOptions" => [
+                        'options' => [
+                            'label' => null,
+                            'inline' => true,
+                            'data-on' => Yii::t('common', 'Yes'),
+                            'data-off' => Yii::t('common', 'No'),
                         ],
                     ],
                 ],
-                "params" => [$this->owner, "status"],
-                "pos" => 50
             ],
+            "params" => [$this->owner, "status"],
+            "pos" => 50
         ];
     }
 
