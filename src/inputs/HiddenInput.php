@@ -24,6 +24,6 @@ class HiddenInput extends BaseInput
     {
         $options = ArrayHelper::merge($this->options, $options);
 
-        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->widgetOptions)->hiddenInput($options);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), ['template' => '{input}'])->hiddenInput($options)->label(false);
     }
 }
