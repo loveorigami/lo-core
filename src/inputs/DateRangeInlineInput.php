@@ -14,20 +14,12 @@ use yii\widgets\ActiveForm;
 class DateRangeInlineInput extends BaseInput
 {
     /**
-     * @var string атрибут от
-     */
-    public $fromAttr;
-
-    /**
-     * @var string атрибут до
-     */
-    public $toAttr;
-
-    /**
      * Опции по умолчанию
      * @var array
      */
     protected $defaultOptions = [
+        'fromAttr' => 'date_from',
+        'toAttr' => 'date_to',
         'pluginOptions' => [
             'format' => 'YYYY-MM-DD',
             'separator' => ' ~ '
