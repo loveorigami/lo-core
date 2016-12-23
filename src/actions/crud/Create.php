@@ -58,8 +58,7 @@ class Create extends Base
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
                     'success' => true,
-                    'id' => $model->id,
-                    'name' => $model->name,
+                    'id' => $model->id
                 ];
             }
 
