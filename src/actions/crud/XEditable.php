@@ -3,6 +3,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -28,7 +29,7 @@ class XEditable extends Base
 
         if ($request->isPost) {
             $pk = Yii::$app->request->post('pk');
-            $pk = unserialize(base64_decode($pk));
+            $pk = PkHelper::keyDencode($pk);
 
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);

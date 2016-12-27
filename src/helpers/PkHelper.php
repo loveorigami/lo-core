@@ -42,4 +42,23 @@ class PkHelper
         }
         return $pk;
     }
+
+    /**
+     * @param ActiveRecord $model
+     * @return mixed
+     */
+    public static function keyEncode($model)
+    {
+        $pk = $model ? $model->getPrimaryKey() : null;
+        return base64_encode(serialize($pk));
+    }
+
+    /**
+     * @param $pk
+     * @return mixed
+     */
+    public static function keyDencode($pk)
+    {
+        return unserialize(base64_decode($pk));
+    }
 }

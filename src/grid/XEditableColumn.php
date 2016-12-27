@@ -2,8 +2,8 @@
 
 namespace lo\core\grid;
 
+use lo\core\helpers\PkHelper;
 use mcms\xeditable\XEditableColumn as Base;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -14,9 +14,7 @@ use yii\helpers\Html;
  */
 class XEditableColumn extends Base
 {
-
     public $editable = null;
-
 
     /**
      * @inheritdoc
@@ -33,7 +31,17 @@ class XEditableColumn extends Base
             $value = call_user_func($this->value, $model, $index, $this);
         }
 
-        $value = '<a href="#" data-name="' . $this->attribute . '" data-value="' . Html::encode($model->{$this->attribute}) . '"  class="editable" data-type="' . $this->dataType . '" data-pk="' . $this->getPkValue($model) . '" data-url="' . $this->url . '" data-title="' . $this->dataTitle . '">' . $this->grid->formatter->format($value, $this->format) . '</a>';
+        $value = Html::a($this->grid->formatter->format($value, $this->format), '#', [
+            'data' => [
+                'name' => $this->attribute,
+                'value' => Html::encode($model->{$this->attribute}),
+                'type' => $this->dataType,
+                'pk' => PkHelper::keyEncode($model),
+                'url' => $this->url,
+                'title' => $this->dataTitle,
+            ],
+            'class' => 'editable',
+        ]);
 
         return $value;
     }
@@ -46,13 +54,4 @@ class XEditableColumn extends Base
         return $this->getDataCellContent($model, $key, $index);
     }
 
-    /**
-     * @param ActiveRecord $model
-     * @return string
-     */
-    protected function getPkValue($model)
-    {
-        $pk = $model ? $model->getPrimaryKey() : null;
-        return base64_encode(serialize($pk));
-    }
 } 
