@@ -92,20 +92,20 @@ class ArrayHelper extends YiiArrayHelper
     }
 
     /**
-     * @param $arr
+     * @param $array
      * @return mixed
      */
-    public static function multiorder($arr)
+    public static function multiorder($array)
     {
         $ar2 = [];
         $i = 0;
         $n = 5;
-        foreach ($arr as $a) {
+        foreach ($array as $a) {
             $ar2[$i] = (isset($a['pos'])) ? $a['pos'] : $n++;
             $i++;
         }
-        array_multisort($arr, SORT_NUMERIC, $ar2);
-        return ($arr);
+        array_multisort($array, SORT_NUMERIC, $ar2);
+        return ($array);
     }
 
 }
