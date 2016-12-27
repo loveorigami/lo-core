@@ -62,7 +62,7 @@ abstract class MetaFields extends Object
         if (!is_array($this->_fieldsConfig)) {
             $this->_fieldsConfig = ArrayHelper::merge($this->defaultConfig(), $this->config());
         }
-        $this->_fieldsConfig = ArrayHelper::multiOrder($this->_fieldsConfig);
+        $this->_fieldsConfig = ArrayHelper::multiorder($this->_fieldsConfig);
         return $this->_fieldsConfig;
     }
 
