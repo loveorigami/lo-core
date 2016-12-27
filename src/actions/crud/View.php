@@ -2,6 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -26,7 +27,8 @@ class View extends Base
      */
     public function run($id)
     {
-        $model = $this->findModel($id);
+        $pk = PkHelper::decode($id);
+        $model = $this->findModel($pk);
 
         if (!$model)
             throw new NotFoundHttpException('Not found');

@@ -15,7 +15,7 @@ use yii\web\Response;
 class ListStr extends Base
 {
     /** @var array атрибут поиска по умолчанию */
-    public $defaultAttr =  'name';
+    public $defaultAttr = 'name';
 
     /** @var string сценарий */
     public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
@@ -28,7 +28,7 @@ class ListStr extends Base
     {
         $obj = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
 
-        $query=urldecode($query);
+        $query = urldecode($query);
         $models = $obj::find()->where(['like', 'name', $query])->all();
 
         $items = [];

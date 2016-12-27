@@ -2,6 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use lo\core\actions\Base;
@@ -29,8 +30,10 @@ class Update extends Base
      */
     public function run($id)
     {
+        $pk = PkHelper::decode($id);
+
         /** @var ActiveRecord $model */
-        $model = $this->findModel($id);
+        $model = $this->findModel($pk);
 
         if (!Yii::$app->user->can($this->access(), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden model');
@@ -51,7 +54,6 @@ class Update extends Base
             throw new ForbiddenHttpException('Forbidden load');
 
 
-
         if ($load && $model->save()) {
 
             if (Yii::$app->request->isAjax) {
@@ -63,7 +65,7 @@ class Update extends Base
                 ];
             }
 
-            if (!$request->post($this->applyParam)){
+            if (!$request->post($this->applyParam)) {
                 $returnUrl = $this->getReturnUrl();
                 return $this->controller->redirect($returnUrl);
             }

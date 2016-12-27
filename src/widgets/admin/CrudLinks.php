@@ -2,6 +2,7 @@
 namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use lo\core\traits\AccessRouteTrait;
 use Yii;
 use yii\base\Widget;
@@ -67,13 +68,13 @@ class CrudLinks extends Widget
             self::CRUD_VIEW => [
                 [
                     'label' => Yii::t('core', 'Update'),
-                    'url' => array_merge(['update', 'id' => $this->model->id], $this->urlParams),
+                    'url' => array_merge(['update', 'id' => PkHelper::encode($this->model)], $this->urlParams),
                     'options' => ['class' => 'btn btn-primary  pull-right'],
                     'permission' => $this->access('update'),
                 ],
                 [
                     'label' => Yii::t('core', 'Delete'),
-                    'url' => array_merge(['delete', 'id' => $this->model->id], $this->urlParams),
+                    'url' => array_merge(['delete', 'id' => PkHelper::encode($this->model)], $this->urlParams),
                     'options' => ['class' => 'btn btn-danger pull-right',
                         'data' => [
                             'confirm' => Yii::t('core', 'Are you sure?'),

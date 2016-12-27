@@ -3,6 +3,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -26,9 +27,10 @@ class Delete extends Base
      */
     public function run($id)
     {
-        /** @var ActiveRecord $model */
         if (Yii::$app->request->isPost) {
-            $model = $this->findModel($id);
+            $pk = PkHelper::decode($id);
+            /** @var ActiveRecord $model */
+            $model = $this->findModel($pk);
             if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
                 throw new ForbiddenHttpException('Forbidden');
             }

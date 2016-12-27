@@ -2,6 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\db\TActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -19,8 +20,9 @@ class TDelete extends Delete
     public function run($id)
     {
         if (Yii::$app->request->isPost) {
+            $pk = PkHelper::decode($id);
             /** @var TActiveRecord $model */
-            $model = $this->findModel($id);
+            $model = $this->findModel($pk);
             if (!Yii::$app->user->can($this->access(), array("model" => $model)))
                 throw new ForbiddenHttpException('Forbidden');
             $model->deleteWithChildren();

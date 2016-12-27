@@ -3,6 +3,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\TActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -21,8 +22,9 @@ class TUp extends Base
      */
     public function run($id)
     {
+        $pk = PkHelper::decode($id);
         /** @var TActiveRecord $model */
-        $model = $this->findModel($id);
+        $model = $this->findModel($pk);
 
         if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden');

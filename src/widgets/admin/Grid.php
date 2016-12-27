@@ -2,6 +2,7 @@
 namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use lo\core\traits\AccessRouteTrait;
 use Yii;
 use yii\base\Widget;
@@ -210,31 +211,31 @@ class Grid extends Widget
 
         return [
             'view' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/view', 'id' => $model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/view', 'id' => PkHelper::encode($model)]);
                 //if (Yii::$app->user->can($this->access('view'), ['model' => $model]))
                 return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
             },
 
             'update' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/update', 'id' => $model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/update', 'id' => PkHelper::encode($model)]);
                 //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                 return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
             },
 
             'delete' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/delete', 'id' => $model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/delete', 'id' => PkHelper::encode($model)]);
                 //if (Yii::$app->user->can($this->access('delete'), ['model' => $model]))
                 return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
             },
 
             'up' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/up', 'id' => $model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/up', 'id' => PkHelper::encode($model)]);
                 //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                 return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
             },
 
             'down' => function ($url, $model) use ($js) {
-                $url = Url::toRoute([$this->baseRoute . '/down', 'id' => $model->id]);
+                $url = Url::toRoute([$this->baseRoute . '/down', 'id' => PkHelper::encode($model)]);
                 //if (Yii::$app->user->can($this->access('update'), ['model' => $model]))
                 return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
             },
@@ -243,10 +244,10 @@ class Grid extends Widget
                 if (Yii::$app->user->can($this->access('view'), ['model' => $model])) {
                     $childs = count($model->children(1)->all());
                     if ($childs) {
-                        $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => $model->id]);
+                        $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => $model->primaryKey]);
                         return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);
                     } else {
-                        $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id' => $model->id]);
+                        $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id' => $model->primaryKey]);
                         return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-primary']);
                     }
                 }

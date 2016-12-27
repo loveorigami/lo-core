@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
 use lo\core\db\TActiveRecord;
 use Yii;
 use yii\helpers\Html;
@@ -13,25 +14,22 @@ use yii\web\ForbiddenHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class TReplace extends \lo\core\actions\Base
+class TReplace extends Base
 {
 
     /**
      * @var string имя параметра в запросе в котором передаются идентификаторы материалов при групповых операциях
      */
-
     public $groupIdsAttr = "selection";
 
     /**
      * @var string имя параметра POST запроса в котором передается идентификатор категории в которую необходимо перенести модели
      */
-
     public $parentIdAttr = "replace_parent_id";
 
     /**
      * @inheritdoc
      */
-
     public function run()
     {
 
