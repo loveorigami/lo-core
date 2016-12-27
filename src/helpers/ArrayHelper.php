@@ -95,7 +95,7 @@ class ArrayHelper extends YiiArrayHelper
      * @param $arr
      * @return mixed
      */
-    public static function multi_order($arr)
+    public static function multiOrder($arr)
     {
         $ar2 = [];
         $i = 0;
