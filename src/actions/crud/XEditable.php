@@ -29,7 +29,7 @@ class XEditable extends Base
 
         if ($request->isPost) {
             $pk = Yii::$app->request->post('pk');
-            $pk = PkHelper::keyDencode($pk);
+            $pk = PkHelper::keyDecode($pk);
 
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
@@ -44,5 +44,4 @@ class XEditable extends Base
 
         return false;
     }
-
 }
