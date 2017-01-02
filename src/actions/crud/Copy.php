@@ -11,6 +11,21 @@ use yii\web\Response;
 /**
  * Class Copy
  * @package lo\core\actions\crud
+ * ```php
+ *  'copy' => [
+ *      'class' => crud\Copy::class,
+ *      'modelClass' => $class,
+ *      'afterCopy' => function ($model, $modelCopy) {
+ *          foreach ($model->tags as $tag) {
+ *              $tagCopy = new Tag();
+ *              $tagCopy->setAttributes($tag->attributes);
+ *              $tagCopy->save();
+ *              $modelCopy->link('tags', $tagCopy);
+ *          }
+ *      }
+ * }],
+ *
+ * ```
  */
 class Copy extends Base
 {
