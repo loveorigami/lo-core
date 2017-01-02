@@ -59,4 +59,5 @@ class Base extends Action
             $returnUrl = $this->defaultRedirectUrl;
         return $this->controller->redirect($returnUrl);
     }
+
 }
