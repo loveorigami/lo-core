@@ -38,7 +38,7 @@ class FlashException extends Exception
     /**
      * add to session
      */
-    public function toFlash()
+    public function catchFlash()
     {
         Yii::$app->session->setFlash($this->getType(), $this->getMessage());
     }
