@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\widgets;
 
-use lo\core\components\Match;
+use lo\core\components\match\Match;
 use yii\base\Widget;
 
 /**

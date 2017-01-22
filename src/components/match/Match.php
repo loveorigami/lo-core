@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\components;
+namespace lo\core\components\match;
 
 use Yii;
 use yii\base\Object;

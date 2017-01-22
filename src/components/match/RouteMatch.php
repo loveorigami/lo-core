@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\components;
+namespace lo\core\components\match;
 
 use Yii;
 
@@ -11,7 +11,6 @@ use Yii;
  */
 class RouteMatch extends Match
 {
-
     /**
      * Проверяет истинность php выражения
      * @param string $value строка с php кодом. Например return 1==1;
@@ -19,9 +18,6 @@ class RouteMatch extends Match
      */
     public function test($value)
     {
-
         return $value == Yii::$app->requestedRoute;
-
     }
-
 }

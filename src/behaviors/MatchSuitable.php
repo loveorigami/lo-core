@@ -2,7 +2,7 @@
 
 namespace lo\core\behaviors;
 
-use lo\core\components\Match;
+use lo\core\components\match\Match;
 use yii\base\Behavior;
 
 /**

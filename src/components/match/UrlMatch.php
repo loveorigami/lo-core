@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\components;
+namespace lo\core\components\match;
 
 use Yii;
 
@@ -11,7 +11,6 @@ use Yii;
  */
 class UrlMatch extends Match
 {
-
     /**
      * Проверяет соответствие текущего url заданному значению
      * @param string $value строка с шаблонами url разделенным запятыми
@@ -19,15 +18,11 @@ class UrlMatch extends Match
      */
     public function test($value)
     {
-
         $condArr = explode(",", $value);
-
         $url = "/" . Yii::$app->request->pathInfo;
 
         foreach ($condArr AS $cond) {
-
             $cond = trim($cond);
-
             $pattern = "!^" . str_replace("*", ".*?", $cond) . "$!i"; // Преобразуем шаблон в регулярное выражение
 
             if (preg_match($pattern, $url)) // Совпадение url одному из шаблонов
@@ -35,9 +30,6 @@ class UrlMatch extends Match
                 return true;
             }
         }
-
         return false;
-
     }
-
 }

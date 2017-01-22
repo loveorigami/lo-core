@@ -1,5 +1,5 @@
 <?php
-namespace lo\core\components;
+namespace lo\core\components\match;
 
 use Yii;
 
@@ -11,7 +11,6 @@ use Yii;
  */
 class PhpMatch extends Match
 {
-
     /**
      * Проверяет истинность php выражения
      * @param string $value строка с php кодом. Например return 1==1;
@@ -19,9 +18,6 @@ class PhpMatch extends Match
      */
     public function test($value)
     {
-
         return eval($value);
-
     }
-
 }
