@@ -45,48 +45,56 @@ class AwesomeCheckbox extends InputWidget
     public $style = self::STYLE_DEFAULT;
     public $list = [];
     public $wrapperOptions = [];
-    
-    public function run(){
+
+    public function run()
+    {
         AwesomeCheckboxAsset::register($this->getView());
         //FontAwesomeAsset::register($this->getView());
-        if(!empty($this->list) && is_array($this->list)){
+        if (!empty($this->list) && is_array($this->list)) {
             return $this->renderList();
-        }else {
+        } else {
             return $this->renderItem();
         }
     }
+
     /**
      * @return string
      */
-    protected function renderItem(){
+    protected function renderItem()
+    {
         $html = [];
-        $html [] = Html::beginTag('div',array_merge(['class'=>$this->getClass()],$this->wrapperOptions));
+        $html [] = Html::beginTag('div', array_merge(['class' => $this->getClass()], $this->wrapperOptions));
         $label = $this->labelContent;
         $html[] = $this->input;
-        if($label){
-            $html[] = Html::tag('label', $label, ['for'=>$this->labelId]);
+        if ($label) {
+            $html[] = Html::tag('label', $label, ['for' => $this->labelId]);
         }
         $html [] = Html::endTag('div');
-        return implode('',$html);
+        return implode('', $html);
     }
 
 
-    protected function renderList(){
-        $listAction = $this->type.'List';
+    protected function renderList()
+    {
+        $listAction = $this->type . 'List';
         $this->options['item'] = function ($index, $label, $name, $checked, $value) {
+            $label = new LabelDto($label);
             $action = $this->type;
-            $id = strtolower($this->id.'-'.$index.'-'.str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
+            $id = strtolower($this->id . '-' . $index . '-' . str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
             $html = [];
-            $html[] = Html::beginTag('div',['class'=>$this->getClass()]);
-            $html[] = Html::$action($name, $checked, ['label' => null, 'value' => $value, 'id'=>$id]);
-            $html[] = Html::tag('label', $label, ['for'=>$id]);
+            if ($label->group) {
+                $html[] = Html::tag('div',$label->group);
+            }
+            $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
+            $html[] = Html::$action($name, $checked, ['label' => null, 'value' => $value, 'id' => $id]);
+            $html[] = Html::tag('label', $label->name, ['for' => $id]);
             $html[] = Html::endTag('div');
-            return implode(' ',$html);
+            return implode(' ', $html);
         };
-        if($this->hasModel()) {
-            $listAction = 'active'.ucfirst($listAction);
+        if ($this->hasModel()) {
+            $listAction = 'active' . ucfirst($listAction);
             $input = Html::$listAction($this->model, $this->attribute, $this->list, $this->options);
-        }else{
+        } else {
             $input = Html::$listAction($this->name, $this->checked, $this->list, $this->options);
         }
         return $input;
@@ -95,23 +103,25 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getLabelContent(){
-        $label = array_key_exists('label',$this->options)?$this->options['label']:'';
-        if($this->hasModel()&&empty($label)){
+    protected function getLabelContent()
+    {
+        $label = array_key_exists('label', $this->options) ? $this->options['label'] : '';
+        if ($this->hasModel() && empty($label)) {
             $label = Html::encode($this->model->getAttributeLabel(Html::getAttributeName($this->attribute)));
         }
-        $this->options['label']=null;
+        $this->options['label'] = null;
         return $label;
     }
 
     /**
      * @return string
      */
-    protected function getLabelId(){
+    protected function getLabelId()
+    {
         $id = $this->id;
-        if($this->hasModel()&&!array_key_exists('id', $this->options)){
+        if ($this->hasModel() && !array_key_exists('id', $this->options)) {
             $id = Html::getInputId($this->model, $this->attribute);
-        }elseif(isset($this->options['id'])){
+        } elseif (isset($this->options['id'])) {
             $id = $this->options['id'];
         }
         return $id;
@@ -120,13 +130,14 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getInput(){
+    protected function getInput()
+    {
         $input = '';
         $inputType = ucfirst($this->type);
-        if($this->hasModel()){
-            $inputType = 'active'.$inputType;
+        if ($this->hasModel()) {
+            $inputType = 'active' . $inputType;
             $input = Html::$inputType($this->model, $this->attribute, $this->options);
-        }else {
+        } else {
             $input = Html::$inputType($this->name, $this->checked, $this->options);
         }
         return $input;
@@ -135,19 +146,20 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getClass(){
+    protected function getClass()
+    {
         $class = [];
         $class[] = $this->type;
-        if(!empty($this->style)){
-            if(is_array($this->style)){
-                $class = array_merge($class, array_map(function($item){
-                    return $this->type.'-'.$item;
-                },$this->style));
-            }else{
-                $class[] = $this->type.'-'.$this->style;
+        if (!empty($this->style)) {
+            if (is_array($this->style)) {
+                $class = array_merge($class, array_map(function ($item) {
+                    return $this->type . '-' . $item;
+                }, $this->style));
+            } else {
+                $class[] = $this->type . '-' . $this->style;
             }
         }
-        if(isset($this->wrapperOptions['class']) && !empty($this->wrapperOptions['class'])){
+        if (isset($this->wrapperOptions['class']) && !empty($this->wrapperOptions['class'])) {
             $class = array_merge($class, preg_split('/\s+/', $this->wrapperOptions['class']));
         }
         return implode(' ', $class);
