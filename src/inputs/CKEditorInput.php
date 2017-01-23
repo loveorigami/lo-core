@@ -74,7 +74,6 @@ class CKEditorInput extends BaseInput
                 'inline' => false,
                 'allowedContent' => true,
                 'autoParagraph' => false,
-                'height' => 150,
                 'baseHref' => Yii::getAlias('@storageUrl'),
             ];
 
