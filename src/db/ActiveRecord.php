@@ -247,8 +247,7 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * @inheritdoc
-     * @return ActiveQuery
+     * @return object
      */
     public static function find()
     {
@@ -256,7 +255,7 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * @return User возвращает автора модели
+     * @return \yii\db\ActiveQuery
      */
     public function getAuthor()
     {
