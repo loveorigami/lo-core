@@ -13,7 +13,6 @@ interface IConstraint
     /**
      * Устанавливает ограничение на критерий запроса
      * @param ActiveQuery $query запрос
-     * @return mixed
      */
     public function applyConstraint($query);
 

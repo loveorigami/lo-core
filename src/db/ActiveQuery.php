@@ -47,7 +47,7 @@ class ActiveQuery extends YiiQuery
      * Получение alias-a для таблицы
      * @return null|string
      */
-    protected function getAlias()
+    public function getAlias()
     {
         if (empty($this->from)) {
             /* @var $modelClass ActiveRecord */
