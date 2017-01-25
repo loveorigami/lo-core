@@ -35,8 +35,9 @@ class Update extends Base
         /** @var ActiveRecord $model */
         $model = $this->findModel($pk);
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
+        if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
             throw new ForbiddenHttpException('Forbidden model');
+        }
 
         $model->setScenario($this->modelScenario);
 
@@ -50,8 +51,8 @@ class Update extends Base
             return $this->performAjaxValidation($model);
         }
 
-        if ($load && !Yii::$app->user->can($this->access(), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden load');
+        /*        if ($load && !Yii::$app->user->can($this->access(), array("model" => $model)))
+                    throw new ForbiddenHttpException('Forbidden load');*/
 
 
         if ($load && $model->save()) {
