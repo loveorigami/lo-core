@@ -2,6 +2,7 @@
 namespace lo\core\components;
 
 use yii\base\Component;
+use yii\caching\Cache;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -12,13 +13,25 @@ use Yii;
 class Settings extends Component implements SettingsInterface
 {
     /**
+     * @var Cache|string the cache object or the application component ID of the cache object.
+     * Settings will be cached through this cache object, if it is available.
+     *
+     * After the Settings object is created, if you want to change this property,
+     * you should only assign it with a cache object.
+     * Set this property to null if you do not want to cache the settings.
+     */
+    public $cache = 'cache';
+
+    /**
      * @var string
      */
     public $cachePrefix = '_keyStorage';
+
     /**
      * @var int
      */
     public $cachingDuration = 60;
+
     /**
      * @var string
      */
@@ -28,6 +41,19 @@ class Settings extends Component implements SettingsInterface
      * @var array Runtime values cache
      */
     private $values = [];
+
+    /**
+     * Initialize the component
+     *
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init()
+    {
+        parent::init();
+        if (is_string($this->cache)) {
+            $this->cache = Yii::$app->get($this->cache);
+        }
+    }
 
     /**
      * @param $key
@@ -44,7 +70,7 @@ class Settings extends Component implements SettingsInterface
         $model->value = $value;
         if ($model->save(false)) {
             $this->values[$key] = $value;
-            Yii::$app->cache->set($this->getCacheKey($key), $value, $this->cachingDuration);
+            $this->cache->set($this->getCacheKey($key), $value, $this->cachingDuration);
             return true;
         };
         return false;
@@ -71,12 +97,12 @@ class Settings extends Component implements SettingsInterface
     {
         if ($cache) {
             $cacheKey = $this->getCacheKey($key);
-            $value = ArrayHelper::getValue($this->values, $key, false) ?: Yii::$app->cache->get($cacheKey);
+            $value = ArrayHelper::getValue($this->values, $key, false) ?: $this->cache->get($cacheKey);
             if ($value === false) {
                 if ($model = $this->getModel($key)) {
                     $value = $model->value;
                     $this->values[$key] = $value;
-                    Yii::$app->cache->set(
+                    $this->cache->set(
                         $cacheKey,
                         $value,
                         $cachingDuration === false ? $this->cachingDuration : $cachingDuration
@@ -171,4 +197,5 @@ class Settings extends Component implements SettingsInterface
             $key
         ];
     }
+
 }
