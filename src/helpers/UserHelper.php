@@ -31,6 +31,8 @@ class UserHelper
      */
     const ROLE_GUEST = 'guest';
 
+    protected static $_role;
+
     /**
      * @return bool
      */
@@ -94,5 +96,15 @@ class UserHelper
     public static function getRolesByUser()
     {
         return Yii::$app->authManager->getRolesByUser(self::user('id'));
+    }
+
+    /** @return string default role */
+    public static function getRole()
+    {
+        if (!self::$_role) {
+            $roles = self::getRolesByUser();
+            self::$_role = key($roles);
+        }
+        return self::$_role;
     }
 }

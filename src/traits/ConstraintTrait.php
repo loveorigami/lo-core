@@ -11,22 +11,10 @@ use lo\core\modules\permission\models\Constraint;
  */
 trait ConstraintTrait
 {
-    protected $_role;
-
     /** @return Constraint */
     public function getPermission()
     {
-        $data = Constraint::findPermission(get_called_class(), $this->getRole());
+        $data = Constraint::findPermission(get_called_class(), UserHelper::getRole());
         return $data;
-    }
-
-    /** @return string default role */
-    protected function getRole()
-    {
-        if (!$this->_role) {
-            $roles = UserHelper::getRolesByUser();
-            $this->_role = key($roles);
-        }
-        return $this->_role;
     }
 }
