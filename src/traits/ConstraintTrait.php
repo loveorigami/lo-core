@@ -1,8 +1,8 @@
 <?php
 namespace lo\core\traits;
 
+use lo\core\helpers\UserHelper;
 use lo\core\modules\permission\models\Constraint;
-use Yii;
 
 /**
  * Class ConstraintTrait
@@ -24,7 +24,7 @@ trait ConstraintTrait
     protected function getRole()
     {
         if (!$this->_role) {
-            $roles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            $roles = UserHelper::getRolesByUser();
             $this->_role = key($roles);
         }
         return $this->_role;

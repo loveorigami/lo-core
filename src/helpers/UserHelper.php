@@ -87,4 +87,12 @@ class UserHelper
 
         return $view;
     }
+
+    /**
+     * @return \yii\rbac\Role[]
+     */
+    public static function getRolesByUser()
+    {
+        return Yii::$app->authManager->getRolesByUser(self::user('id'));
+    }
 }
