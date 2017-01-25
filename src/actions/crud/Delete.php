@@ -23,7 +23,7 @@ class Delete extends Base
      * Запуск действия удаления модели
      * @param integer $id идентификатор модели
      * @throws ForbiddenHttpException
-     * @return void | Response
+     * @return Response
      */
     public function run($id)
     {
@@ -31,6 +31,7 @@ class Delete extends Base
             $pk = PkHelper::decode($id);
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
+
             if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
                 throw new ForbiddenHttpException('Forbidden');
             }

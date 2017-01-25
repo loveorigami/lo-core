@@ -2,7 +2,9 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
+use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -28,13 +30,14 @@ class GroupDelete extends Base
     {
         /** @var ActiveRecord $class */
         $class = $this->modelClass;
-
-        $ids = Yii::$app->request->post($this->groupIdsAttr, array());
+        $ids = Yii::$app->request->post($this->groupIdsAttr, []);
+        $ids = PkHelper::decodeAll($ids);
 
         if (!empty($ids)) {
+            /** @var ActiveQuery $query */
             $query = $class::find()->where(['id' => $ids]);
             foreach ($query->all() as $model) {
-                if (!Yii::$app->user->can($this->access(), array("model" => $model)))
+                if (!Yii::$app->user->can($this->access(), ["model" => $model]))
                     throw new ForbiddenHttpException('Forbidden');
                 $model->delete();
             }

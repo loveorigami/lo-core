@@ -51,11 +51,6 @@ class Update extends Base
             return $this->performAjaxValidation($model);
         }
 
-        /** can change author */
-        if ($load && !Yii::$app->user->can($this->access(), ["model" => $model])) {
-            throw new ForbiddenHttpException('Forbidden load');
-        }
-
         if ($load && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 // JSON response is expected in case of successful save

@@ -36,7 +36,7 @@ class Copy extends Base
      * Запуск действия копирования модели
      * @param integer $id идентификатор модели
      * @throws ForbiddenHttpException
-     * @return void | Response
+     * @return Response
      */
     public function run($id)
     {

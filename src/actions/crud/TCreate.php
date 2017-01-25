@@ -25,7 +25,7 @@ class TCreate extends Create
      * @throws ForbiddenHttpException
      * @throws BadRequestHttpException
      */
-    public function run($parent_id)
+    public function run($parent_id = null)
     {
         /** @var TActiveRecord $class */
         $class = $this->modelClass;
@@ -35,24 +35,25 @@ class TCreate extends Create
 
         $model->parent_id = $parent_id;
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
+        if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
             throw new ForbiddenHttpException('Forbidden');
+        }
 
         $this->checkForbiddenAttrs($model);
 
         $request = Yii::$app->request;
 
-		$model->attributes = $this->defaultAttrs;
+        $model->attributes = $this->defaultAttrs;
 
-		$load = $model->load($request->post());
+        $load = $model->load($request->post());
 
-        $parentModel = $class::find()->where(["id" => (int) $model->parent_id])->one();
+        $parentModel = $class::find()->where(["id" => (int)$model->parent_id])->one();
 
         if ($parentModel AND $parentModel->id != TActiveRecord::ROOT_ID AND !empty($this->extendedAttrs)) {
             foreach ($this->extendedAttrs AS $attr) {
-				if(empty($model->attr))
-					$model->$attr = $parentModel->$attr;
-			}
+                if (empty($model->attr))
+                    $model->$attr = $parentModel->$attr;
+            }
         }
 
         if ($load && $request->post($this->validateParam)) {

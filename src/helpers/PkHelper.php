@@ -44,6 +44,20 @@ class PkHelper
     }
 
     /**
+     * @param array $data
+     * @return array
+     */
+    public static function decodeAll(array $data)
+    {
+        $result = [];
+        foreach ($data as $item) {
+            $result[] = self::decode($item);
+        }
+        return $result;
+    }
+
+
+    /**
      * @param ActiveRecord|array $model
      * @return mixed
      */

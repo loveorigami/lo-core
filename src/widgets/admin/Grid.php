@@ -9,6 +9,7 @@ use lo\core\traits\AccessRouteTrait;
 use Yii;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
+use yii\grid\CheckboxColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -118,19 +119,22 @@ class Grid extends Widget
     {
         $columns = [
             [
-                'class' => 'yii\grid\CheckboxColumn',
-                /**
-                 * 'contentOptions' => function ($model, $key, $index, $gridView) {
-                 * $arr = [];
-                 * if (
-                 * !Yii::$app->user->can($this->access('update'), ['model' => $model]) AND
-                 * !Yii::$app->user->can($this->access('delete'), ['model' => $model])
-                 * ) {
-                 * $arr = ["class" => "grid-checkbox-disabled"];
-                 * }
-                 * return $arr;
-                 * },
-                 */
+                'class' => CheckboxColumn::class,
+                'contentOptions' => function () {
+                    $arr = [];
+                    if (
+                        !Yii::$app->user->can($this->access('update')) AND
+                        !Yii::$app->user->can($this->access('delete'))
+                    ) {
+                        $arr = [
+                            "class" => "grid-checkbox-disabled",
+                        ];
+                    }
+                    return $arr;
+                },
+                'checkboxOptions' => function ($model) {
+                    return ['value' => PkHelper::encode($model)];
+                },
                 'headerOptions' => ['style' => 'width: 30px;']
             ],
         ];
@@ -237,7 +241,7 @@ class Grid extends Widget
             },
 
             'enter' => function ($url, $model) {
-            /** @var TActiveRecord $model */
+                /** @var TActiveRecord $model */
                 $childs = count($model->children(1)->all());
                 if ($childs) {
                     $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => PkHelper::encode($model)]);

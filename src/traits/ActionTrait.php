@@ -82,16 +82,10 @@ trait ActionTrait
     protected function checkForbiddenAttrs($model)
     {
         $attrs = Yii::$app->request->post($model->formName(), []);
-
         $perm = $model->getPermission();
 
-        /*        if($perm && $perm->getForbiddenAttrs()){
-                    var_dump($perm->getForbiddenAttrs());
-                    var_dump($model->getMetaFields()->getFields());
-                };*/
-
         if ($perm AND $perm->hasForbiddenAttrs($attrs)) {
-            throw new ForbiddenHttpException('Forbidden');
+            throw new ForbiddenHttpException('Forbidden attributes');
         }
     }
 

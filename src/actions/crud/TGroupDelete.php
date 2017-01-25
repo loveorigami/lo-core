@@ -2,6 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\db\TActiveRecord;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
@@ -20,8 +21,8 @@ class TGroupDelete extends GroupDelete
     {
         /** @var TActiveRecord $class */
         $class = $this->modelClass;
-
         $ids = Yii::$app->request->post($this->groupIdsAttr, array());
+        $ids = PkHelper::decodeAll($ids);
 
         if (!empty($ids)) {
             foreach ($ids AS $id) {
