@@ -32,7 +32,7 @@
     "kartik-v/yii2-markdown": "~1",
     "abeautifulsite/simpleimage": "~3.2",
 	"loveorigami/yii2-ckeditor": "0.*@dev",
-	"loveorigami/yii2-modal-ajax": "dev-master",
+	"loveorigami/yii2-modal-ajax": "3.*@dev",
     "loveorigami/yii2-icofont": "dev-master",
 
     "2amigos/yii2-selectize-widget": "1.*",
