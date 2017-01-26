@@ -48,7 +48,7 @@
 	"kartik-v/yii2-field-range": "*",
 
     "la-haute-societe/yii2-save-relations-behavior": "*",
-    "zelenin/yii2-slug-behavior": "*",
+    "zelenin/yii2-slug-behavior": "~1.0",
     "mongosoft/yii2-upload-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
     "creocoder/yii2-nested-sets": "0.9.*",
