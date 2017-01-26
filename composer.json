@@ -30,7 +30,7 @@
     "yiisoft/yii2": ">=2.0.8",
 	
 	"mihaildev/yii2-elfinder": "*",
-    "as-milano/yii2-tinymce": "*",
+    "as-milano/yii2-tinymce": "dev-master",
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"dev-master",
 	"loveorigami/yii2-ckeditor": "dev-master",
