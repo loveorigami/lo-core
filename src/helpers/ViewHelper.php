@@ -3,6 +3,7 @@
 namespace lo\core\helpers;
 
 use Yii;
+use yii\base\Widget;
 use yii\web\Controller;
 use yii\web\View;
 
@@ -36,7 +37,7 @@ class ViewHelper
             } else {
                 return NULL;
             }
-        } elseif ($context instanceof Controller) {
+        } elseif ($context instanceof Controller || $context instanceof Widget) {
             $file = $context->getViewPath() . DIRECTORY_SEPARATOR . $view;
         } elseif ($context instanceof View) {
             if (($currentViewFile = $context->getViewFile()) !== false) {
