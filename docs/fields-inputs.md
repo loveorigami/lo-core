@@ -34,7 +34,7 @@ Field (lo\core\db\fields)  Input (lo\core\inputs)
     - ElfinderImageInput ```extends ElfinderFileInput``` and ```use mihaildev\elfinder\InputFile```
 - FileUploadField ```extends FileField``` and ```use mongosoft\file\UploadBehavior```
     - FileUploadInput ```use kartik\file\FileInput```
-- ImageUploadField ```extends FileField``` and ```use mongosoft\file\UploadImageBehavior``` and ```use abeautifulsite\SimpleImage;```
+- ImageUploadField ```extends FileField``` and ```use mongosoft\file\UploadImageBehavior``` and ```use claviska\SimpleImage;```
     - ImageUploadInput ```use kartik\file\FileInput```
 - CheckBoxField ```extends BaseField```
     - CheckBoxInput

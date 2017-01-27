@@ -2,7 +2,7 @@
 
 namespace lo\core\behaviors\upload;
 
-use abeautifulsite\SimpleImage;
+use claviska\SimpleImage;
 use lo\core\interfaces\IUploadImage;
 use mongosoft\file\UploadImageBehavior;
 use yii\helpers\ArrayHelper;
@@ -60,6 +60,6 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
         $quality = ArrayHelper::getValue($config, 'quality', 100);
 
         $img = new SimpleImage($path);
-        $img->thumbnail($width, $height)->save($thumbPath, $quality);
+        $img->thumbnail($width, $height)->toFile($thumbPath, null, $quality);
     }
 }
