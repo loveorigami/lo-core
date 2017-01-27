@@ -36,8 +36,12 @@ class CheckBoxField extends BaseField
         $grid = parent::grid();
 
         $grid['value'] = function ($model, $index, $widget) {
-            return $model->{$this->attr} ? Yii::t('core', 'Yes') : Yii::t('core', 'No');
+            return $model->{$this->attr} ?
+                '<span class="btn btn-xs btn-success">' . Yii::t('core', 'Yes') . '</span>' :
+                '<span class="btn btn-xs btn-default">' . Yii::t('core', 'No') . '</span>';
+
         };
+        $grid['format'] = 'raw';
         $grid['headerOptions'] = [
             'style' => 'width: 60px;',
         ];
