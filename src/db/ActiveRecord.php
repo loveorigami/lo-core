@@ -10,8 +10,6 @@ use yii\db\ActiveRecord as YiiRecord;
 use Yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 
-use dektrium\user\models\User;
-
 /**
  * Class ActiveRecord
  * Надстройка над ActiveRecord фпеймворка.
@@ -55,6 +53,9 @@ abstract class ActiveRecord extends YiiRecord
     /** @var int число параметров при поске через many-many */
     public $countParams;
 
+    /** @var string */
+    public $userClass = 'dektrium\user\models\User';
+
     /**
      * Возвращает имя сущности
      * @return string
@@ -64,6 +65,22 @@ abstract class ActiveRecord extends YiiRecord
         return get_called_class();
     }
 
+    /**
+     * @return ActiveQuery
+     */
+    public static function find()
+    {
+        return new ActiveQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne($this->userClass, ['id' => 'author_id']);
+    }
+    
     /**
      * @inheritdoc
      * Устанавливаем активность по умолчанию при создании новой модели
@@ -244,22 +261,6 @@ abstract class ActiveRecord extends YiiRecord
         }
 
         return $dataProvider;
-    }
-
-    /**
-     * @return object
-     */
-    public static function find()
-    {
-        return Yii::createObject(ActiveQuery::class, [get_called_class()]);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAuthor()
-    {
-        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
     /**
