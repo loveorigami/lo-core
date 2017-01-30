@@ -50,9 +50,6 @@ abstract class ActiveRecord extends YiiRecord
     /** @var boolean использовать настройки модели по умолчанию */
     public $useDefaultConfig = true;
 
-    /** @var int число параметров при поске через many-many */
-    public $countParams;
-
     /** @var string */
     public $userClass = 'dektrium\user\models\User';
 
