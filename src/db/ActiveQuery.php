@@ -6,8 +6,6 @@ use yii\db\ActiveQuery as YiiQuery;
 /**
  * Class ActiveQuery
  * Системный ActiveQuery. Предоставляет системные scopes.
- *
- * @package lo\core\db
  */
 class ActiveQuery extends YiiQuery
 {

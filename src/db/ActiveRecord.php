@@ -16,7 +16,9 @@ use yii\behaviors\TimestampBehavior;
  * @property $id;
  * @property $name;
  * @property $status;
- * @package lo\core\db
+ *
+ * @method ActiveQuery hasMany($class, array $link) see [[BaseActiveRecord::hasMany()]] for more info
+ * @method ActiveQuery hasOne($class, array $link) see [[BaseActiveRecord::hasOne()]] for more info
  */
 abstract class ActiveRecord extends YiiRecord
 {
@@ -71,7 +73,7 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAuthor()
     {
