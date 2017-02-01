@@ -52,11 +52,16 @@ class Collapse extends YiiCollapse
                 ]);
             }
 
-            $headerToggle = Html::a($header, '#' . $id, [
-                    'class' => 'collapse-toggle',
-                    'data-toggle' => 'collapse',
-                    'data-parent' => '#' . $this->options['id']
-                ]) . "\n";
+            $headerOptions = ArrayHelper::getValue($item, 'headerOptions');
+
+            $headerOptions = ArrayHelper::merge([
+                'data-toggle' => 'collapse',
+                'data-parent' => '#' . $this->options['id']
+            ], $headerOptions);
+
+            Html::addCssClass($headerOptions, ['class' => 'collapse-toggle']);
+
+            $headerToggle = Html::a($header, '#' . $id, $headerOptions) . "\n";
 
             $header = $leftTools . Html::tag('h4', $headerToggle, ['class' => 'panel-title']) . $rightTools;
 
