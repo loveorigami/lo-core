@@ -35,7 +35,7 @@ class GroupDelete extends Base
 
         if (!empty($ids)) {
             /** @var ActiveQuery $query */
-            $query = $class::find()->where(['id' => $ids]);
+            $query = $class::findByPk($ids);
             foreach ($query->all() as $model) {
                 if (!Yii::$app->user->can($this->access(), ["model" => $model]))
                     throw new ForbiddenHttpException('Forbidden');
