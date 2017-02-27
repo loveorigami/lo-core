@@ -21,9 +21,6 @@ class Form extends Widget
     /** @var \lo\core\db\ActiveRecord модель */
     public $model;
 
-    /** @var array валидируемые модели */
-    public $models = [];
-
     /** @var array параметры \yii\widgets\ActiveForm */
     public $formOptions = [];
 
@@ -59,13 +56,11 @@ class Form extends Widget
     public function run()
     {
         $formOptions = array_merge($this->defaultFormOptions, $this->formOptions);
-        $models = (is_array($this->models)) ? $this->models : [$this->models];
 
         return $this->render($this->tpl, [
                 "model" => $this->model,
                 "formOptions" => $formOptions,
-                "id" => $this->id,
-                'models' => ArrayHelper::merge([$this->model], $models)
+                "id" => $this->id
             ]
         );
     }

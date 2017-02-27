@@ -38,7 +38,7 @@ $this->registerJs("
 
     </div>
 
-<?php echo $form->errorSummary($models); ?>
+<?php echo $form->errorSummary($model); ?>
 
     <ul id="<?= $tabId ?>" class="nav nav-tabs">
         <?php
@@ -67,7 +67,6 @@ $this->registerJs("
                 <?php
 
                 foreach ($meta->getFieldsByTab($key) AS $field) {
-
                     if ($perm AND $perm->isAttributeForbidden($field->attr)) {
                         if (strpos($template, '{' . $field->attr . '}') !== false) {
                             $tpl['search'][] = '/{' . $field->attr . '}/';
