@@ -2,8 +2,8 @@
 
 namespace lo\core\helpers;
 
-use common\modules\user\models\Profile;
-use common\modules\user\models\User;
+use dektrium\user\models\Profile;
+use dektrium\user\models\User;
 use Yii;
 use yii\web\Controller;
 use yii\web\View;
