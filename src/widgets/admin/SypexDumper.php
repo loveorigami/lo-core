@@ -2,6 +2,7 @@
 
 namespace lo\core\widgets\admin;
 
+use PDOException;
 use Yii;
 use PDO;
 use yii\base\Widget;
@@ -34,9 +35,10 @@ class SypexDumper extends Widget
 
             // путь до директории, в которую копируем sypex dumper
             $assetsPath = Yii::getAlias('@sxd');
+
             // проверяем существование директории, копируем, если директории нет
             if (!is_dir($assetsPath)) {
-                full_copy(__DIR__.'/sxd/', $assetsPath);
+                full_copy(__DIR__.'/sxd', $assetsPath);
             };
 
             // ссылка до sypex dumper
