@@ -6,6 +6,6 @@ Installing
 
 Using
 
-1.Open an URL http://domain.com/sxd/ in browser.
+1.Open an URL http://domain.com/DUMPER/ in browser.
 2.Enter the username and password for your database.
 Please report problems and bugs to the forum, indicating your versions of browser, php and mysql.

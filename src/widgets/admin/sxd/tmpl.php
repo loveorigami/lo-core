@@ -1,8 +1,13 @@
 <?php
+
+declare(strict_types = 1);
+
 // Templates
-function sxd_tpl_page(){
-global $SXD;
-return <<<HTML
+function sxd_tpl_page()
+{
+    global $SXD;
+
+    return <<<HTML
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
@@ -291,9 +296,11 @@ sxd.actions.tab_backup();
 HTML;
 }
 
-function sxd_tpl_auth($error = ''){
-global $SXD;
-return <<<HTML
+function sxd_tpl_auth($error = '')
+{
+    global $SXD;
+
+    return <<<HTML
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">  
 <html>
 <head>

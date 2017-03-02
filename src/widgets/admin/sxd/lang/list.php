@@ -1,7 +1,9 @@
 <?php
-$langs = array (
-  'en' => 'English',
-  'ru' => 'Русский',
-  'uk' => 'Українська',
-);
-?>
+
+declare(strict_types = 1);
+
+$langs = [
+    'en' => 'English',
+    'ru' => 'Русский',
+    'uk' => 'Українська',
+];
