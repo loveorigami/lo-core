@@ -29,10 +29,9 @@ class ListStr extends Base
         $obj = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
 
         $query = urldecode($query);
-        $models = $obj::find()->where(['like', 'name', $query])->all();
+        $models = $obj::find()->where(['like', $this->defaultAttr, $query])->all();
 
         $items = [];
-
         foreach ($models as $model) {
             $items[] = ['name' => $model->{$this->defaultAttr}];
         }
