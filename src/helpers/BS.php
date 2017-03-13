@@ -1,8 +1,7 @@
 <?php
 
 namespace lo\core\helpers;
-
-use yii\bootstrap\Html;
+use yii\helpers\Html;
 
 /**
  * Class BS
