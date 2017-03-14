@@ -111,7 +111,7 @@ abstract class MetaFields extends Object
     /**
      * Возвращает объект поля модели по его названию
      * @param $name
-     * @return fields\BaseField[] | null
+     * @return fields\BaseField | null
      */
     public function getField($name)
     {
