@@ -9,6 +9,9 @@ namespace lo\core\db\fields;
  */
 class EmailField extends TextField
 {
+    /** @var bool $checkDns */
+    public $checkDNS = false;
+
     /**
      * Правила валидации
      * @return array
@@ -16,7 +19,7 @@ class EmailField extends TextField
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [$this->attr, 'email'];
+        $rules[] = [$this->attr, 'email', 'checkDNS' => $this->checkDNS];
         return $rules;
     }
 }
