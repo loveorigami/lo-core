@@ -2,8 +2,6 @@
 
 namespace lo\core\helpers;
 
-use dektrium\user\models\Profile;
-use dektrium\user\models\User;
 use Yii;
 use yii\web\Controller;
 use yii\web\View;
@@ -13,7 +11,7 @@ use yii\web\View;
  * @package lo\core\helpers
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class UserHelper
+class BaseUmodeHelper
 {
     const ROLE_ROOT = 'root';
     const ROLE_ADMIN = 'admin';
@@ -51,30 +49,6 @@ class UserHelper
     }
 
     /**
-     * @param $attr
-     * @return mixed|null
-     */
-    public static function profile($attr)
-    {
-        if (self::isGuest()) return null;
-        /** @var Profile $profile */
-        $profile = Yii::$app->user->identity->profile;
-        return ArrayHelper::getValue($profile, $attr);
-    }
-
-    /**
-     * @param $attr
-     * @return mixed|null
-     */
-    public static function user($attr)
-    {
-        if (self::isGuest()) return null;
-        /** @var User $profile */
-        $user = Yii::$app->user->identity;
-        return ArrayHelper::getValue($user, $attr);
-    }
-
-    /**
      * @param $view
      * @param Controller|View $context
      * @return string
@@ -95,7 +69,9 @@ class UserHelper
      */
     public static function getRolesByUser()
     {
-        return Yii::$app->authManager->getRolesByUser(self::user('id'));
+        $user = Yii::$app->user->identity;
+        $id =  ArrayHelper::getValue($user, 'id');
+        return Yii::$app->authManager->getRolesByUser($id);
     }
 
     /** @return string default role */
