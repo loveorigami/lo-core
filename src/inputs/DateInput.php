@@ -22,7 +22,7 @@ class DateInput extends BaseInput
         'type' => DatePicker::TYPE_COMPONENT_APPEND,
         'options' => ['placeholder' => 'Enter date'],
         'pluginOptions' => [
-            'format' => 'yyyy-mm-dd',
+            'format' => 'php:Y-m-d',
             'autoclose' => true,
             'todayHighlight' => true,
             'todayBtn' => true,
