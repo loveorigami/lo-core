@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\traits;
 
-use lo\core\helpers\UserHelper;
+use lo\core\helpers\BaseUmodeHelper;
 use lo\core\modules\permission\models\Constraint;
 
 /**
@@ -14,7 +14,7 @@ trait ConstraintTrait
     /** @return Constraint */
     public function getPermission()
     {
-        $data = Constraint::findPermission(get_called_class(), UserHelper::getRole());
+        $data = Constraint::findPermission(get_called_class(), BaseUmodeHelper::getRole());
         return $data;
     }
 }
