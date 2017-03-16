@@ -15,13 +15,12 @@ namespace lo\core\interfaces;
  */
 interface IUser
 {
-    /**
-     * @return string
-     */
+    /** @return string */
     public function getName();
 
-    /**
-     * @return string
-     */
+    /** @return string */
     public function getEmail();
+
+    /** @return string */
+    public function getPhone();
 }
