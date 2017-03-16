@@ -47,7 +47,7 @@ class DateRangeLimitDaysValidator extends Validator
     {
         parent::init();
         if ($this->message === null) {
-            $this->message = Yii::t('validator', 'Date must not exceed {days} days');
+            $this->message = Yii::t('validator', 'Range in "{attribute}" must not exceed {days} days');
         }
         if ($this->fromAttribute === null) {
             throw new InvalidConfigException('DateRangeLimitDaysValidator::fromAttribute must be set');
