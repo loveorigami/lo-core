@@ -2,6 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
+use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\ArrayHelper;
 use Yii;
@@ -21,6 +22,10 @@ class ListDepDrop extends Base
     /** @var string атрибут категории */
     public $idCatAttr = 'cat_id';
 
+    /** @var ActiveQuery */
+    public $condition;
+
+    /** @var string */
     public $optgroup;
 
     /** @var string сценарий */
@@ -40,15 +45,26 @@ class ListDepDrop extends Base
             if ($cat_id != null) {
 
                 $data = ['out' => [], 'selected' => $subcat_id];
-
-                $array = $obj::find()->where([$this->idCatAttr => $cat_id])->orderBy([
-                    $this->idCatAttr => SORT_ASC
-                ])->all();
-
+                /** @var ActiveQuery $query */
+                $query = $obj::find();
+                if ($this->condition instanceof \Closure) {
+                    call_user_func($this->condition, $query, $cat_id);
+                };
+                if ($this->idCatAttr) {
+                    $query->where([$this->idCatAttr => $cat_id])->orderBy([
+                        $this->idCatAttr => SORT_ASC
+                    ]);
+                }
+                $array = $query->all();
 
                 foreach ($array as $element) {
                     $key = ArrayHelper::getValue($element, 'id');
-                    $value = ArrayHelper::getValue($element, 'name');
+
+                    if ($this->defaultAttr instanceof \Closure) {
+                        $value = call_user_func($this->defaultAttr, $element);
+                    } else {
+                        $value = ArrayHelper::getValue($element, $this->defaultAttr);
+                    }
 
                     if ($this->optgroup !== null) {
                         $group = ArrayHelper::getValue($element, $this->optgroup);
