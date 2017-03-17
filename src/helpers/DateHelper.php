@@ -26,9 +26,9 @@ class DateHelper
     /**
      * @return string
      */
-    public static function nowDateTime()
+    public static function nowDatetime()
     {
-        return self::asDateTime('now', self::DB_DATETIME_FORMAT); // 2014-10-06
+        return self::asDatetime('now', self::DB_DATETIME_FORMAT); // 2014-10-06
     }
 
     /**
