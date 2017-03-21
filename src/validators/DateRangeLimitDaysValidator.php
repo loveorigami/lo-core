@@ -67,6 +67,11 @@ class DateRangeLimitDaysValidator extends Validator
         }
         $fromAttribute = $this->fromAttribute;
         $this->fromValue = $model->$fromAttribute;
+
+        if($value == $this->fromValue){
+            $this->addError($model, $attribute, Yii::t('yii', '{attribute} is invalid.'));
+        }
+
         $result = $this->validateValue($value);
         if (!empty($result)) {
             $this->addError($model, $attribute, $result[0], $result[1]);
