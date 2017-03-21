@@ -15,6 +15,9 @@ namespace lo\core\interfaces;
  */
 interface IUser
 {
+    /** @return integer */
+    public function getId();
+
     /** @return string */
     public function getName();
 

@@ -24,7 +24,7 @@ class DateHelper
     const DP_DATE_FORMAT = 'php:d.m.Y';
 
     /**
-     * @return string
+     * @return string Y-m-d H:i:s
      */
     public static function nowDatetime()
     {
@@ -32,7 +32,7 @@ class DateHelper
     }
 
     /**
-     * @return string
+     * @return string Y-m-d
      */
     public static function nowDate()
     {

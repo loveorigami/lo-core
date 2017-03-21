@@ -79,7 +79,7 @@ class BaseUmodeHelper
     {
         if (!self::$_role) {
             $roles = self::getRolesByUser();
-            self::$_role = key($roles);
+            self::$_role = ArrayHelper::getValue(end($roles), 'name');
         }
         return self::$_role;
     }
