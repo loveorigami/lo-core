@@ -13,7 +13,7 @@ namespace lo\core\interfaces;
  * @package lo\interfaces
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-interface IUser
+interface UserInterface
 {
     /** @return integer */
     public function getId();

@@ -2,7 +2,7 @@
 
 namespace lo\core\helpers;
 
-use lo\core\interfaces\IUser;
+use lo\core\interfaces\UserInterface;
 use Yii;
 
 /**
@@ -15,7 +15,7 @@ class BaseUserHelper
     const DEFAULT_USER = 1;
 
     /**
-     * @param IUser $user
+     * @param UserInterface $user
      * @return bool
      */
     public static function name($user)
