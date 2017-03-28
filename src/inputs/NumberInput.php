@@ -2,7 +2,6 @@
 
 namespace lo\core\inputs;
 
-use lo\core\widgets\FormattedNumberInput;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
@@ -27,6 +26,6 @@ class NumberInput extends BaseInput
 
         $widgetOptions = ArrayHelper::merge(["options" => ["class" => "form-control"]], $this->widgetOptions, ["options" => $options]);
 
-        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->input('number')->widget(FormattedNumberInput::class, $widgetOptions);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->input('number', $widgetOptions);
     }
 } 
