@@ -31,6 +31,7 @@
 	"mihaildev/yii2-elfinder": "*",
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"~3.2",
+    "trntv/yii2-aceeditor": "^2.0.0",
 	"loveorigami/yii2-ckeditor": "*",
 	"loveorigami/yii2-modal-ajax": "*",
     "loveorigami/yii2-icofont": "*",
