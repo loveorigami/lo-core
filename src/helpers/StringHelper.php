@@ -126,4 +126,24 @@ class StringHelper extends YiiStringHelper
             mb_substr($str, 1, mb_strlen($str), $encoding);
         return $str;
     }
+
+    /**
+     * @param $str - the input string.
+     * @return string
+     */
+    public static function strtolower($str)
+    {
+        $str = mb_strtolower($str);
+        return $str;
+    }
+
+    /**
+     * @param $str - the input string.
+     * @return string
+     */
+    public static function strtoupper($str)
+    {
+        $str = mb_strtoupper($str);
+        return $str;
+    }
 }
