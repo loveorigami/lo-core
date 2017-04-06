@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveQuery;
@@ -339,16 +340,20 @@ class BaseField extends Object implements IField
             $rules[] = [$this->attr, 'default', 'value' => $this->defaultValue, 'except' => [ActiveRecord::SCENARIO_SEARCH]];
 
         foreach ($this->rules AS $name => $option) {
+
             // 'lang', 'unique', 'targetAttribute' => ['id', 'lang']
             $options[0] = $this->attr;
-            $options[1] = $name;
-
-            if (is_array($option)) {
-                foreach ($option as $key => $value) {
-                    $options[$key] = $value;
+            if (!is_int($name)) {
+                $options[1] = $name;
+                if (is_array($option)) {
+                    foreach ($option as $key => $value) {
+                        $options[$key] = $value;
+                    }
+                } else {
+                    $options[] = $option;
                 }
             } else {
-                $options[] = $option;
+                $options[1] = $option;
             }
 
             $rules[] = $options;
