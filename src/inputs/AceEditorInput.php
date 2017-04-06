@@ -2,9 +2,9 @@
 
 namespace lo\core\inputs;
 
+use trntv\aceeditor\AceEditor;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use trntv\aceeditor\AceEditor;
 
 /**
  * Class AceEditorInput
@@ -12,7 +12,7 @@ use trntv\aceeditor\AceEditor;
  *  "text_intro" => [
  *      "definition" => [
  *          "class" => fields\HtmlField::class,
- *          "inputClass" => inputs\CKEditorInput::class,
+ *          "inputClass" => inputs\AceEditorInput::class,
  *          'inputClassOptions'=>[
  *              "widgetOptions" => [
  *                  'mode'=>'html',
