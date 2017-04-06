@@ -59,6 +59,11 @@ class StringHelper extends YiiStringHelper
         return $str;
     }
 
+    /**
+     * @param string $str
+     * @param bool $md5
+     * @return mixed|string
+     */
     public static function strMd5($str = '', $md5 = true)
     {
         // Удаляем текст в []
@@ -89,12 +94,20 @@ class StringHelper extends YiiStringHelper
         return $str;
     }
 
+    /**
+     * @param $str
+     * @return string
+     */
     public static function convToUtf8($str)
     {
         return iconv("windows-1251", "utf-8", $str);
     }
 
-    public static function mbTrim($str)
+    /**
+     * @param $str
+     * @return string
+     */
+    public static function trim($str)
     {
         $str = preg_replace("/(^\s+)|(\s+$)/us", "", $str);
         return $str;
@@ -106,7 +119,7 @@ class StringHelper extends YiiStringHelper
      * @param string $encoding - string $encoding [optional] &mbstring.encoding.parameter; default UTF-8
      * @return string - string str with first alphabetic character converted to uppercase.
      */
-    public static function mb_ucfirst($str, $encoding = 'UTF-8')
+    public static function ucfirst($str, $encoding = 'UTF-8')
     {
         $str = mb_ereg_replace('^[\ ]+', '', $str);
         $str = mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) .
