@@ -25,18 +25,12 @@ class SeoBreadcrumbs extends Breadcrumbs
     /**
      * @inheritdoc
      */
-    public $itemTemplate = "<li itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">\n"
-    . "{link}\n"
-    . "<meta itemprop=\"position\" content=\"{position}\" />\n"
-    . "</li>\n";
+    public $itemTemplate = "<li itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
 
     /**
      * @inheritdoc
      */
-    public $activeItemTemplate = "<li class=\"active\" itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">\n"
-    . "{link}\n"
-    . "<meta itemprop=\"position\" content=\"{position}\" />\n"
-    . "</li>\n";
+    public $activeItemTemplate = "<li class=\"active\" itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
 
     /**
      * @var integer
