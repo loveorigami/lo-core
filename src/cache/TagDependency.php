@@ -12,7 +12,6 @@ use yii\caching\Dependency;
  */
 class TagDependency extends Dependency
 {
-
     protected $_tags = [];
 
     /**
@@ -20,29 +19,22 @@ class TagDependency extends Dependency
      */
     public function getHasChanged($cache)
     {
-
-        $tags = Yii::$app->cache->mget($this->tags);
-
+        $tags = Yii::$app->cache->multiGet($this->tags);
         if (count($tags) != count($this->tags))
             return true;
 
         foreach ($tags AS $val) {
-
             if ((double)$val > (double)$this->data) {
                 return true;
             }
-
         }
-
         return false;
-
     }
 
     /**
      * Возвращает установленные теги
      * @return array
      */
-
     public function getTags()
     {
         return $this->_tags;
@@ -52,42 +44,30 @@ class TagDependency extends Dependency
      * Устанавливает теги
      * @param array $tags
      */
-
     public function setTags(array $tags)
     {
-
         $this->_tags = $tags;
-
     }
 
     /**
      * Устанавливает теги из массива моделей
-     * @param \lo\core\db\ActiveRecord[] $models
+     * @param TagCacheBehavior []$models
      */
-
     public function setTagsFromModels($models)
     {
-
         foreach ($models AS $model) {
-
             $this->addTag($model->setItemTagSafe());
-
         }
-
-
     }
 
     /**
      * Добавляет к зависимости тег
      * @param string $tag
      */
-
     public function addTag($tag)
     {
-
         if(!in_array($tag, $this->_tags))
             $this->_tags[] = $tag;
-
     }
 
     /**
@@ -97,5 +77,4 @@ class TagDependency extends Dependency
     {
         return microtime(true);
     }
-
 }
