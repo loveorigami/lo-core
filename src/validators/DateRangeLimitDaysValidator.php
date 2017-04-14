@@ -25,6 +25,11 @@ class DateRangeLimitDaysValidator extends Validator
     public $fromValue;
 
     /**
+     * @var string
+     */
+    public $fromLabel;
+
+    /**
      * @var integer
      */
     public $days;
@@ -67,10 +72,7 @@ class DateRangeLimitDaysValidator extends Validator
         }
         $fromAttribute = $this->fromAttribute;
         $this->fromValue = $model->$fromAttribute;
-
-        if ($value == $this->fromValue) {
-            $this->addError($model, $attribute, Yii::t('yii', '{attribute} is invalid.'));
-        }
+        $this->fromLabel = $model->getAttributeLabel($fromAttribute);
 
         $result = $this->validateValue($value);
         if (!empty($result)) {
@@ -89,6 +91,7 @@ class DateRangeLimitDaysValidator extends Validator
             return [$this->message, [
                 'value' => $value,
                 'fromAttribute' => $this->fromAttribute,
+                'fromLabel' => $this->fromLabel,
                 'fromValue' => $this->fromValue,
                 'days' => $this->days
             ]];
@@ -105,8 +108,17 @@ class DateRangeLimitDaysValidator extends Validator
     {
         $datetime1 = new \Datetime($this->fromValue);
         $datetime2 = new \Datetime($value);
+
+        if ($datetime1 >= $datetime2) {
+            $this->message = Yii::t('validator', '"{attribute}" must be more when "{fromLabel}"');
+            return false;
+        }
+
         $interval = $datetime1->diff($datetime2)->days;
-        if ($interval > $this->days) return false;
+        if ($interval > $this->days) {
+            $this->message = Yii::t('validator', 'Range in "{attribute}" must not exceed {days} days');
+            return false;
+        }
         return true;
     }
 }
