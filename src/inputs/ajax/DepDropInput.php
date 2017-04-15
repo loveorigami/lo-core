@@ -70,7 +70,6 @@ class DepDropInput extends AjaxInput
             $this->widgetOptions,
             ["options" => $options]
         );
-
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(DepDrop::class, $widgetOptions);
     }
 
@@ -79,9 +78,12 @@ class DepDropInput extends AjaxInput
      */
     protected function defaultWidgetOptions()
     {
+        $model = $this->getModel();
+        $attr = $this->getAttr();
+
         return [
             'type' => self::TYPE_DEFAULT,
-            'data' => $this->modelField->getDataValue(),
+            'data' => [$model->$attr => 'loading...'],
             'pluginOptions' => [
                 'depends' => [],
                 'placeholder' => 'Select...',
