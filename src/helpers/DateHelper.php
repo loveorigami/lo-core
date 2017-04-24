@@ -52,6 +52,18 @@ class DateHelper
     }
 
     /**
+     * @param $date_from
+     * @param $date_to
+     * @return string
+     */
+    public static function rangeDays($date_from, $date_to){
+        $datetime1 = new \Datetime($date_from);
+        $datetime2 = new \Datetime($date_to);
+
+        return $datetime1->diff($datetime2)->days;
+    }
+
+    /**
      * @param $date
      * @param $format
      * @return string
