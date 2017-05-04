@@ -64,10 +64,10 @@ class AwesomeCheckbox extends InputWidget
     {
         $html = [];
         $html [] = Html::beginTag('div', array_merge(['class' => $this->getClass()], $this->wrapperOptions));
-        $label = $this->labelContent;
-        $html[] = $this->input;
+        $label = $this->getLabelContent();
+        $html[] = $this->getInput();
         if ($label) {
-            $html[] = Html::tag('label', $label, ['for' => $this->labelId]);
+            $html[] = Html::tag('label', $label, ['for' => $this->getLabelId()]);
         }
         $html [] = Html::endTag('div');
         return implode('', $html);
@@ -132,7 +132,6 @@ class AwesomeCheckbox extends InputWidget
      */
     protected function getInput()
     {
-        $input = '';
         $inputType = ucfirst($this->type);
         if ($this->hasModel()) {
             $inputType = 'active' . $inputType;
