@@ -98,7 +98,7 @@ class BaseField extends Object implements IField
     public $filterInputClass;
 
     /** @var string шаблон для поля */
-    public $formTemplate = '<div class="row"><div class="col-xs-12 col-md-6 col-lg-12">{input}</div></div>';
+    public $formTemplate = '<div class="row"><div class="col-xs-12 col-md-12 col-lg-12">{input}</div></div>';
 
     /**
      * @var callable функция для применения ограничений при поиске по полю.
