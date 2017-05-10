@@ -24,11 +24,19 @@ class BaseUserHelper
     }
 
     /**
+     * @return bool
+     */
+    public static function isGuest()
+    {
+        return Yii::$app->user->isGuest;
+    }
+
+    /**
      * @return int
      */
     public static function id()
     {
-        if (Yii::$app->user->isGuest) {
+        if (self::isGuest()) {
             return self::DEFAULT_USER;
         } else {
             return Yii::$app->user->identity->id;
