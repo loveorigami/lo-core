@@ -29,7 +29,7 @@ $this->registerJs("
     <div class="pull-right">
         <?= Html::hiddenInput('apply', 0) ?>
         <?= Html::hiddenInput('tab', Yii::$app->request->post('tab')) ?>
-        <? $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
+        <?php $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
         <?= Html::hiddenInput('returnUrl', $returnUrl) ?>
 
         <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
@@ -44,7 +44,7 @@ $this->registerJs("
         <?php
         $i = 0;
         foreach ($meta->tabs() AS $key => $title):?>
-            <li <? if ($i == 0): ?>class="active"<? endif; ?>><a href="#<?= $key ?>"><?= $title ?></a></li>
+            <li <?php if ($i == 0): ?>class="active"<?php endif; ?>><a href="#<?= $key ?>"><?= $title ?></a></li>
             <?php
             $i++;
         endforeach; ?>
@@ -62,7 +62,7 @@ $this->registerJs("
             $template = $widget->getTplFile($key);
             ?>
 
-            <div class="<? if ($i == 0): ?>active <? endif; ?>tab-pane" id="<?= $key ?>">
+            <div class="<?php if ($i == 0): ?>active <?php endif; ?>tab-pane" id="<?= $key ?>">
 
                 <?php
 

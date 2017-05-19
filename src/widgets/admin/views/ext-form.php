@@ -22,35 +22,35 @@ $searchBtnName = $id . "-search";
 
 <div class="clear_big"></div>
 
-<div id="<?= $id ?>" <? if (Yii::$app->request->get($searchBtnName) === null): ?>style="display: none;"<? endif ?>
+<div id="<?= $id ?>" <?php if (Yii::$app->request->get($searchBtnName) === null): ?>style="display: none;"<?php endif; ?>
      class="panel panel-default">
     <div class="panel-body">
         <?php $form = ActiveForm::begin($formOptions); ?>
 
-        <? for ($i = 0; $i < count($fields); $i += $cols): ?>
+        <?php for ($i = 0; $i < count($fields); $i += $cols): ?>
 
             <div class="row">
-                <? for ($j = $i; $j < $i + $cols; $j++): ?>
+                <?php for ($j = $i; $j < $i + $cols; $j++): ?>
 
-                    <? if (isset($fields[$j]) AND $fields[$j]->showInExtendedFilter): ?>
+                    <?php if (isset($fields[$j]) AND $fields[$j]->showInExtendedFilter): ?>
 
                         <div class="col-xs-12 col-sm-<?= $cls ?> col-md-<?= $cls ?> col-lg-<?= $cls ?>">
                             <?= $fields[$j]->getExtendedFilterForm($form) ?>
                         </div>
 
-                    <? endif; ?>
+                    <?php endif; ?>
 
-                <? endfor; ?>
+                <?php endfor; ?>
 
             </div>
 
-        <? endfor; ?>
+        <?php endfor; ?>
 
 
             <?= Html::submitButton(Yii::t('core', 'Search'), ['name' => $searchBtnName, 'class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('core', 'Reset'), ["/".Yii::$app->controller->route],['class' => 'btn btn-default']) ?>
             <?= Html::hiddenInput('extendedFilter', 1)?>
 
-        <? ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
     </div>
 </div>

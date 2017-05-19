@@ -14,9 +14,9 @@ use yii\widgets\Pjax;
  */
 
 ?>
-<? Pjax::begin(["id" => $pjaxId]); ?>
+<?php Pjax::begin(["id" => $pjaxId]); ?>
 <?= Html::beginForm(); ?>
-<?
+<?php
 echo GridView::widget([
     "id" => $id,
     'dataProvider' => $dataProvider,
@@ -25,17 +25,17 @@ echo GridView::widget([
 ]);
 ?>
 
-<?
+<?php
 $btnHtml = null;
 foreach ($groupButtons AS $button): ?>
-    <? if (is_array($button)):
+    <?php if (is_array($button)):
         $widget = Yii::createObject($button);
         ?>
-        <? $btnHtml .= $widget->run() . "\n"; ?>
-    <? endif; ?>
-<? endforeach; ?>
+        <?php $btnHtml .= $widget->run() . "\n"; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
 
-<? if ($btnHtml): ?>
+<?php if ($btnHtml): ?>
     <div class="form-group form-inline">
 
         <span><?= Yii::t('core', 'Actions with selected') ?>:</span>
@@ -43,7 +43,7 @@ foreach ($groupButtons AS $button): ?>
         <?= $btnHtml ?>
 
     </div>
-<? endif; ?>
+<?php endif; ?>
 
 <?= Html::endForm(); ?>
-<? Pjax::end(); ?>
+<?php Pjax::end(); ?>
