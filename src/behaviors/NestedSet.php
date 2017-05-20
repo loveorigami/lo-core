@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\behaviors;
 
-use creocoder\nestedsets\NestedSetsBehavior;
+use paulzi\nestedsets\NestedSetsBehavior;
 
 /**
  * Class NestedSet
@@ -10,10 +10,5 @@ use creocoder\nestedsets\NestedSetsBehavior;
  */
 class NestedSet extends NestedSetsBehavior
 {
-    /**
-     * @inheritdoc
-     */
-    public function afterFind($event)
-    {
-    }
+
 }

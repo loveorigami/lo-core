@@ -43,7 +43,7 @@ class ParentListField extends ListField
     {
         $parent = parent::view();
 
-        $parentModel = $this->model->parents(1)->one();
+        $parentModel = $this->model->getParents(1)->one();
 
         if($parentModel)
             $parent['value']=$parentModel->{$this->viewAttr};

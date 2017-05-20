@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\db\TActiveRecord;
@@ -61,7 +62,7 @@ class TCreate extends Create
         }
 
         if ($load && $model->validate() && $parentModel && $model->appendTo($parentModel)) {
-
+            $model->save();
             $returnUrl = $this->getReturnUrl();
 
             if ($request->post($this->applyParam))

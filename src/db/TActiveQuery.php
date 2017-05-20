@@ -1,7 +1,9 @@
 <?php
+
 namespace lo\core\db;
 
-use creocoder\nestedsets\NestedSetsQueryBehavior;
+use paulzi\nestedsets\NestedSetsQueryTrait;
+
 /**
  * Class TActiveQuery
  * Системный ActiveQuery. Предоставляет системные scopes. Содержит поведения для реализации древовидных структур
@@ -9,15 +11,5 @@ use creocoder\nestedsets\NestedSetsQueryBehavior;
  */
 class TActiveQuery extends ActiveQuery
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => NestedSetsQueryBehavior::class,
-            ],
-        ];
-    }
+    use NestedSetsQueryTrait;
 }

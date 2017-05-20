@@ -38,10 +38,10 @@ class TIndex extends Index
 
         if (isset($requestParams[$this->extFilterParam])) {
             $parentModel = $class::findOne(TActiveRecord::ROOT_ID);
-            $query = $parentModel->children();
+            $query = $parentModel->getDescendants();
         } else {
             $parentModel = $class::findOne($parent_id);
-            $query = $parentModel->children(1);
+            $query = $parentModel->getDescendants(1);
         }
 
         $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig, $query);

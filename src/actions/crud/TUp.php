@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -29,10 +30,11 @@ class TUp extends Base
         if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden');
 
-        $prevModel = $model->prev()->one();
+        $prevModel = $model->getPrev()->one();
 
-        if ($prevModel)
-            $model->insertBefore($prevModel);
+        if ($prevModel){
+            $model->insertBefore($prevModel)->save();
+        }
 
         if (!Yii::$app->request->isAjax)
             return $this->goBack();

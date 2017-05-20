@@ -28,10 +28,11 @@ class TDown extends Base
         if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
             throw new ForbiddenHttpException('Forbidden');
 
-        $nextModel = $model->next()->one();
+        $nextModel = $model->getNext()->one();
 
-        if ($nextModel)
-            $model->insertAfter($nextModel);
+        if ($nextModel){
+            $model->insertAfter($nextModel)->save();
+        }
 
         if (!Yii::$app->request->isAjax)
             return $this->goBack();

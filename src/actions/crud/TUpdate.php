@@ -35,7 +35,7 @@ class TUpdate extends Update
 
         $request = Yii::$app->request;
 
-        $parentModel = $model->parents(1)->one();
+        $parentModel = $model->getParents(1)->one();
 
         $model->parent_id = $parentModel->id;
 
@@ -52,7 +52,7 @@ class TUpdate extends Update
 		}
 
         if ($load && $parentModel)
-            $res = $model->prependTo($parentModel);
+            $res = $model->prependTo($parentModel)->save();
         elseif ($load)
             $res = $model->save();
 

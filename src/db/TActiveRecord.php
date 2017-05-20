@@ -75,12 +75,12 @@ abstract class TActiveRecord extends ActiveRecord
             return $arr;
         }
 
-        $models = $model->children()->published()->all();
+        $models = $model->getDescendants()->published()->all();
 
         $descendants = [];
 
         if (!$this->isNewRecord) {
-            $descendants = $this->children()->all();
+            $descendants = $this->getDescendants()->all();
             $descendants[] = $this;
         }
 
@@ -90,7 +90,7 @@ abstract class TActiveRecord extends ActiveRecord
 
             foreach ($exModels AS $exModel) {
                 $descendants[] = $exModel;
-                $exDescendants = $exModel->children()->all();
+                $exDescendants = $exModel->getDescendants()->all();
                 $descendants = array_merge($descendants, $exDescendants);
             }
         }
@@ -149,7 +149,7 @@ abstract class TActiveRecord extends ActiveRecord
         if (!$model)
             return $arr;
 
-        $models = $model->children()->published()->all();
+        $models = $model->getDescendants()->published()->all();
 
         foreach ($models AS $m) {
             /** @var TActiveRecord $m */
@@ -175,7 +175,7 @@ abstract class TActiveRecord extends ActiveRecord
             $model = static::find()->where(["id" => $modelArg])->one();
         }
 
-        $models = $model->parents()->all();
+        $models = $model->getParents()->all();
         $models[] = $model;
 
         $arr = [];
@@ -201,7 +201,7 @@ abstract class TActiveRecord extends ActiveRecord
     public function getFilterIds()
     {
         $arr[] = $this->id;
-        $models = $this->children()->published()->all();
+        $models = $this->getDescendants()->published()->all();
         foreach ($models As $model) {
             /** @var TActiveRecord $model */
             $arr[] = $model->id;
