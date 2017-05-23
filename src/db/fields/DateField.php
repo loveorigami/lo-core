@@ -15,7 +15,7 @@ class DateField extends BaseField
     /**
      * @var string формат даты
      */
-    public $dateFormat = DateHelper::DP_DATE_FORMAT;
+    public $dateFormat = DateHelper::DB_DATE_FORMAT;
 
     /**
      * @inheritdoc
