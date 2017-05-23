@@ -1,6 +1,7 @@
 <?php
 namespace lo\core\db\fields;
 
+use lo\core\helpers\DateHelper;
 use lo\core\inputs\DateInput;
 
 /**
@@ -14,7 +15,7 @@ class DateField extends BaseField
     /**
      * @var string формат даты
      */
-    public $dateFormat = 'php:Y-m-d';
+    public $dateFormat = DateHelper::DP_DATE_FORMAT;
 
     /**
      * @inheritdoc

@@ -21,7 +21,12 @@ class DateHelper
     const DB_TIME_FORMAT     = 'php:H:i:s';
 
     /** for datapicker */
-    const DP_DATE_FORMAT = 'php:d.m.Y';
+    const DP_DATE_FORMAT = 'yyyy-mm-dd';
+    const DP_DATETIME_FORMAT = 'yyyy-mm-dd hh:ii:ss';
+
+    /** for views */
+    const UI_DATE_FORMAT = 'php:d.m.Y';
+    const UI_DATETIME_FORMAT = 'php:Y-m-d H:i:s';
 
     /**
      * @return string Y-m-d H:i:s
@@ -48,7 +53,7 @@ class DateHelper
         if (!$date) {
             $date = 'now';
         }
-        return self::asDate($date, self::DP_DATE_FORMAT);
+        return self::asDate($date, self::UI_DATE_FORMAT);
     }
 
     /**

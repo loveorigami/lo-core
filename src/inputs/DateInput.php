@@ -2,6 +2,7 @@
 
 namespace lo\core\inputs;
 
+use lo\core\helpers\DateHelper;
 use lo\core\widgets\DatePicker;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
@@ -22,7 +23,7 @@ class DateInput extends BaseInput
         'type' => DatePicker::TYPE_COMPONENT_APPEND,
         'options' => ['placeholder' => 'Enter date'],
         'pluginOptions' => [
-            'format' => 'yyyy-mm-dd',
+            'format' => DateHelper::DP_DATE_FORMAT,
             'autoclose' => true,
             'todayHighlight' => true,
             'todayBtn' => true,
