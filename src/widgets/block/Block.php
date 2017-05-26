@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\widgets\block;
 
 use yii\base\Widget;
@@ -38,8 +39,12 @@ class Block extends Widget
     const TYPE_WARNING = 'warning';
     const TYPE_SUCCESS = 'success';
 
+    const STYLE_WHITE = 'white';
+    const STYLE_COLOR = 'color';
+
     /** @var $type string Bootstrap Contextual Color Type default */
     public $type = self::TYPE_INFO;
+    public $style = self::STYLE_WHITE;
 
     /**
      * @var array the HTML attributes for the widget container tag.
@@ -100,7 +105,7 @@ class Block extends Widget
         $div[] = Html::beginTag('div', ['class' => 'cboxl cboxl_' . $this->type]);
         $div[] = Html::tag('div', $this->renderHeader(), ['class' => 'cboxl_header cboxl_header_' . $this->type]);
         $div[] = Html::tag('div', '', ['class' => 'clearfix']);
-        $div[] = Html::beginTag('div', ['class' => 'cboxl_content cboxl_content_' . $this->type]);
+        $div[] = Html::beginTag('div', ['class' => 'cboxl_content cboxl_content_' . $this->type . '_' . $this->style]);
         return implode('', $div);
     }
 

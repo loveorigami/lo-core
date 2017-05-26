@@ -1,6 +1,7 @@
 <?php
 
 namespace lo\core\helpers;
+
 use yii\helpers\Html;
 
 /**
@@ -13,43 +14,43 @@ class BS extends Html
     /**
      * Bootstrap CSS helpers
      */
-    const FLOAT_LEFT         = 'pull-left';
-    const FLOAT_RIGHT        = 'pull-right';
-    const FLOAT_CENTER       = 'center-block';
-    const NAVBAR_FLOAT_LEFT  = 'navbar-left';
+    const FLOAT_LEFT = 'pull-left';
+    const FLOAT_RIGHT = 'pull-right';
+    const FLOAT_CENTER = 'center-block';
+    const NAVBAR_FLOAT_LEFT = 'navbar-left';
     const NAVBAR_FLOAT_RIGHT = 'navbar-right';
-    const CLEAR_FLOAT        = 'clearfix';
-    const SHOW               = 'show';
-    const HIDDEN             = 'hidden';
-    const INVISIBLE          = 'invisible';
-    const SCREEN_READER      = 'sr-only';
-    const IMAGE_REPLACER     = 'text-hide';
-    
+    const CLEAR_FLOAT = 'clearfix';
+    const SHOW = 'show';
+    const HIDDEN = 'hidden';
+    const INVISIBLE = 'invisible';
+    const SCREEN_READER = 'sr-only';
+    const IMAGE_REPLACER = 'text-hide';
+
     /**
      * Bootstrap size modifier suffixes
      */
-    const SIZE_TINY   = 'xs';
-    const SIZE_SMALL  = 'sm';
+    const SIZE_TINY = 'xs';
+    const SIZE_SMALL = 'sm';
     const SIZE_MEDIUM = 'md';
-    const SIZE_LARGE  = 'lg';
-    
+    const SIZE_LARGE = 'lg';
+
     /**
      * Bootstrap color modifier classes
      */
     const TYPE_DEFAULT = 'default';
     const TYPE_PRIMARY = 'primary';
     const TYPE_SUCCESS = 'success';
-    const TYPE_INFO    = 'info';
+    const TYPE_INFO = 'info';
     const TYPE_WARNING = 'warning';
-    const TYPE_DANGER  = 'danger';
-    
+    const TYPE_DANGER = 'danger';
+
     /**
      * Generates an icon.
      *
-     * @param string $icon    the bootstrap icon name without prefix (e.g. 'plus', 'pencil', 'trash')
-     * @param array  $options html options for the icon container
-     * @param string $prefix  the css class prefix - defaults to 'glyphicon glyphicon-'
-     * @param string $tag     the icon container tag (usually 'span' or 'i') - defaults to 'span'
+     * @param string $icon the bootstrap icon name without prefix (e.g. 'plus', 'pencil', 'trash')
+     * @param array $options html options for the icon container
+     * @param string $prefix the css class prefix - defaults to 'glyphicon glyphicon-'
+     * @param string $tag the icon container tag (usually 'span' or 'i') - defaults to 'span'
      *
      * Example(s):
      * ~~~
@@ -62,20 +63,20 @@ class BS extends Html
      */
     public static function icon($icon, $options = [], $prefix = 'glyphicon glyphicon-', $tag = 'span')
     {
-        $class = isset($options['class']) ? ' '.$options['class'] : '';
-        $options['class'] = $prefix.$icon.$class;
+        $class = isset($options['class']) ? ' ' . $options['class'] : '';
+        $options['class'] = $prefix . $icon . $class;
         return static::tag($tag, '', $options);
     }
-    
+
     /**
      * Generates a label.
      *
      * @param string $content the label content
-     * @param string $type    the bootstrap label type - defaults to 'default'
+     * @param string $type the bootstrap label type - defaults to 'default'
      *                        - is one of 'default, 'primary', 'success', 'info', 'danger', 'warning'
-     * @param array  $options html options for the label container
-     * @param string $prefix  the css class prefix - defaults to 'label label-'
-     * @param string $tag     the label container tag - defaults to 'span'
+     * @param array $options html options for the label container
+     * @param string $prefix the css class prefix - defaults to 'label label-'
+     * @param string $tag the label container tag - defaults to 'span'
      *
      * Example(s):
      * ~~~
@@ -93,17 +94,17 @@ class BS extends Html
         if (VarHelper::isEmpty($type)) {
             $type = self::TYPE_DEFAULT;
         }
-        $class = isset($options['class']) ? ' '.$options['class'] : '';
-        $options['class'] = $prefix.$type.$class;
+        $class = isset($options['class']) ? ' ' . $options['class'] : '';
+        $options['class'] = $prefix . $type . $class;
         return static::tag($tag, $content, $options);
     }
-    
+
     /**
      * Generates a badge.
      *
      * @param string $content the badge content
-     * @param array  $options html options for the badge container
-     * @param string $tag     the badge container tag - defaults to 'span'
+     * @param array $options html options for the badge container
+     * @param string $tag the badge container tag - defaults to 'span'
      *
      * Example(s):
      * ~~~
@@ -117,12 +118,12 @@ class BS extends Html
         static::addCssClass($options, 'badge');
         return static::tag($tag, $content, $options);
     }
-    
+
     /**
      * Generates a list group. Flexible and powerful component for displaying not only
      * simple lists of elements, but complex ones with custom content.
      *
-     * @param array  $items   the list group items - each element in the array must contain these keys:
+     * @param array $items the list group items - each element in the array must contain these keys:
      *                        - param mixed $content the list item content
      *                        - when passed as a string, it will display this directly as a raw content
      *                        - when passed as an array, it requires these keys
@@ -132,8 +133,8 @@ class BS extends Html
      *                        - param string $badge a badge component to be displayed for this list item (optional)
      *                        - param boolean $active to highlight the item as active (applicable only if $url is
      *                        passed) - default false
-     * @param array  $options html options for the list group container
-     * @param string $tag     the list group container tag - defaults to 'div'
+     * @param array $options html options for the list group container
+     * @param string $tag the list group container tag - defaults to 'div'
      * @param string $itemTag the list item container tag - defaults to 'div'
      *
      * Example(s):
@@ -185,15 +186,15 @@ class BS extends Html
         static::addCssClass($options, 'list-group');
         $content = '';
         foreach ($items as $item) {
-            $content .= static::generateListGroupItem($item, $itemTag)."\n";
+            $content .= static::generateListGroupItem($item, $itemTag) . "\n";
         }
         return static::tag($tag, $content, $options);
     }
-    
+
     /**
      * Processes and generates each list group item
-     * @param array  $item the list item configuration
-     * @param string $tag  the list item container tag
+     * @param array $item the list item configuration
+     * @param string $tag the list item container tag
      * @return string
      */
     protected static function generateListGroupItem($item, $tag)
@@ -210,12 +211,12 @@ class BS extends Html
             if (!VarHelper::isEmpty($body)) {
                 $body = static::tag('p', $body, ['class' => 'list-group-item-text']);
             }
-            $content = $heading."\n".$body;
+            $content = $heading . "\n" . $body;
         }
         /* Parse item badge component */
         $badge = isset($item['badge']) ? $item['badge'] : '';
         if (!VarHelper::isEmpty($badge)) {
-            $content = static::badge($badge).$content;
+            $content = static::badge($badge) . $content;
         }
         /* Parse item url */
         $url = isset($item['url']) ? $item['url'] : '';
@@ -229,12 +230,12 @@ class BS extends Html
             return static::tag($tag, $content, $item['options']);
         }
     }
-    
+
     /**
      * Generates a jumbotron - a lightweight, flexible component that can optionally
      * extend the entire viewport to showcase key content on your site.
      *
-     * @param mixed   $content   the jumbotron content
+     * @param mixed $content the jumbotron content
      *                           - when passed as a string, it will display this directly as a raw content
      *                           - when passed as an array, it requires these keys
      *                           - param string $heading the jumbotron content title
@@ -248,7 +249,7 @@ class BS extends Html
      *                           - param string $size one of the size modifier constants
      *                           - param array $options the button html options
      * @param boolean $fullWidth whether this is a full width jumbotron without any corners - defaults to false
-     * @param array   $options   html options for the jumbotron
+     * @param array $options html options for the jumbotron
      *
      * Example(s):
      * ~~~
@@ -296,8 +297,8 @@ class BS extends Html
         if (is_string($content)) {
             $html = $content;
         } else {
-            $html = isset($content['heading']) ? "<h1>".$content['heading']."</h1>\n" : '';
-            $body = isset($content['body']) ? $content['body']."\n" : '';
+            $html = isset($content['heading']) ? "<h1>" . $content['heading'] . "</h1>\n" : '';
+            $body = isset($content['body']) ? $content['body'] . "\n" : '';
             if (substr(preg_replace('/\s+/', '', $body), 0, 3) != '<p>') {
                 $body = static::tag('p', $body);
             }
@@ -305,13 +306,13 @@ class BS extends Html
             $buttons = '';
             if (isset($content['buttons'])) {
                 foreach ($content['buttons'] as $btn) {
-                    $label = (isset($btn['icon']) ? static::icon($btn['icon']).' ' : '').(isset($btn['label']) ? $btn['label'] : '');
+                    $label = (isset($btn['icon']) ? static::icon($btn['icon']) . ' ' : '') . (isset($btn['label']) ? $btn['label'] : '');
                     $url = isset($btn['url']) ? $btn['url'] : '#';
                     $btnOptions = isset($btn['options']) ? $btn['options'] : [];
-                    $class = 'btn'.(isset($btn['type']) ? ' btn-'.$btn['type'] : ' btn-'.self::TYPE_DEFAULT);
-                    $class .= isset($btn['size']) ? ' btn-'.$btn['size'] : '';
+                    $class = 'btn' . (isset($btn['type']) ? ' btn-' . $btn['type'] : ' btn-' . self::TYPE_DEFAULT);
+                    $class .= isset($btn['size']) ? ' btn-' . $btn['size'] : '';
                     static::addCssClass($btnOptions, $class);
-                    $buttons .= static::a($label, $url, $btnOptions)." ";
+                    $buttons .= static::a($label, $url, $btnOptions) . " ";
                 }
             }
             $html .= static::tag('p', $buttons);
@@ -326,7 +327,7 @@ class BS extends Html
     /**
      * Generates a panel for boxing content.
      *
-     * @param array  $content the panel content consisting of these components:
+     * @param array $content the panel content consisting of these components:
      *                        - param string $preHeading raw content that will be placed before $heading (optional)
      *                        - param string $heading the panel box heading (optional)
      *                        - param string $preBody raw content that will be placed before $body (optional)
@@ -340,14 +341,14 @@ class BS extends Html
      *                        - param boolean $footerTitle whether to pre-style footer content with a
      *                        '.panel-title'
      *                        class.
-     * @param string $type    the panel type one of the color modifier constants - defaults to 'default'
+     * @param string $type the panel type one of the color modifier constants - defaults to 'default'
      *                        - TYPE_DEFAULT = 'default'
      *                        - TYPE_PRIMARY = 'primary'
      *                        - TYPE_SUCCESS = 'success'
      *                        - TYPE_INFO    = 'info'
      *                        - TYPE_WARNING = 'warning'
      *                        - TYPE_DANGER  = 'danger'
-     * @param array  $options html options for the panel container
+     * @param array $options html options for the panel container
      *
      * Example(s):
      * ~~~
@@ -383,7 +384,7 @@ class BS extends Html
      *  ]
      * );
      * ~~~
-     * @param array  $options html options for the panel
+     * @param array $options html options for the panel
      * @see http://getbootstrap.com/components/#panels
      * @return string
      */
@@ -392,33 +393,34 @@ class BS extends Html
         if (!is_array($content)) {
             return '';
         } else {
-            static::addCssClass($options, 'panel panel-'.$type);
-            $panel = (!VarHelper::isEmpty($content['preHeading'])) ? $content['preHeading']."\n" : '';
-            $panel .= static::generatePanelTitle($content, 'heading');
-            $panel .= (!VarHelper::isEmpty($content['preBody'])) ? $content['preBody']."\n" : '';
-            $panel .= (!VarHelper::isEmpty($content['body'])) ? static::tag('div', $content['body'],
-                    ['class' => 'panel-body'])."\n" : '';
-            $panel .= (!VarHelper::isEmpty($content['postBody'])) ? $content['postBody']."\n" : '';
-            $panel .= static::generatePanelTitle($content, 'footer');
-            $panel .= (!VarHelper::isEmpty($content['postFooter'])) ? $content['postFooter']."\n" : '';
-            return static::tag('div', $panel, $options);
+            static::addCssClass($options, 'panel panel-' . $type);
+            $panel[] = ArrayHelper::getValue($content, 'preHeading') ? $content['preHeading'] : '';
+            $panel[] = static::generatePanelTitle($content, 'heading');
+            $panel[] = ArrayHelper::getValue($content, 'preBody') ? $content['preBody'] : '';
+            $panel[] = ArrayHelper::getValue($content, 'body') ? static::tag('div', $content['body'],
+                ['class' => 'panel-body']) : '';
+            $panel[] = ArrayHelper::getValue($content, 'postBody') ? $content['postBody'] : '';
+            $panel[] = static::generatePanelTitle($content, 'footer');
+            $panel[] = ArrayHelper::getValue($content, 'postFooter') ? $content['postFooter'] : '';
+
+            return static::tag('div', implode("\n", $panel), $options);
         }
     }
 
     /**
      * Generates panel title for heading and footer.
-     * @param array  $content the panel content components.
-     * @param string $type    whether 'heading' or 'footer'
+     * @param array $content the panel content components.
+     * @param string $type whether 'heading' or 'footer'
      * @return string
      */
     protected static function generatePanelTitle($content, $type)
     {
-        if (!VarHelper::isEmpty($content[$type])) {
+        if (ArrayHelper::getValue($content, $type)) {
             $title = $content[$type];
             if (isset($content["{$type}Title"]) && $content["{$type}Title"]) {
                 $title = static::tag("h3", $title, ["class" => "panel-title"]);
             }
-            return static::tag("div", $title, ["class" => "panel-{$type}"])."\n";
+            return static::tag("div", $title, ["class" => "panel-{$type}"]) . "\n";
         } else {
             return '';
         }
@@ -427,9 +429,9 @@ class BS extends Html
     /**
      * Generates a page header.
      *
-     * @param string $title    the title to be shown
+     * @param string $title the title to be shown
      * @param string $subTitle the subtitle to be shown as subtext within the title
-     * @param array  $options  html options for the page header
+     * @param array $options html options for the page header
      *
      * Example(s):
      * ~~~
@@ -451,16 +453,17 @@ class BS extends Html
         }
         return static::tag('div', $title, $options);
     }
+
     /**
      * Generates a well container.
      *
      * @param string $content the content
-     * @param string $size    the well size - one of the size constants
+     * @param string $size the well size - one of the size constants
      *                        - SIZE_TINY   = 'xs';
      *                        - SIZE_SMALL  = 'sm';
      *                        - SIZE_MEDIUM = 'md';
      *                        - SIZE_LARGE  = 'lg';
-     * @param array  $options html options for the well container.
+     * @param array $options html options for the well container.
      *
      * Example(s):
      * ~~~
@@ -476,7 +479,7 @@ class BS extends Html
     {
         static::addCssClass($options, 'well');
         if (!VarHelper::isEmpty($size)) {
-            static::addCssClass($options, 'well-'.$size);
+            static::addCssClass($options, 'well-' . $size);
         }
         return static::tag('div', $content, $options);
     }
@@ -486,14 +489,14 @@ class BS extends Html
      * components (like blog comments, Tweets, etc) that feature a left-aligned or
      * right-aligned  image alongside textual content.
      *
-     * @param string $heading    the media heading
-     * @param string $body       the media content
-     * @param string $src        URL for the media article source
-     * @param string $img        URL for the media image source
-     * @param array  $srcOptions html options for the media article link
-     * @param array  $imgOptions html options for the media image
-     * @param array  $options    html options for the media object container
-     * @param string $tag        the media container tag - defaults to 'div'
+     * @param string $heading the media heading
+     * @param string $body the media content
+     * @param string $src URL for the media article source
+     * @param string $img URL for the media image source
+     * @param array $srcOptions html options for the media article link
+     * @param array $imgOptions html options for the media image
+     * @param array $options html options for the media object container
+     * @param string $tag the media container tag - defaults to 'div'
      *
      * Example(s):
      * ~~~
@@ -516,7 +519,8 @@ class BS extends Html
         $imgOptions = [],
         $options = [],
         $tag = 'div'
-    ) {
+    )
+    {
         static::addCssClass($options, 'media');
         if (!isset($srcOptions['class'])) {
             static::addCssClass($srcOptions, 'pull-left');
@@ -525,15 +529,15 @@ class BS extends Html
         $source = static::a(static::img($img, $imgOptions), $src, $srcOptions);
         $heading = (!VarHelper::isEmpty($heading)) ? static::tag('h4', $heading,
             ['class' => 'media-heading']) : '';
-        $content = (!VarHelper::isEmpty($body)) ? static::tag('div', $heading."\n".$body,
+        $content = (!VarHelper::isEmpty($body)) ? static::tag('div', $heading . "\n" . $body,
             ['class' => 'media-body']) : $heading;
-        return static::tag($tag, $source."\n".$content, $options);
+        return static::tag($tag, $source . "\n" . $content, $options);
     }
 
     /**
      * Generates list of media (useful for comment threads or articles lists).
      *
-     * @param array $items   the media items - each element in the array will contain these keys:
+     * @param array $items the media items - each element in the array will contain these keys:
      *                       - param string $items the sub media items (optional)
      *                       - param string $heading the media heading
      *                       - param string $body the media content
@@ -595,8 +599,8 @@ class BS extends Html
 
     /**
      * Processes media items array to generate a recursive list.
-     * @param array   $items the media items
-     * @param boolean $top   whether item is the topmost parent
+     * @param array $items the media items
+     * @param boolean $top whether item is the topmost parent
      * @return string
      */
     protected static function generateMediaList($items, $top = true)
@@ -607,15 +611,15 @@ class BS extends Html
             if (isset($item['items'])) {
                 $item['body'] .= static::generateMediaList($item['items'], false);
             }
-            $content .= static::generateMediaItem($item, $tag)."\n";
+            $content .= static::generateMediaItem($item, $tag) . "\n";
         }
         return $content;
     }
 
     /**
      * Processes and generates each media item
-     * @param array  $item the media item configuration
-     * @param string $tag  the media item container tag
+     * @param array $item the media item configuration
+     * @param string $tag the media item container tag
      * @return string
      */
     protected static function generateMediaItem($item, $tag)
@@ -634,9 +638,9 @@ class BS extends Html
      * Generates a generic close icon button for
      * dismissing content like modals and alerts.
      *
-     * @param string $label   the close icon label - defaults to '&times;'
-     * @param array  $options html options for the close icon button
-     * @param string $tag     the html tag for rendering the close icon - defaults to 'button'
+     * @param string $label the close icon label - defaults to '&times;'
+     * @param array $options html options for the close icon button
+     * @param string $tag the html tag for rendering the close icon - defaults to 'button'
      *
      * Example(s):
      * ~~~
@@ -659,10 +663,10 @@ class BS extends Html
     /**
      * Generates a caret.
      *
-     * @param string  $direction whether to display as 'up' or 'down' direction - defaults to 'down'
-     * @param boolean $disabled  if the caret is to be displayed as disabled - defaults to false
-     * @param array   $options   html options for the caret container.
-     * @param string  $tag       the html tag for rendering the caret - defaults to 'span'
+     * @param string $direction whether to display as 'up' or 'down' direction - defaults to 'down'
+     * @param boolean $disabled if the caret is to be displayed as disabled - defaults to false
+     * @param array $options html options for the caret container.
+     * @param string $tag the html tag for rendering the caret - defaults to 'span'
      *
      * Example(s):
      * ~~~
@@ -680,7 +684,7 @@ class BS extends Html
             $options['style'] = 'margin-bottom: 3px;';
         }
         if ($disabled) {
-            $options['style'] = $options['style'].';  border-top-color: #bbb; border-bottom-color: #bbb;';
+            $options['style'] = $options['style'] . ';  border-top-color: #bbb; border-bottom-color: #bbb;';
         }
         if ($direction == 'up') {
             return static::tag($tag, static::tag($tag, '', $options), ['class' => 'dropup']);
@@ -692,10 +696,10 @@ class BS extends Html
     /**
      * Generates an abbreviation.
      *
-     * @param string  $content    the abbreviation content
-     * @param string  $title      the abbreviation title
+     * @param string $content the abbreviation content
+     * @param string $title the abbreviation title
      * @param boolean $initialism if set to true, will display a slightly smaller font-size.
-     * @param array   $options    html options for the abbreviation
+     * @param array $options html options for the abbreviation
      *
      * Example(s):
      * ~~~
@@ -717,12 +721,12 @@ class BS extends Html
     /**
      * Generates a blockquote.
      *
-     * @param string $content     the blockquote content
+     * @param string $content the blockquote content
      * @param string $citeContent the content of the citation (optional) - this should typically
      *                            include the wildtag '{source}' to embed the cite source
-     * @param string $citeTitle   the cite source title (optional)
-     * @param string $citeSource  the cite source (optional)
-     * @param array  $options     html options for the blockquote
+     * @param string $citeTitle the cite source title (optional)
+     * @param string $citeSource the cite source (optional)
+     * @param array $options html options for the blockquote
      *
      * Example(s):
      * ~~~
@@ -733,7 +737,7 @@ class BS extends Html
      *      'IPL'
      * );
      * ~~~
-     * @param array  $options     html options for the blockquote
+     * @param array $options html options for the blockquote
      * @see http://getbootstrap.com/css/#type-blockquotes
      * @return string
      */
@@ -742,7 +746,7 @@ class BS extends Html
         $content = static::tag('p', $content);
         if (!VarHelper::isEmpty($citeContent)) {
             $source = static::tag('cite', $citeSource, ['title' => $citeTitle]);
-            $content .= "\n<small>".str_replace('{source}', $source, $citeContent)."</small>";
+            $content .= "\n<small>" . str_replace('{source}', $source, $citeContent) . "</small>";
         }
         return static::tag('blockquote', $content, $options);
     }

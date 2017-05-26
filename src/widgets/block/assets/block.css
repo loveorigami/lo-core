@@ -21,7 +21,7 @@
     border-radius: 2px;
 }
 
-/* Style default */
+/* Type default */
 .cboxl_default {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
@@ -31,11 +31,7 @@
     color: #333;
 }
 
-.cboxl_content_default {
-    background-color: #fff;
-}
-
-/* Style primary */
+/* Type primary */
 .cboxl_primary {
     background-color: #337ab7;
     border: 1px solid #337ab7;
@@ -45,11 +41,7 @@
     color: #fff;
 }
 
-.cboxl_content_primary {
-    background-color: #fff;
-}
-
-/* Style info */
+/* Type info */
 .cboxl_info {
     border: 1px solid #87ceeb;
     background-color: #C5EAFD;
@@ -59,11 +51,7 @@
     color: #31708f;
 }
 
-.cboxl_content_info {
-    background-color: #fff;
-}
-
-/* Style warning */
+/* Type warning */
 .cboxl_warning {
     border: 1px solid #ffd886;
     background-color: #ffefd5;
@@ -73,11 +61,7 @@
     color: #8a6d3b;
 }
 
-.cboxl_content_warning {
-    background-color: #fff;
-}
-
-/* Style danger */
+/* Type danger */
 .cboxl_danger {
     border: 1px solid #ebccd1;
     background-color: #f2dede;
@@ -87,11 +71,7 @@
     color: #a94442;
 }
 
-.cboxl_content_danger {
-    background-color: #fff;
-}
-
-/* Style success */
+/* Type success */
 .cboxl_success {
     border: 1px solid #d6e9c6;
     background-color: #dff0d8;
@@ -101,7 +81,19 @@
     color: #3c763d;
 }
 
-.cboxl_content_success {
+/* Styles */
+.cboxl_content_default_white,
+.cboxl_content_primary_white,
+.cboxl_content_info_white,
+.cboxl_content_success_white,
+.cboxl_content_danger_white,
+.cboxl_content_warning_white
+{
     background-color: #fff;
+}
+
+.cboxl_content_info_color
+{
+    background-color: #e3f3fb;
 }
 
