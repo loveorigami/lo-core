@@ -58,7 +58,6 @@
     "paulzi/yii2-nested-sets": "^1.0",
     "paulzi/yii2-nested-intervals": "^1.0",
     "paulzi/yii2-materialized-path": "^2.0",
-    "mickgeek/yii2-actionbar" : "*",
     "creocoder/yii2-taggable": "~2.0",
     "rmrevin/yii2-fontawesome": "~2.15",
     "voskobovich/yii2-linker-behavior": "*",
