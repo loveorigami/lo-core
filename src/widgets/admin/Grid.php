@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
@@ -298,6 +299,24 @@ class Grid extends Widget
                     'class' => 'btn btn-danger',
                 ],
                 "route" => $this->baseRoute . "/groupdelete",
+            ],
+            "activate" => [
+                "class" => ActionButton::class,
+                "label" => Yii::t('core', 'Group active'),
+                "options" => [
+                    'id' => 'group-activate',
+                    'class' => 'btn btn-primary',
+                ],
+                "route" => $this->baseRoute . "/groupactivate",
+            ],
+            "deactivate" => [
+                "class" => ActionButton::class,
+                "label" => Yii::t('core', 'Group hide'),
+                "options" => [
+                    'id' => 'group-deactivate',
+                    'class' => 'btn btn-primary',
+                ],
+                "route" => $this->baseRoute . "/groupdeactivate",
             ],
         ];
 

@@ -38,7 +38,7 @@ foreach ($groupButtons AS $button): ?>
 <?php if ($btnHtml): ?>
     <div class="form-group form-inline">
 
-        <span><?= Yii::t('core', 'Actions with selected') ?>:</span>
+        <div><?= Yii::t('core', 'Actions with selected') ?>:</div>
 
         <?= $btnHtml ?>
 
