@@ -53,6 +53,9 @@ class SeoBreadcrumbs extends Breadcrumbs
      */
     protected function renderItem($link, $template)
     {
+        $visible = ArrayHelper::getValue($link, 'visible', true);
+        if (!$visible) return null;
+
         $encodeLabel = ArrayHelper::remove($link, 'encode', $this->encodeLabels);
         if (array_key_exists('label', $link)) {
             $label = $encodeLabel ? Html::encode($link['label']) : $link['label'];
