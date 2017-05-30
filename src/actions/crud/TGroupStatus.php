@@ -15,7 +15,7 @@ use yii\web\ForbiddenHttpException;
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class GroupStatus extends Base
+class TGroupStatus extends Base
 {
     /** @var string имя параметра в запросе в котором передаются идентификаторы материалов при групповых операциях */
     public $groupIdsAttr = "selection";
@@ -40,12 +40,17 @@ class GroupStatus extends Base
             /** @var ActiveQuery $query */
             $query = $class::findByPk($ids);
             foreach ($query->all() as $model) {
-                if (!Yii::$app->user->can($this->access(), ["model" => $model]))
+                if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
                     throw new ForbiddenHttpException('Forbidden');
-                $model->status = $this->status;
-                $model->save();
+                }
+
+                $childIds = $model->getDescendants()->column();
+                if ($childIds) {
+                    $model::updateAll(['status' => $this->status], ['id' => $childIds]);
+                }
             }
         }
+        $class::updateAll(['status' => $this->status], ['id' => $ids]);
 
         if (!Yii::$app->request->isAjax)
             return $this->goBack();
