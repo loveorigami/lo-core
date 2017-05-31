@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\db;
 
 use Yii;
@@ -198,7 +199,7 @@ abstract class TActiveRecord extends ActiveRecord
      * Возвращает массив идентификаторов дочерних элементов и текущего элемента
      * @return array
      */
-    public function getFilterIds()
+    public function getFilterIds(): array
     {
         $arr[] = $this->id;
         $models = $this->getDescendants()->published()->all();
@@ -209,4 +210,36 @@ abstract class TActiveRecord extends ActiveRecord
         return $arr;
     }
 
+    /**
+     * @param $node
+     * @param $depth
+     * @param $status
+     * @return array
+     */
+    public function getTreeByStatus($node, $depth, $status): array
+    {
+        $node->populateTree($depth);
+        return $this->treeListData($node, $depth, $status);
+    }
+
+    /**
+     * @param $node
+     * @param $depth
+     * @param $status
+     * @param int $level
+     * @return array
+     */
+    protected function treeListData($node, $depth, $status, $level = 0): array
+    {
+        $result = [];
+        foreach ($node->children as $child) {
+            if ($child->status == $status) {
+                $result[$child->id] = $child;
+                if ($level + 1 < $depth) {
+                    $result = $result + $this->treeListData($child, $depth, $status, $level + 1);
+                }
+            }
+        }
+        return $result;
+    }
 }

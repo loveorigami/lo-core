@@ -300,7 +300,7 @@ class Grid extends Widget
                 ],
                 "route" => $this->baseRoute . "/groupdelete",
             ],
-            "activate" => [
+/*            "activate" => [
                 "class" => ActionButton::class,
                 "label" => Yii::t('core', 'Group active'),
                 "options" => [
@@ -317,7 +317,7 @@ class Grid extends Widget
                     'class' => 'btn btn-primary',
                 ],
                 "route" => $this->baseRoute . "/groupdeactivate",
-            ],
+            ],*/
         ];
 
         if ($this->tree AND !Yii::$app->request->get($this->extFilterParam)) {
