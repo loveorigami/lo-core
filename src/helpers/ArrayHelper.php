@@ -108,4 +108,25 @@ class ArrayHelper extends YiiArrayHelper
         return ($array);
     }
 
+    /**
+     * Return the first element in an array passing a given truth test.
+     *
+     * @param  array $array
+     * @param  Closure $callback
+     * @param  mixed $default
+     *
+     * @return mixed
+     */
+    public static function first($array, $callback = null, $default = null)
+    {
+        if (is_null($callback)) {
+            return empty($array) ? static::value($default) : reset($array);
+        }
+        foreach ($array as $key => $value) {
+            if (call_user_func($callback, $key, $value)) {
+                return $value;
+            }
+        }
+        return static::value($default);
+    }
 }
