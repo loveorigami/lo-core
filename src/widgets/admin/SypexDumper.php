@@ -31,20 +31,18 @@ class SypexDumper extends Widget
 
         // проверяем подключение к MySQL
         try {
-            new PDO(getenv('DB_DSN'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
-
             // путь до директории, в которую копируем sypex dumper
-            $assetsPath = Yii::getAlias('@sxd');
+            $sxdPath = Yii::getAlias('@sxd');
 
             // проверяем существование директории, копируем, если директории нет
-            if (!is_dir($assetsPath)) {
-                full_copy(__DIR__.'/sxd', $assetsPath);
+            if (!is_dir($sxdPath)) {
+                full_copy(__DIR__.'/sxd', $sxdPath);
             };
 
             // ссылка до sypex dumper
-            $assetsUrl = Yii::getAlias('@sxdUrl');
+            $sxdUrl = Yii::getAlias('@sxdUrl');
             // выводим iframe
-            echo "<iframe src=\"$assetsUrl\" style=\"height: 468px; width: 586px; border: 0\"></iframe>";
+            echo "<iframe src=\"$sxdUrl\" style=\"height: 468px; width: 586px; border: 0\"></iframe>";
         } catch (PDOException $error) {
             echo 'Error connect to MySQL: '.$error->getMessage();
         }
