@@ -164,7 +164,7 @@ class Grid extends Widget
 
         $arr = [
             'class' => 'yii\grid\ActionColumn',
-            'headerOptions' => ['style' => 'width: 95px;']
+            'headerOptions' => ['style' => 'width: 100px;']
         ];
 
         $buttonsDefault = ['view', 'update', 'delete'];
