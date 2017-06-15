@@ -15,15 +15,6 @@ class BaseUserHelper
     const DEFAULT_USER = 1;
 
     /**
-     * @param UserInterface $user
-     * @return bool
-     */
-    public static function name($user)
-    {
-        return $user->getName();
-    }
-
-    /**
      * @return bool
      */
     public static function isGuest()
