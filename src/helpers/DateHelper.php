@@ -1,6 +1,7 @@
 <?php
 
 namespace lo\core\helpers;
+
 use Yii;
 
 /**
@@ -10,15 +11,15 @@ use Yii;
  */
 class DateHelper
 {
-    const TYPE_DATE      = 'date';
-    const TYPE_TIME      = 'time';
+    const TYPE_DATE = 'date';
+    const TYPE_TIME = 'time';
     const TYPE_DATE_TIME = 'datetime';
-    const TYPE_OTHER     = 'other';
+    const TYPE_OTHER = 'other';
 
     /** for database */
-    const DB_DATE_FORMAT     = 'php:Y-m-d';
+    const DB_DATE_FORMAT = 'php:Y-m-d';
     const DB_DATETIME_FORMAT = 'php:Y-m-d H:i:s';
-    const DB_TIME_FORMAT     = 'php:H:i:s';
+    const DB_TIME_FORMAT = 'php:H:i:s';
 
     /** for datapicker */
     const DP_DATE_FORMAT = 'yyyy-mm-dd';
@@ -61,7 +62,8 @@ class DateHelper
      * @param $date_to
      * @return string
      */
-    public static function rangeDays($date_from, $date_to){
+    public static function rangeDays($date_from, $date_to)
+    {
         $datetime1 = new \Datetime($date_from);
         $datetime2 = new \Datetime($date_to);
 
@@ -70,10 +72,23 @@ class DateHelper
 
     /**
      * @param $date
+     * @return bool
+     */
+    public static function moreToday($date): bool
+    {
+        $datetime1 = new \Datetime($date);
+        $datetime2 = new \Datetime("now");
+
+        return $datetime1 > $datetime2;
+    }
+
+    /**
+     * @param $date
      * @param $format
      * @return string
      */
-    protected static function asDate($date, $format){
+    protected static function asDate($date, $format)
+    {
         return Yii::$app->formatter->asDate($date, $format); // 2014-10-06
     }
 
@@ -82,7 +97,8 @@ class DateHelper
      * @param $format
      * @return string
      */
-    protected static function asDatetime($date, $format){
+    protected static function asDatetime($date, $format)
+    {
         return Yii::$app->formatter->asDatetime($date, $format); // 2014-10-06 12:02:36
     }
 }
