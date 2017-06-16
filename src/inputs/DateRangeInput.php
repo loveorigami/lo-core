@@ -31,8 +31,12 @@ class DateRangeInput extends BaseInput
     protected $defaultOptions = [
         'language' => 'ru',
         'type' => DatePicker::TYPE_RANGE,
-        'options' => ['placeholder' => 'Start date'],
-        'options2' => ['placeholder' => 'End date'],
+        'options' => [
+            'placeholder' => 'Start date',
+        ],
+        'options2' => [
+            'placeholder' => 'End date',
+        ],
         'separator' => '-',
         'pluginOptions' => [
             'format' => 'yyyy-mm-dd',

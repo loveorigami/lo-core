@@ -21,12 +21,17 @@ class DateInput extends BaseInput
     protected $defaultOptions = [
         'language' => 'ru',
         'type' => DatePicker::TYPE_COMPONENT_APPEND,
-        'options' => ['placeholder' => 'Enter date'],
+        'options' => [
+            'placeholder' => 'Enter date',
+            'type' => 'date',
+        ],
         'pluginOptions' => [
             'format' => DateHelper::DP_DATE_FORMAT,
             'autoclose' => true,
             'todayHighlight' => true,
             'todayBtn' => true,
+            'keepEmptyValues' => true
+            //'keyboardNavigation' => true
         ]
     ];
 
