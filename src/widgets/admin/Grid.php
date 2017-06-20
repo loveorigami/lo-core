@@ -167,7 +167,7 @@ class Grid extends Widget
             'headerOptions' => ['style' => 'width: 100px;']
         ];
 
-        $buttonsDefault = ['view', 'update', 'delete'];
+        $buttonsDefault = ['update', 'delete'];
         $buttonsTree = ['up', 'down', 'enter'];
 
         if ($this->actions) {
