@@ -29,7 +29,7 @@ class TextField extends BaseField
         if ($this->model->hasAttribute($this->attr)) {
             $table = $this->model->tableName();
             $attr = $this->attr;
-            $query->andFilterWhere(["like", "$table.$attr", preg_quote($this->model->{$this->attr})]);
+            $query->andFilterWhere(["like", "$table.$attr", $this->model->{$this->attr}]);
         }
     }
 }
