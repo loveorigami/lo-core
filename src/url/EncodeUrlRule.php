@@ -2,10 +2,10 @@
 
 namespace lo\core\url;
 
+use lo\core\helpers\JsonHelper;
 use yii;
 use yii\web\UrlRule;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 
 /**
  * EncodeUrlRule enables the creation of urls with parameters that can contain array of data.
@@ -74,7 +74,7 @@ class EncodeUrlRule extends UrlRule
             if ($pi = $request->get($this->paramName)) {
                 $pi = $this->urlDecode($pi);
                 foreach ($pi as $key => &$value) {
-                    $value = Json::decode($value);
+                    $value = JsonHelper::decode($value);
                 }
                 $params = ArrayHelper::merge($params, $pi);
             }
@@ -91,7 +91,7 @@ class EncodeUrlRule extends UrlRule
         if (isset($params[$this->paramName]) && !is_array($params[$this->paramName])) {
             $params[$this->paramName] = $this->urlDecode($params[$this->paramName]);
             foreach ($params[$this->paramName] as $key => &$value) {
-                $value = Json::decode($value);
+                $value = JsonHelper::decode($value);
             }
         }
         foreach ($params as $key => $param) {
@@ -102,7 +102,7 @@ class EncodeUrlRule extends UrlRule
         }
         if (isset($params[$this->paramName]) && is_array($params[$this->paramName])) {
             foreach ($params[$this->paramName] as $key => &$value) {
-                $value = Json::encode($value);
+                $value = JsonHelper::encode($value);
             }
             $params[$this->paramName] = $this->urlEncode($params[$this->paramName]);
         }
