@@ -27,7 +27,7 @@ class BaseUserHelper
      */
     public static function isAuth()
     {
-        return Yii::$app->user->identity->id > 0;
+        return !self::isGuest();
     }
 
     /**
