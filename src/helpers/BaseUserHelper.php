@@ -23,6 +23,14 @@ class BaseUserHelper
     }
 
     /**
+     * @return bool
+     */
+    public static function isAuth()
+    {
+        return Yii::$app->user->identity->id > 0;
+    }
+
+    /**
      * @return int
      */
     public static function id()
