@@ -74,7 +74,11 @@ class EncodeUrlRule extends UrlRule
             if ($pi = $request->get($this->paramName)) {
                 $pi = $this->urlDecode($pi);
                 foreach ($pi as $key => &$value) {
-                    $value = JsonHelper::decode($value);
+                    if (JsonHelper::isJson($value)) {
+                        $value = JsonHelper::decode($value);
+                    } else {
+                        return false;
+                    }
                 }
                 $params = ArrayHelper::merge($params, $pi);
             }
