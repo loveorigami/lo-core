@@ -2,6 +2,7 @@
 namespace lo\core\db;
 
 use yii\db\ActiveQuery as YiiQuery;
+use yii\db\Expression;
 
 /**
  * Class ActiveQuery
@@ -28,6 +29,16 @@ class ActiveQuery extends YiiQuery
     public function onmain($state = true)
     {
         $this->andWhere([$this->getAlias().".on_main" => $state]);
+        return $this;
+    }
+
+    /**
+     * Выборка за текущий день
+     */
+    public function today()
+    {
+        $alias = $this->getAlias();
+        $this->andWhere(new Expression("FROM_UNIXTIME($alias.created_at, '%Y-%m-%d') = CURDATE()"));
         return $this;
     }
 
