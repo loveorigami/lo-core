@@ -2,6 +2,7 @@
 namespace lo\core\modules\settings\controllers;
 
 use lo\core\actions\crud\Settings;
+use lo\core\helpers\BaseUserHelper;
 use lo\core\modules\settings\models\FormModel;
 use Yii;
 use yii\web\Controller;
@@ -13,19 +14,12 @@ class DefaultController extends Controller
 {
     public function actions()
     {
+        $id = BaseUserHelper::id();
         return [
             'index'=>[
                 'class'=> Settings::class,
                 'keys' => [
-                    'frontend.maintenance' => [
-                        'label' => Yii::t('backend', 'Frontend maintenance mode'),
-                        'type' => FormModel::TYPE_DROPDOWN,
-                        'items' => [
-                            'disabled' => Yii::t('backend', 'Disabled'),
-                            'enabled' => Yii::t('backend', 'Enabled')
-                        ]
-                    ],
-                    'backend.theme-skin' => [
+                    "backend.theme-skin-$id" => [
                         'label' => Yii::t('backend', 'Backend theme'),
                         'type' => FormModel::TYPE_DROPDOWN,
                         'items' => [
@@ -43,15 +37,15 @@ class DefaultController extends Controller
                             'skin-yellow-light' => 'skin-yellow-light'
                         ]
                     ],
-                    'backend.layout-fixed' => [
+                    "backend.layout-fixed-$id" => [
                         'label' => Yii::t('backend', 'Fixed backend layout'),
                         'type' => FormModel::TYPE_CHECKBOX
                     ],
-                    'backend.layout-boxed' => [
+                    "backend.layout-boxed-$id" => [
                         'label' => Yii::t('backend', 'Boxed backend layout'),
                         'type' => FormModel::TYPE_CHECKBOX
                     ],
-                    'backend.layout-collapsed-sidebar' => [
+                    "backend.layout-collapsed-sidebar-$id" => [
                         'label' => Yii::t('backend', 'Backend sidebar collapsed'),
                         'type' => FormModel::TYPE_CHECKBOX
                     ]
