@@ -23,13 +23,26 @@ class FrontendUrlColumn extends DataColumn
     public $label = '';
     public $filter = false;
 
+    /**
+     * For url param in route
+     * ['pattern' => 'page/<pageSlug>', 'route' => 'page/view'],
+     * @var string
+     */
+    public $params;
 
-    protected function renderDataCellContent($model, $key, $index)
+    /**
+     * @param mixed $model
+     * @param mixed $key
+     * @param int $index
+     * @return string
+     */
+    protected function renderDataCellContent($model, $key, $index): string
     {
         $value = $this->getDataCellValue($model, $key, $index);
+        $attr = $this->params ??  $this->attribute;
         return Html::a(FA::i(FA::_LINK),
-            FrontendUrlHelper::url([$this->route, $this->attribute => $value]), [
-                'title'=> Yii::t('core', 'on site'),
+            FrontendUrlHelper::url([$this->route, $attr => $value]), [
+                'title' => Yii::t('core', 'on site'),
                 'target' => '_blank',
                 'class' => 'btn btn-primary btn-xs',
                 'data' => [
