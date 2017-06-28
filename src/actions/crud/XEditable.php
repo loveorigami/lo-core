@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -34,12 +35,19 @@ class XEditable extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            if (!Yii::$app->user->can($this->access(), array("model" => $model)))
+            if (!Yii::$app->user->can($this->access(), ["model" => $model]))
                 throw new ForbiddenHttpException('Forbidden');
 
             $model->setScenario($this->modelScenario);
             $model->{$request->post('name')} = $request->post('value');
-            return $model->save();
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('core', 'Saved'));
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('core', 'Not saved'));
+            }
+
+            return true;
         }
 
         return false;
