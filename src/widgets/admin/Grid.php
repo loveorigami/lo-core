@@ -136,7 +136,7 @@ class Grid extends Widget
                 'checkboxOptions' => function ($model) {
                     return ['value' => PkHelper::encode($model)];
                 },
-                'headerOptions' => ['style' => 'width: 30px;']
+                'headerOptions' => ['style' => 'min-width: 30px;']
             ],
         ];
 
@@ -151,7 +151,6 @@ class Grid extends Widget
 
         $columns = ArrayHelper::merge($columns, $this->userColumns);
         $columns[] = $this->getRowButtons();
-
         return $columns;
     }
 
@@ -164,7 +163,7 @@ class Grid extends Widget
 
         $arr = [
             'class' => 'yii\grid\ActionColumn',
-            'headerOptions' => ['style' => 'width: 100px;']
+            'headerOptions' => ['style' => 'min-width: 85px;']
         ];
 
         $buttonsDefault = ['update', 'delete'];
