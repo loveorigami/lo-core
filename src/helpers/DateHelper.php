@@ -71,6 +71,20 @@ class DateHelper
     }
 
     /**
+     * @param $days
+     * @param $date_from
+     * @return mixed
+     */
+    public static function rangeDateByDays($days, $date_from = null)
+    {
+        $from = $date_from ?? self::nowDate();
+        $date = new \Datetime($from);
+        $date->modify("$days days");
+
+        return self::asDate($date, self::DB_DATE_FORMAT);
+    }
+
+    /**
      * @param $date
      * @return bool
      */
