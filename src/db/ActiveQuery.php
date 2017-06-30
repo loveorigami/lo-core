@@ -1,6 +1,8 @@
 <?php
+
 namespace lo\core\db;
 
+use lo\core\helpers\DateHelper;
 use yii\db\ActiveQuery as YiiQuery;
 
 /**
@@ -16,7 +18,7 @@ class ActiveQuery extends YiiQuery
      */
     public function published($state = true)
     {
-        $this->andWhere([$this->getAlias().".status" => $state]);
+        $this->andWhere([$this->getAlias() . ".status" => $state]);
         return $this;
     }
 
@@ -27,7 +29,7 @@ class ActiveQuery extends YiiQuery
      */
     public function onmain($state = true)
     {
-        $this->andWhere([$this->getAlias().".on_main" => $state]);
+        $this->andWhere([$this->getAlias() . ".on_main" => $state]);
         return $this;
     }
 
@@ -43,12 +45,25 @@ class ActiveQuery extends YiiQuery
     }
 
     /**
+     * @param $field
+     * @param int $days
+     * @return $this
+     */
+    public function soon($field, $days = 1)
+    {
+        $date = DateHelper::rangeDateByDays($days);
+        $this->andWhere(['<=', $field, $date]
+        );
+        return $this;
+    }
+
+    /**
      * @param $slug
      * @return $this
      */
     public function bySlug($slug)
     {
-        $this->andWhere([$this->getAlias().".slug" => $slug]);
+        $this->andWhere([$this->getAlias() . ".slug" => $slug]);
         return $this;
     }
 
