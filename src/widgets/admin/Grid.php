@@ -136,7 +136,7 @@ class Grid extends Widget
                 'checkboxOptions' => function ($model) {
                     return ['value' => PkHelper::encode($model)];
                 },
-                'headerOptions' => ['style' => 'min-width: 30px;']
+                'headerOptions' => ['style' => 'width: 30px;']
             ],
         ];
 
