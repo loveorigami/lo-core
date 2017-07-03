@@ -19,6 +19,7 @@ use yii\widgets\Pjax;
 <?php
 echo GridView::widget([
     "id" => $id,
+    'options' => ['class' => 'table-responsive'],
     'dataProvider' => $dataProvider,
     'filterModel' => $model,
     'columns' => $columns,
