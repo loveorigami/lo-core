@@ -110,4 +110,18 @@ class FileHelper extends YiiFileHelper
             return false;
 
     }
+
+    /**
+     * Recursively Remove a Directory
+     * @param $path
+     */
+    public static function rrmdir($path)
+    {
+        if (is_dir($path)) {
+            array_map("rrmdir", glob($path . DIRECTORY_SEPARATOR . '{,.[!.]}*', GLOB_BRACE));
+            @rmdir($path);
+        } else {
+            @unlink($path);
+        }
+    }
 }
