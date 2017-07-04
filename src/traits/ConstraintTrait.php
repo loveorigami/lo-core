@@ -14,7 +14,7 @@ trait ConstraintTrait
     /** @return Constraint */
     public function getPermission()
     {
-        $data = Constraint::findPermission(get_called_class(), BaseUmodeHelper::getRole());
+        $data = Constraint::findPermission(get_called_class(), BaseUmodeHelper::getAuthRole());
         return $data;
     }
 }

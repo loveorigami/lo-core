@@ -65,22 +65,41 @@ class BaseUmodeHelper
     }
 
     /**
+     * @param integer $id
      * @return \yii\rbac\Role[]
      */
-    public static function getRolesByUser()
+    public static function getRolesByUser($id)
     {
-        $user = Yii::$app->user->identity;
-        $id =  ArrayHelper::getValue($user, 'id');
         return Yii::$app->authManager->getRolesByUser($id);
     }
 
-    /** @return string default role */
-    public static function getRole()
+    /**
+     * @param $role
+     * @return array
+     */
+    public static function getUserIdsByRole($role)
     {
-        if (!self::$_role) {
-            $roles = self::getRolesByUser();
-            self::$_role = ArrayHelper::getValue(end($roles), 'name');
-        }
-        return self::$_role;
+       return Yii::$app->authManager->getUserIdsByRole($role);
+    }
+
+    /**
+     * @return string default role
+     */
+    public static function getAuthRole()
+    {
+        $user = Yii::$app->user->identity;
+        $id = ArrayHelper::getValue($user, 'id');
+        $roles = self::getRolesByUser($id);
+        return ArrayHelper::getValue(end($roles), 'name');
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public static function getRoleByUserId($id)
+    {
+        $roles = self::getRolesByUser($id);
+        return ArrayHelper::getValue(end($roles), 'name');
     }
 }
