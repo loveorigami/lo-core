@@ -79,8 +79,17 @@ class BaseUmodeHelper
      */
     public static function getUserIdsByRole($role)
     {
-       return Yii::$app->authManager->getUserIdsByRole($role);
+        return Yii::$app->authManager->getUserIdsByRole($role);
     }
+
+    /**
+     * @return array
+     */
+    public static function getRolesList(): array
+    {
+        return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name');
+    }
+
 
     /**
      * @return string default role
