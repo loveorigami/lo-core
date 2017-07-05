@@ -146,4 +146,14 @@ class StringHelper extends YiiStringHelper
         $str = mb_strtoupper($str);
         return $str;
     }
+
+    /**
+     * @param $str - the input string.
+     * @return string
+     */
+    public static function spaceToDash($str)
+    {
+        return  preg_replace("/[\s]+/us", "-", $str);
+    }
+
 }
