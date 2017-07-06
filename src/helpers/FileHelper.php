@@ -118,7 +118,7 @@ class FileHelper extends YiiFileHelper
     public static function rrmdir($path)
     {
         if (is_dir($path)) {
-            array_map("rrmdir", glob($path . DIRECTORY_SEPARATOR . '{,.[!.]}*', GLOB_BRACE));
+            array_map([__CLASS__, "rrmdir"], glob($path . DIRECTORY_SEPARATOR . '{,.[!.]}*', GLOB_BRACE));
             @rmdir($path);
         } else {
             @unlink($path);
