@@ -46,6 +46,15 @@ class DateHelper
     }
 
     /**
+     * @param $date
+     * @return string Y-m-d
+     */
+    public static function dbDate($date)
+    {
+        return self::asDate($date, self::DB_DATE_FORMAT); // 2014-10-06
+    }
+
+    /**
      * @param null $date
      * @return false|string
      */
