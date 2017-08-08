@@ -2,15 +2,14 @@
 
 namespace lo\core\inputs;
 
-use kartik\file\FileInput;
+
 use lo\core\db\fields\ImageGalleryField;
-use lo\modules\gallery\widgets\GalleryInput;
+use lo\modules\gallery\modules\admin\widgets\GalleryInput;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
  * Class ImageUploadInput
- * Поле ввода диапазона дат
  * @package lo\core\inputs
  * @property \lo\core\db\fields\ImageUploadField $modelField
  */
@@ -39,7 +38,7 @@ class ImageGalleryInput extends BaseInput
         $options = ArrayHelper::merge($this->options, $options);
         $model = $this->getModel();
 
-        /** @var ImageGalleryField $modelField*/
+        /** @var ImageGalleryField $modelField */
         $modelField = $this->modelField;
 
         $widgetOptions = ArrayHelper::merge(
@@ -53,10 +52,9 @@ class ImageGalleryInput extends BaseInput
             ]
         );
         if ($model->isNewRecord) {
-            echo 'Can not upload images for new record';
+            return 'Can not upload images for new record';
         } else {
-            echo GalleryInput::widget($widgetOptions
-            );
+            return GalleryInput::widget($widgetOptions);
         }
     }
 }
