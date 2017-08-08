@@ -34,6 +34,7 @@ class AceEditorInput extends BaseInput
 {
     const MODE_HTML = 'html';
     const THEME_GITHUB = 'github';
+    const THEME_CHROME = 'chrome';
 
     /**
      * Формирование Html кода поля для вывода в форме
