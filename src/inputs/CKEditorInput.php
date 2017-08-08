@@ -23,6 +23,7 @@ use yii\widgets\ActiveForm;
  *              "widgetOptions" => [
  *                  'editorOptions' => [
  *                      'height' => 100 // высота редактора
+ *                      'preset' => self::PRESET_FULL,
  *                  ],
  *              ],
  *          ],
