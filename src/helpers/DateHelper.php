@@ -107,6 +107,26 @@ class DateHelper
 
     /**
      * @param $date
+     * @return string
+     */
+    public static function prettyDate($date)
+    {
+        return Yii::$app->formatter->asDate($date, 'long'); // 25 мая 2017
+    }
+
+    /**
+     * @param $timestamp
+     * @return bool
+     */
+    public static function isValidTimeStamp($timestamp)
+    {
+        return ((string)(int)$timestamp === $timestamp)
+            && ($timestamp <= PHP_INT_MAX)
+            && ($timestamp >= ~PHP_INT_MAX);
+    }
+
+    /**
+     * @param $date
      * @param $format
      * @return string
      */
