@@ -143,6 +143,8 @@ abstract class MetaFields extends Object
             "author_id" => [
                 'definition' => [
                     "class" => fields\HasOneField::class,
+                    'initValue' => 1,
+                    'defaultValue' => 1,
                     "title" => Yii::t('core', 'Author'),
                     "showInForm" => false,
                     "showInGrid" => false, //Yii::$app->user->can('editor'),

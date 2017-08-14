@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -58,6 +59,7 @@ class Copy extends Base
                     call_user_func($this->afterCopy, $model, $modelCopy);
                 } catch (\Exception $e) {
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->copyError);
+                    \Yii::error("An error occurred in mailer: {$e->getMessage()}, code: {$e->getCode()}");
                 }
             }
         }
