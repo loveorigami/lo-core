@@ -69,4 +69,28 @@ class NameLastnameValidator extends Validator
             return null;
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function clientValidateAttribute($model, $attribute, $view)
+    {
+        $message = json_encode($this->message);
+        $skipOnEmpty = (($this->skipOnEmpty) ? 'if(name == \'\') return true;' : '');
+        return <<<JS
+            if(typeof(validateNameLastname) != 'function'){
+                function validateNameLastname(name){
+                    {$skipOnEmpty}
+                    var i = name.indexOf(" ");
+                    if(i < 0){
+                        return false;
+                    } 
+                    return true;
+                }
+            }
+            if(!validateNameLastname(value)){
+                messages.push($message);
+            }
+JS;
+    }
 }
