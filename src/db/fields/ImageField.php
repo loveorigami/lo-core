@@ -2,6 +2,7 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\db\ActiveRecord;
 use lo\core\interfaces\IUploadImage;
 use yii\helpers\Html;
 
@@ -17,6 +18,9 @@ class ImageField extends FileField
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
+
+    /** префикс поведения */
+    const BEHAVIOR_PREF = 'img';
 
     /** Размер по умолчанию для превью изображений в гриде и при детальном просмотре */
     const DEFAULT_SIZE = 50;
@@ -51,13 +55,21 @@ class ImageField extends FileField
 
     /**
      * Вывод значения в гриде с учетом связи
-     * @param IUploadImage $model
+     * @param ActiveRecord $model
      * @return string
      */
     protected function getGridValue($model)
     {
-        $src = $model->getThumbUploadUrl($this->attr, self::THUMB);
+        /** @var IUploadImage| $behavior */
+        $behavior = $model->getBehavior($this->getBehaviorName());
+        $src = $behavior->getThumbUploadUrl($this->attr, self::THUMB);
         return Html::img($src, ['width' => $this->gridWidth]);
     }
 
+    /**
+     * @return string
+     */
+    public function getBehaviorName(){
+        return static::BEHAVIOR_PREF . ucfirst($this->attr);
+    }
 }

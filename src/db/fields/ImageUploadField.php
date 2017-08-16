@@ -35,8 +35,7 @@ class ImageUploadField extends ImageField
     public function behaviors()
     {
         $parent = parent::behaviors();
-
-        $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+        $code = $this->getBehaviorName();
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadImage::class,
             'attribute' => $this->attr,

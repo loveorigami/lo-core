@@ -51,8 +51,8 @@ class ImagePathField extends ImageField
      */
     public function behaviors()
     {
-        $parent = parent::behaviors();
-        $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+        $parent = [];
+        $code = $this->getBehaviorName();
         $parent[$code] = ArrayHelper::merge([
             'class' => UploadImage::class,
             'attribute' => $this->attr,
@@ -82,8 +82,6 @@ class ImagePathField extends ImageField
                 return basename($value);
             }
         ];
-
         return $rules;
     }
-
 }
