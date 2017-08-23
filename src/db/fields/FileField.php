@@ -51,7 +51,7 @@ class FileField extends BaseField
     {
         $grid = parent::grid();
         $grid['label'] = 'File';
-        $grid['format'] = 'html';
+        $grid['format'] = 'raw';
         $grid['headerOptions'] = [
             'style' => 'width: 50 px;',
         ];
@@ -112,6 +112,9 @@ class FileField extends BaseField
     protected function getGridValue($model)
     {
         $src = $model->getUploadUrl($this->attr);
-        return Html::a('<span class="fa fa-download"></span>', $src);
+        return Html::a('<span class="fa fa-download"></span>', $src, [
+            'data-pjax' => 0,
+            'target' => '_blank'
+        ]);
     }
 }
