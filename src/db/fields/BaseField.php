@@ -381,7 +381,6 @@ class BaseField extends Object implements IField
             $func = $this->data;
             $this->_dataValue = is_callable($func) ? call_user_func($func) : [];
         }
-
         return $this->_dataValue;
     }
 
