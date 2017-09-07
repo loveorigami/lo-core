@@ -3,7 +3,6 @@
 namespace lo\core\url;
 
 use lo\core\helpers\JsonHelper;
-use yii;
 use yii\web\UrlRule;
 use yii\helpers\ArrayHelper;
 
