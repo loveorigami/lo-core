@@ -12,6 +12,10 @@ use Yii;
  */
 class CacheHelper
 {
+    const FRONTEND = 'cacheFrontend';
+    const COMMON = 'cacheCommon';
+    const BACKEND = 'cacheBackend';
+
     /**
      * Возвращает идентификатор кеше для действия контроллера
      * @param string $id базовый идентификатор кеша

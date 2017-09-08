@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\cache;
 
 use Yii;
@@ -38,8 +39,7 @@ class TagCacheBehavior extends Behavior
     public function beforeUpdate()
     {
         $this->setItemTag();
-        if($this->owner->hasChangeActive())
-        {
+        if ($this->owner->hasChangeActive()) {
             $this->setClassTag();
         }
     }
@@ -63,7 +63,7 @@ class TagCacheBehavior extends Behavior
     {
         $key = $this->getItemTagName();
         $val = Yii::$app->cache->get($key);
-        if($val === false) {
+        if ($val === false) {
             Yii::$app->cache->set($key, microtime(true));
         }
         return $key;
@@ -123,7 +123,7 @@ class TagCacheBehavior extends Behavior
     {
         $key = $this->getClassTagName();
         $val = Yii::$app->cache->get($key);
-        if($val === false) {
+        if ($val === false) {
             Yii::$app->cache->set($key, microtime(true));
         }
 
