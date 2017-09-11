@@ -40,8 +40,15 @@ class FrontendUrlColumn extends DataColumn
     {
         $value = $this->getDataCellValue($model, $key, $index);
         $attr = $this->params ??  $this->attribute;
+
+        if ($this->route) {
+            $url = [$this->route, $attr => $value];
+        } else {
+            $url = $value;
+        }
+
         return Html::a(FA::i(FA::_LINK),
-            FrontendUrlHelper::url([$this->route, $attr => $value]), [
+            FrontendUrlHelper::url($url), [
                 'title' => Yii::t('core', 'on site'),
                 'target' => '_blank',
                 'class' => 'btn btn-primary btn-xs',
