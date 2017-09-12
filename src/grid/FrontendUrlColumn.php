@@ -44,7 +44,7 @@ class FrontendUrlColumn extends DataColumn
         if ($this->route) {
             $url = [$this->route, $attr => $value];
         } else {
-            $url = $value;
+            $url = [$value];
         }
 
         return Html::a(FA::i(FA::_LINK),
