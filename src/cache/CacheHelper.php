@@ -12,6 +12,7 @@ use Yii;
  */
 class CacheHelper
 {
+    const DEFAULT = 'cache';
     const FRONTEND = 'cacheFrontend';
     const COMMON = 'cacheCommon';
     const BACKEND = 'cacheBackend';
