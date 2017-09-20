@@ -80,6 +80,19 @@ class DateHelper
     }
 
     /**
+     * @param $date_from
+     * @param $date_to
+     * @return bool
+     */
+    public static function compareDays($date_from, $date_to)
+    {
+        $datetime1 = new \Datetime($date_from);
+        $datetime2 = new \Datetime($date_to);
+
+        return $datetime1 > $datetime2;
+    }
+
+    /**
      * @param $days
      * @param $date_from
      * @return mixed
