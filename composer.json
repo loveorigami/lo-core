@@ -32,6 +32,7 @@
     "kartik-v/yii2-markdown": "dev-master",
     "abeautifulsite/simpleimage":"~3.2",
     "trntv/yii2-aceeditor": "^2.0.0",
+    "beaten-sect0r/yii2-flatpickr": "*",
 	"loveorigami/yii2-ckeditor": "*",
 	"loveorigami/yii2-modal-ajax": "*",
     "loveorigami/yii2-icofont": "*",
@@ -63,6 +64,7 @@
     "voskobovich/yii2-linker-behavior": "*",
     "devgroup/yii2-jstree-widget": "*",
     "unclead/yii2-multiple-input": "~2.0",
+    "raoul2000/yii2-twbsmaxlength-widget": "*",
     
 	"bower-asset/jquery-number": "*",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
