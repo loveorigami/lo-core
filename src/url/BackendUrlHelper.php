@@ -25,7 +25,7 @@ class BackendUrlHelper
     public static function url($route)
     {
         $url = self::container();
-        $link = $url->createAbsoluteUrl($route);
+        $link = $url->createAbsoluteUrl($route, '');
         return Url::to($link);
     }
 

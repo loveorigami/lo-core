@@ -25,7 +25,7 @@ class Update extends Base
     /**
      * Запуск действия
      * @param integer $id идентификатор модели
-     * @return string
+     * @return string|array
      * @throws \yii\web\ForbiddenHttpException
      */
     public function run($id)

@@ -27,7 +27,7 @@ class FrontendUrlHelper
     public static function url($route, $scheme = null): string
     {
         $url = self::container();
-        $link = $url->createAbsoluteUrl($route);
+        $link = $url->createAbsoluteUrl($route, '');
         return Url::to($link, $scheme);
     }
 
