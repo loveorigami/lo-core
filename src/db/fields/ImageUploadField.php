@@ -24,7 +24,7 @@ class ImageUploadField extends ImageField
     public $extensions = 'jpeg, jpg, png, gif';
 
     /** @var integer макс. размер файла 2Мб */
-    public $maxSize = 10097152;
+    public $maxSize = 2097152;
 
     /** @var array настройки поведени */
     public $uploadOptions = [];
