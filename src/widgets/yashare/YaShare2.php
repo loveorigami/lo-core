@@ -24,7 +24,7 @@ class YaShare2 extends Widget
     const SKYPE = 'skype';
     const TELEGRAM = 'telegram';
 
-    public $limit = 5;
+    public $limit;
 
     public $title;
     public $description;
@@ -35,17 +35,14 @@ class YaShare2 extends Widget
 
     public $soc = [
         self::VK,
-        self::OK,
         self::FB,
         self::TWITTER,
-        self::VIBER,
-
-        self::GPLUS,
         self::TUMBLR,
+        self::GPLUS,
         self::PINTEREST,
 
-        self::WHATSAPP,
-        self::TELEGRAM,
+        self::OK,
+        self::VIBER,
     ];
 
     public $jsOption = [];
@@ -61,7 +58,7 @@ class YaShare2 extends Widget
             'theme' => [
                 'services' => implode(',', $this->soc),
                 'lang' => $this->lang,
-                'limit' => $this->limit
+                'limit' => $this->limit ? $this->limit : false
             ]
         ];
 
