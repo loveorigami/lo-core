@@ -116,6 +116,6 @@ class CacheInvalidateBehavior extends Behavior
      */
     protected function getCache()
     {
-        return $this->cache ?: Yii::$app->{$this->cacheComponent};
+         return $this->cache ?: Yii::$app->{$this->cacheComponent};
     }
 }
