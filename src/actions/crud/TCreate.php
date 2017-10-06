@@ -22,7 +22,7 @@ class TCreate extends Create
     /**
      * Запуск действия
      * @param int $parent_id идентификатор родительской модели
-     * @return string
+     * @return string|array
      * @throws ForbiddenHttpException
      * @throws BadRequestHttpException
      */
