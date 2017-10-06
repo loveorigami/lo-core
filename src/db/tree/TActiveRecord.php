@@ -1,22 +1,21 @@
 <?php
 
-namespace lo\core\db;
+namespace lo\core\db\tree;
 
+use lo\core\db\ActiveQuery;
+use lo\core\db\ActiveRecord;
+use lo\core\db\query\TActiveQuery;
+use paulzi\nestedsets\NestedSetsBehavior;
 use Yii;
-use lo\core\behaviors\NestedSet;
 
 /**
  * Class TActiveRecord
  * Надстройка над ActiveRecord для реализации древовидных структур.
  * @package lo\core\db
- * @mixin NestedSet
+ * @mixin NestedSetsBehavior
  * @property integer $id
  * @property integer $level
- * @method TActiveQuery parents($depth = null)
- * @method TActiveQuery children($depth = null)
- * @method TActiveQuery leaves()
- * @method TActiveQuery prev()
- * @method TActiveQuery next()
+ * @method ActiveQuery getDescendants()
  */
 abstract class TActiveRecord extends ActiveRecord
 {
@@ -27,6 +26,8 @@ abstract class TActiveRecord extends ActiveRecord
 
     /**
      * @var int идентификатор родительской модели
+     * 1 - for NestedSet
+     * 0 - for adjacencyList
      */
     public $parent_id = self::ROOT_ID;
 
@@ -36,10 +37,12 @@ abstract class TActiveRecord extends ActiveRecord
     public function behaviors()
     {
         $behaviors = parent::behaviors();
+
         $behaviors["nestedSets"] = [
-            "class" => NestedSet::class,
+            "class" => NestedSetsBehavior::class,
             "depthAttribute" => "level",
         ];
+
         return $behaviors;
     }
 
@@ -49,7 +52,9 @@ abstract class TActiveRecord extends ActiveRecord
      */
     public static function find()
     {
-        return Yii::createObject(TActiveQuery::class, [get_called_class()]);
+        /** @var TActiveQuery $obj */
+        $obj = Yii::createObject(TActiveQuery::class, [get_called_class()]);
+        return $obj;
     }
 
     /**
@@ -69,7 +74,9 @@ abstract class TActiveRecord extends ActiveRecord
             $perm->applyConstraint($query);
         }
 
-        /** @var TActiveRecord $model */
+        /**
+         * @var TActiveRecord $model
+         */
         $model = $query->andWhere(["id" => $parent_id])->one();
 
         if (!$model) {
@@ -211,7 +218,7 @@ abstract class TActiveRecord extends ActiveRecord
     }
 
     /**
-     * @param $node
+     * @param NestedSetsBehavior $node
      * @param $depth
      * @param $status
      * @return array

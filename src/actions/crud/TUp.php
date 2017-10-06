@@ -3,7 +3,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
-use lo\core\db\TActiveRecord;
+use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;

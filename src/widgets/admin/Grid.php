@@ -3,7 +3,7 @@
 namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
-use lo\core\db\TActiveRecord;
+use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
 use lo\core\rbac\MdmHelper;
 use lo\core\traits\AccessRouteTrait;

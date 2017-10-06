@@ -2,7 +2,7 @@
 
 namespace lo\core\actions\crud;
 
-use lo\core\db\TActiveRecord;
+use lo\core\db\tree\TActiveRecord;
 use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;

@@ -1,7 +1,8 @@
 <?php
 
-namespace lo\core\db;
+namespace lo\core\db\query;
 
+use lo\core\db\ActiveQuery;
 use paulzi\nestedsets\NestedSetsQueryTrait;
 
 /**
