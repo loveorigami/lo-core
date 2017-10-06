@@ -233,11 +233,11 @@ class Grid extends Widget
             },
 
             'up' => function ($url) use ($js) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-success']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-default']);
             },
 
             'down' => function ($url) use ($js) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-warning']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-default']);
             },
 
             'enter' => function ($url, $model) {
@@ -248,7 +248,7 @@ class Grid extends Widget
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);
                 } else {
                     $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id' => PkHelper::encode($model)]);
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-primary']);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-default']);
                 }
             }
         ];

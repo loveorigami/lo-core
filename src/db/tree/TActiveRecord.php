@@ -15,9 +15,8 @@ use Yii;
  * @mixin NestedSetsBehavior
  * @property integer $id
  * @property integer $level
- * @method ActiveQuery getDescendants()
  */
-abstract class TActiveRecord extends ActiveRecord
+abstract class TActiveRecord extends ActiveRecord implements TreeInterface
 {
     /**
      * Идентификатор корневой записи
@@ -25,11 +24,20 @@ abstract class TActiveRecord extends ActiveRecord
     const ROOT_ID = 1;
 
     /**
+     * @return int
+     */
+    public function getRootId()
+    {
+        return self::ROOT_ID;
+    }
+
+    /**
      * @var int идентификатор родительской модели
      * 1 - for NestedSet
      * 0 - for adjacencyList
      */
     public $parent_id = self::ROOT_ID;
+
 
     /**
      * @inheritdoc

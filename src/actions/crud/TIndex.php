@@ -1,60 +1,62 @@
 <?php
+
 namespace lo\core\actions\crud;
 
-use lo\core\db\tree\TActiveRecord;
+use lo\core\db\ActiveRecord;
+use lo\core\db\tree\TreeInterface;
 use Yii;
-use yii\web\ForbiddenHttpException;
+use yii\data\ActiveDataProvider;
 
 /**
- * Class TAdmin
+ * Class TIndex
  * Класс действия для вывода списка древовидных моделей для администрирования
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TIndex extends Index
 {
-    public $orderBy = ['lft'=>SORT_ASC];
-	
-	/**
+    /**
+     * @var array
+     */
+    public $orderBy = ['id' => SORT_DESC];
+
+    /**
      * @var string имя параметра передаваемого расширенным фильтром
      */
     public $extFilterParam = "extendedFilter";
 
-    public function run($parent_id = TActiveRecord::ROOT_ID)
+    public function run($parent_id = 0)
     {
-
+        /** @var ActiveRecord $class */
         $class = $this->modelClass;
-
+        /** @var TreeInterface|ActiveRecord $searchModel */
         $searchModel = new $class;
-
-        /*        if (!Yii::$app->user->can('listModels', array("model" => $searchModel)))
-                    throw new ForbiddenHttpException('Forbidden');*/
+        if (!$parent_id) $parent_id = $searchModel->getRootId();
 
         $searchModel->setScenario($this->modelScenario);
-
         $requestParams = Yii::$app->request->getQueryParams();
 
-        // Если поиск по расширенному фильтру, выводим одним списком
+        $parentModel = $class::findOne($parent_id);
 
-        if (isset($requestParams[$this->extFilterParam])) {
-            $parentModel = $class::findOne(TActiveRecord::ROOT_ID);
+        if ($parentModel) {
             $query = $parentModel->getDescendants();
         } else {
-            $parentModel = $class::findOne($parent_id);
-            $query = $parentModel->getDescendants(1);
+            $query = $searchModel::find();
         }
 
+        /** @var ActiveDataProvider $dataProvider */
         $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig, $query);
-
         $perm = $searchModel->getPermission();
 
-        if ($perm)
+        if ($perm){
             $perm->applyConstraint($dataProvider->query);
+        }
 
         $dataProvider->getPagination()->pageSize = $this->pageSize;
 
-        if ($this->orderBy)
+        if ($this->orderBy){
             $dataProvider->getSort()->defaultOrder = $this->orderBy;
+        }
 
         $params = [
             'dataProvider' => $dataProvider,

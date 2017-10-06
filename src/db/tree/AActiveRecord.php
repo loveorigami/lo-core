@@ -2,7 +2,6 @@
 
 namespace lo\core\db\tree;
 
-use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\db\query\AActiveQuery;
 use paulzi\adjacencyList\AdjacencyListBehavior;
@@ -14,12 +13,21 @@ use Yii;
  * @package lo\core\db
  * @mixin AdjacencyListBehavior
  * @property integer $id
- * @property integer $level
- * @method ActiveQuery getDescendants()
  */
-abstract class AActiveRecord extends ActiveRecord
+abstract class AActiveRecord extends ActiveRecord implements TreeInterface
 {
+    /**
+     * Идентификатор корневой записи
+     */
     const ROOT_ID = 0;
+
+    /**
+     * @return int
+     */
+    public function getRootId()
+    {
+        return self::ROOT_ID;
+    }
 
     /**
      * @inheritdoc
@@ -36,6 +44,7 @@ abstract class AActiveRecord extends ActiveRecord
 
         return $behaviors;
     }
+
 
     /**
      * @inheritdoc
