@@ -50,7 +50,7 @@ class TCreate extends Create
 
         $parentModel = $class::find()->where(["id" => (int)$model->parent_id])->one();
 
-        if ($parentModel AND $parentModel->id != TActiveRecord::ROOT_ID AND !empty($this->extendedAttrs)) {
+        if ($parentModel AND $parentModel->id != $model->getRootId() AND !empty($this->extendedAttrs)) {
             foreach ($this->extendedAttrs AS $attr) {
                 if (empty($model->attr))
                     $model->$attr = $parentModel->$attr;
@@ -61,7 +61,12 @@ class TCreate extends Create
             return $this->performAjaxValidation($model);
         }
 
-        if ($load && $model->validate() && $parentModel && $model->appendTo($parentModel)) {
+        if ($load && $model->validate()) {
+            if ($parentModel) {
+                $model->appendTo($parentModel);
+            } else {
+                $model->makeRoot();
+            }
             $model->save();
             $returnUrl = $this->getReturnUrl();
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\db\tree\TActiveRecord;
@@ -20,7 +21,7 @@ class TUpdate extends Update
     public function run($id)
     {
         /** @var TActiveRecord $class */
-		$class = $this->modelClass;
+        $class = $this->modelClass;
 
         $pk = PkHelper::decode($id);
         /** @var TActiveRecord $model */
@@ -37,7 +38,9 @@ class TUpdate extends Update
 
         $parentModel = $model->getParents(1)->one();
 
-        $model->parent_id = $parentModel->id;
+        if ($parentModel) {
+            $model->parent_id = $parentModel->id;
+        }
 
         $load = $model->load(Yii::$app->request->post());
 
@@ -45,11 +48,11 @@ class TUpdate extends Update
             return $this->performAjaxValidation($model);
         }
 
-		if ($parentModel->id != (int) $model->parent_id) {
-			$parentModel = $class::find()->where(["id" => (int) $model->parent_id])->one();
-		} else {
-			$parentModel = null;
-		}
+        if ($parentModel && $parentModel->id != (int)$model->parent_id) {
+            $parentModel = $class::find()->where(["id" => (int)$model->parent_id])->one();
+        } else {
+            $parentModel = null;
+        }
 
         if ($load && $parentModel)
             $res = $model->prependTo($parentModel)->save();

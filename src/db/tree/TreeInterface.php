@@ -5,7 +5,7 @@ namespace lo\core\db\tree;
 /**
  * Interface TreeInterface
  * @package lo\core\db\tree
- * @method getDescendants($depth)
+ * @method \lo\core\db\ActiveRecord::getDescendants($depth = 0)
  */
 interface TreeInterface
 {

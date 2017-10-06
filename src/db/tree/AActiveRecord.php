@@ -13,6 +13,8 @@ use Yii;
  * @package lo\core\db
  * @mixin AdjacencyListBehavior
  * @property integer $id
+ * @property integer $parent_id
+ * @property integer $level
  */
 abstract class AActiveRecord extends ActiveRecord implements TreeInterface
 {
@@ -58,6 +60,23 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
     }
 
     /**
+     * @inheritdoc
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->parent_id > 0 && $this->isNewRecord) {
+                $parentNodeLevel = static::find()->select('level')->where(['id' => $this->parent_id])->scalar();
+                $this->level += $parentNodeLevel;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+*/
+
+    /**
      * Возвращает массив для заполнения списка выбора родителя модели
      * @param int $parent_id
      * @param array $exclude массив id моделей ветки которых необходимо исключить из списка
@@ -77,13 +96,13 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
         /**
          * @var AActiveRecord $model
          */
-        $model = $query->andWhere(["id" => $parent_id])->one();
+        $rootModels = $query->roots()->all();
 
-        if (!$model) {
+        if (!$rootModels) {
             return $arr;
         }
 
-        $models = $model->getDescendants()->published()->all();
+        $models = $rootModels[1]->getDescendants()->published()->all();
 
         $descendants = [];
 
