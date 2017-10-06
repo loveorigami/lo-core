@@ -1,7 +1,9 @@
 <?php
 
-namespace lo\core\db;
+namespace lo\core\db\tree;
 
+use lo\core\db\ActiveQuery;
+use lo\core\db\ActiveRecord;
 use lo\core\db\query\AActiveQuery;
 use paulzi\adjacencyList\AdjacencyListBehavior;
 use Yii;
