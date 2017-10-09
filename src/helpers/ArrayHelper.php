@@ -112,7 +112,7 @@ class ArrayHelper extends YiiArrayHelper
      * Return the first element in an array passing a given truth test.
      *
      * @param  array $array
-     * @param  Closure $callback
+     * @param  \Closure $callback
      * @param  mixed $default
      *
      * @return mixed

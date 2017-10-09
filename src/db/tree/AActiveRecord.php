@@ -15,6 +15,7 @@ use Yii;
  * @property integer $id
  * @property integer $parent_id
  * @property integer $level
+ * @property AActiveRecord [] $descendantsOrdered
  */
 abstract class AActiveRecord extends ActiveRecord implements TreeInterface
 {
@@ -32,6 +33,11 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
     }
 
     /**
+     * @var array
+     */
+    public $children;
+
+    /**
      * @inheritdoc
      */
     public function behaviors()
@@ -41,7 +47,10 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
         $behaviors["adjacencyList"] = [
             'class' => AdjacencyListBehavior::class,
             'parentAttribute' => 'parent_id',
-            'sortable' => false,
+            'sortable' => [
+                'sortAttribute' => 'pos',
+                'step' => 10
+            ],
         ];
 
         return $behaviors;
@@ -61,20 +70,21 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
 
     /**
      * @inheritdoc
-
+     */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            if ($this->parent_id > 0 && $this->isNewRecord) {
+            if ($this->parent_id > 0) {
                 $parentNodeLevel = static::find()->select('level')->where(['id' => $this->parent_id])->scalar();
-                $this->level += $parentNodeLevel;
+                $this->level = $parentNodeLevel + 1;
+            } else {
+                $this->level = 1;
             }
             return true;
         } else {
             return false;
         }
     }
-*/
 
     /**
      * Возвращает массив для заполнения списка выбора родителя модели
@@ -85,7 +95,7 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
      */
     public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "name")
     {
-        $arr = [self::ROOT_ID => Yii::t('common', 'Root')];
+        $arr = [];
 
         $query = static::find();
 
@@ -94,15 +104,13 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
         }
 
         /**
-         * @var AActiveRecord $model
+         * @var AActiveRecord [] $models
          */
-        $rootModels = $query->roots()->all();
+        $models = $query->roots()->with('children')->all();
 
-        if (!$rootModels) {
-            return $arr;
+        if (!empty($models)) {
+            $models = $this->buildRecursive($models);
         }
-
-        $models = $rootModels[1]->getDescendants()->published()->all();
 
         $descendants = [];
 
@@ -112,7 +120,7 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
         }
 
         if (!empty($exclude)) {
-            /** @var AActiveRecord $exModels */
+            /** @var TActiveRecord $exModels */
             $exModels = static::find()->where(["id" => $exclude])->all();
 
             foreach ($exModels AS $exModel) {
@@ -123,14 +131,12 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
         }
 
         $i = 0;
-
         foreach ($models AS $m) {
-            /** @var AActiveRecord $m */
+            /** @var TActiveRecord $m */
             if ($this->inArray($descendants, $m)) {
                 $i++;
                 continue;
             }
-
             $separator = '';
             $separator .= str_repeat("&ensp;", $m->level);
             $separator .= ($m->level != 0) ? (
@@ -160,112 +166,24 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
     }
 
     /**
-     * Возвращает массив для заполнения списка выбора
-     * @param int $parent_id идентификатор родителя
-     * @param string $attr имя отображаемого атрибута
-     * @return array
-     */
-    public function getDataByParent($parent_id = self::ROOT_ID, $attr = "name")
-    {
-        $arr = [];
-        $query = static::find();
-
-        /** @var AActiveRecord $model */
-        $model = $query->andWhere(["id" => $parent_id])->one();
-
-        if (!$model)
-            return $arr;
-
-        $models = $model->getDescendants()->published()->all();
-
-        foreach ($models AS $m) {
-            /** @var AActiveRecord $m */
-            $arr[$m->id] = str_repeat("&nbsp", $m->level) . $m->$attr;
-        }
-
-        return $arr;
-    }
-
-    /**
-     * Возвращает массив для хлебных крошек
-     * @param int|AActiveRecord $modelArg модель или ее идентификатор
-     * @param callable $route функция возвращающая маршрут/url. Принимает в себя параметром экземпляр модели
-     * @param string $attr имя атрибута для label
-     * @return array
-     */
-    public function getBreadCrumbsItems($modelArg, $route, $attr = "name")
-    {
-
-        if (is_object($modelArg)) {
-            $model = $modelArg;
-        } else {
-            $model = static::find()->where(["id" => $modelArg])->one();
-        }
-
-        $models = $model->getParents()->all();
-        $models[] = $model;
-
-        $arr = [];
-
-        foreach ($models AS $model) {
-
-            if (empty($model->$attr))
-                continue;
-
-            $arr[] = [
-                "url" => call_user_func($route, $model),
-                "label" => $model->$attr,
-            ];
-        }
-
-        return $arr;
-    }
-
-    /**
-     * Возвращает массив идентификаторов дочерних элементов и текущего элемента
-     * @return array
-     */
-    public function getFilterIds(): array
-    {
-        $arr[] = $this->id;
-        $models = $this->getDescendants()->published()->all();
-        foreach ($models As $model) {
-            /** @var AActiveRecord $model */
-            $arr[] = $model->id;
-        }
-        return $arr;
-    }
-
-    /**
-     * @param AdjacencyListBehavior $node
-     * @param $depth
-     * @param $status
-     * @return array
-     */
-    public function getTreeByStatus($node, $depth, $status): array
-    {
-        $node->populateTree($depth);
-        return $this->treeListData($node, $depth, $status);
-    }
-
-    /**
-     * @param $node
-     * @param $depth
-     * @param $status
+     * @param AActiveRecord [] $items
      * @param int $level
+     * @param int $foolproof
      * @return array
      */
-    protected function treeListData($node, $depth, $status, $level = 0): array
+    protected function buildRecursive($items, $level = 1, $foolproof = 20)
     {
-        $result = [];
-        foreach ($node->children as $child) {
-            if ($child->status == $status) {
-                $result[$child->id] = $child;
-                if ($level + 1 < $depth) {
-                    $result = $result + $this->treeListData($child, $depth, $status, $level + 1);
-                }
+        $data = [];
+        foreach ($items as $item) {
+            $data[] = $item;
+            if ($item->level != $level) {
+                $item->level = $level;
+                $item->save(false);
             }
+            $childs = $item->descendantsOrdered;
+            if ($foolproof && $childs)
+                $data = array_merge($data, $this->buildRecursive($childs, $level + 1, $foolproof - 1));
         }
-        return $result;
+        return $data;
     }
 }

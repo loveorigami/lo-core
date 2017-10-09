@@ -15,6 +15,7 @@ use Yii;
  * @mixin NestedSetsBehavior
  * @property integer $id
  * @property integer $level
+ * @method ActiveQuery published()
  */
 abstract class TActiveRecord extends ActiveRecord implements TreeInterface
 {
