@@ -52,7 +52,7 @@ class Grid extends Widget
     /** @var bool вывод древовидных моделей */
     public $tree = false;
 
-    /** @var bool вывод древовидных моделей */
+    /** @var array action column */
     public $actions;
 
     /** @var string шаблон */
@@ -161,10 +161,7 @@ class Grid extends Widget
     public function defaultRowButtons()
     {
 
-        $arr = [
-            'class' => 'yii\grid\ActionColumn',
-            'headerOptions' => ['style' => 'min-width: 85px;']
-        ];
+        $arr['class'] = 'yii\grid\ActionColumn';
 
         $buttonsDefault = ['update', 'delete'];
         $buttonsTree = ['up', 'down', 'enter'];
@@ -188,7 +185,8 @@ class Grid extends Widget
             /** function ($action, $model, $key, $index) */
             return Url::to([$action, 'id' => PkHelper::encode($model)]);
         };
-
+        $width = count($preset['buttons']) < 3 ? 85 : 100;
+        $arr['headerOptions'] = ['style' => 'min-width: ' . $width . 'px;'];
         return $arr;
     }
 
@@ -299,24 +297,24 @@ class Grid extends Widget
                 ],
                 "route" => $this->baseRoute . "/groupdelete",
             ],
-/*            "activate" => [
-                "class" => ActionButton::class,
-                "label" => Yii::t('core', 'Group active'),
-                "options" => [
-                    'id' => 'group-activate',
-                    'class' => 'btn btn-primary',
-                ],
-                "route" => $this->baseRoute . "/groupactivate",
-            ],
-            "deactivate" => [
-                "class" => ActionButton::class,
-                "label" => Yii::t('core', 'Group hide'),
-                "options" => [
-                    'id' => 'group-deactivate',
-                    'class' => 'btn btn-primary',
-                ],
-                "route" => $this->baseRoute . "/groupdeactivate",
-            ],*/
+            /*            "activate" => [
+                            "class" => ActionButton::class,
+                            "label" => Yii::t('core', 'Group active'),
+                            "options" => [
+                                'id' => 'group-activate',
+                                'class' => 'btn btn-primary',
+                            ],
+                            "route" => $this->baseRoute . "/groupactivate",
+                        ],
+                        "deactivate" => [
+                            "class" => ActionButton::class,
+                            "label" => Yii::t('core', 'Group hide'),
+                            "options" => [
+                                'id' => 'group-deactivate',
+                                'class' => 'btn btn-primary',
+                            ],
+                            "route" => $this->baseRoute . "/groupdeactivate",
+                        ],*/
         ];
 
         if ($this->tree AND !Yii::$app->request->get($this->extFilterParam)) {

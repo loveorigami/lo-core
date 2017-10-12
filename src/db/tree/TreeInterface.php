@@ -2,15 +2,39 @@
 
 namespace lo\core\db\tree;
 
+use lo\core\db\ActiveQuery;
+
 /**
  * Interface TreeInterface
  * @package lo\core\db\tree
- * @method \lo\core\db\ActiveRecord::getDescendants($depth = 0)
  */
 interface TreeInterface
 {
     /**
-     * @return int
+     * @return integer
      */
-    public function getRootId();
+    public function getId(): int;
+
+    /**
+     * Id родительской категории
+     * 1 - NestedSets
+     * 0 - AdjacencyList
+     * @return integer
+     */
+    public function getRootId(): int;
+
+    /**
+     * @return integer
+     */
+    public function getLevel(): int;
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getParents();
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDescendants();
 }

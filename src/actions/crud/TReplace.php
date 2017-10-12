@@ -1,7 +1,9 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
+use lo\core\db\tree\AActiveRecord;
 use lo\core\db\tree\TActiveRecord;
 use Yii;
 use yii\helpers\Html;
@@ -16,7 +18,6 @@ use yii\web\ForbiddenHttpException;
  */
 class TReplace extends Base
 {
-
     /**
      * @var string имя параметра в запросе в котором передаются идентификаторы материалов при групповых операциях
      */
@@ -32,60 +33,57 @@ class TReplace extends Base
      */
     public function run()
     {
-
+        /** @var TActiveRecord|AActiveRecord $class */
         $class = $this->modelClass;
+        $parentModel = null;
 
         if (Yii::$app->request->isGet) {
-
             $ids = Yii::$app->request->get($this->groupIdsAttr, array());
-
             $model = Yii::createObject($class);
-
             $arr = $model->getListTreeData(TActiveRecord::ROOT_ID, $ids);
-
             foreach ($arr as $k => $v)
                 echo Html::tag('option', $v, ["value" => $k]);
-
             Yii::$app->end();
-
         }
 
         if (Yii::$app->request->isPost) {
-
             $parent_id = Yii::$app->request->post($this->parentIdAttr);
 
-            $parentModel = $this->findModel($parent_id);
+            if ($parent_id > 0) {
+                /** @var TActiveRecord $parentModel */
+                $parentModel = $this->findModel($parent_id);
 
-            if (!$parentModel)
-                throw new BadRequestHttpException("Bad request");
+                if (!$parentModel)
+                    throw new BadRequestHttpException("Bad request");
+            }
 
             $ids = Yii::$app->request->post($this->groupIdsAttr, array());
 
             if (!empty($ids)) {
-
                 foreach ($ids AS $id) {
-
                     $model = $class::findOne($id);
 
-                    if(!$model)
+                    if (!$model)
                         continue;
 
                     if (!Yii::$app->user->can($this->access(), array("model" => $model)))
                         throw new ForbiddenHttpException('Forbidden');
 
-                    $model->prependTo($parentModel)->save();
-
-                    $parentModel->refresh();
-
+                    if ($parent_id > 0) {
+                        $model->prependTo($parentModel)->save();
+                        $parentModel->refresh();
+                    } else {
+                        $model->parent_id = $parent_id;
+                        $model->save();
+                    }
                 }
-
             }
-
         }
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax) {
             return $this->goBack();
+        }
 
+        return null;
     }
-
 }

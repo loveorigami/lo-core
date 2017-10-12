@@ -11,14 +11,17 @@ use Yii;
  * Class AActiveRecord
  * Надстройка над ActiveRecord для реализации древовидных структур.
  * @package lo\core\db
- * @mixin AdjacencyListBehavior
  * @property integer $id
  * @property integer $parent_id
  * @property integer $level
  * @property AActiveRecord [] $descendantsOrdered
+ *
+ * @mixin AdjacencyListBehavior
  */
-abstract class AActiveRecord extends ActiveRecord implements TreeInterface
+abstract class AActiveRecord extends ActiveRecord
 {
+    use ArTreeTrait;
+
     /**
      * Идентификатор корневой записи
      */
@@ -31,11 +34,6 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
     {
         return self::ROOT_ID;
     }
-
-    /**
-     * @var array
-     */
-    public $children;
 
     /**
      * @inheritdoc
@@ -95,94 +93,42 @@ abstract class AActiveRecord extends ActiveRecord implements TreeInterface
      */
     public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "name")
     {
-        $arr = [];
-
         $query = static::find();
 
         if ($perm = $this->getPermission()) {
             $perm->applyConstraint($query);
         }
 
-        /**
-         * @var AActiveRecord [] $models
-         */
+        /** @var TreeInterface [] $models */
         $models = $query->roots()->with('children')->all();
 
         if (!empty($models)) {
             $models = $this->buildRecursive($models);
         }
 
-        $descendants = [];
-
-        if (!$this->isNewRecord) {
-            $descendants = $this->getDescendants()->all();
-            $descendants[] = $this;
-        }
-
-        if (!empty($exclude)) {
-            /** @var TActiveRecord $exModels */
-            $exModels = static::find()->where(["id" => $exclude])->all();
-
-            foreach ($exModels AS $exModel) {
-                $descendants[] = $exModel;
-                $exDescendants = $exModel->getDescendants()->all();
-                $descendants = array_merge($descendants, $exDescendants);
-            }
-        }
-
-        $i = 0;
-        foreach ($models AS $m) {
-            /** @var TActiveRecord $m */
-            if ($this->inArray($descendants, $m)) {
-                $i++;
-                continue;
-            }
-            $separator = '';
-            $separator .= str_repeat("&ensp;", $m->level);
-            $separator .= ($m->level != 0) ? (
-                (isset($models[$i + 1])) && ($m->level == $models[$i + 1]->level)
-            ) ? '┣ ' : '┗ ' : '';
-
-            $arr[$m->id] = $separator . $m->$attr;
-            $i++;
-        }
-
-        return $arr;
+        $arr = [null => Yii::t('common', 'Root') . ' ' . $parent_id];
+        return $this->getList($models, $exclude, $attr, $arr);
     }
 
     /**
-     * Содердится ли в массиве $models модель $model
-     * @param ActiveRecord[] $models
-     * @param ActiveRecord $model
-     * @return bool
-     */
-    public function inArray($models, $model)
-    {
-        foreach ($models AS $m) {
-            if ($m->id == $model->id)
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param AActiveRecord [] $items
+     * @param [] $items
      * @param int $level
-     * @param int $foolproof
      * @return array
      */
-    protected function buildRecursive($items, $level = 1, $foolproof = 20)
+    protected function buildRecursive($items, $level = 1)
     {
         $data = [];
-        foreach ($items as $item) {
-            $data[] = $item;
-            if ($item->level != $level) {
-                $item->level = $level;
-                $item->save(false);
+        /** @var AActiveRecord $node */
+        foreach ($items as $node) {
+            $data[] = $node;
+            if ($node->level != $level) {
+                $node->level = $level;
+                $node->save(false);
             }
-            $childs = $item->descendantsOrdered;
-            if ($foolproof && $childs)
-                $data = array_merge($data, $this->buildRecursive($childs, $level + 1, $foolproof - 1));
+
+            if ($node->descendantsOrdered) {
+                $data = array_merge($data, $this->buildRecursive($node->descendantsOrdered, $level + 1));
+            }
         }
         return $data;
     }

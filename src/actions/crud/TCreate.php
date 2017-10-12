@@ -2,6 +2,7 @@
 
 namespace lo\core\actions\crud;
 
+use lo\core\db\ActiveRecord;
 use lo\core\db\tree\TActiveRecord;
 use Yii;
 use yii\web\BadRequestHttpException;
@@ -48,6 +49,7 @@ class TCreate extends Create
 
         $load = $model->load($request->post());
 
+        /** @var ActiveRecord $parentModel */
         $parentModel = $class::find()->where(["id" => (int)$model->parent_id])->one();
 
         if ($parentModel AND $parentModel->id != $model->getRootId() AND !empty($this->extendedAttrs)) {
