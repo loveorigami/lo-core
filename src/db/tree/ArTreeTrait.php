@@ -153,4 +153,31 @@ trait ArTreeTrait
 
         return $arr;
     }
+
+    /**
+     * Возвращает массив для заполнения списка выбора
+     * @param int $parent_id идентификатор родителя
+     * @param string $attr имя отображаемого атрибута
+     * @return array
+     */
+    public function getDataByParent($parent_id = self::ROOT_ID, $attr = "name")
+    {
+        $arr = [];
+        $query = static::find();
+
+        /** @var TreeInterface $model */
+        $model = $query->andWhere(["id" => $parent_id])->one();
+
+        if (!$model)
+            return $arr;
+
+        $models = $model->getDescendants()->published()->all();
+
+        foreach ($models AS $m) {
+            /** @var TreeInterface $m */
+            $arr[$m->getId()] = str_repeat("&nbsp", $m->getLevel()) . $m->$attr;
+        }
+
+        return $arr;
+    }
 }
