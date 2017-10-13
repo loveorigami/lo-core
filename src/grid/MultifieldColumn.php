@@ -57,9 +57,11 @@ class MultifieldColumn extends DataColumn
                 foreach ($column->attributes as $attribute) {
                     $attributeValues[] = $model->{$attribute};
                 }
-                return $model->{$column->attribute} . '<br>' . Html::tag('span', implode('<br>', $attributeValues), ['class' => 'label label-default']);
+                return $model->{$column->attribute} . '<p>' . Html::tag('span', implode('<br>', $attributeValues), ['class' => 'label label-default']) . '</p>';
             };
         }
+        /** fix for url encoded value */
+        $this->template = str_replace(['%7B', '%7D'], ['{', '}'], $this->template);
     }
 
     /**
