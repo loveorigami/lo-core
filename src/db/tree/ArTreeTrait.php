@@ -14,6 +14,7 @@ use lo\core\db\ActiveRecord;
 /**
  * Trait ArTreeTrait
  * @package lo\core\db\tree
+ * @property ActiveRecord [] children
  * @method ActiveQuery find()
  */
 trait ArTreeTrait
@@ -179,5 +180,13 @@ trait ArTreeTrait
         }
 
         return $arr;
+    }
+
+    /**
+     * @param $depth
+     * @return string
+     */
+    public function getChildrenRelation($depth){
+        return ($depth > 1) ? $childs = 'children' . str_repeat('.children', $depth - 1) : '';
     }
 }

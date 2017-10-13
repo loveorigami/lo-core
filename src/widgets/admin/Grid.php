@@ -240,7 +240,7 @@ class Grid extends Widget
 
             'enter' => function ($url, $model) {
                 /** @var TActiveRecord $model */
-                $childs = count($model->getChildren()->all());
+                $childs = count($model->children);
                 if ($childs) {
                     $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => PkHelper::encode($model)]);
                     return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);

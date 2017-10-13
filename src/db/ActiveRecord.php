@@ -19,6 +19,8 @@ use yii\behaviors\TimestampBehavior;
  * @property $id;
  * @property $name;
  * @property $status;
+ * @property $created_at;
+ * @property $updated_at;
  *
  * @method ActiveQuery hasMany($class, array $link) see [[BaseActiveRecord::hasMany()]] for more info
  * @method ActiveQuery hasOne($class, array $link) see [[BaseActiveRecord::hasOne()]] for more info

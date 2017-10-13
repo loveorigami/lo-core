@@ -99,8 +99,10 @@ abstract class AActiveRecord extends ActiveRecord
             $perm->applyConstraint($query);
         }
 
+        $children = $this->getChildrenRelation(3);
+
         /** @var TreeInterface [] $models */
-        $models = $query->roots()->with('children')->all();
+        $models = $query->roots()->with($children)->all();
 
         if (!empty($models)) {
             $models = $this->buildRecursive($models);
@@ -126,8 +128,8 @@ abstract class AActiveRecord extends ActiveRecord
                 $node->save(false);
             }
 
-            if ($node->descendantsOrdered) {
-                $data = array_merge($data, $this->buildRecursive($node->descendantsOrdered, $level + 1));
+            if ($node->children) {
+                $data = array_merge($data, $this->buildRecursive($node->children, $level + 1));
             }
         }
         return $data;
