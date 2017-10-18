@@ -64,6 +64,15 @@ abstract class ActiveRecord extends YiiRecord
      * Возвращает имя сущности
      * @return string
      */
+    public static function getEntity()
+    {
+        return hash('crc32', get_called_class());
+    }
+
+    /**
+     * Возвращает имя сущности
+     * @return string
+     */
     public static function getEntityName()
     {
         return get_called_class();
