@@ -43,7 +43,6 @@ class ListDepDrop extends Base
             $subcat_id = empty($ids[1]) ? null : $ids[1];
 
             if ($cat_id != null) {
-
                 $data = ['out' => [], 'selected' => $subcat_id];
                 /** @var ActiveQuery $query */
                 $query = $obj::find();
@@ -51,10 +50,11 @@ class ListDepDrop extends Base
                     call_user_func($this->condition, $query, $cat_id);
                 };
                 if ($this->idCatAttr) {
-                    $query->where([$this->idCatAttr => $cat_id])->orderBy([
+                    $query->andWhere([$this->idCatAttr => $cat_id])->orderBy([
                         $this->idCatAttr => SORT_ASC
                     ]);
                 }
+
                 $array = $query->all();
 
                 foreach ($array as $element) {
