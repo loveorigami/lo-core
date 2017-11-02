@@ -1,7 +1,4 @@
 <?php
-/**
- * Eugine Terentev <eugine@terentev.net>
- */
 
 namespace lo\core\modules\core\controllers;
 
@@ -9,13 +6,13 @@ use Yii;
 use yii\caching\Cache;
 use yii\caching\TagDependency;
 use yii\data\ArrayDataProvider;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\HttpException;
 
 /**
  * Class CacheController
- * @package backend\controllers
+ * @package lo\core\modules\core\controllers
+ * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
 class CacheController extends Controller
 {
@@ -70,7 +67,7 @@ class CacheController extends Controller
 
     /**
      * @param $id
-     * @return \yii\caching\Cache|null
+     * @return \yii\caching\Cache|null|object
      * @throws HttpException
      * @throws \yii\base\InvalidConfigException
      */

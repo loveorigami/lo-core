@@ -1,16 +1,16 @@
 <?php
 /**
- * Eugine Terentev <eugine@terentev.net>
  * @var \yii\data\ArrayDataProvider $dataProvider
  */
+
 use yii\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = Yii::t('backend', 'Cache');
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="article-index">
 
+?>
+<div class="cache-index">
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template'=>'{flush-cache}',
                 'buttons'=>[
-                    'flush-cache'=>function ($url, $model) {
+                    'flush-cache'=>function ($url) {
                         return \yii\helpers\Html::a('<i class="fa fa-refresh"></i>', $url, [
                             'title' => Yii::t('backend', 'Flush'),
                             'data-confirm' => Yii::t('backend', 'Are you sure you want to flush this cache?')
@@ -62,8 +62,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php \yii\bootstrap\ActiveForm::end() ?>
         </div>
     </div>
-
-
-
-
 </div>
