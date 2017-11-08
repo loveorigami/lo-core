@@ -17,11 +17,13 @@ use yii\widgets\Pjax;
 <?php Pjax::begin(["id" => $pjaxId]); ?>
 <?= Html::beginForm(); ?>
 <?php
+
 echo GridView::widget([
     "id" => $id,
     'options' => ['class' => 'table-responsive'],
     'dataProvider' => $dataProvider,
     'filterModel' => $model,
+    'filterSelector' => "select[name='" . $dataProvider->getPagination()->pageSizeParam . "'],input[name='" . $dataProvider->getPagination()->pageParam . "']",
     'columns' => $columns,
 ]);
 ?>
@@ -38,11 +40,8 @@ foreach ($groupButtons AS $button): ?>
 
 <?php if ($btnHtml): ?>
     <div class="form-group form-inline">
-
         <div><?= Yii::t('core', 'Actions with selected') ?>:</div>
-
         <?= $btnHtml ?>
-
     </div>
 <?php endif; ?>
 

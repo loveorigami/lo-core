@@ -23,6 +23,11 @@ class DateRangeFlatInput extends BaseInput
         'options' => [
             'class' => 'form-control',
         ],
+        'clientOptions' => [
+            'altInput' => true,
+            'altFormat' => 'd/m/Y',
+            'disableMobile' => true,
+        ],
         // https://chmln.github.io/flatpickr/plugins/#rangeplugin-beta
         'plugins' => [
             'rangePlugin' => [

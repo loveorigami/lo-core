@@ -2,6 +2,7 @@
 
 namespace lo\core\actions\crud;
 
+use lo\core\db\ActiveQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
 use lo\core\db\ActiveRecord;
@@ -48,7 +49,7 @@ class Index extends Base
         $searchModel->setScenario($this->modelScenario);
         $params = Yii::$app->request->getQueryParams();
 
-        if (!empty($this->defaultSearchAttrs)){
+        if (!empty($this->defaultSearchAttrs)) {
             $params = ArrayHelper::merge(
                 [$searchModel->formName() => $this->defaultSearchAttrs],
                 $params
@@ -59,24 +60,28 @@ class Index extends Base
 
         $perm = $searchModel->getPermission();
 
-        if ($perm){
-            $perm->applyConstraint($dataProvider->query);
+        if ($perm) {
+            /** @var ActiveQuery $query */
+            $query = $dataProvider->query;
+            $perm->applyConstraint($query);
         }
 
-        $dataProvider->getPagination()->pageSize = $this->pageSize;
+        $pageSize = isset($params['per-page']) ? intval($params['per-page']) : $this->pageSize;
+        $dataProvider->getPagination()->pageSize = $pageSize;
 
-        if ($this->orderBy)
+        if ($this->orderBy) {
             $dataProvider->getSort()->defaultOrder = $this->orderBy;
+        }
 
         $params = [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
         ];
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax) {
             return $this->render($this->tpl, $params);
-
-        else
+        } else {
             return $this->renderPartial($this->tpl, $params);
+        }
     }
 }
