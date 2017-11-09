@@ -74,7 +74,7 @@
         "modules/core/config/main.php",
         "modules/i18n/config/main.php",
         "modules/permission/config/main.php",
-        "modules/settings/config/main.php",
+        "modules/settings/config/main.php"
       ]
     }
   },
