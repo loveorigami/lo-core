@@ -71,10 +71,10 @@
   "extra": {
     "config-plugin": {
       "admin": [
-        "modules/core/config/main.php",
-        "modules/i18n/config/main.php",
-        "modules/permission/config/main.php",
-        "modules/settings/config/main.php"
+        "src/modules/core/config/main.php",
+        "src/modules/i18n/config/main.php",
+        "src/modules/permission/config/main.php",
+        "src/modules/settings/config/main.php"
       ]
     }
   },
