@@ -7,8 +7,6 @@ use yii\i18n\MissingTranslationEvent;
 
 class Module extends \yii\base\Module
 {
-    public $menuItems;
-
     public function init()
     {
         parent::init();
