@@ -14,7 +14,7 @@ class SypexDumper extends Widget
             // ссылка до sypex dumper
             $sxdUrl = Yii::getAlias('@sxdUrl');
             // выводим iframe
-            echo "<iframe src=\"$sxdUrl\" style=\"height: 468px; width: 586px; border: 0\"></iframe>";
+            echo "<iframe src='$sxdUrl/' style=\"height: 468px; width: 586px; border: 0\"></iframe>";
         } catch (PDOException $error) {
             echo 'Error connect to MySQL: '.$error->getMessage();
         }
