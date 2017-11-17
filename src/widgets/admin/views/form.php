@@ -32,7 +32,7 @@ $this->registerJs("
         <?php $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
         <?= Html::hiddenInput('returnUrl', $returnUrl) ?>
 
-        <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success form-save']) ?>
         <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
         <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
 
