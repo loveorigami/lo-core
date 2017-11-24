@@ -1,5 +1,7 @@
 <?php
 
+namespace lo\core\modules\core\migrations;
+
 use lo\core\db\Migration;
 
 class m140616_185756_create_templates_table extends Migration
