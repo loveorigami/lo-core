@@ -6,17 +6,14 @@
  */
 
 use yii\base\InvalidParamException;
+use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 
 $this->title = Yii::t('backend', 'Application timeline');
-
-$icons = [
-    'user' => '<i class="fa fa-user bg-blue"></i>'
-];
 ?>
 <?php Pjax::begin() ?>
-    <div class="row">
+    <div class="row" style="background-color: #ecf0f5">
         <div class="col-md-12">
             <?php if ($dataProvider->count > 0): ?>
                 <ul class="timeline">
@@ -34,24 +31,35 @@ $icons = [
                             <?php
                             try {
                                 $viewFile = sprintf('%s/%s', $model->category, $model->event);
-                                echo $this->render($viewFile, ['model' => $model]);
+                                $view = $this->render($viewFile, ['model' => $model]);
                             } catch (InvalidParamException $e) {
-                                echo $this->render('_item', ['model' => $model]);
+                                $view = $this->render('_item', ['model' => $model]);
                             }
+
+                            $btnDel = Html::a(
+                                Yii::t('backend', 'Delete'),
+                                ['delete', 'id' => $model->id],
+                                [
+                                    'class' => 'btn btn-danger btn-xs',
+                                    'data-method' => 'post'
+                                ]
+                            );
+
+                            echo str_replace('{delete}', $btnDel, $view);
+
                             ?>
                         </li>
                     <?php endforeach; ?>
-                    <li> <i class="fa fa-clock-o"></i></li>
+                    <li><i class="fa fa-clock-o"></i></li>
                 </ul>
             <?php else: ?>
                 <?php echo Yii::t('backend', 'No events found') ?>
             <?php endif; ?>
         </div>
-        <div class="col-md-12 text-center">
-            <div class="clearfix"></div>
+        <div class="col-md-12 form-inline" style="margin-top:20px">
             <?php echo LinkPager::widget([
                 'pagination' => $dataProvider->pagination,
-                'options' => ['class' => 'pagination']
+                'options' => ['class' => 'pagination no-margin pull-left']
             ]) ?>
         </div>
     </div>

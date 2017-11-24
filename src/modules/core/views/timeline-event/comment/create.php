@@ -2,7 +2,10 @@
 /**
  * @var $model \lo\core\modules\core\models\TimelineEvent
  */
+use yii\helpers\Html;
+
 ?>
+<i class="fa fa-comment bg-aqua"></i>
 <div class="timeline-item">
     <span class="time">
         <i class="fa fa-clock-o"></i>
@@ -10,26 +13,32 @@
     </span>
 
     <h3 class="timeline-header">
-        <?php echo Yii::t('backend', 'You have new comment!') ?>
+        <?= Html::a(
+            Yii::t('backend', 'You have new comment!'),
+            ['/comments/item/update', 'id' => $model->data['id']],
+            ['data-pjax' => 0]
+        ) ?>
     </h3>
 
     <div class="timeline-body">
-        <?php echo Yii::t('backend', 'New comment from ({user}) was added at {date}', [
-            'user' => $model->data['name'],
+        <?php echo Yii::t('backend', 'New comment from {user} was added at {date}', [
+            'user' => '<span class="label bg-purple">' . $model->data['name'] . '</span>',
             'date' => Yii::$app->formatter->asDatetime($model->data['date'])
         ]) ?>
-    <hr>
-        <?=$model->data['text']?>
+        <div class="clearfix"></div>
+        <?= $model->data['text'] ?>
     </div>
 
     <div class="timeline-footer">
-        <?php echo \yii\helpers\Html::a(
+        <?= Html::a(
             Yii::t('backend', 'View'),
             ['/comments/item/update', 'id' => $model->data['id']],
             [
-                'class' => 'btn btn-success btn-sm',
+                'class' => 'btn btn-success btn-xs',
                 'data-pjax' => 0
             ]
         ) ?>
+        {delete}
     </div>
 </div>
+

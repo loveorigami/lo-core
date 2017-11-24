@@ -3,6 +3,7 @@
  * @var $model \lo\core\modules\core\models\TimelineEvent
  */
 ?>
+<i class="fa fa-envelope bg-purple"></i>
 <div class="timeline-item">
     <span class="time">
         <i class="fa fa-clock-o"></i>
@@ -31,5 +32,8 @@
             <dt><?php echo Yii::t('backend', 'Date') ?>:</dt>
             <dd><?php echo Yii::$app->formatter->asDatetime($model->created_at) ?></dd>
         </dl>
+    </div>
+    <div class="timeline-footer">
+        {delete}
     </div>
 </div>
