@@ -15,14 +15,14 @@ class SimpleEventDispatcher implements EventDispatcher
         $this->listeners = $listeners;
     }
 
-    public function dispatchAll(array $events): void
+    public function dispatchAll(array $events)
     {
         foreach ($events as $event) {
             $this->dispatch($event);
         }
     }
 
-    public function dispatch($event): void
+    public function dispatch($event)
     {
         $eventName = get_class($event);
         if (array_key_exists($eventName, $this->listeners)) {

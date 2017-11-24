@@ -14,14 +14,14 @@ class AsyncEventDispatcher implements EventDispatcher
         $this->queue = $queue;
     }
 
-    public function dispatchAll(array $events): void
+    public function dispatchAll(array $events)
     {
         foreach ($events as $event) {
             $this->dispatch($event);
         }
     }
 
-    public function dispatch($event): void
+    public function dispatch($event)
     {
         $this->queue->push(new AsyncEventJob($event));
     }
