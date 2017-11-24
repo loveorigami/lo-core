@@ -23,6 +23,11 @@
             <dt><?php echo Yii::t('backend', 'Event') ?>:</dt>
             <dd><?php echo $model->event ?></dd>
 
+            <dt><?php echo Yii::t('backend', 'Data') ?>:</dt>
+            <dd>
+                <pre><?php print_r($model->data) ?></pre>
+            </dd>
+
             <dt><?php echo Yii::t('backend', 'Date') ?>:</dt>
             <dd><?php echo Yii::$app->formatter->asDatetime($model->created_at) ?></dd>
         </dl>
