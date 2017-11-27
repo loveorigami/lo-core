@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model \lo\core\modules\core\models\TimelineEvent
+ * @var $model
  */
 use yii\helpers\Html;
 
