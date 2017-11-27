@@ -5,6 +5,7 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 
+use lo\core\helpers\ViewHelper;
 use yii\base\InvalidParamException;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
@@ -30,7 +31,11 @@ $this->title = Yii::t('backend', 'Application timeline');
                         <li>
                             <?php
                             try {
-                                $viewFile = sprintf('%s/%s', $model->category, $model->event);
+                                if (ViewHelper::exist($model->getData('view'))) {
+                                    $viewFile = $model->getData('view');
+                                } else {
+                                    $viewFile = sprintf('%s/%s', $model->category, $model->event);
+                                }
                                 $view = $this->render($viewFile, ['model' => $model]);
                             } catch (InvalidParamException $e) {
                                 $view = $this->render('_item', ['model' => $model]);

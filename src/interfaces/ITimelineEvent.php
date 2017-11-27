@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\interfaces;
 
 /**
@@ -13,13 +14,13 @@ interface ITimelineEvent
     public function getCategory();
 
     /**
-     * @return array
-     */
-    public function getData();
-
-    /**
      * @return string
      */
     public function getEvent();
+
+    /**
+     * @return array
+     */
+    public function getData();
 
 }

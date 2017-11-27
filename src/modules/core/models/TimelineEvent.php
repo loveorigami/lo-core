@@ -2,6 +2,7 @@
 
 namespace lo\core\modules\core\models;
 
+use lo\core\helpers\ArrayHelper;
 use lo\core\modules\core\models\query\TimelineEventQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -75,5 +76,25 @@ class TimelineEvent extends ActiveRecord
     public function getFullEventName()
     {
         return sprintf('%s.%s', $this->category, $this->event);
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    public function getData($key){
+        /** @var array $data */
+        $data = $this->data;
+        return ArrayHelper::getValue($data, $key);
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function hasData($key){
+        /** @var array $data */
+        $data = $this->data;
+        return isset($data[$key]);
     }
 }

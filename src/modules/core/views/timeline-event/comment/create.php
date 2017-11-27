@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model
+ * @var \lo\core\modules\core\models\TimelineEvent $model
  */
 use yii\helpers\Html;
 
@@ -15,24 +15,24 @@ use yii\helpers\Html;
     <h3 class="timeline-header">
         <?= Html::a(
             Yii::t('backend', 'You have new comment!'),
-            ['/comments/item/update', 'id' => $model->data['id']],
+            ['/comments/item/update', 'id' => $model->getData('id')],
             ['data-pjax' => 0]
         ) ?>
     </h3>
 
     <div class="timeline-body">
         <?php echo Yii::t('backend', 'New comment from {user} was added at {date}', [
-            'user' => '<span class="label bg-purple">' . $model->data['name'] . '</span>',
-            'date' => Yii::$app->formatter->asDatetime($model->data['date'])
+            'user' => '<span class="label bg-purple">' . $model->getData('name') . '</span>',
+            'date' => Yii::$app->formatter->asDatetime($model->getData('date'))
         ]) ?>
         <div class="clearfix"></div>
-        <?= $model->data['text'] ?>
+        <?= $model->getData('text') ?>
     </div>
 
     <div class="timeline-footer">
         <?= Html::a(
             Yii::t('backend', 'View'),
-            ['/comments/item/update', 'id' => $model->data['id']],
+            ['/comments/item/update', 'id' => $model->getData('id')],
             [
                 'class' => 'btn btn-success btn-xs',
                 'data-pjax' => 0

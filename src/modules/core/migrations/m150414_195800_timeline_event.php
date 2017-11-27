@@ -38,7 +38,7 @@ class m150414_195800_timeline_event extends Migration
                 ]), time()],
                 ['frontend', 'user', 'signup', json_encode([
                     'username' => 'user',
-                    'id' => 3, 
+                    'id' => 3,
                     'created_at' => time(),
                     'role' => 'user'
                 ]), time()]

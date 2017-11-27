@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model
+ * @var \lo\core\modules\core\models\TimelineEvent $model
  */
 use yii\helpers\Html;
 
@@ -14,21 +14,21 @@ use yii\helpers\Html;
     <h3 class="timeline-header">
         <?= Html::a(
             Yii::t('backend', 'You have new user!'),
-            ['/user/admin/update', 'id' => $model->data['id']],
+            ['/user/admin/update', 'id' => $model->getData('id')],
             ['data-pjax' => 0]
         ) ?>
     </h3>
     <div class="timeline-body">
         <?php echo Yii::t('backend', 'New user {identity} was registered at {created_at}', [
-            'identity' => '<span class="label bg-purple">' . $model->data['username'] . ': ' . $model->data['role'] . '</span>',
-            'created_at' => Yii::$app->formatter->asDatetime($model->data['created_at'])
+            'identity' => '<span class="label bg-purple">' . $model->getData('username') . ': ' . $model->getData('role') . '</span>',
+            'created_at' => Yii::$app->formatter->asDatetime($model->getData('created_at'))
         ]) ?>
     </div>
 
     <div class="timeline-footer">
         <?= Html::a(
             Yii::t('backend', 'View'),
-            ['/user/admin/update', 'id' => $model->data['id']],
+            ['/user/admin/update', 'id' => $model->getData('id')],
             [
                 'class' => 'btn btn-success btn-xs',
                 'data-pjax' => 0
