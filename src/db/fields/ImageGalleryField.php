@@ -48,7 +48,8 @@ class ImageGalleryField extends ImageField
             ],
             'removeDirectoryOnDelete' => false,
             'createThumbsOnSave' => true,
-            'createThumbsOnRequest' => true
+            'createThumbsOnRequest' => true,
+            'generateNewName' => false
         ], $this->uploadOptions);
 
         return $parent;
