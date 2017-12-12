@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\widgets\admin;
 
 use Yii;
@@ -6,6 +7,7 @@ use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\BootstrapPluginAsset;
 use lo\core\db\MetaFields;
+use yii\helpers\Html;
 
 /**
  * Class Form
@@ -38,6 +40,9 @@ class Form extends Widget
     /** @var string идентификатор виджета */
     protected $id;
 
+    /** @var array идентификатор виджета */
+    public $crudButtons = [];
+
     /** @var array директория с шаблонами */
     protected $_tplDir;
 
@@ -59,10 +64,31 @@ class Form extends Widget
 
         return $this->render($this->tpl, [
                 "model" => $this->model,
+                "crudButtons" => $this->getCrudButtons(),
                 "formOptions" => $formOptions,
                 "id" => $this->id
             ]
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCrudButtons()
+    {
+        return ArrayHelper::merge($this->getDefaultCrudButtons(), $this->crudButtons);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultCrudButtons()
+    {
+        return [
+            'save' => Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success form-save']),
+            'apply' => Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']),
+            'cancel' => Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel'])
+        ];
     }
 
     /**
@@ -74,7 +100,7 @@ class Form extends Widget
             $DS = DIRECTORY_SEPARATOR;
             $ctr = Yii::$app->controller;
             $widgetTpl = [$this->viewPath . $DS . 'tpl' . $DS];
-            $formTpl = [$ctr->module->basePath.$DS.'views'.$DS.$ctr->id.$DS.'tpl'.$DS];
+            $formTpl = [$ctr->module->basePath . $DS . 'views' . $DS . $ctr->id . $DS . 'tpl' . $DS];
             $this->_tplDir = ArrayHelper::merge($formTpl, $widgetTpl);
         }
 
@@ -87,7 +113,7 @@ class Form extends Widget
      */
     public function getTplFile($key = MetaFields::DEFAULT_TAB)
     {
-        foreach($this->getTplDir() as $dir){
+        foreach ($this->getTplDir() as $dir) {
             $file = $dir . $key . '.tpl';
             if (is_file($file)) {
                 return $this->renderFile($file);

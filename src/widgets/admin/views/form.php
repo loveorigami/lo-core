@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
  * @var \yii\web\View $this
  * @var string $id идентификатор виджета
  * @var array $models валидируемые модели
+ * @var array $crudButtons кнопки
  * @var array $formOptions параметры \yii\widgets\ActiveForm
  */
 
@@ -32,10 +33,11 @@ $this->registerJs("
         <?php $returnUrl = Yii::$app->request->get('returnUrl', Yii::$app->request->post('returnUrl', Yii::$app->request->referrer)); ?>
         <?= Html::hiddenInput('returnUrl', $returnUrl) ?>
 
-        <?= Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success form-save']) ?>
-        <?= Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']) ?>
-        <?= Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']) ?>
-
+        <?php foreach ($crudButtons as $btn) {
+            if ($btn) {
+                echo $btn . ' ';
+            }
+        }; ?>
     </div>
 
 <?php echo $form->errorSummary($model); ?>

@@ -148,6 +148,8 @@ abstract class MetaFields extends Object
                     "title" => Yii::t('core', 'Author'),
                     "showInForm" => false,
                     "showInGrid" => false, //Yii::$app->user->can('editor'),
+                    "showInFilter" => false,
+                    "showInExtendedFilter" => false,
                     "data" => [$this, "getAuthorsList"],
                     "gridAttr" => "username",
                     "eagerLoading" => true,
