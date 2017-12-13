@@ -5,7 +5,6 @@ use lo\core\actions\Base;
 use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class TDown
@@ -25,8 +24,7 @@ class TDown extends Base
         /** @var TActiveRecord $model */
         $model = $this->findModel($pk);
 
-        if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden');
+        $this->canAction($model);
 
         $nextModel = $model->getNext()->one();
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -32,9 +33,7 @@ class Delete extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
-                throw new ForbiddenHttpException('Forbidden');
-            }
+            $this->canAction($model);
 
             if ($this->canDelete instanceof \Closure) {
                 $canDelete = call_user_func($this->canDelete, $model);

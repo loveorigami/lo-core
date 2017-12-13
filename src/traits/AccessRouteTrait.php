@@ -1,8 +1,10 @@
 <?php
+
 namespace lo\core\traits;
 
 use Yii;
 use yii\base\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\View;
 
 /**
@@ -62,6 +64,16 @@ trait AccessRouteTrait
         return $this->getPermRoute();
     }
 
+    /**
+     * @param $model
+     * @throws ForbiddenHttpException
+     */
+    public function canAction($model)
+    {
+        if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
+            throw new ForbiddenHttpException('Forbidden model');
+        }
+    }
     /**
      * @param $description
      * @param $rule

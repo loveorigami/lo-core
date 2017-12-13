@@ -31,8 +31,7 @@ class Create extends Base
         /** @var ActiveRecord $model */
         $model = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden');
+        $this->canAction($model);
 
         $this->checkForbiddenAttrs($model);
 
@@ -46,13 +45,12 @@ class Create extends Base
             return $this->performAjaxValidation($model);
         }
 
-        if ($load && !Yii::$app->user->can($this->access(), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden');
+        if ($load){
+            $this->canAction($model);
+        };
 
         if ($load && $model->save()) {
-
             $returnUrl = $this->getReturnUrl();
-
             if (Yii::$app->request->isAjax) {
                 // JSON response is expected in case of successful save
                 Yii::$app->response->format = Response::FORMAT_JSON;

@@ -8,7 +8,6 @@ use lo\core\db\tree\TActiveRecord;
 use Yii;
 use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class TReplace
@@ -66,8 +65,7 @@ class TReplace extends Base
                     if (!$model)
                         continue;
 
-                    if (!Yii::$app->user->can($this->access(), array("model" => $model)))
-                        throw new ForbiddenHttpException('Forbidden');
+                    $this->canAction($model);
 
                     if ($parent_id > 0) {
                         $model->prependTo($parentModel)->save();

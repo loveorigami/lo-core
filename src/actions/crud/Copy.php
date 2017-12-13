@@ -45,9 +45,8 @@ class Copy extends Base
             $pk = PkHelper::decode($id);
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
-            if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
-                throw new ForbiddenHttpException('Forbidden');
-            }
+
+            $this->canAction($model);
 
             /** @var ActiveRecord $modelCopy */
             $modelCopy = new $this->modelClass();

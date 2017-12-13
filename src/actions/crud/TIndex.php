@@ -2,7 +2,9 @@
 
 namespace lo\core\actions\crud;
 
+use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
+use lo\core\db\tree\TActiveRecord;
 use lo\core\db\tree\TreeInterface;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -25,6 +27,10 @@ class TIndex extends Index
      */
     public $extFilterParam = "extendedFilter";
 
+    /**
+     * @param int $parent_id
+     * @return string
+     */
     public function run($parent_id = 0)
     {
         /** @var ActiveRecord $class */
@@ -38,6 +44,7 @@ class TIndex extends Index
 
         $parentModel = $class::findOne($parent_id);
 
+        /** @var TActiveRecord $parentModel */
         if ($parentModel) {
             $query = $parentModel->getDescendants();
         } else {
@@ -48,13 +55,15 @@ class TIndex extends Index
         $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig, $query);
         $perm = $searchModel->getPermission();
 
-        if ($perm){
-            $perm->applyConstraint($dataProvider->query);
+        if ($perm) {
+            /** @var ActiveQuery $dataQuery */
+            $dataQuery = $dataProvider->query;
+            $perm->applyConstraint($dataQuery);
         }
 
         $dataProvider->getPagination()->pageSize = $this->pageSize;
 
-        if ($this->orderBy){
+        if ($this->orderBy) {
             $dataProvider->getSort()->defaultOrder = $this->orderBy;
         }
 
@@ -64,11 +73,10 @@ class TIndex extends Index
             'parent_id' => $parent_id,
         ];
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax) {
             return $this->render($this->tpl, $params);
-        else
+        } else {
             return $this->renderPartial($this->tpl, $params);
-
+        }
     }
-
 }

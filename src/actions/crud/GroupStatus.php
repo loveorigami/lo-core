@@ -7,7 +7,6 @@ use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class GroupDelete
@@ -39,9 +38,9 @@ class GroupStatus extends Base
         if (!empty($ids)) {
             /** @var ActiveQuery $query */
             $query = $class::findByPk($ids);
+            /** @var ActiveRecord $model */
             foreach ($query->all() as $model) {
-                if (!Yii::$app->user->can($this->access(), ["model" => $model]))
-                    throw new ForbiddenHttpException('Forbidden');
+                $this->canAction($model);
                 $model->status = $this->status;
                 $model->save();
             }

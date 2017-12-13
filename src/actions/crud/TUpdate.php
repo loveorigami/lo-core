@@ -5,7 +5,6 @@ namespace lo\core\actions\crud;
 use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class TUpdate
@@ -27,8 +26,7 @@ class TUpdate extends Update
         /** @var TActiveRecord $model */
         $model = $this->findModel($pk);
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden');
+        $this->canAction($model);
 
         $model->setScenario($this->modelScenario);
 
@@ -54,10 +52,11 @@ class TUpdate extends Update
             $parentModel = null;
         }
 
-        if ($load && $parentModel)
+        if ($load && $parentModel) {
             $res = $model->prependTo($parentModel)->save();
-        elseif ($load)
+        } elseif ($load) {
             $res = $model->save();
+        }
 
         if (!empty($res) && !$request->post($this->applyParam)) {
             $returnUrl = $this->getReturnUrl();
@@ -67,7 +66,5 @@ class TUpdate extends Update
                 'model' => $model,
             ]);
         }
-
     }
-
 }

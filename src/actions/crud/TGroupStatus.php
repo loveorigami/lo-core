@@ -5,9 +5,9 @@ namespace lo\core\actions\crud;
 use lo\core\actions\Base;
 use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
+use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class GroupDelete
@@ -39,11 +39,9 @@ class TGroupStatus extends Base
         if (!empty($ids)) {
             /** @var ActiveQuery $query */
             $query = $class::findByPk($ids);
+            /** @var TActiveRecord $model */
             foreach ($query->all() as $model) {
-                if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
-                    throw new ForbiddenHttpException('Forbidden');
-                }
-
+                $this->canAction($model);
                 $childIds = $model->getDescendants()->column();
                 if ($childIds) {
                     $model::updateAll(['status' => $this->status], ['id' => $childIds]);

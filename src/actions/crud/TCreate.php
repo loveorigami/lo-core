@@ -37,9 +37,7 @@ class TCreate extends Create
 
         $model->parent_id = $parent_id;
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model))) {
-            throw new ForbiddenHttpException('Forbidden');
-        }
+        $this->canAction($model);
 
         $this->checkForbiddenAttrs($model);
 

@@ -6,7 +6,6 @@ use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class XEditable
@@ -35,8 +34,7 @@ class XEditable extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            if (!Yii::$app->user->can($this->access(), ["model" => $model]))
-                throw new ForbiddenHttpException('Forbidden');
+            $this->canAction($model);
 
             $model->setScenario($this->modelScenario);
             $model->{$request->post('name')} = $request->post('value');
@@ -46,10 +44,8 @@ class XEditable extends Base
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('core', 'Not saved'));
             }
-
             return true;
         }
-
         return false;
     }
 }

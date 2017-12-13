@@ -1,11 +1,10 @@
 <?php
 namespace lo\core\actions\crud;
 
+use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
-use lo\core\actions\Base;
 use yii\web\Response;
 
 /**
@@ -35,9 +34,7 @@ class Update extends Base
         /** @var ActiveRecord $model */
         $model = $this->findModel($pk);
 
-        if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
-            throw new ForbiddenHttpException('Forbidden model');
-        }
+        $this->canAction($model);
 
         $model->setScenario($this->modelScenario);
 

@@ -3,8 +3,6 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\helpers\PkHelper;
-use Yii;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -30,11 +28,11 @@ class View extends Base
         $pk = PkHelper::decode($id);
         $model = $this->findModel($pk);
 
-        if (!$model)
+        if (!$model){
             throw new NotFoundHttpException('Not found');
+        }
 
-        if (!Yii::$app->user->can($this->access(), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden model');
+        $this->canAction($model);
 
         return $this->render($this->tpl, ["model" => $model]);
     }

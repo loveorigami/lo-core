@@ -6,7 +6,6 @@ use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
 use Yii;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class GroupDelete
@@ -37,8 +36,7 @@ class GroupDelete extends Base
             /** @var ActiveQuery $query */
             $query = $class::findByPk($ids);
             foreach ($query->all() as $model) {
-                if (!Yii::$app->user->can($this->access(), ["model" => $model]))
-                    throw new ForbiddenHttpException('Forbidden');
+                $this->canAction($model);
                 $model->delete();
             }
         }

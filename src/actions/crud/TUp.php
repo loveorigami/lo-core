@@ -27,8 +27,7 @@ class TUp extends Base
         /** @var TActiveRecord $model */
         $model = $this->findModel($pk);
 
-        if (!Yii::$app->user->can($this->access('update'), array("model" => $model)))
-            throw new ForbiddenHttpException('Forbidden');
+        $this->canAction($model);
 
         $prevModel = $model->getPrev()->one();
 
@@ -36,8 +35,9 @@ class TUp extends Base
             $model->insertBefore($prevModel)->save();
         }
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax){
             return $this->goBack();
+        }
 
         return null;
     }
