@@ -36,4 +36,6 @@ class HtmlField extends TextAreaField
      */
     public $inputClass = inputs\CKEditorInput::class;
 
+    public $filterInputClass = inputs\TextInput::class;
+
 }
