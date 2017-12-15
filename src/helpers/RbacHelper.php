@@ -2,9 +2,7 @@
 
 namespace lo\core\helpers;
 
-use Yii;
-use yii\web\ForbiddenHttpException;
-
+use lo\core\exceptions\FlashForbiddenException;
 
 /**
  * Class RbacHelper
@@ -14,13 +12,22 @@ use yii\web\ForbiddenHttpException;
 class RbacHelper
 {
     const B_DELETE = 'BDelete';
+    const B_DELETE_MANAGER_URL = 'BDeleteManagerUrl';
+    const B_DELETE_MANAGER_OWN = 'BDeleteManagerOwn'; // with Owner Rule
     const B_UPDATE = 'BUpdate';
     const B_VIEW = 'BView';
 
+
+
+    /**
+     * @param $rule
+     * @param $model
+     * @throws FlashForbiddenException
+     */
     public static function can($rule, $model)
     {
-        if (!Yii::$app->user->can($rule, ["model" => $model])) {
-            throw new ForbiddenHttpException('Forbidden model');
+        if (App::user()->can($rule, ["model" => $model])) {
+            throw new FlashForbiddenException('Forbidden model');
         }
     }
 

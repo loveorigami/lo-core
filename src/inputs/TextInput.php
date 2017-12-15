@@ -23,6 +23,6 @@ class TextInput extends BaseInput {
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
         $options = ArrayHelper::merge($this->options, $options);
-        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->widgetOptions)->textInput($options);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->textInput($options);
     }
 } 

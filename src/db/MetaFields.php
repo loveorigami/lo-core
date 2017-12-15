@@ -180,7 +180,7 @@ abstract class MetaFields extends Object
                     "queryModifier" => [$this, "createdAtQueryModifier"],
                 ],
                 "params" => [$this->owner, "created_at"],
-                "pos" => 25
+                "pos" => 50
             ],
             "updated_at" => [
                 'definition' => [

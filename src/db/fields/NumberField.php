@@ -17,6 +17,9 @@ class NumberField extends BaseField
     /** @var bool число должно быть целым */
     public $integerOnly = false;
 
+    /** @var integer */
+    public $showInExtendedFilter = false;
+
     /** @var integer|float минимальное значение */
     public $min;
 

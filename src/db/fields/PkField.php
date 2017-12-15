@@ -15,6 +15,8 @@ class PkField extends BaseField
      */
     public $showInForm = false;
 
+    public $showInExtendedFilter = false;
+
     /**
      * @inheritdoc
      */

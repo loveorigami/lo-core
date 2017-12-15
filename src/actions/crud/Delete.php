@@ -4,6 +4,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
+use lo\core\exceptions\FlashForbiddenException;
 use lo\core\helpers\PkHelper;
 use lo\core\helpers\RbacHelper;
 use Yii;
@@ -34,20 +35,25 @@ class Delete extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            RbacHelper::canDelete($model);
+            try {
+                RbacHelper::canDelete($model);
 
-            if ($this->canDelete instanceof \Closure) {
-                $canDelete = call_user_func($this->canDelete, $model);
-            } else {
-                $canDelete = $this->canDelete;
+                if ($this->canDelete instanceof \Closure) {
+                    $canDelete = call_user_func($this->canDelete, $model);
+                } else {
+                    $canDelete = $this->canDelete;
+                }
+
+                if ($canDelete) {
+                    $model->delete();
+                } else {
+                    Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
+                }
+            } catch (FlashForbiddenException $e) {
+                $e->catchFlash();
+            } catch (ForbiddenHttpException $e) {
+                $e->getMessage();
             }
-
-            if ($canDelete) {
-                $model->delete();
-            } else {
-                Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
-            }
-
         }
 
         if (!Yii::$app->request->isAjax) {

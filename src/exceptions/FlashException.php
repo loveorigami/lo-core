@@ -24,7 +24,7 @@ class FlashException extends Exception
     {
         $this->type = $type;
         $this->message = $message;
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, $this->code, $previous);
     }
 
     /**
