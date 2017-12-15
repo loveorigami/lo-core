@@ -5,6 +5,7 @@ namespace lo\core\actions\crud;
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
+use lo\core\helpers\RbacHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -33,7 +34,7 @@ class Delete extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            $this->canAction($model);
+            RbacHelper::canDelete($model);
 
             if ($this->canDelete instanceof \Closure) {
                 $canDelete = call_user_func($this->canDelete, $model);
