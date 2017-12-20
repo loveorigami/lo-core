@@ -5,6 +5,7 @@ namespace lo\core\actions\crud;
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
 use lo\core\exceptions\FlashForbiddenException;
+use lo\core\helpers\App;
 use lo\core\helpers\PkHelper;
 use lo\core\helpers\RbacHelper;
 use Yii;
@@ -22,6 +23,9 @@ class Delete extends Base
     public $canDelete = true;
     public $canDeleteError = 'error';
 
+    protected $basePermission = RbacHelper::B_DELETE;
+    public $userPermission;
+
     /**
      * Запуск действия удаления модели
      * @param integer $id идентификатор модели
@@ -36,7 +40,7 @@ class Delete extends Base
             $model = $this->findModel($pk);
 
             try {
-                RbacHelper::canDelete($model);
+                $this->getPermissionOrForbidden($model);
 
                 if ($this->canDelete instanceof \Closure) {
                     $canDelete = call_user_func($this->canDelete, $model);
@@ -49,6 +53,7 @@ class Delete extends Base
                 } else {
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
+                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', ['id' => $model->getPrimaryKey()]));
             } catch (FlashForbiddenException $e) {
                 $e->catchFlash();
             } catch (ForbiddenHttpException $e) {

@@ -2,9 +2,10 @@
 
 namespace lo\core\traits;
 
+use lo\core\exceptions\FlashForbiddenException;
+use lo\core\helpers\RbacHelper;
 use Yii;
 use yii\base\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\View;
 
 /**
@@ -21,6 +22,12 @@ trait AccessRouteTrait
 
     /** @var string полный маршрут */
     protected $_permRoute;
+
+    /** @var string */
+    public $userPermission;
+
+    /** @var  string */
+    protected $basePermission;
 
     /**
      * Возвращает базовый роут
@@ -66,14 +73,24 @@ trait AccessRouteTrait
 
     /**
      * @param $model
-     * @throws ForbiddenHttpException
+     * @throws FlashForbiddenException
      */
     public function canAction($model)
     {
         if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
-            throw new ForbiddenHttpException('Forbidden model');
+            throw new FlashForbiddenException('Forbidden model');
         }
     }
+
+    /**
+     * @param $model
+     */
+    protected function getPermissionOrForbidden($model)
+    {
+        $permission = $this->userPermission ? $this->userPermission : $this->basePermission;
+        RbacHelper::canUserOrForbidden($permission, $model);
+    }
+
     /**
      * @param $description
      * @param $rule

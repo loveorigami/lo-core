@@ -5,6 +5,7 @@ namespace lo\core\widgets\admin;
 use lo\core\db\ActiveRecord;
 use lo\core\db\tree\TActiveRecord;
 use lo\core\helpers\PkHelper;
+use lo\core\helpers\RbacHelper;
 use lo\core\rbac\MdmHelper;
 use lo\core\traits\AccessRouteTrait;
 use Yii;
@@ -57,6 +58,9 @@ class Grid extends Widget
 
     /** @var string шаблон */
     public $tpl = "grid";
+
+    public $updatePermission = RbacHelper::B_UPDATE;
+    public $deletePermission = RbacHelper::B_DELETE;
 
     /** @var array кнопки групповых операций */
     protected $_groupButtons;
@@ -222,12 +226,20 @@ class Grid extends Widget
                 return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
             },
 
-            'update' => function ($url) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
+            'update' => function ($url, $model) {
+                if (RbacHelper::canUser($this->updatePermission, $model)) {
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
+                } else {
+                    return null;
+                }
             },
 
-            'delete' => function ($url) {
-                return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
+            'delete' => function ($url, $model) {
+                if (RbacHelper::canUser($this->deletePermission, $model)) {
+                    return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
+                } else {
+                    return null;
+                }
             },
 
             'up' => function ($url) use ($js) {

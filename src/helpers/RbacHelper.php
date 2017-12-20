@@ -2,6 +2,7 @@
 
 namespace lo\core\helpers;
 
+use lo\core\db\ActiveRecord;
 use lo\core\exceptions\FlashForbiddenException;
 
 /**
@@ -11,31 +12,75 @@ use lo\core\exceptions\FlashForbiddenException;
  */
 class RbacHelper
 {
-    const B_DELETE = 'BDelete';
-    const B_DELETE_MANAGER_URL = 'BDeleteManagerUrl';
-    const B_DELETE_MANAGER_OWN = 'BDeleteManagerOwn'; // with Owner Rule
+    const B_CREATE = 'BCreate';
     const B_UPDATE = 'BUpdate';
     const B_VIEW = 'BView';
+    const B_DELETE = 'BDelete';
 
-
+    /** With Rules */
+    const B_DELETE_OWN = 'BDeleteOwn';
 
     /**
      * @param $rule
      * @param $model
-     * @throws FlashForbiddenException
+     * @return mixed
      */
-    public static function can($rule, $model)
+    public static function canUser($rule, $model)
     {
-        if (App::user()->can($rule, ["model" => $model])) {
-            throw new FlashForbiddenException('Forbidden model');
-        }
+        return App::user()->can($rule, ["model" => $model]);
     }
 
     /**
      * @param $model
+     * @return mixed
      */
     public static function canDelete($model)
     {
-        self::can(self::B_DELETE, $model);
+        return self::canUser(self::B_DELETE, $model);
+    }
+
+    /**
+     * @param $model
+     * @return mixed
+     */
+    public static function canUpdate($model)
+    {
+        return self::canUser(self::B_UPDATE, $model);
+    }
+
+    /**
+     * @param $rule
+     * @param ActiveRecord $model
+     * @throws FlashForbiddenException
+     */
+    public static function canUserOrForbidden($rule, $model)
+    {
+        if (!self::canUser($rule, $model)) {
+            throw new FlashForbiddenException(App::t('Forbidden access model {model}',[
+                'model' => $model::className()
+            ]));
+        };
+    }
+
+    /**
+     * @param $model
+     * @throws FlashForbiddenException
+     */
+    public static function canDeleteOrForbidden($model)
+    {
+        if (!self::canUser(self::B_DELETE, $model)) {
+            throw new FlashForbiddenException(App::t('Forbidden delete model'));
+        };
+    }
+
+    /**
+     * @param $model
+     * @throws FlashForbiddenException
+     */
+    public static function canUpdateOrForbidden($model)
+    {
+        if (!self::canUser(self::B_UPDATE, $model)) {
+            throw new FlashForbiddenException(App::t('Forbidden update model'));
+        };
     }
 }
