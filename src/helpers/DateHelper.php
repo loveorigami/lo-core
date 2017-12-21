@@ -38,6 +38,15 @@ class DateHelper
     }
 
     /**
+     * @param $date
+     * @return string
+     */
+    public static function datetime($date)
+    {
+        return self::asDatetime($date, self::DB_DATETIME_FORMAT); // 2014-10-06
+    }
+
+    /**
      * @return string Y-m-d
      */
     public static function nowDate()
