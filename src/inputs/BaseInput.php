@@ -1,8 +1,8 @@
 <?php
 namespace lo\core\inputs;
 
+use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
-use yii\base\Object;
 use yii\widgets\ActiveForm;
 use \lo\core\db\fields\BaseField;
 
@@ -12,7 +12,7 @@ use \lo\core\db\fields\BaseField;
  * @package lo\core\inputs
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-abstract class BaseInput extends Object
+abstract class BaseInput extends BaseObject
 {
     /** @var BaseField поле модели */
     public $modelField;
@@ -22,7 +22,6 @@ abstract class BaseInput extends Object
 
     /** @var array парамеиры виджета */
     public $widgetOptions = [];
-
 
     /**
      * Формирование Html кода поля для вывода в форме
