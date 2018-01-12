@@ -19,7 +19,7 @@ class KeyStorageItem extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%key_storage_item}}';
+        return '{{%settings__item}}';
     }
 
     public function behaviors()

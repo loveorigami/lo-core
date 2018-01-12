@@ -29,6 +29,9 @@ class m140616_185756_create_templates_table extends Migration
 
         $this->insert($this->tableName, [
             'author_id' => 1,
+            'updater_id' => 1,
+            'created_at' => time(),
+            'updated_at' => time(),
             'name' => 'Demo',
             'layout' => '//main',
             'text' => 'Demo template',

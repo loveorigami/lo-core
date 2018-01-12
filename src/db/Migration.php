@@ -56,6 +56,16 @@ class Migration extends \yii\db\Migration
         return 'fk_' . $this->tableGroup . '__' . $table1 . '_' . $table2;
     }
 
+    /**
+     * @param $table
+     * @param $column
+     * @return string
+     */
+    protected function idx($table, $column)
+    {
+        return 'idx_' . $table . '_' . $column;
+    }
+
 
     /**
      * Creates a smallint column.
