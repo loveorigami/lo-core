@@ -13,6 +13,7 @@ use yii\web\View;
  */
 class BaseUmodeHelper
 {
+    const ROLE_USER = 'user';
     const ROLE_ROOT = 'root';
     const ROLE_ADMIN = 'admin';
     const ROLE_EDITOR = 'editor';
