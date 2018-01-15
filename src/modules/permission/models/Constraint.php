@@ -41,7 +41,7 @@ class Constraint extends ActiveRecord implements IPermission
      */
     public static function tableName()
     {
-        return "{{%auth_constraint}}";
+        return "{{%user__constraint}}";
     }
 
     /**
