@@ -31,7 +31,7 @@ class m140623_175657_create_includes_table extends Migration
             'text' => 'Демонстрационная включаемая область',
         ]);
 
-        $this->createIndex($this->idx($this->tn(self::TBL_INC_ITEM), 'code'), $this->tn(self::TBL_INC_ITEM), 'code');
+        $this->createIndex($this->idx(self::TBL_INC_ITEM, 'code'), $this->tn(self::TBL_INC_ITEM), 'code');
     }
 
     public function safeDown()

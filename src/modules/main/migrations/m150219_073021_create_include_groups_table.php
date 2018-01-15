@@ -22,7 +22,7 @@ class m150219_073021_create_include_groups_table extends Migration
             'pos' => $this->integer()->notNull()->defaultValue(500),
         ]);
 
-        $this->createIndex($this->idx($this->tn(self::TBL_INC_GROUP), 'code'), $this->tn(self::TBL_INC_GROUP), 'code');
+        $this->createIndex($this->idx(self::TBL_INC_GROUP, 'code'), $this->tn(self::TBL_INC_GROUP), 'code');
     }
 
     public function safeDown()
