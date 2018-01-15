@@ -1,27 +1,23 @@
 <?php
 namespace lo\core\modules\core\migrations;
 
-use lo\core\db\Migration;
-
 class m150414_195800_timeline_event extends Migration
 {
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-        $this->createTable('{{%timeline_event}}', [
+        $this->createTable($this->tn(self::TBL_TIMELINE), [
             'id' => $this->primaryKey(),
             'application' => $this->string(64)->notNull(),
             'category' => $this->string(64)->notNull(),
             'event' => $this->string(64)->notNull(),
             'data' => $this->text(),
             'created_at' => $this->integer()->notNull()
-        ], $tableOptions);
-        $this->createIndex('idx_created_at', '{{%timeline_event}}', 'created_at');
+        ]);
+
+        $this->createIndex('idx_created_at', $this->tn(self::TBL_TIMELINE), 'created_at');
+
         $this->batchInsert(
-            '{{%timeline_event}}',
+            $this->tn(self::TBL_TIMELINE),
             ['application', 'category', 'event', 'data', 'created_at'],
             [
                 ['frontend', 'user', 'signup', json_encode([
@@ -48,6 +44,6 @@ class m150414_195800_timeline_event extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%timeline_event}}');
+        $this->dropTable($this->tn(self::TBL_TIMELINE));
     }
 }

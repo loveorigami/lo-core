@@ -2,18 +2,13 @@
 
 namespace lo\core\modules\core\migrations;
 
-use lo\core\db\Migration;
-
 class m140616_185756_create_templates_table extends Migration
 {
-	public $tableName = "{{%core__templates}}";
-
     public function up()
     {
-
-        $this->createTable($this->tableName, [
+        $this->createTable($this->tn(self::TBL_TEMPLATE), [
             'id' => $this->primaryKey(),
-            'status' => 'tinyint(1) NOT NULL DEFAULT 0',
+            'status' => $this->tinyInteger(1)->defaultValue(0),
             'author_id' => $this->integer()->notNull(),
             'updater_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
@@ -27,7 +22,7 @@ class m140616_185756_create_templates_table extends Migration
 			'pos' => $this->integer()->notNull()->defaultValue(100),
         ]);
 
-        $this->insert($this->tableName, [
+        $this->insert($this->tn(self::TBL_TEMPLATE), [
             'author_id' => 1,
             'updater_id' => 1,
             'created_at' => time(),
@@ -41,8 +36,6 @@ class m140616_185756_create_templates_table extends Migration
 
     public function down()
     {
-
-        $this->dropTable($this->tableName);
-
+        $this->dropTable($this->tn(self::TBL_TEMPLATE));
     }
 }
