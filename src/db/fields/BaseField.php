@@ -9,7 +9,7 @@ use lo\core\grid\XEditableColumn;
 use lo\core\inputs;
 use lo\core\interfaces\IField;
 use Yii;
-use Yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use Yii\widgets\ActiveForm;
@@ -20,7 +20,7 @@ use Yii\widgets\ActiveForm;
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class BaseField extends Object implements IField
+class BaseField extends BaseObject implements IField
 {
     /** @var ActiveRecord модель */
     public $model;

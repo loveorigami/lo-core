@@ -23,7 +23,4 @@ interface UserInterface
 
     /** @return string */
     public function getEmail();
-
-    /** @return string */
-    public function getPhone();
 }
