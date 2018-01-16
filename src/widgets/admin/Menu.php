@@ -141,7 +141,7 @@ class Menu extends \yii\widgets\Menu
             $route = Yii::getAlias($item['url'][0]);
 
             if (!$route) return false;
-            
+
             if ($route[0] !== '/' && Yii::$app->controller) {
                 $route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
             }
