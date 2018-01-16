@@ -19,6 +19,7 @@ class RbacHelper
 
     /** With Rules */
     const B_DELETE_OWN = 'BDeleteOwn';
+    const B_PERM_OWN = 'ownModelPerm';
 
     /**
      * @param $rule
