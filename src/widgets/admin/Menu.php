@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\widgets\admin;
 
 use Yii;
@@ -139,6 +140,8 @@ class Menu extends \yii\widgets\Menu
         if (isset($item['url']) && is_array($item['url']) && isset($item['url'][0])) {
             $route = Yii::getAlias($item['url'][0]);
 
+            if (!$route) return false;
+            
             if ($route[0] !== '/' && Yii::$app->controller) {
                 $route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
             }

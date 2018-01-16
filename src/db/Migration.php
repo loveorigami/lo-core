@@ -1,5 +1,8 @@
 <?php
+
 namespace lo\core\db;
+
+use mdm\admin\components\Configs;
 use yii\db\ColumnSchemaBuilder;
 use yii\helpers\Console;
 
@@ -15,18 +18,22 @@ class Migration extends \yii\db\Migration
     /**
      * @inheritdoc
      */
-    public $tableGroup = 'gin_';
+    public $tableGroup;
     public $rowFormat = self::ROW_COMPACT;
 
     public function createTable($table, $columns, $options = null)
     {
         if ($options === null && $this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $options = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB ROW_FORMAT = '.$this->rowFormat;
+            $options = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB ROW_FORMAT = ' . $this->rowFormat;
         }
         parent::createTable($table, $columns, $options);
     }
 
+    /**
+     * @param $string
+     * @return bool|int
+     */
     protected function stderr($string)
     {
         if (Console::streamSupportsAnsiColors(\STDOUT)) {
@@ -36,12 +43,53 @@ class Migration extends \yii\db\Migration
     }
 
     /**
+     * [
+     * 'id' => $this->primaryKey(),
+     * 'name' => $this->string(128)->notNull(),
+     * 'parent' => $this->integer(),
+     * 'route' => $this->string(),
+     * 'order' => $this->integer(),
+     * 'data' => $this->binary(),
+     * ]
+     * @return string
+     */
+    protected function menuTable()
+    {
+        return Configs::instance()->menuTable;
+    }
+
+    /**
+     * @param $name
+     * @return false|null|string
+     */
+    protected function getMenuIdByName($name)
+    {
+        $tbl = $this->menuTable();
+        $query = "SELECT * from $tbl WHERE `name` = '$name'";
+        return $this->db->createCommand($query)->queryScalar();
+    }
+
+    /**
+     * @param $name
+     * @return false|null|string
+     */
+    protected function delMenuIdByName($name)
+    {
+        return $this->db->createCommand()->delete($this->menuTable(),[
+            'name' => $name
+        ])->execute();
+    }
+
+    /**
      * Real table name builder
      * @param string $name table name
      * @return string
      */
     protected function tn($name)
     {
+        if (!$this->tableGroup) {
+            return '{{%' . $name . '}}';
+        }
         return '{{%' . $this->tableGroup . '__' . $name . '}}';
     }
 
@@ -53,6 +101,9 @@ class Migration extends \yii\db\Migration
      */
     protected function fk($table1, $table2)
     {
+        if (!$this->tableGroup) {
+            return 'fk_' . $table1 . '_' . $table2;
+        }
         return 'fk_' . $this->tableGroup . '__' . $table1 . '_' . $table2;
     }
 
