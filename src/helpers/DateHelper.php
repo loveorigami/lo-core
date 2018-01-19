@@ -148,6 +148,15 @@ class DateHelper
     }
 
     /**
+     * @param $timestamp
+     * @return false|string
+     */
+    public static function path($timestamp)
+    {
+        return date('Y/m', $timestamp);
+    }
+
+    /**
      * @param $date
      * @param $format
      * @return string
