@@ -47,8 +47,22 @@ class IframeHelper
     public static function a($text, $url = null, $options = [])
     {
         if ($url !== null) {
-            ArrayHelper::setValue($url, self::QUERY_PARAM, 1);
+            self::url($url);
         }
         return Html::a($text, $url, $options);
+    }
+
+    /**
+     * @param $url
+     * @return mixed
+     */
+    public static function url($url)
+    {
+        if (is_array($url)) {
+            ArrayHelper::setValue($url, self::QUERY_PARAM, 1);
+        } elseif ($url !== null) {
+            $url .= '&' . self::QUERY_PARAM . '=1';
+        }
+        return $url;
     }
 }

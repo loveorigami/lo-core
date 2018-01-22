@@ -143,7 +143,7 @@ trait ArTreeTrait
             }
 
             $separator = '';
-            $separator .= str_repeat("&ensp;", $m->getLevel());
+            $separator .= str_repeat(html_entity_decode("&ensp;"), $m->getLevel());
             $separator .= ($m->getLevel() != 0) ? (
                 (isset($models[$i + 1])) && ($m->getLevel() == $models[$i + 1]->getLevel())
             ) ? '┣ ' : '┗ ' : '';
@@ -186,7 +186,8 @@ trait ArTreeTrait
      * @param $depth
      * @return string
      */
-    public function getChildrenRelation($depth){
+    public function getChildrenRelation($depth)
+    {
         return ($depth > 1) ? $childs = 'children' . str_repeat('.children', $depth - 1) : '';
     }
 }

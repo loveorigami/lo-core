@@ -4,6 +4,7 @@ namespace lo\core\widgets\admin;
 
 use lo\core\db\ActiveRecord;
 use lo\core\db\tree\TActiveRecord;
+use lo\core\helpers\IframeHelper;
 use lo\core\helpers\PkHelper;
 use lo\core\helpers\RbacHelper;
 use lo\core\rbac\MdmHelper;
@@ -228,7 +229,7 @@ class Grid extends Widget
 
             'update' => function ($url, $model) {
                 if (RbacHelper::canUser($this->updatePermission, $model)) {
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary']);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary ' . IframeHelper::IFRAME_SELECTOR]);
                 } else {
                     return null;
                 }
