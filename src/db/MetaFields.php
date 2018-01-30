@@ -2,7 +2,7 @@
 namespace lo\core\db;
 
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\db\Query;
 use yii\db\Command;
 use lo\core\helpers\ArrayHelper;
@@ -16,7 +16,7 @@ use lo\core\inputs;
  * @property fields\BaseField[] $fields массив обектов полей модели;
  * @property array $fieldsConfig массив конфигураций объектов полей модели;
  */
-abstract class MetaFields extends Object
+abstract class MetaFields extends BaseObject
 {
     /** Вкладка формы по умолчанию */
     const DEFAULT_TAB = "default";
