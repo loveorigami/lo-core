@@ -22,9 +22,10 @@ class Create extends Base
     public $tpl = "create";
 
     /**
-     * Запуск действия
-     * @return mixed
+     * @return array|string|Response
      * @throws ForbiddenHttpException
+     * @throws \lo\core\exceptions\FlashForbiddenException
+     * @throws \yii\base\InvalidConfigException
      */
     public function run()
     {
