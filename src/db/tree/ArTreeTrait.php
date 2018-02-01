@@ -143,7 +143,7 @@ trait ArTreeTrait
             }
 
             $separator = '';
-            $separator .= str_repeat(html_entity_decode("&ensp;"), $m->getLevel());
+            $separator .= str_repeat(html_entity_decode("&ensp;", ENT_COMPAT | ENT_HTML401, 'UTF-8'), $m->getLevel());
             $separator .= ($m->getLevel() != 0) ? (
                 (isset($models[$i + 1])) && ($m->getLevel() == $models[$i + 1]->getLevel())
             ) ? '┣ ' : '┗ ' : '';
