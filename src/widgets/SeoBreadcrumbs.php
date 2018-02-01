@@ -19,18 +19,18 @@ class SeoBreadcrumbs extends Breadcrumbs
      */
     public $seoOptions = [
         'itemscope' => true,
-        'itemtype' => 'http://schema.org/BreadcrumbList'
+        'itemtype' => 'https://schema.org/BreadcrumbList'
     ];
 
     /**
      * @inheritdoc
      */
-    public $itemTemplate = "<li itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
+    public $itemTemplate = "<li itemprop=\"itemListElement\" itemscope itemtype=\"https://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
 
     /**
      * @inheritdoc
      */
-    public $activeItemTemplate = "<li class=\"active\" itemprop=\"itemListElement\" itemscope itemtype=\"http://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
+    public $activeItemTemplate = "<li class=\"active\" itemprop=\"itemListElement\" itemscope itemtype=\"https://schema.org/ListItem\">{link}<meta itemprop=\"position\" content=\"{position}\" /></li>";
 
     /**
      * @var integer
@@ -72,7 +72,7 @@ class SeoBreadcrumbs extends Breadcrumbs
             unset($options['template'], $options['label'], $options['url']);
             $linkSeoOptions = [
                 'itemscope' => true,
-                'itemtype' => 'http://schema.org/Thing',
+                'itemtype' => 'https://schema.org/Thing',
                 'itemprop' => 'item'
             ];
             $options = array_merge($options, $linkSeoOptions);
