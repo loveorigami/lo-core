@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -47,14 +48,17 @@ class ListDepDrop extends Base
                 $data = ['out' => [], 'selected' => $subcat_id];
                 /** @var ActiveQuery $query */
                 $query = $obj::find();
+
+                if ($this->idCatAttr) {
+                    $query
+                        ->andWhere([$this->idCatAttr => $cat_id])
+                        ->orderBy([$this->idCatAttr => SORT_ASC]);
+                }
                 if ($this->condition instanceof \Closure) {
                     call_user_func($this->condition, $query, $cat_id);
                 };
-                if ($this->idCatAttr) {
-                    $query->andWhere([$this->idCatAttr => $cat_id])->orderBy([
-                        $this->idCatAttr => SORT_ASC
-                    ]);
-                }
+
+                //print_r($query->createCommand()->rawSql);
                 $array = $query->all();
 
                 foreach ($array as $element) {
