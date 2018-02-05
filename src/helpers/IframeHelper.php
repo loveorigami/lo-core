@@ -19,8 +19,9 @@ class IframeHelper
     const QUERY_PARAM = 'iframe';
 
     /**
-     * @param $params
+     * @param array $params
      * @return string
+     * @throws \Exception
      */
     public static function register($params = [])
     {
@@ -47,7 +48,7 @@ class IframeHelper
     public static function a($text, $url = null, $options = [])
     {
         if ($url !== null) {
-            self::url($url);
+            $url = self::url($url);
         }
         return Html::a($text, $url, $options);
     }
@@ -59,7 +60,7 @@ class IframeHelper
     public static function url($url)
     {
         if (is_array($url)) {
-            ArrayHelper::setValue($url, self::QUERY_PARAM, 1);
+            ArrayHelper::setValue($url, self::QUERY_PARAM, '1');
         } elseif ($url !== null) {
             $url .= '&' . self::QUERY_PARAM . '=1';
         }
