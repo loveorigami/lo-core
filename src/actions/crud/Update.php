@@ -26,12 +26,16 @@ class Update extends Base
     /** @var string путь к шаблону для отображения */
     public $tpl = "update";
 
+    /** @var string */
     protected $basePermission = RbacHelper::B_UPDATE;
+
+    /** @var string */
     public $userPermission;
 
     /**
      * @param $id
      * @return array|string|Response
+     * @throws \yii\web\NotFoundHttpException
      */
     public function run($id)
     {

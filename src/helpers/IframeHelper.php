@@ -25,7 +25,23 @@ class IframeHelper
      */
     public static function register($params = [])
     {
-        $params = ArrayHelper::merge([
+        $params = ArrayHelper::merge(self::colorboxDefaultParams(), $params);
+        return Colorbox::widget($params);
+    }
+
+    /**
+     * @return string
+     */
+    public static function colorboxJsonParams(){
+        return JsonHelper::encode(self::colorboxDefaultParams());
+    }
+
+    /**
+     * @return array
+     */
+    protected static function colorboxDefaultParams()
+    {
+        return [
             'reload' => true,
             'selector' => '.' . self::IFRAME_SELECTOR,
             'clientOptions' => [
@@ -34,9 +50,7 @@ class IframeHelper
                 'iframe' => true,
                 'fixed' => true,
             ],
-        ], $params);
-
-        return Colorbox::widget($params);
+        ];
     }
 
     /**
