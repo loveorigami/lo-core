@@ -57,8 +57,9 @@ class RbacHelper
     public static function canUserOrForbidden($rule, $model)
     {
         if (!self::canUser($rule, $model)) {
-            throw new FlashForbiddenException(App::t('Forbidden access model {model}',[
-                'model' => $model::className()
+            throw new FlashForbiddenException(App::t('Forbidden access {rule} to {model}',[
+                'model' => $model::className(),
+                'rule' => $rule,
             ]));
         };
     }

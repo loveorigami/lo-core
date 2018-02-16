@@ -12,6 +12,16 @@ use yii\db\ActiveQuery as YiiQuery;
 class ActiveQuery extends YiiQuery
 {
     /**
+     * @param $id
+     * @return $this
+     */
+    public function byPk($id)
+    {
+        $this->andWhere([$this->getAlias() . ".id" => $id]);
+        return $this;
+    }
+
+    /**
      * Устанавливает ограничение по признаку активности
      * @param bool $state если true выбираем активные иначе не активные
      * @return $this

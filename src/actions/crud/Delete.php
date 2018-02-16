@@ -27,10 +27,12 @@ class Delete extends Base
     public $userPermission;
 
     /**
-     * Запуск действия удаления модели
-     * @param integer $id идентификатор модели
-     * @throws ForbiddenHttpException
-     * @return Response
+     * @param $id
+     * @return null|Response
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @throws \yii\web\NotFoundHttpException
      */
     public function run($id)
     {
@@ -53,6 +55,7 @@ class Delete extends Base
                 } else {
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
+
                 Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', ['id' => $model->getPrimaryKey()]));
             } catch (FlashForbiddenException $e) {
                 $e->catchFlash();
