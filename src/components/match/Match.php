@@ -2,7 +2,7 @@
 namespace lo\core\components\match;
 
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Class Match
@@ -10,7 +10,7 @@ use yii\base\Object;
  * @package lo\core\components
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-abstract class Match extends Object
+abstract class Match extends BaseObject
 {
     /** Константы условий подключения шаблонов */
     const COND_NO = 0;

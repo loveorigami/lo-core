@@ -1,7 +1,7 @@
 <?php
 namespace lo\core\components;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Class BlocksProvider
@@ -12,7 +12,7 @@ use yii\base\Object;
  * @package app\modules\main\components
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class BlocksProvider extends Object
+class BlocksProvider extends BaseObject
 {
     /** @var array массив сопоставлений для меню */
     public $menus = [];

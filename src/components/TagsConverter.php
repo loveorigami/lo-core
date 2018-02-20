@@ -2,7 +2,7 @@
 
 namespace lo\core\components;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Class TagsConverter
@@ -10,7 +10,7 @@ use yii\base\Object;
  * @package lo\core\components
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class TagsConverter extends Object {
+class TagsConverter extends BaseObject {
 
     /**
      * Преобразует строку тегов в массив идентификаторов

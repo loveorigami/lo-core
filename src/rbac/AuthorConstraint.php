@@ -3,7 +3,7 @@ namespace lo\core\rbac;
 
 use lo\core\interfaces\IConstraint;
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Class AuthorConstraint
@@ -11,7 +11,7 @@ use yii\base\Object;
  * @package lo\core\rbac
  * @author Lukyanov Andrey <loveorigami@mail.ru>
  */
-class AuthorConstraint extends Object implements IConstraint
+class AuthorConstraint extends BaseObject implements IConstraint
 {
     /**
      * Устанавливает ограничение на критерий запроса
