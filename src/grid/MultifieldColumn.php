@@ -3,7 +3,7 @@
 namespace lo\core\grid;
 
 use lo\core\db\ActiveRecord;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 
@@ -49,7 +49,7 @@ class MultifieldColumn extends DataColumn
     public function init()
     {
         if (is_callable($this->template) && is_string($this->template)) {
-            throw new InvalidParamException('Unknown template. You can use a string or a callback.');
+            throw new InvalidArgumentException('Unknown template. You can use a string or a callback.');
         }
         if (empty($this->template)) {
             $this->template = function (ActiveRecord $model, MultifieldColumn $column) {

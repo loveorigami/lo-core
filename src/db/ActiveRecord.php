@@ -6,7 +6,7 @@ use lo\core\traits\ConstraintTrait;
 use lo\core\traits\CreatedAtSearchTrait;
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord as YiiRecord;
@@ -104,7 +104,7 @@ abstract class ActiveRecord extends YiiRecord
         if (ArrayHelper::isAssociative($pk)) {
             $keys = array_keys($pk);
             if (!static::isPrimaryKey($keys)) {
-                throw new InvalidParamException(get_called_class() . ' has no composite primary key named "' . implode(', ', $keys) . '".');
+                throw new InvalidArgumentException(get_called_class() . ' has no composite primary key named "' . implode(', ', $keys) . '".');
             }
             // hash condition
             return $query->andWhere($pk);
@@ -114,7 +114,7 @@ abstract class ActiveRecord extends YiiRecord
                 foreach ($pk as $compositePk) {
                     $keys = array_keys($compositePk);
                     if (!static::isPrimaryKey($keys)) {
-                        throw new InvalidParamException(get_called_class() . ' has no composite primary key named "' . implode(', ', $keys) . '".');
+                        throw new InvalidArgumentException(get_called_class() . ' has no composite primary key named "' . implode(', ', $keys) . '".');
                     }
                     $condition[] = ['and', $compositePk];
                 }

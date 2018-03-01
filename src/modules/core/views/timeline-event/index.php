@@ -6,7 +6,7 @@
  */
 
 use lo\core\helpers\ViewHelper;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
@@ -37,7 +37,7 @@ $this->title = Yii::t('backend', 'Application timeline');
                                     $viewFile = sprintf('%s/%s', $model->category, $model->event);
                                 }
                                 $view = $this->render($viewFile, ['model' => $model]);
-                            } catch (InvalidParamException $e) {
+                            } catch (InvalidArgumentException $e) {
                                 $view = $this->render('_item', ['model' => $model]);
                             }
 

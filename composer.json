@@ -26,7 +26,7 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "yiisoft/yii2": ">=2.0.8",
+    "yiisoft/yii2": ">=2.0.14",
 	
 	"mihaildev/yii2-elfinder": "*",
     "kartik-v/yii2-markdown": "dev-master",
