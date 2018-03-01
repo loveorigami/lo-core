@@ -184,8 +184,8 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * Правила валидации Формируем из полей
      * @return array
+     * @throws InvalidConfigException
      */
     public function rules()
     {
@@ -205,8 +205,8 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * Возвращает объект с описанием полей модели
-     * @return MetaFields
+     * @return MetaFields|object
+     * @throws InvalidConfigException
      */
     public function getMetaFields()
     {
@@ -225,8 +225,8 @@ abstract class ActiveRecord extends YiiRecord
     public abstract function metaClass();
 
     /**
-     * Подписи атрибутов
      * @return array
+     * @throws InvalidConfigException
      */
     public function attributeLabels()
     {
@@ -267,8 +267,8 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * Поведения
      * @return array
+     * @throws InvalidConfigException
      */
     public function behaviors()
     {
@@ -286,11 +286,11 @@ abstract class ActiveRecord extends YiiRecord
     }
 
     /**
-     * Возвращает провайдер данных для поиска
-     * @param array $params массив значений атрибутов модели
-     * @param array $dataProviderConfig параметры провайдера данных
-     * @param ActiveQuery $query запрос
+     * @param $params
+     * @param array $dataProviderConfig
+     * @param null $query
      * @return ActiveDataProvider
+     * @throws InvalidConfigException
      */
     public function search($params, $dataProviderConfig = [], $query = null)
     {
