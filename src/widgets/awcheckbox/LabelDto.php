@@ -11,6 +11,7 @@ class LabelDto
 {
     public $name;
     public $group;
+    public $inputOptions = [];
 
     public function __construct($data)
     {

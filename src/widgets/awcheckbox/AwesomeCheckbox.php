@@ -8,6 +8,7 @@
 
 namespace lo\core\widgets\awcheckbox;
 
+use lo\core\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
@@ -77,6 +78,7 @@ class AwesomeCheckbox extends InputWidget
     protected function renderList()
     {
         $listAction = $this->type . 'List';
+
         $this->options['item'] = function ($index, $label, $name, $checked, $value) {
             $label = new LabelDto($label);
             $action = $this->type;
@@ -86,11 +88,20 @@ class AwesomeCheckbox extends InputWidget
                 $html[] = Html::tag('div', $label->group);
             }
             $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
-            $html[] = Html::$action($name, $checked, ['label' => null, 'value' => $value, 'id' => $id]);
+            $options = ArrayHelper::merge(
+                [
+                    'label' => null,
+                    'value' => $value,
+                    'id' => $id
+                ],
+                $label->inputOptions
+            );
+            $html[] = Html::$action($name, $checked, $options);
             $html[] = Html::tag('label', $label->name, ['for' => $id]);
             $html[] = Html::endTag('div');
             return implode(' ', $html);
         };
+
         if ($this->hasModel()) {
             $listAction = 'active' . ucfirst($listAction);
             $input = Html::$listAction($this->model, $this->attribute, $this->list, $this->options);
