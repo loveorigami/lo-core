@@ -21,6 +21,7 @@ class DateRangeInlineInput extends BaseInput
         'fromAttr' => 'date_from',
         'toAttr' => 'date_to',
         'pluginOptions' => [
+            'language' => 'ru',
             'format' => 'YYYY-MM-DD',
             'separator' => ' ~ '
         ]
