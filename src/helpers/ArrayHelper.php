@@ -2,6 +2,7 @@
 
 namespace lo\core\helpers;
 
+use Closure;
 use yii\helpers\ArrayHelper as YiiArrayHelper;
 
 /**
@@ -110,12 +111,11 @@ class ArrayHelper extends YiiArrayHelper
 
     /**
      * Return the first element in an array passing a given truth test.
-     *
      * @param  array $array
      * @param  \Closure $callback
      * @param  mixed $default
-     *
      * @return mixed
+     * @see https://github.com/yii2mod/yii2-helpers/blob/master/ArrayHelper.php#L245
      */
     public static function first($array, $callback = null, $default = null)
     {
@@ -128,5 +128,94 @@ class ArrayHelper extends YiiArrayHelper
             }
         }
         return static::value($default);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public static function value($value)
+    {
+        return $value instanceof Closure ? $value() : $value;
+    }
+
+    /**
+     * Created for do to search inside of array.
+     * if you do $all is 1, all results will return to array
+     * ------------------
+     * Example:
+     *  $query  =  "a='Example World' and b>='2'";
+     *  $array  = [
+     *      'a' => ['d' => '2'],
+     *      ['a' => 'Example World','b' => '2'],
+     *      ['c' => '3'],
+     *      ['d' => '4'],
+     *  ];
+     *  $result = ArrayHelper::q($aray,$query,1);
+     * ------------------
+     * @param $SearchArray
+     * @param $query
+     * @param int $all
+     * @param string $Return
+     * @return array|bool|int|string
+     */
+    static function q($SearchArray, $query, $all = 0, $Return = 'direct')
+    {
+        $SearchArray = json_decode(json_encode($SearchArray), true);
+        $ResultArray = array();
+        if (is_array($SearchArray)) {
+            $desen = "@[\s*]?[\'{1}]?([a-zA-Z\ç\Ç\ö\Ö\ş\Ş\ı\İ\ğ\Ğ\ü\Ü[:space:]0-9-_:;]*)[\'{1}]?[\s*]?(\<\=|\>\=|\=|\!\=|\<|\>)\s*\'([a-zA-Z\ç\Ç\ö\Ö\ş\Ş\ı\İ\ğ\Ğ\ü\Ü[:space:]0-9-_:;]*)\'[\s*]?(and|or|\&\&|\|\|)?@si";
+            $DonenSonuc = preg_match_all($desen, $query, $Result);
+            if ($DonenSonuc) {
+                foreach ($SearchArray as $i => $ArrayElement) {
+                    $SearchStatus = 0;
+                    $EvalString = "";
+                    for ($r = 0; $r < count($Result[1]); $r++):
+                        if ($Result[2][$r] == '=') {
+                            $Operator = "==";
+                        } elseif ($Result[2][$r] == '!=') {
+                            $Operator = "!=";
+                        } elseif ($Result[2][$r] == '>=') {
+                            $Operator = ">=";
+                        } elseif ($Result[2][$r] == '<=') {
+                            $Operator = "<=";
+                        } elseif ($Result[2][$r] == '>') {
+                            $Operator = ">";
+                        } elseif ($Result[2][$r] == '<') {
+                            $Operator = "<";
+                        } else {
+                            $Operator = "==";
+                        }
+                        $AndOperator = "";
+                        if ($r != count($Result[1]) - 1) {
+                            $AndOperator = $Result[4][$r] ?: 'and';
+                        }
+                        $EvalString .= '("' . $ArrayElement[$Result[1][$r]] . '"' . $Operator . '"' . $Result[3][$r] . '") ' . $AndOperator . ' ';
+                    endfor;
+                    eval('if( ' . $EvalString . ' ) $SearchStatus = 1;');
+                    if ($SearchStatus === 1) {
+                        if ($all === 1) {
+                            if ($Return == 'direct') :
+                                $ResultArray[] = $ArrayElement;
+                            elseif ($Return == 'array') :
+                                $ResultArray['index'][] = $i;
+                                $ResultArray['array'][] = $ArrayElement;
+                            endif;
+                        } else {
+                            if ($Return == 'direct') :
+                                $ResultArray = $i;
+                            elseif ($Return == 'array') :
+                                $ResultArray['index'] = $i;
+                            endif;
+                            return $ResultArray;
+                        }
+                    }
+                }
+                if ($all === 1) {
+                    return $ResultArray;
+                }
+            }
+        }
+        return false;
     }
 }

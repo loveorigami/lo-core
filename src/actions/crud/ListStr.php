@@ -23,6 +23,7 @@ class ListStr extends Base
     /**
      * @param $query
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function run($query)
     {
