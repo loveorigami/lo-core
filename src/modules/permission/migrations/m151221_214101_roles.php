@@ -28,9 +28,9 @@ class m151221_214101_roles extends Migration
         $this->auth->addChild($root, $author);
         $this->auth->addChild($root, $user);
 
-        $this->auth->assign($root, 1);
-        $this->auth->assign($author, 2);
-        $this->auth->assign($user, 3);
+        //$this->auth->assign($root, 1);
+        //$this->auth->assign($author, 2);
+        //$this->auth->assign($user, 3);
     }
 
     public function down()
