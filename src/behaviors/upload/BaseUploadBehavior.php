@@ -128,8 +128,13 @@ class BaseUploadBehavior extends Behavior
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
+        $file = $model->getAttribute($this->attribute);
+
         if (in_array($model->scenario, $this->scenarios)) {
-            if (($file = $model->getAttribute($this->attribute)) instanceof UploadedFile) {
+
+            if ($file instanceof UploadedFile) {
+                $this->_file = $file;
+            } elseif ($file instanceof UploadedRemoteFile) {
                 $this->_file = $file;
             } else {
                 if ($this->instanceByName === true) {
@@ -138,7 +143,13 @@ class BaseUploadBehavior extends Behavior
                     $this->_file = UploadedFile::getInstance($model, $this->attribute);
                 }
             }
+
             if ($this->_file instanceof UploadedFile) {
+                $this->_file->name = $this->getFileName($this->_file);
+                $model->setAttribute($this->attribute, $this->_file);
+            }
+
+            if ($this->_file instanceof UploadedRemoteFile) {
                 $this->_file->name = $this->getFileName($this->_file);
                 $model->setAttribute($this->attribute, $this->_file);
             }
@@ -154,6 +165,13 @@ class BaseUploadBehavior extends Behavior
         $model = $this->owner;
         if (in_array($model->scenario, $this->scenarios)) {
             if ($this->_file instanceof UploadedFile) {
+                if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
+                    if ($this->unlinkOnSave === true) {
+                        $this->delete($this->attribute, true);
+                    }
+                }
+                $model->setAttribute($this->attribute, $this->_file->name);
+            } elseif ($this->_file instanceof UploadedRemoteFile) {
                 if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
                     if ($this->unlinkOnSave === true) {
                         $this->delete($this->attribute, true);
@@ -189,6 +207,18 @@ class BaseUploadBehavior extends Behavior
                 throw new InvalidArgumentException("Directory specified in 'path' attribute doesn't exist or cannot be created.");
             }
         }
+
+        if ($this->_file instanceof UploadedRemoteFile) {
+            $path = $this->getUploadPath($this->attribute);
+            if (is_string($path) && FileHelper::createDirectory(dirname($path))) {
+                $this->save($this->_file, $path);
+                $this->afterUpload();
+            } else {
+                throw new InvalidArgumentException("Directory specified in 'path' attribute doesn't exist or cannot be created.");
+            }
+        }
+
+
     }
 
     /**
@@ -264,12 +294,15 @@ class BaseUploadBehavior extends Behavior
 
     /**
      * Saves the uploaded file.
-     * @param UploadedFile $file the uploaded file instance
+     * @param UploadedFile|UploadedRemoteFile $file the uploaded file instance
      * @param string $path the file path used to save the uploaded file
      * @return boolean true whether the file is saved successfully
      */
     protected function save($file, $path)
     {
+        if ($file instanceof UploadedRemoteFile) {
+            return $file->saveAs($path, true);
+        }
         return $file->saveAs($path, $this->deleteTempFile);
     }
 

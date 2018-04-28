@@ -6,7 +6,7 @@ use yii\helpers\FileHelper;
 use yii\base\BaseObject;
 
 
-class UploadRemoteImage extends BaseObject
+class UploadedRemoteFile extends BaseObject
 {
     /**
      * @var string the original name of the file being uploaded
@@ -83,13 +83,8 @@ class UploadRemoteImage extends BaseObject
         return self::initWithModel($model, $attribute);
     }
 
-    public function saveAs($file, $saveToModel = false)
+    public function saveAs($file)
     {
-        if ($saveToModel && $this->isWithModel) {
-            $this->model->{$this->attribute} = $file;
-        } elseif ($this->isWithModel) {
-            $this->model->{$this->attribute} = null;
-        }
         return copy($this->url, $file);
     }
 
