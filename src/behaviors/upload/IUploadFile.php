@@ -5,7 +5,7 @@
  * Date: 20.08.2016
  * Time: 16:54
  */
-namespace lo\core\interfaces;
+namespace lo\core\behaviors\upload;
 
 /**
  * Class IUploadFile

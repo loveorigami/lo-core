@@ -8,6 +8,8 @@ use yii\db\ActiveQuery as YiiQuery;
 /**
  * Class ActiveQuery
  * Системный ActiveQuery. Предоставляет системные scopes.
+ *
+ * @property null|string $alias
  */
 class ActiveQuery extends YiiQuery
 {

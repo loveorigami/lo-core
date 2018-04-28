@@ -3,11 +3,9 @@
 namespace lo\core\behaviors\upload;
 
 use claviska\SimpleImage;
-use lo\core\interfaces\IUploadImage;
-use mongosoft\file\UploadImageBehavior;
 use yii\helpers\ArrayHelper;
 
-class UploadImage extends UploadImageBehavior implements IUploadImage
+class UploadImage extends BaseUploadImageBehavior implements IUploadImage
 {
     /** @var boolean */
     public $createThumbs = true;
@@ -20,6 +18,7 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
 
     /** @var boolean */
     public $instanceByName = false;
+
 
     /**
      * @param string $attribute
@@ -39,6 +38,7 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
      * @param string $attribute
      * @param string $profile
      * @return string|null
+     * @throws \yii\base\Exception
      */
     public function getThumbUploadUrl($attribute, $profile = 'tmb')
     {
@@ -52,6 +52,7 @@ class UploadImage extends UploadImageBehavior implements IUploadImage
      * @param $config
      * @param $path
      * @param $thumbPath
+     * @throws \Exception
      */
     protected function generateImageThumb($config, $path, $thumbPath)
     {

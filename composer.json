@@ -53,7 +53,6 @@
 
     "la-haute-societe/yii2-save-relations-behavior": "*",
     "zelenin/yii2-slug-behavior": "~1.5.1",
-    "mongosoft/yii2-upload-behavior": "*",
     "marciocamello/yii2-x-editable": "*",
     "voskobovich/yii2-tree-manager": "~1.0",
     "paulzi/yii2-adjacency-list": "^2.0",
