@@ -3,7 +3,7 @@
 use lo\core\widgets\admin\Form;
 
 /**
- * @var common\models\Page $model модель
+ * @var \lo\core\modules\main\models\IncludeGroup $model
  */
 
 echo Form::widget(["model"=>$model]);

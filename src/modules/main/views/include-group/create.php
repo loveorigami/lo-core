@@ -1,6 +1,8 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $model common\models\Page */
+/**
+ * @var $this yii\web\View
+ * @var \lo\core\modules\main\models\IncludeGroup $model
+ */
 
 $this->title = Yii::t('backend', 'Create {modelClass}', [
     'modelClass' => 'Include Group',

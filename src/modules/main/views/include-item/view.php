@@ -4,6 +4,7 @@ use lo\core\widgets\admin\CrudLinks;
 
 /**
  * @var yii\web\View $this
+ * @var \lo\core\modules\main\models\IncludeItem $model
  */
 
 $this->title = Yii::t('backend', 'View');

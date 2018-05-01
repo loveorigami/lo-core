@@ -3,7 +3,7 @@ use lo\core\widgets\admin\ExtFilter;
 
 /**
  * @var yii\web\View $this
- * @var common\models\Constraint $model
+ * @var \lo\core\modules\main\models\IncludeItem $model
  */
 
 echo ExtFilter::widget(["model" => $model]);

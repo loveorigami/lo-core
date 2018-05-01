@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Page */
+/**
+ * @var $this yii\web\View
+ * @var \lo\core\modules\main\models\IncludeItem $model
+ */
 
 $this->title = Yii::t('backend', 'Update {modelClass}: ', [
     'modelClass' => 'Include Item',
