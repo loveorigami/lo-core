@@ -1,7 +1,8 @@
 <?php
+
 namespace lo\core\modules\main\widgets\includes;
 
-use lo\modules\main\models\IncludeItem as Model;
+use lo\core\modules\main\models\IncludeItem as Model;
 use lo\core\widgets\App;
 
 /**
@@ -14,7 +15,7 @@ class IncludeItem extends App
     /** @var string символьный код включаемой области */
     public $code;
 
-    /** @var Model $model модель включаемой области */
+    /** @var IncludeItem $model модель включаемой области */
     public $model;
 
     /**

@@ -2,14 +2,16 @@
 
 namespace lo\core\modules\main\models;
 
+use lo\core\db\tree\TActiveRecord;
 use Yii;
 
 /**
  * This is the model class.
  *
  * @property integer $id
+ * @property string link
  */
-class Menu extends \lo\core\db\tree\TActiveRecord
+class Menu extends TActiveRecord
 {
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
@@ -67,6 +69,21 @@ class Menu extends \lo\core\db\tree\TActiveRecord
         }
 
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(){
+        return $this->link;
     }
 
 }
