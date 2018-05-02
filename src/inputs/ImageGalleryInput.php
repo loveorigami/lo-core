@@ -32,6 +32,7 @@ class ImageGalleryInput extends BaseInput
      * @param array $options массив html атрибутов поля
      * @param bool|int $index индекс модели при табличном вводе
      * @return string
+     * @throws \Exception
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
