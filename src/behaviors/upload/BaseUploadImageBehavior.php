@@ -2,14 +2,12 @@
 
 namespace lo\core\behaviors\upload;
 
-use Imagine\Image\ManipulatorInterface;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
-use yii\imagine\Image;
 
 /**
  * UploadImageBehavior automatically uploads image, creates thumbnails and fills
@@ -231,25 +229,6 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
      */
     protected function generateImageThumb($config, $path, $thumbPath)
     {
-        $width = ArrayHelper::getValue($config, 'width');
-        $height = ArrayHelper::getValue($config, 'height');
-        $quality = ArrayHelper::getValue($config, 'quality', 100);
-        $mode = ArrayHelper::getValue($config, 'mode', ManipulatorInterface::THUMBNAIL_INSET);
-        $bg_color = ArrayHelper::getValue($config, 'bg_color', 'FFF');
 
-        if (!$width || !$height) {
-            $image = Image::getImagine()->open($path);
-            $ratio = $image->getSize()->getWidth() / $image->getSize()->getHeight();
-            if ($width) {
-                $height = ceil($width / $ratio);
-            } else {
-                $width = ceil($height * $ratio);
-            }
-        }
-
-        // Fix error "PHP GD Allowed memory size exhausted".
-        ini_set('memory_limit', '512M');
-        Image::$thumbnailBackgroundColor = $bg_color;
-        Image::thumbnail($path, $width, $height, $mode)->save($thumbPath, ['quality' => $quality]);
     }
 }
