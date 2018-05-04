@@ -164,14 +164,10 @@ class BaseUploadBehavior extends Behavior
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
         if (in_array($model->scenario, $this->scenarios)) {
-            if ($this->_file instanceof UploadedFile) {
-                if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
-                    if ($this->unlinkOnSave === true) {
-                        $this->delete($this->attribute, true);
-                    }
-                }
-                $model->setAttribute($this->attribute, $this->_file->name);
-            } elseif ($this->_file instanceof UploadedRemoteFile) {
+            if (
+                $this->_file instanceof UploadedFile ||
+                $this->_file instanceof UploadedRemoteFile
+            ) {
                 if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
                     if ($this->unlinkOnSave === true) {
                         $this->delete($this->attribute, true);
@@ -198,7 +194,10 @@ class BaseUploadBehavior extends Behavior
      */
     public function afterSave()
     {
-        if ($this->_file instanceof UploadedFile) {
+        if (
+            $this->_file instanceof UploadedFile ||
+            $this->_file instanceof UploadedRemoteFile
+        ) {
             $path = $this->getUploadPath($this->attribute);
             if (is_string($path) && FileHelper::createDirectory(dirname($path))) {
                 $this->save($this->_file, $path);
@@ -207,18 +206,6 @@ class BaseUploadBehavior extends Behavior
                 throw new InvalidArgumentException("Directory specified in 'path' attribute doesn't exist or cannot be created.");
             }
         }
-
-        if ($this->_file instanceof UploadedRemoteFile) {
-            $path = $this->getUploadPath($this->attribute);
-            if (is_string($path) && FileHelper::createDirectory(dirname($path))) {
-                $this->save($this->_file, $path);
-                $this->afterUpload();
-            } else {
-                throw new InvalidArgumentException("Directory specified in 'path' attribute doesn't exist or cannot be created.");
-            }
-        }
-
-
     }
 
     /**
