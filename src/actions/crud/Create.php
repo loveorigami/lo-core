@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -20,6 +21,11 @@ class Create extends Base
 
     /** @var string путь к шаблону для отображения */
     public $tpl = "create";
+
+    /**
+     * @var Closure
+     */
+    public $ajaxCallback;
 
     /**
      * @return array|string|Response
@@ -46,19 +52,24 @@ class Create extends Base
             return $this->performAjaxValidation($model);
         }
 
-        if ($load){
+        if ($load) {
             $this->canAction($model);
         };
 
         if ($load && $model->save()) {
             $returnUrl = $this->getReturnUrl();
+
             if (Yii::$app->request->isAjax) {
                 // JSON response is expected in case of successful save
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return [
-                    'success' => true,
-                    'id' => $model->id
-                ];
+                if ($this->ajaxCallback instanceof \Closure) {
+                    return call_user_func($this->ajaxCallback, $model);
+                } else {
+                    return [
+                        'success' => true,
+                        'id' => $model->id
+                    ];
+                }
             }
 
             if ($request->post($this->applyParam)) {
