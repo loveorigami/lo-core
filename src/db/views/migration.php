@@ -6,17 +6,15 @@
 /* @var $className string the new migration class name */
 
 echo "<?php\n";
+if (!empty($namespace)) {
+    echo "\nnamespace {$namespace};\n";
+}
 ?>
-
-use lo\core\db\Migration;
-
+/**
+* Class <?= $className . "\n" ?>
+*/
 class <?= $className ?> extends Migration
 {
-    public $tableGroup = "module";
-
-    const TBL = 'item';
-    //const TBL_PARENT = 'cat';
-
     public function up()
     {
         $this->createTable($this->tn(self::TBL), [
@@ -30,8 +28,6 @@ class <?= $className ?> extends Migration
             'name' => $this->string()->notNull(),
 
         ]);
-
-        $this->createIndex('idx_table_name_status', $this->tn(self::TBL), 'status');
 
 /*
     $this->addForeignKey(
