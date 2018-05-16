@@ -36,7 +36,7 @@ class Index extends Base
     /**
      * Запуск действия вывода списка моделей
      * @return string
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function run()
     {
@@ -66,11 +66,13 @@ class Index extends Base
             $perm->applyConstraint($query);
         }
 
-        $pageSize = isset($params['per-page']) ? intval($params['per-page']) : $this->pageSize;
-        $dataProvider->getPagination()->pageSize = $pageSize;
+        $pageSizeParam = $dataProvider->pagination->pageSizeParam;
+
+        $pageSize = isset($params[$pageSizeParam]) ? intval($params[$pageSizeParam]) : $this->pageSize;
+        $dataProvider->pagination->pageSize = $pageSize;
 
         if ($this->orderBy) {
-            $dataProvider->getSort()->defaultOrder = $this->orderBy;
+            $dataProvider->sort->defaultOrder = $this->orderBy;
         }
 
         $params = [

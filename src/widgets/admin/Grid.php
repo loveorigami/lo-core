@@ -22,6 +22,7 @@ use yii\helpers\Url;
  * Грид для админки. Формируется на основе \lo\core\db\MetaFields модели
  * @property array $rowButtons кнопки действий строк грида
  * @property array $groupButtons кнопки групповых операций
+ * @property array $columns
  * @property string $baseRoute базовая часть маршрута для формировнаия url действий
  * @package lo\core\widgets\admin
  * @author Lukyanov Andrey <loveorigami@mail.ru>
@@ -96,7 +97,7 @@ class Grid extends Widget
     public function init()
     {
         $model = $this->model;
-        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", $model::className()));
+        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", get_class($model)));
         $this->pjaxId = $this->id . self::PJAX_SUF;
         $this->view->registerCss(".grid-checkbox-disabled input[type='checkbox'] { display:none; }");
     }
@@ -104,6 +105,7 @@ class Grid extends Widget
     /**
      * Запуск виджета
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function run()
     {
@@ -120,6 +122,7 @@ class Grid extends Widget
     /**
      * Возвращает описание колонок
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     protected function getColumns()
     {

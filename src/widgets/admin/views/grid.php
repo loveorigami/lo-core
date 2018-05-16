@@ -23,7 +23,7 @@ echo GridView::widget([
     'options' => ['class' => 'table-responsive'],
     'dataProvider' => $dataProvider,
     'filterModel' => $model,
-    'filterSelector' => "select[name='" . $dataProvider->getPagination()->pageSizeParam . "'],input[name='" . $dataProvider->getPagination()->pageParam . "']",
+    'filterSelector' => "select[name='" . $dataProvider->pagination->pageSizeParam . "'],input[name='" . $dataProvider->pagination->pageParam . "']",
     'columns' => $columns,
 ]);
 ?>
