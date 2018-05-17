@@ -33,6 +33,11 @@ class Update extends Base
     public $userPermission;
 
     /**
+     * @var Closure
+     */
+    public $ajaxCallback;
+
+    /**
      * @param $id
      * @return array|string|Response
      * @throws \yii\web\NotFoundHttpException
@@ -65,10 +70,14 @@ class Update extends Base
                 if (Yii::$app->request->isAjax) {
                     // JSON response is expected in case of successful save
                     Yii::$app->response->format = Response::FORMAT_JSON;
-                    return [
-                        'success' => true,
-                        'id' => $model->id
-                    ];
+                    if ($this->ajaxCallback instanceof \Closure) {
+                        return call_user_func($this->ajaxCallback, $model);
+                    } else {
+                        return [
+                            'success' => true,
+                            'id' => $model->id
+                        ];
+                    }
                 }
 
                 if (!$request->post($this->applyParam)) {
