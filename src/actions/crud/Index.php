@@ -47,16 +47,16 @@ class Index extends Base
           throw new ForbiddenHttpException('Forbidden'); */
 
         $searchModel->setScenario($this->modelScenario);
-        $params = Yii::$app->request->getQueryParams();
+        $requestParams = Yii::$app->request->getQueryParams();
 
         if (!empty($this->defaultSearchAttrs)) {
-            $params = ArrayHelper::merge(
+            $requestParams = ArrayHelper::merge(
                 [$searchModel->formName() => $this->defaultSearchAttrs],
-                $params
+                $requestParams
             );
         }
 
-        $dataProvider = $searchModel->search($params, $this->dataProviderConfig);
+        $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig);
 
         $perm = $searchModel->getPermission();
 
@@ -67,8 +67,8 @@ class Index extends Base
         }
 
         $pageSizeParam = $dataProvider->pagination->pageSizeParam;
+        $pageSize = isset($requestParams[$pageSizeParam]) ? intval($requestParams[$pageSizeParam]) : $this->pageSize;
 
-        $pageSize = isset($params[$pageSizeParam]) ? intval($params[$pageSizeParam]) : $this->pageSize;
         $dataProvider->pagination->pageSize = $pageSize;
 
         if ($this->orderBy) {

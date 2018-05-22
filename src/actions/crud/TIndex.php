@@ -27,6 +27,8 @@ class TIndex extends Index
      */
     public $extFilterParam = "extendedFilter";
 
+    public $depth = 0;
+
     /**
      * @param int $parent_id
      * @return string
@@ -46,7 +48,7 @@ class TIndex extends Index
 
         /** @var TActiveRecord $parentModel */
         if ($parentModel) {
-            $query = $parentModel->getDescendants();
+            $query = $parentModel->getDescendants($this->depth);
         } else {
             $query = $searchModel::find();
         }
@@ -61,7 +63,10 @@ class TIndex extends Index
             $perm->applyConstraint($dataQuery);
         }
 
-        $dataProvider->getPagination()->pageSize = $this->pageSize;
+        $pageSizeParam = $dataProvider->pagination->pageSizeParam;
+        $pageSize = isset($requestParams[$pageSizeParam]) ? intval($requestParams[$pageSizeParam]) : $this->pageSize;
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         if ($this->orderBy) {
             $dataProvider->getSort()->defaultOrder = $this->orderBy;
