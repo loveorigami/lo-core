@@ -27,7 +27,7 @@ class TIndex extends Index
      */
     public $extFilterParam = "extendedFilter";
 
-    public $depth = 0;
+    public $depth = null;
 
     /**
      * @param int $parent_id
