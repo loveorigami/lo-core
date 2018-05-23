@@ -62,10 +62,16 @@ trait ArTreeTrait
             if (empty($model->$attr))
                 continue;
 
-            $arr[] = [
-                "url" => call_user_func($route, $model),
-                "label" => $model->$attr,
-            ];
+            if ($model->id != $modelArg) {
+                $arr[] = [
+                    "url" => call_user_func($route, $model),
+                    "label" => $model->$attr,
+                ];
+            } else {
+                $arr[] = [
+                    "label" => $model->$attr,
+                ];
+            }
         }
 
         return $arr;
