@@ -7,6 +7,6 @@ class Migration extends BaseMigration
 {
     public $tableGroup = "core";
 
-    const TBL_TEMPLATE = 'template';
+    const TBL_TEMPLATE = 'templates';
     const TBL_TIMELINE = 'timeline_event';
 }
