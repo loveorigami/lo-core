@@ -24,7 +24,7 @@ class TimelineEvent extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%timeline_event}}';
+        return '{{%core__timeline_event}}';
     }
 
     /**
