@@ -12,6 +12,14 @@ use yii\web\Response;
  * Класс действия создания элемента модели
  * @package lo\core\actions\crud
  * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * Use in controller as:
+ *      'list' => [
+ *          'class' => crud\ListId::class,
+ *          'modelClass' => $class,
+ *          'condition' => function ($query) {
+ *              return $query->published();
+ *          }
+ *      ],
  */
 class ListId extends Base
 {
