@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
@@ -20,6 +21,12 @@ class ListId extends Base
     /** @var string сценарий */
     public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
 
+    /** @var ActiveQuery */
+    public $condition;
+
+    /** @var int */
+    public $limit = 10;
+
     public function run($q = null)
     {
         $obj = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
@@ -28,8 +35,17 @@ class ListId extends Base
         $out['results'][] = ['id' => 1, 'text' => ''];
 
         if (!is_null($q)) {
-            $query = $obj::find()->select('id,' . $this->defaultAttr)->where(['like', $this->defaultAttr, $q])->limit(10)->all();
-            foreach ($query as $m) {
+            $query = $obj::find()
+                ->select('id,' . $this->defaultAttr)
+                ->where(['like', $this->defaultAttr, $q]);
+
+            if ($this->condition instanceof \Closure) {
+                call_user_func($this->condition, $query);
+            };
+
+            $data = $query->limit($this->limit)->all();
+
+            foreach ($data as $m) {
                 $out['results'][] = [
                     'id' => (int)$m->id,
                     'text' => $m->{$this->defaultAttr}
