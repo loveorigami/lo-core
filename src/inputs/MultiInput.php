@@ -2,9 +2,9 @@
 
 namespace lo\core\inputs;
 
-use unclead\multipleinput\MultipleInput;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use lo\core\widgets\MultipleInputWidget;
 
 /**
  * Class MultiInput
@@ -29,6 +29,6 @@ class MultiInput extends BaseInput
             $options
         );
 
-        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(MultipleInput::class, $options);
+        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(MultipleInputWidget::class, $options);
     }
 } 
