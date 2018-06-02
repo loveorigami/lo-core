@@ -49,6 +49,22 @@ abstract class TActiveRecord extends ActiveRecord
     }
 
     /**
+     * @return ActiveQuery
+     */
+    public function getParents()
+    {
+        return $this->getBehavior('nestedSets')->getParents();
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDescendants()
+    {
+        return $this->getBehavior('nestedSets')->getDescendants();
+    }
+
+    /**
      * @inheritdoc
      * @return TActiveQuery
      */

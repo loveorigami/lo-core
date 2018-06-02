@@ -41,15 +41,21 @@ trait ArTreeTrait
      * @param callable $route функция возвращающая маршрут/url. Принимает в себя параметром экземпляр модели
      * @param string $attr имя атрибута для label
      * @return array
+     * Use as:
+     * -----------------
+     *  $data = $model->getBreadCrumbsItems($model, function ($data) use ($model) {
+     *      if ($model->getId() == $data->getId()) {
+     *          return null;
+     *      }
+     *      return ['/site/index', 'slug '=> $data->getSlug()];
+     *  });
      */
     public function getBreadCrumbsItems($modelArg, $route, $attr = "name")
     {
         if (is_object($modelArg)) {
             $model = $modelArg;
-            $currId = $modelArg->id;
         } else {
             $model = static::find()->where(["id" => $modelArg])->one();
-            $currId = $modelArg;
         }
 
         if (!$model) return [];
@@ -59,21 +65,15 @@ trait ArTreeTrait
 
         $arr = [];
 
-        foreach ($models AS $model) {
+        foreach ($models AS $item) {
 
-            if (empty($model->$attr))
+            if (empty($item->$attr))
                 continue;
 
-            if ($model->id != $currId) {
-                $arr[] = [
-                    "url" => call_user_func($route, $model),
-                    "label" => $model->$attr,
-                ];
-            } else {
-                $arr[] = [
-                    "label" => $model->$attr,
-                ];
-            }
+            $arr[] = [
+                "url" => call_user_func($route, $item, $model),
+                "label" => $item->$attr,
+            ];
         }
 
         return $arr;
