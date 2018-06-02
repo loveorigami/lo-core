@@ -46,8 +46,10 @@ trait ArTreeTrait
     {
         if (is_object($modelArg)) {
             $model = $modelArg;
+            $currId = $modelArg->id;
         } else {
             $model = static::find()->where(["id" => $modelArg])->one();
+            $currId = $modelArg;
         }
 
         if (!$model) return [];
@@ -62,7 +64,7 @@ trait ArTreeTrait
             if (empty($model->$attr))
                 continue;
 
-            if ($model->id != $modelArg) {
+            if ($model->id != $currId) {
                 $arr[] = [
                     "url" => call_user_func($route, $model),
                     "label" => $model->$attr,

@@ -25,7 +25,7 @@ abstract class TActiveRecord extends ActiveRecord
     const ROOT_ID = 1;
 
     /** @return int */
-    public function getRootId()
+    public function getRootId(): int
     {
         return self::ROOT_ID;
     }
