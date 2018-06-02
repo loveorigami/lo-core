@@ -49,19 +49,23 @@ abstract class TActiveRecord extends ActiveRecord
     }
 
     /**
+     * @param null $depth
      * @return ActiveQuery
      */
-    public function getParents()
+    public function getParents($depth = null)
     {
-        return $this->getBehavior('nestedSets')->getParents();
+        return $this->getBehavior('nestedSets')->getParents($depth);
     }
 
     /**
+     * @param null $depth
+     * @param bool $andSelf
+     * @param bool $backOrder
      * @return ActiveQuery
      */
-    public function getDescendants()
+    public function getDescendants($depth = null, $andSelf = false, $backOrder = false)
     {
-        return $this->getBehavior('nestedSets')->getDescendants();
+        return $this->getBehavior('nestedSets')->getDescendants($depth, $andSelf, $backOrder);
     }
 
     /**
