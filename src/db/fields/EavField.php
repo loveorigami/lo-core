@@ -2,6 +2,7 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\helpers\Memoize;
 use lo\modules\eavb\behaviors\EavEntity;
 use lo\modules\eavb\models\Entity;
 use lo\modules\eavb\models\Set;
@@ -48,15 +49,15 @@ class EavField extends BaseField
 
         $parent[$code] = ArrayHelper::merge([
             'class' => EavEntity::class,
-            //'sets' => 'demo',
+            'sets' => 'demo2',
             'entity' => function () {
-                if (!$this->model->id) {
+                if ($this->model->cat_id == 2) {
                     return new Entity([
-                        'sets' => Set::findAll(['slug' => 'demo']),
+                        'sets' => Memoize::call([Set::class, 'findAll'], [['slug' => 'demo2']]),
                     ]);
                 }
                 return new Entity([
-                    'sets' => Set::findAll(['slug' => 'demo2']),
+                    'sets' => Memoize::call([Set::class, 'findAll'], [['slug' => 'demo']]),
                 ]);
             },
         ], $this->eavOptions);
@@ -88,7 +89,6 @@ class EavField extends BaseField
         if ($cols) {
             $grid['columns'] = $cols;
         }
-
         return $grid;
     }
 
