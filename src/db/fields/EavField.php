@@ -2,57 +2,79 @@
 
 namespace lo\core\db\fields;
 
+use lo\modules\eavb\behaviors\EavEntity;
+use lo\modules\eavb\models\Entity;
+use lo\modules\eavb\models\Set;
+use lo\modules\eavb\models\Value;
 use yii\helpers\ArrayHelper;
 
 use lo\core\db\ActiveQuery;
-use lo\core\db\ActiveRecord;
-
-use lo\modules\eav\EavQueryTrait;
+use yii\validators\Validator;
 
 /**
  * Class HtmlField
  * Поле WYSIWYG редактора. Использует CKEditor
  * @package lo\core\db\fields
  * @author Lukyanov Andrey <loveorigami@mail.ru>
+ *
+ * @property array $eavGridColumns
  */
 class EavField extends BaseField
 {
-    public $showInGrid = false;
-    public $showInFilter = false;
+    public $showInGrid = true;
+    public $showInFilter = true;
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
 
-    /**
-     * @inheritdoc
-     */
+    public $eavAttributes = [];
 
-    public $inputClass = '\lo\core\inputs\EavInput';
+    /** @var string */
+    public $inputClass = 'lo\core\inputs\EavInput';
 
-    /**
-     * Преффикс поведения
-     */
+    /** Преффикс поведения*/
     const BEHAVIOR_PREF = "eav";
 
-    /**
-     * @var array настройки поведения
-     */
-
+    /** @var array настройки поведения */
     public $eavOptions = [];
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         $parent = parent::behaviors();
+        $code = static::BEHAVIOR_PREF . $this->attr;
 
-            $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
+        $parent[$code] = ArrayHelper::merge([
+            'class' => EavEntity::class,
+            //'sets' => 'demo',
+            'entity' => function () {
+                if (!$this->model->id) {
+                    return new Entity([
+                        'sets' => Set::findAll(['slug' => 'demo']),
+                    ]);
+                }
+                return new Entity([
+                    'sets' => Set::findAll(['slug' => 'demo2']),
+                ]);
+            },
+        ], $this->eavOptions);
 
-            $parent[$code] = ArrayHelper::merge([
-                'class' => \lo\modules\eav\EavBehavior::className(),
-            ], $this->eavOptions);
-
+        $validators = $this->model->getValidators();
+        $validators->append(Validator::createValidator('safe', $this->model, $this->eavAttributes));
 
         return $parent;
+    }
 
+    /**
+     * @return array|bool
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [$this->eavAttributes, 'safe'];
+        return $rules;
     }
 
     /**
@@ -61,20 +83,15 @@ class EavField extends BaseField
     protected function grid()
     {
         $grid = $this->defaultGrid();
-        $grid["value"] = 111;
+        $cols = $this->getEavGridColumns();
+
+        if ($cols) {
+            $grid['columns'] = $cols;
+        }
 
         return $grid;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        $rules = parent::rules();
-        $rules[] = [$this->attr, 'safe'];
-        return $rules;
-    }
 
     /**
      * Поиск
@@ -82,9 +99,46 @@ class EavField extends BaseField
      */
     protected function search(ActiveQuery $query)
     {
-       parent::search($query);
-        $query->andEavFilterWhere('=', 'eav_name', Yii::$app->getRequest()->get('eav_name'));
-        //return true;
+        //d($this->model->eav->getAttributes()); exit;
+        //d($this->model->eav); exit;
+
+        foreach ($this->model->getEav()->getAttributes() as $key => $value) {
+            /** @var Value $valueModel */
+            $attrModel = $this->model->getEav()->getAttributeModel($key);
+            $valueModel = $attrModel->createValue();
+            $valueModel->setScenario('search');
+            $valueModel->load(['value' => $value], '');
+            //d($valueModel); exit;
+            if ($valueModel->validate(['value'])) {
+                $valueModel->addJoin($query, $this->model->tableName());
+                $valueModel->addWhere($query);
+            }
+        }
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function getEavGridColumns()
+    {
+        $result = [];
+
+        /** @var Entity $entity */
+        $entity = $this->model->getEav();
+
+        foreach ($entity->getAttributesConfig() as $code => $item) {
+            if (in_array($code, $this->eavAttributes)) {
+                $column = [
+                    'label' => $item['name'],
+                    'attribute' => $code,
+                ];
+                //$column = self::addFilter($column, $item, $searchModel);
+                // $column = self::addValue($column, $item);
+                $result[] = $column;
+            }
+        }
+
+        return $result;
+    }
 }
