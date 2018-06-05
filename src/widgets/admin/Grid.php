@@ -153,8 +153,15 @@ class Grid extends Widget
         foreach ($fields AS $field) {
             $grid = $field->getGrid();
 
-            if ($field->showInGrid AND $grid)
-                $columns[] = $grid;
+            if (isset($grid['columns'])) {
+                foreach ($grid['columns'] as $col) {
+                    $columns[] = $col;
+                }
+            } else {
+                if ($field->showInGrid AND $grid) {
+                    $columns[] = $grid;
+                }
+            }
         }
 
         $columns = ArrayHelper::merge($columns, $this->userColumns);
