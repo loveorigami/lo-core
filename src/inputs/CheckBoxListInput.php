@@ -4,6 +4,7 @@ namespace lo\core\inputs;
 
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 use lo\core\widgets\awcheckbox\AwesomeCheckbox;
 
 /**
@@ -14,6 +15,11 @@ use lo\core\widgets\awcheckbox\AwesomeCheckbox;
  *      "definition" => [
  *          "class" => fields\ManyManyField::class,
  *          "inputClass" => inputs\CheckBoxListInput::class,
+ *          "inputClassOptions" => [
+ *              "options" => [
+ *                  'isTree' => true
+ *              ]
+ *          ],
  *          "title" => Yii::t('backend', 'Groups'),
  *          "isRequired" => true,
  *          "showInGrid" => false,
@@ -47,19 +53,41 @@ class CheckBoxListInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
+        $this->registerJs();
         $data = $this->modelField->getDataValue();
 
-        if (empty($data)){
+        if (empty($data)) {
             return false;
         }
 
         $options = ArrayHelper::merge(
             $this->defaultOptions,
             $this->widgetOptions,
-            $this->options,
             $options, ['list' => $data]
         );
 
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(AwesomeCheckbox::class, $options);
+    }
+
+    /**
+     * Регистрация js
+     */
+    protected function registerJs()
+    {
+        $isTree = ArrayHelper::getValue($this->options, 'isTree');
+        if ($isTree) {
+            $id = Html::getInputId($this->getModel(), $this->getAttr());
+            $js = <<<JS
+        
+        $('#$id').on('change', 'input[value="1"]', initFilters);
+        
+        function initFilters() {
+            var filter = $(this).prop('checked');
+            $('#$id input').prop('checked', filter);
+        }
+JS;
+            $view = \Yii::$app->getView();
+            $view->registerJs($js);
+        }
     }
 }

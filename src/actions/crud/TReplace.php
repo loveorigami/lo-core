@@ -40,8 +40,10 @@ class TReplace extends Base
             $ids = Yii::$app->request->get($this->groupIdsAttr, array());
             $model = Yii::createObject($class);
             $arr = $model->getListTreeData(TActiveRecord::ROOT_ID, $ids);
-            foreach ($arr as $k => $v)
-                echo Html::tag('option', $v, ["value" => $k]);
+            foreach ($arr as $k => $v) {
+                $data[] = Html::tag('option', $v, ["value" => $k]);
+            }
+            return implode('', $data);
             Yii::$app->end();
         }
 

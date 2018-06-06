@@ -88,7 +88,9 @@ abstract class TActiveRecord extends ActiveRecord
      */
     public function getListTreeData($parent_id = self::ROOT_ID, $exclude = [], $attr = "name")
     {
-        $arr = [self::ROOT_ID => Yii::t('common', 'Root')];
+        $arr = [
+            self::ROOT_ID => Yii::t('common', 'Root')
+        ];
 
         $query = static::find();
 
@@ -108,6 +110,37 @@ abstract class TActiveRecord extends ActiveRecord
         $models = $query->published()->all();
 
         return $this->getList($models, $exclude, $attr, $arr);
+    }
+
+    /**
+     * Возвращает массив для заполнения списка выбора родителя модели
+     * @param int $parent_id
+     * @param array $exclude массив id моделей ветки которых необходимо исключить из списка
+     * @param string $attr имя отображаемого атрибута
+     * @return array
+     */
+    public function getCheckboxListTreeDataByDepth($parent_id = self::ROOT_ID, $depth = null, $attr = "name")
+    {
+        $arr = [self::ROOT_ID => Yii::t('common', 'Root')];
+
+        $query = static::find();
+
+        if ($perm = $this->getPermission()) {
+            $perm->applyConstraint($query);
+        }
+
+        /** @var TActiveRecord $model */
+        $model = $query->andWhere(["id" => $parent_id])->one();
+
+        if (!$model) {
+            return $arr;
+        }
+
+        /** @var ActiveQuery $query */
+        $query = $model->getDescendants($depth);
+        $models = $query->published()->all();
+
+        return $this->getList($models, [], $attr, $arr);
     }
 
     /**
