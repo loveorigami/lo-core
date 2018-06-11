@@ -64,6 +64,7 @@
     "voskobovich/yii2-linker-behavior": "*",
     "devgroup/yii2-jstree-widget": "*",
     "unclead/yii2-multiple-input": "~2.0",
+	"kalyabin/yii2-select-google-map-location":"*",
     
 	"bower-asset/jquery-number": "*",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
