@@ -2,8 +2,8 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\behaviors\upload\IUploadFile;
 use lo\core\inputs\ElfinderFileInput;
-use lo\core\interfaces\IUploadFile;
 use Yii;
 use yii\helpers\Html;
 
@@ -112,9 +112,12 @@ class FileField extends BaseField
     protected function getGridValue($model)
     {
         $src = $model->getUploadUrl($this->attr);
-        return Html::a('<span class="fa fa-download"></span>', $src, [
-            'data-pjax' => 0,
-            'target' => '_blank'
-        ]);
+        if ($src) {
+            return Html::a('<span class="fa fa-download"></span>', $src, [
+                'data-pjax' => 0,
+                'target' => '_blank'
+            ]);
+        }
+        return '';
     }
 }
