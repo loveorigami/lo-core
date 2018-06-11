@@ -2,8 +2,8 @@
 
 namespace lo\core\inputs\map;
 
-use kalyabin\maplocation\SelectMapLocationWidget;
 use lo\core\inputs\BaseInput;
+use lo\widgets\gmap\SelectMapLocationWidget;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
