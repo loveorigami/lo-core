@@ -2,6 +2,7 @@
 
 namespace lo\core\db\fields;
 
+use lo\core\db\ActiveRecord;
 use lo\core\helpers\Memoize;
 use lo\modules\eavb\behaviors\EavEntity;
 use lo\modules\eavb\models\Entity;
@@ -38,6 +39,7 @@ class EavField extends BaseField
 
     /** @var array настройки поведения */
     public $eavOptions = [];
+    public $eavCondition;
 
     /**
      * @return array
@@ -49,15 +51,11 @@ class EavField extends BaseField
 
         $parent[$code] = ArrayHelper::merge([
             'class' => EavEntity::class,
-            'sets' => 'demo2',
             'entity' => function () {
-                if ($this->model->cat_id == 2) {
-                    return new Entity([
-                        'sets' => Memoize::call([Set::class, 'findAll'], [['slug' => 'demo2']]),
-                    ]);
-                }
                 return new Entity([
-                    'sets' => Memoize::call([Set::class, 'findAll'], [['slug' => 'demo']]),
+                    'sets' => Memoize::call(
+                        [Set::class, 'findAll'], [['slug' => $this->eavCondition]]
+                    ),
                 ]);
             },
         ], $this->eavOptions);

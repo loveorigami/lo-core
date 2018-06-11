@@ -1,7 +1,8 @@
 <?php
 
-namespace lo\core\inputs;
+namespace lo\core\inputs\map;
 
+use lo\core\inputs\BaseInput;
 use yii\helpers\ArrayHelper;
 use lo\core\widgets\yamap\YaMapInput as Widget;
 use yii\widgets\ActiveForm;
@@ -40,7 +41,7 @@ class YaMapInput extends BaseInput
                                 </div>
                                 {error}{hint}',
             ]
-        )->widget(Widget::className(), $widgetOptions);
+        )->widget(Widget::class, $widgetOptions);
     }
 
 

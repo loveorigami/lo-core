@@ -1,8 +1,9 @@
 <?php
 
-namespace lo\core\db\fields;
+namespace lo\core\db\fields\map;
 
-use lo\core\inputs\YaMapInput;
+use lo\core\db\fields\TextField;
+use lo\core\inputs\map\YaMapInput;
 
 /**
  * Class YaMapField
@@ -18,6 +19,9 @@ class YaMapField extends TextField
      */
     public $showInExtendedFilter = false;
 
+    /**
+     * @var string
+     */
     public $inputClass = YaMapInput::class;
 
 }
