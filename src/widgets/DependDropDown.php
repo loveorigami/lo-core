@@ -53,8 +53,10 @@ class DependDropDown extends InputWidget
 
         $url = Url::toRoute($this->loadUrl);
 
+        $id = $this->options['id'];
+
         $this->view->registerJs("
-			$('#{$this->options["id"]}').on('change', function(){
+			$('#{$id}').on('change', function(){
 
 				var val = $(this).val();
 				$(this).prev().val(val);
@@ -79,7 +81,7 @@ class DependDropDown extends InputWidget
 
         if ($this->triggerChange) {
             $this->view->registerJs("
-				$('#{$this->options["id"]}').trigger('change');
+				$('#{$id}').trigger('change');
 			", View::POS_READY);
         }
     }
