@@ -30,7 +30,7 @@ class Select2Column extends DataColumn
      * -----------------
      * public function getCategoriesFilter()
      * {
-     *      $ids = ArrayHelper::getValue(Yii::$app->request->get(), 'Page.category_id');
+     *      $ids = ArrayHelper::getValue(Yii::$app->request->get(), 'Page.cat_ids');
      *      if (!$ids) return [];
      *      $data = Category::find()->byPk($ids)->asArray()->all();
      *      return ArrayHelper::map($data, 'id', 'name');

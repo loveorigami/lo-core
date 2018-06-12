@@ -4,6 +4,7 @@ namespace lo\core\db\fields\map;
 
 use lo\core\db\fields\TextField;
 use lo\core\inputs\map\GoogleMapInput;
+use lo\core\inputs\TextInput;
 
 /**
  * Class GoogleMapField
@@ -21,5 +22,8 @@ class GoogleMapField extends TextField
      * @var string
      */
     public $inputClass = GoogleMapInput::class;
+
+    /** @var string */
+    public $filterInputClass = TextInput::class;
 
 }

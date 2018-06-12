@@ -5,6 +5,7 @@ namespace lo\core\db\fields;
 use lo\core\behaviors\upload\UploadFile;
 use lo\core\db\ActiveRecord;
 use lo\core\inputs\FileUploadInput;
+use lo\core\inputs\TextInput;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -22,6 +23,9 @@ class FileUploadField extends FileField
 
     /** @var string|array имя класс, либо конфигурация компонента который рендерит поле вывода формы */
     public $inputClass = FileUploadInput::class;
+
+    /** @var string */
+    public $filterInputClass = TextInput::class;
 
     /** @var integer макс. размер файла 2Мб */
     public $maxSize = 2097152;
