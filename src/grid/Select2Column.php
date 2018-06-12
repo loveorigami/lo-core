@@ -4,6 +4,7 @@ namespace lo\core\grid;
 
 use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
 
@@ -21,7 +22,24 @@ class Select2Column extends DataColumn
      */
     public $loadUrl;
 
+    /**
+     * @var string | array
+     * ------------------
+     * for multiple mode
+     * $initValueText = $this->getCategoriesFilter()
+     * -----------------
+     * public function getCategoriesFilter()
+     * {
+     *      $ids = ArrayHelper::getValue(Yii::$app->request->get(), 'Page.category_id');
+     *      if (!$ids) return [];
+     *      $data = Category::find()->byPk($ids)->asArray()->all();
+     *      return ArrayHelper::map($data, 'id', 'name');
+     * }
+     * ------------------
+     */
     public $initValueText;
+
+    public $multiple = false;
 
     /**
      * @inheritdoc
@@ -35,8 +53,8 @@ class Select2Column extends DataColumn
             'model' => $this->grid->filterModel,
             'attribute' => $this->attribute,
             'options' => [
-                'multiple' => false,
-                'id' => 'fs-'.$this->attribute,
+                'multiple' => $this->multiple,
+                'id' => 'fs-' . $this->attribute,
             ],
         ];
 
@@ -53,9 +71,9 @@ class Select2Column extends DataColumn
                     ],
                     'minimumInputLength' => 2,
                     'ajax' => [
-                        'url' => $this->loadUrl,
+                        'url' => Url::to($this->loadUrl),
                         'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }'),
                     ],
                     'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                     'templateResult' => new JsExpression('function(data) { if (data.placeholder) return data.placeholder; return data.text; }'),

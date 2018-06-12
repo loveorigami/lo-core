@@ -3,7 +3,6 @@ namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
 use lo\core\db\ActiveQuery;
-use lo\core\grid\Select2Column;
 use lo\core\inputs\Select2MultiInput;
 use yii\helpers\ArrayHelper;
 
