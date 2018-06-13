@@ -34,6 +34,9 @@ class ListTreeOptions extends Base
     /** @var string сценарий */
     public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
 
+    /** @var int */
+    public $depth = 1;
+
     public function run($q = null)
     {
         $obj = Yii::createObject(["class" => $this->modelClass, 'scenario' => $this->modelScenario]);
@@ -51,7 +54,7 @@ class ListTreeOptions extends Base
         }
 
         /** @var TActiveRecord[] $data */
-        $data = $model->getDescendants()->all();
+        $data = $model->getDescendants($this->depth)->all();
 
         return Html::renderSelectOptions([], ArrayHelper::map($data, 'id', 'name'));
     }
