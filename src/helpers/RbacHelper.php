@@ -61,6 +61,10 @@ class RbacHelper
     {
         if (!self::canUser($rule, $model)) {
             if (Yii::$app->request->isAjax) {
+                Yii::$app->session->setFlash('error', App::t('Forbidden access {rule} to {model}', [
+                    'model' => get_class($model),
+                    'rule' => $rule,
+                ]));
                 throw new FlashForbiddenException(App::t('Forbidden access {rule} to {model}', [
                     'model' => get_class($model),
                     'rule' => $rule,
