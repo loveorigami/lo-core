@@ -41,9 +41,9 @@ class Delete extends Base
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
 
-            try {
-                $this->getPermissionOrForbidden($model);
+            $this->getPermissionOrForbidden($model);
 
+            try {
                 if ($this->canDelete instanceof \Closure) {
                     $canDelete = call_user_func($this->canDelete, $model);
                 } else {

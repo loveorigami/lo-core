@@ -4,6 +4,8 @@ namespace lo\core\helpers;
 
 use lo\core\db\ActiveRecord;
 use lo\core\exceptions\FlashForbiddenException;
+use Yii;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Class RbacHelper
@@ -53,36 +55,51 @@ class RbacHelper
      * @param $rule
      * @param ActiveRecord $model
      * @throws FlashForbiddenException
+     * @throws ForbiddenHttpException
      */
     public static function canUserOrForbidden($rule, $model)
     {
         if (!self::canUser($rule, $model)) {
-            throw new FlashForbiddenException(App::t('Forbidden access {rule} to {model}',[
-                'model' => $model::className(),
-                'rule' => $rule,
-            ]));
+            if (Yii::$app->request->isAjax) {
+                throw new FlashForbiddenException(App::t('Forbidden access {rule} to {model}', [
+                    'model' => get_class($model),
+                    'rule' => $rule,
+                ]));
+            } else {
+                throw new ForbiddenHttpException(App::t('Forbidden access'));
+            }
         };
     }
 
     /**
      * @param $model
      * @throws FlashForbiddenException
+     * @throws ForbiddenHttpException
      */
     public static function canDeleteOrForbidden($model)
     {
         if (!self::canUser(self::B_DELETE, $model)) {
-            throw new FlashForbiddenException(App::t('Forbidden delete model'));
+            if (Yii::$app->request->isAjax) {
+                throw new FlashForbiddenException(App::t('Forbidden delete model'));
+            } else {
+                throw new ForbiddenHttpException(App::t('Forbidden delete model'));
+            }
         };
     }
 
     /**
      * @param $model
      * @throws FlashForbiddenException
+     * @throws ForbiddenHttpException
      */
     public static function canUpdateOrForbidden($model)
     {
         if (!self::canUser(self::B_UPDATE, $model)) {
-            throw new FlashForbiddenException(App::t('Forbidden update model'));
+            if (Yii::$app->request->isAjax) {
+                throw new FlashForbiddenException(App::t('Forbidden update model'));
+            } else {
+                throw new ForbiddenHttpException(App::t('Forbidden update model'));
+            }
         };
     }
 }

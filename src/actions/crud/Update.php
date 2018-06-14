@@ -33,7 +33,7 @@ class Update extends Base
     public $userPermission;
 
     /**
-     * @var Closure
+     * @var \Closure
      */
     public $ajaxCallback;
 
@@ -41,6 +41,7 @@ class Update extends Base
      * @param $id
      * @return array|string|Response
      * @throws \yii\web\NotFoundHttpException
+     * @throws FlashForbiddenException
      */
     public function run($id)
     {
@@ -50,8 +51,9 @@ class Update extends Base
         $model = $this->findModel($pk);
         $model->setScenario($this->modelScenario);
 
+        $this->getPermissionOrForbidden($model);
+
         try {
-            $this->getPermissionOrForbidden($model);
             $this->checkForbiddenAttrs($model);
 
             $request = Yii::$app->request;
@@ -86,8 +88,6 @@ class Update extends Base
                 }
             }
 
-        } catch (FlashForbiddenException $e) {
-            $e->catchFlash();
         } catch (ForbiddenHttpException $e) {
             $e->getMessage();
         }

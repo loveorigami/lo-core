@@ -85,6 +85,7 @@ trait AccessRouteTrait
     /**
      * @param $model
      * @throws FlashForbiddenException
+     * @throws \yii\web\ForbiddenHttpException
      */
     protected function getPermissionOrForbidden($model)
     {

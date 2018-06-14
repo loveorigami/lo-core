@@ -45,6 +45,7 @@ class UpdateByParent extends Base
      * @return array|string|Response
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
+     * @throws FlashForbiddenException
      */
     public function run($id)
     {
@@ -62,10 +63,10 @@ class UpdateByParent extends Base
             $model->link($childRelation, $parentModel);
         }
 
-        try {
             $this->getPermissionOrForbidden($model);
-            $this->checkForbiddenAttrs($model);
 
+        try {
+            $this->checkForbiddenAttrs($model);
             $request = Yii::$app->request;
             $load = $model->load(Yii::$app->request->post());
 
