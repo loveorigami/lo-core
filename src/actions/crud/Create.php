@@ -11,8 +11,9 @@ use yii\web\Response;
 /**
  * Class Create
  * Класс действия создания элемента модели
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Create extends Base
 {
@@ -23,7 +24,7 @@ class Create extends Base
     public $tpl = "create";
 
     /**
-     * @var Closure
+     * @var /Closure
      */
     public $ajaxCallback;
 
@@ -67,7 +68,7 @@ class Create extends Base
                 } else {
                     return [
                         'success' => true,
-                        'id' => $model->id
+                        'id' => $model->id,
                     ];
                 }
             }

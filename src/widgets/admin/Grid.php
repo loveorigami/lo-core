@@ -20,12 +20,13 @@ use yii\helpers\Url;
 /**
  * Class Grid
  * Грид для админки. Формируется на основе \lo\core\db\MetaFields модели
- * @property array $rowButtons кнопки действий строк грида
- * @property array $groupButtons кнопки групповых операций
- * @property array $columns
- * @property string $baseRoute базовая часть маршрута для формировнаия url действий
+ *
+ * @property array  $rowButtons   кнопки действий строк грида
+ * @property array  $groupButtons кнопки групповых операций
+ * @property array  $columns
+ * @property string $baseRoute    базовая часть маршрута для формировнаия url действий
  * @package lo\core\widgets\admin
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Grid extends Widget
 {
@@ -104,6 +105,7 @@ class Grid extends Widget
 
     /**
      * Запуск виджета
+     *
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -121,6 +123,7 @@ class Grid extends Widget
 
     /**
      * Возвращает описание колонок
+     *
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
@@ -129,22 +132,22 @@ class Grid extends Widget
         $columns = [
             [
                 'class' => CheckboxColumn::class,
-                'contentOptions' => function () {
+                'contentOptions' => function ($model) {
                     $arr = [];
                     if (
-                        !Yii::$app->user->can($this->access('update')) AND
-                        !Yii::$app->user->can($this->access('delete'))
+                        !RbacHelper::canUser($this->deletePermission, $model)
                     ) {
                         $arr = [
                             "class" => "grid-checkbox-disabled",
                         ];
                     }
+
                     return $arr;
                 },
                 'checkboxOptions' => function ($model) {
                     return ['value' => PkHelper::encode($model)];
                 },
-                'headerOptions' => ['style' => 'width: 30px;']
+                'headerOptions' => ['style' => 'width: 30px;'],
             ],
         ];
 
@@ -166,11 +169,13 @@ class Grid extends Widget
 
         $columns = ArrayHelper::merge($columns, $this->userColumns);
         $columns[] = $this->getRowButtons();
+
         return $columns;
     }
 
     /**
      * Возвращает настройки по умолчанию кнопок действий над моделями
+     *
      * @return array
      */
     public function defaultRowButtons()
@@ -202,6 +207,7 @@ class Grid extends Widget
         };
         $width = count($preset['buttons']) < 3 ? 85 : 100;
         $arr['headerOptions'] = ['style' => 'min-width: ' . $width . 'px;'];
+
         return $arr;
     }
 
@@ -220,6 +226,7 @@ class Grid extends Widget
                 $row['template'] = $row['template'] . ' {' . $button . '}';
             }
         }
+
         return $row;
     }
 
@@ -234,12 +241,14 @@ class Grid extends Widget
 
         return [
             'view' => function ($url) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-eye-open']),
+                    ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'View'), 'class' => 'btn btn-xs btn-primary']);
             },
 
             'update' => function ($url, $model) {
                 if (RbacHelper::canUser($this->updatePermission, $model)) {
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary ' . IframeHelper::IFRAME_SELECTOR]);
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-pencil']),
+                        ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Update'), 'class' => 'btn btn-xs btn-primary ' . IframeHelper::IFRAME_SELECTOR]);
                 } else {
                     return null;
                 }
@@ -247,18 +256,26 @@ class Grid extends Widget
 
             'delete' => function ($url, $model) {
                 if (RbacHelper::canUser($this->deletePermission, $model)) {
-                    return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, ['data-pjax' => 0, 'data-method' => 'post', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'), 'title' => Yii::t('core', 'Delete'), 'class' => 'btn btn-xs btn-danger']);
+                    return Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-trash']), $url, [
+                        'data-pjax' => 0,
+                        'data-method' => 'post',
+                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                        'title' => Yii::t('core', 'Delete'),
+                        'class' => 'btn btn-xs btn-danger',
+                    ]);
                 } else {
                     return null;
                 }
             },
 
             'up' => function ($url) use ($js) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-default']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-up']),
+                    ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Up'), 'class' => 'btn btn-xs btn-default']);
             },
 
             'down' => function ($url) use ($js) {
-                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']), ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-default']);
+                return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-arrow-down']),
+                    ['data-pjax' => 0, 'onClick' => $js($url), 'href' => '#', 'title' => Yii::t('core', 'Down'), 'class' => 'btn btn-xs btn-default']);
             },
 
             'enter' => function ($url, $model) {
@@ -266,17 +283,22 @@ class Grid extends Widget
                 $childs = count($model->children);
                 if ($childs) {
                     $url = Url::toRoute(["/" . Yii::$app->controller->route, "parent_id" => PkHelper::encode($model)]);
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);
+
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-log-in']),
+                        ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Enter') . ' ' . $childs, 'class' => 'btn btn-xs btn-primary']);
                 } else {
                     $url = Url::toRoute([$this->baseRoute . '/create', 'parent_id' => PkHelper::encode($model)]);
-                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-default']);
+
+                    return Html::tag('a', Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']),
+                        ['data-pjax' => 0, 'href' => $url, 'title' => Yii::t('core', 'Create'), 'class' => 'btn btn-xs btn-default']);
                 }
-            }
+            },
         ];
     }
 
     /**
      * Возвращает массив кнопок групповых операций
+     *
      * @return array
      */
     public function getGroupButtons()
@@ -284,19 +306,21 @@ class Grid extends Widget
         if ($this->_groupButtons === null) {
             $this->_groupButtons = $this->defaultGroupButtons();
         }
+
         return $this->_groupButtons;
     }
 
     /**
      * Установка кнопок групповых операций
+     *
      * @param array $buttons параметры виджетов кнопок
-     * [
-     *  "delete"=>[
-     *      "class"=>\lo\core\widgets\admin\ActionButton::getClass(),
-     *      "label"=>Yii::t("core", "Delete"),
-     *      "url"=>"groupdelete",
-     *  ],
-     * ]
+     *                       [
+     *                       "delete"=>[
+     *                       "class"=>\lo\core\widgets\admin\ActionButton::getClass(),
+     *                       "label"=>Yii::t("core", "Delete"),
+     *                       "url"=>"groupdelete",
+     *                       ],
+     *                       ]
      */
     public function setGroupButtons(Array $buttons)
     {
@@ -305,40 +329,40 @@ class Grid extends Widget
 
     /**
      * Кнопки групповых операций по умолчанию
+     *
      * @return array
      */
 
     protected function defaultGroupButtons()
     {
-        $arr = [
-            "delete" => [
-                "class" => ActionButton::class,
-                "label" => Yii::t('core', 'Delete'),
-                "options" => [
-                    'id' => 'group-delete',
-                    'class' => 'btn btn-danger',
-                ],
-                "route" => $this->baseRoute . "/groupdelete",
+        $arr["delete"] = [
+            "class" => ActionButton::class,
+            "label" => Yii::t('core', 'Delete'),
+            "options" => [
+                'id' => 'group-delete',
+                'class' => 'btn btn-danger',
             ],
-            /*            "activate" => [
-                            "class" => ActionButton::class,
-                            "label" => Yii::t('core', 'Group active'),
-                            "options" => [
-                                'id' => 'group-activate',
-                                'class' => 'btn btn-primary',
-                            ],
-                            "route" => $this->baseRoute . "/groupactivate",
-                        ],
-                        "deactivate" => [
-                            "class" => ActionButton::class,
-                            "label" => Yii::t('core', 'Group hide'),
-                            "options" => [
-                                'id' => 'group-deactivate',
-                                'class' => 'btn btn-primary',
-                            ],
-                            "route" => $this->baseRoute . "/groupdeactivate",
-                        ],*/
+            "route" => $this->baseRoute . "/groupdelete",
         ];
+
+        /*            "activate" => [
+                        "class" => ActionButton::class,
+                        "label" => Yii::t('core', 'Group active'),
+                        "options" => [
+                            'id' => 'group-activate',
+                            'class' => 'btn btn-primary',
+                        ],
+                        "route" => $this->baseRoute . "/groupactivate",
+                    ],
+                    "deactivate" => [
+                        "class" => ActionButton::class,
+                        "label" => Yii::t('core', 'Group hide'),
+                        "options" => [
+                            'id' => 'group-deactivate',
+                            'class' => 'btn btn-primary',
+                        ],
+                        "route" => $this->baseRoute . "/groupdeactivate",
+                    ],*/
 
         if ($this->tree AND !Yii::$app->request->get($this->extFilterParam)) {
             $arr["replace"] = [
@@ -355,6 +379,7 @@ class Grid extends Widget
                 "route" => $this->baseRoute . "/replace",
             ];
         }
+
         return $arr;
     }
 }

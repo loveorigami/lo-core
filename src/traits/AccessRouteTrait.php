@@ -11,7 +11,8 @@ use yii\web\View;
 /**
  * Class BaseRouteTrait
  * Получаем роуты для формирования access rules
- * @property View $view
+ *
+ * @property View       $view
  * @property Controller $context
  * @package lo\core\rbac
  */
@@ -31,6 +32,7 @@ trait AccessRouteTrait
 
     /**
      * Возвращает базовый роут
+     *
      * @return string
      */
     public function getBaseRoute()
@@ -40,6 +42,7 @@ trait AccessRouteTrait
             /** @var Controller $context */
             $this->_baseRoute = "/" . $context->uniqueId;
         }
+
         return $this->_baseRoute;
     }
 
@@ -48,13 +51,16 @@ trait AccessRouteTrait
      */
     protected function getPermRoute()
     {
-        if ($this->_permRoute === null)
+        if ($this->_permRoute === null) {
             $this->_permRoute = '/' . \Yii::$app->controller->route;
+        }
+
         return $this->_permRoute;
     }
 
     /**
      * Route for permission
+     *
      * @param null $action
      * @return string
      */
@@ -94,8 +100,8 @@ trait AccessRouteTrait
     }
 
     /**
-     * @param $description
-     * @param $rule
+     * @param       $description
+     * @param       $rule
      * @param array $params
      * @return string
      */

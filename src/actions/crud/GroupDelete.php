@@ -1,20 +1,26 @@
 <?php
+
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
+use lo\core\helpers\RbacHelper;
+use lo\core\traits\AccessRouteTrait;
 use Yii;
 
 /**
  * Class GroupDelete
  * Класс для группового удаления моделей
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class GroupDelete extends Base
 {
+    use AccessRouteTrait;
+
     /** @var string имя параметра в запросе в котором передаются идентификаторы материалов при групповых операциях */
     public $groupIdsAttr = "selection";
 
@@ -23,7 +29,6 @@ class GroupDelete extends Base
 
     /**
      * Запуск группового удалнеия моделей
-     * @throws \yii\web\ForbiddenHttpException
      */
     public function run()
     {
@@ -36,13 +41,15 @@ class GroupDelete extends Base
             /** @var ActiveQuery $query */
             $query = $class::findByPk($ids);
             foreach ($query->all() as $model) {
-                $this->canAction($model);
-                $model->delete();
+                if (RbacHelper::canDelete($model)) {
+                    $model->delete();
+                }
             }
         }
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax) {
             return $this->goBack();
+        }
 
         return null;
     }

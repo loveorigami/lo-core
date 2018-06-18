@@ -15,8 +15,9 @@ use yii\web\Response;
 /**
  * Class Update
  * Класс действия обновления модели
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Update extends Base
 {
@@ -42,6 +43,7 @@ class Update extends Base
      * @return array|string|Response
      * @throws \yii\web\NotFoundHttpException
      * @throws FlashForbiddenException
+     * @throws ForbiddenHttpException
      */
     public function run($id)
     {
@@ -66,7 +68,7 @@ class Update extends Base
             if ($load && $model->save()) {
 
                 Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully updated', [
-                    'id' => $model->getPrimaryKey()
+                    'id' => $model->getPrimaryKey(),
                 ]));
 
                 if (Yii::$app->request->isAjax) {
@@ -77,13 +79,14 @@ class Update extends Base
                     } else {
                         return [
                             'success' => true,
-                            'id' => $model->id
+                            'id' => $model->id,
                         ];
                     }
                 }
 
                 if (!$request->post($this->applyParam)) {
                     $returnUrl = $this->getReturnUrl();
+
                     return $this->controller->redirect($returnUrl);
                 }
             }
