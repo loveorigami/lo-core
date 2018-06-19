@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\db;
 
 use Yii;
@@ -12,9 +13,10 @@ use lo\core\inputs;
 /**
  * Class MetaFields
  * Класс содержащий описание полей модели
+ *
  * @package lo\core\db
- * @property fields\BaseField[] $fields массив обектов полей модели;
- * @property array $fieldsConfig массив конфигураций объектов полей модели;
+ * @property fields\BaseField[] $fields       массив обектов полей модели;
+ * @property array              $fieldsConfig массив конфигураций объектов полей модели;
  */
 abstract class MetaFields extends BaseObject
 {
@@ -32,10 +34,11 @@ abstract class MetaFields extends BaseObject
 
     /**
      * Конструктор
+     *
      * @param ActiveRecord $owner
-     * @param array $params
+     * @param array        $params
      */
-    public function __construct(ActiveRecord $owner, $params = array())
+    public function __construct(ActiveRecord $owner, $params = [])
     {
         $this->owner = $owner;
         parent::__construct($params);
@@ -50,11 +53,13 @@ abstract class MetaFields extends BaseObject
         if (isset($config[$name]) and is_array($config[$name])) {
             return $this->getField($name);
         }
+
         return parent::__get($name);
     }
 
     /**
      * Возвращает массив конфигураций обектов полей модели
+     *
      * @return array
      */
     public function getFieldsConfig()
@@ -63,11 +68,13 @@ abstract class MetaFields extends BaseObject
             $this->_fieldsConfig = ArrayHelper::merge($this->defaultConfig(), $this->config());
         }
         $this->_fieldsConfig = ArrayHelper::multiorder($this->_fieldsConfig);
+
         return $this->_fieldsConfig;
     }
 
     /**
      * Возвращает поля по коду вкладки
+     *
      * @param string $tab код вкладки
      * @return fields\BaseField[]
      */
@@ -76,15 +83,18 @@ abstract class MetaFields extends BaseObject
         $fields = $this->getFields();
         $arr = [];
         foreach ($fields AS $field) {
-            if ($field->tab == $tab AND $field->showInForm)
+            if ($field->tab == $tab AND $field->showInForm) {
                 $arr[] = $field;
+            }
         }
+
         return $arr;
     }
 
     /**
      * Возвращает массив объектов полей модели
-     * @param null $names список имен атрибутов, которые необходимо вернуть
+     *
+     * @param null  $names  список имен атрибутов, которые необходимо вернуть
      * @param array $except список имен атрибутов, которые необходимо исключить
      * @return fields\BaseField[]
      */
@@ -93,8 +103,9 @@ abstract class MetaFields extends BaseObject
         if ($this->_fields === null) {
             $this->_fields = [];
             foreach ($this->fieldsConfig AS $name => $config) {
-                if (!is_array($config))
+                if (!is_array($config)) {
                     continue;
+                }
                 $this->_fields[$name] = Yii::createObject($config["definition"], $config["params"]);
             }
         }
@@ -110,6 +121,7 @@ abstract class MetaFields extends BaseObject
 
     /**
      * Возвращает объект поля модели по его названию
+     *
      * @param $name
      * @return fields\BaseField | null
      */
@@ -118,11 +130,13 @@ abstract class MetaFields extends BaseObject
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
         }
+
         return null;
     }
 
     /**
      * Конфигурация полей по умолчанию
+     *
      * @return array
      */
     protected function defaultConfig()
@@ -138,26 +152,9 @@ abstract class MetaFields extends BaseObject
                     "title" => "ID",
                 ],
                 "params" => [$this->owner, "id"],
-                "pos" => 1
+                "pos" => 1,
             ],
-            "author_id" => [
-                'definition' => [
-                    "class" => fields\HasOneField::class,
-                    'initValue' => 1,
-                    'defaultValue' => 1,
-                    "title" => Yii::t('core', 'Author'),
-                    "showInForm" => false,
-                    "showInGrid" => false, //Yii::$app->user->can('editor'),
-                    "showInFilter" => false,
-                    "showInExtendedFilter" => false,
-                    "data" => [$this, "getAuthorsList"],
-                    "gridAttr" => "username",
-                    "eagerLoading" => true,
-                    "relationName" => 'author'
-                ],
-                "params" => [$this->owner, "author_id"],
-                "pos" => 20
-            ],
+            "author_id" => $this->getMetaAuthor(),
             "created_at" => [
                 'definition' => [
                     "class" => fields\TimestampField::class,
@@ -173,14 +170,14 @@ abstract class MetaFields extends BaseObject
                         "widgetOptions" => [
                             'pluginOptions' => [
                                 //'startDate' =>  new \yii\web\JsExpression('new Date()'),
-                                'format' => 'yyyy-mm-dd'
-                            ]
+                                'format' => 'yyyy-mm-dd',
+                            ],
                         ],
                     ],
                     "queryModifier" => [$this, "createdAtQueryModifier"],
                 ],
                 "params" => [$this->owner, "created_at"],
-                "pos" => 50
+                "pos" => 50,
             ],
             "updated_at" => [
                 'definition' => [
@@ -188,14 +185,15 @@ abstract class MetaFields extends BaseObject
                     "title" => Yii::t('core', 'Updated'),
                     "showInExtendedFilter" => false,
                 ],
-                "params" => [$this->owner, "updated_at"]
+                "params" => [$this->owner, "updated_at"],
             ],
-            "status" => $this->getMetaStatus()
+            "status" => $this->getMetaStatus(),
         ];
     }
 
     /**
      * Status field
+     *
      * @return array
      */
     public function getMetaStatus()
@@ -219,13 +217,40 @@ abstract class MetaFields extends BaseObject
                 ],
             ],
             "params" => [$this->owner, "status"],
-            "pos" => 50
+            "pos" => 50,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaAuthor()
+    {
+        return [
+            'definition' => [
+                "class" => fields\ajax\DropDownField::class,
+                'initValue' => 1,
+                'defaultValue' => 1,
+                "title" => Yii::t('backend', 'Author'),
+                "showInForm" => false,
+                "showInGrid" => false,
+                "showInFilter" => true,
+                "showInExtendedFilter" => false,
+                "gridAttr" => "username",
+                "eagerLoading" => true,
+                "loadUrl" => ['/user/admin/list'],
+                "relationName" => 'author',
+                "isRequired" => true,
+            ],
+            "params" => [$this->owner, "author_id"],
+            "pos" => 20,
         ];
     }
 
     /**
      * Поиск по диапазону дат создания
-     * @param ActiveQuery $q
+     *
+     * @param ActiveQuery      $q
      * @param fields\BaseField $f
      * @var
      */
@@ -246,6 +271,7 @@ abstract class MetaFields extends BaseObject
 
     /**
      * Возвращает список авторов
+     *
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
@@ -255,6 +281,7 @@ abstract class MetaFields extends BaseObject
         /** @var Command $authorCommand */
         $authorCommand = $authorQuery->select('id, username')->from(Yii::$app->getDb()->tablePrefix . 'user')->createCommand();
         $authors = $authorCommand->queryAll();
+
         return ArrayHelper::map($authors, 'id', 'username');
     }
 
@@ -281,6 +308,7 @@ abstract class MetaFields extends BaseObject
 
     /**
      * Массив вкладок формы редактирования модели (key=>name)
+     *
      * @return array
      */
     public function tabs()
