@@ -77,6 +77,7 @@ abstract class MetaFields extends BaseObject
      *
      * @param string $tab код вкладки
      * @return fields\BaseField[]
+     * @throws \yii\base\InvalidConfigException
      */
     public function getFieldsByTab($tab)
     {
@@ -97,6 +98,7 @@ abstract class MetaFields extends BaseObject
      * @param null  $names  список имен атрибутов, которые необходимо вернуть
      * @param array $except список имен атрибутов, которые необходимо исключить
      * @return fields\BaseField[]
+     * @throws \yii\base\InvalidConfigException
      */
     public function getFields($names = null, $except = [])
     {
@@ -274,6 +276,7 @@ abstract class MetaFields extends BaseObject
      *
      * @return array
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      */
     public function getAuthorsList()
     {
