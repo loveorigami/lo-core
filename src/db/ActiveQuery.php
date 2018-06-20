@@ -20,28 +20,43 @@ class ActiveQuery extends YiiQuery
     public function byPk($id)
     {
         $this->andWhere([$this->getAlias() . ".id" => $id]);
+
         return $this;
     }
 
     /**
      * Устанавливает ограничение по признаку активности
+     *
      * @param bool $state если true выбираем активные иначе не активные
      * @return $this
      */
     public function published($state = true)
     {
         $this->andWhere([$this->getAlias() . ".status" => $state]);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function notDeleted()
+    {
+        $this->andWhere([$this->getAlias() . ".trash" => 0]);
+
         return $this;
     }
 
     /**
      * Устанавливает ограничение по признаку на главной
+     *
      * @param bool $state если true выбираем активные иначе не активные
      * @return $this
      */
     public function onmain($state = true)
     {
         $this->andWhere([$this->getAlias() . ".on_main" => $state]);
+
         return $this;
     }
 
@@ -52,12 +67,13 @@ class ActiveQuery extends YiiQuery
     {
         $alias = $this->getAlias();
         $this->andWhere(['>=', "$alias.created_at", strtotime('today midnight')]);
+
         //$this->andWhere(new Expression("FROM_UNIXTIME($alias.created_at, '%Y-%m-%d') = CURDATE()"));
         return $this;
     }
 
     /**
-     * @param $field
+     * @param     $field
      * @param int $days
      * @return $this
      */
@@ -66,6 +82,7 @@ class ActiveQuery extends YiiQuery
         $date = DateHelper::rangeDateByDays($days);
         $this->andWhere(['<=', $field, $date]
         );
+
         return $this;
     }
 
@@ -76,11 +93,13 @@ class ActiveQuery extends YiiQuery
     public function bySlug($slug)
     {
         $this->andWhere([$this->getAlias() . ".slug" => $slug]);
+
         return $this;
     }
 
     /**
      * Получение alias-a для таблицы
+     *
      * @return null|string
      */
     public function getAlias()

@@ -11,6 +11,7 @@ use lo\core\actions\Base;
 /**
  * Class Index
  * Класс действия для вывода списка моделей для администрирования
+ *
  * @package lo\core\actions
  */
 class Index extends Base
@@ -33,8 +34,12 @@ class Index extends Base
     /** @var array значения атрибутов используемые по умолчанию в фильтре моделей */
     public $defaultSearchAttrs;
 
+    /** @var ActiveQuery */
+    public $condition;
+
     /**
      * Запуск действия вывода списка моделей
+     *
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -58,11 +63,16 @@ class Index extends Base
 
         $dataProvider = $searchModel->search($requestParams, $this->dataProviderConfig);
 
+        /** @var ActiveQuery $query */
+        $query = $dataProvider->query;
+
+        if ($this->condition instanceof \Closure) {
+            call_user_func($this->condition, $query);
+        };
+
         $perm = $searchModel->getPermission();
 
         if ($perm) {
-            /** @var ActiveQuery $query */
-            $query = $dataProvider->query;
             $perm->applyConstraint($query);
         }
 

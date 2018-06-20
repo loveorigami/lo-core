@@ -3,6 +3,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
+use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use Yii;
 use yii\web\Response;
@@ -43,6 +44,7 @@ class ListId extends Base
         $out['results'][] = ['id' => 1, 'text' => ''];
 
         if (!is_null($q)) {
+            /** @var ActiveQuery $query */
             $query = $obj::find()
                 ->select('id,' . $this->defaultAttr)
                 ->where(['like', $this->defaultAttr, $q]);

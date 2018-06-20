@@ -9,8 +9,9 @@ use yii\web\ForbiddenHttpException;
 
 /**
  * Class RbacHelper
+ *
  * @package lo\core\helpers
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class RbacHelper
 {
@@ -53,7 +54,7 @@ class RbacHelper
 
     /**
      * @param $rule
-     * @param ActiveRecord $model
+     * @param $model
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */

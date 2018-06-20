@@ -2,7 +2,7 @@
 
 namespace lo\core\db\fields\ajax;
 
-use kartik\editable\Editable;
+//use kartik\editable\Editable;
 use lo\core\grid\KEditableColumn;
 use lo\core\inputs\ajax\Select2AjaxInput;
 use yii\helpers\ArrayHelper;
