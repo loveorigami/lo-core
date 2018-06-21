@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveQuery;
@@ -6,18 +7,21 @@ use lo\core\db\ActiveQuery;
 /**
  * Class TextField
  * Текстовое поле модели.
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TextField extends BaseField
 {
     /**
-     * @inheritdoc
+     * @return array
      */
     public function rules()
     {
         $rules = parent::rules();
+        /** @var array $rules */
         $rules[] = [$this->attr, 'filter', 'filter' => 'trim'];
+
         return $rules;
     }
 

@@ -226,7 +226,7 @@ abstract class MetaFields extends BaseObject
     /**
      * @return array
      */
-    public function getMetaAuthor()
+    public function getMetaAuthor(): array
     {
         return [
             'definition' => [
