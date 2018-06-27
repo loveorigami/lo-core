@@ -17,8 +17,9 @@ use Yii\widgets\ActiveForm;
 /**
  * Class BaseField
  * Базовый класс полей.
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class BaseField extends BaseObject implements IField
 {
@@ -120,9 +121,10 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Конструктор
-     * @param ActiveRecord $model модель
-     * @param string $attr атрибут
-     * @param array $config массив значений атрибутов
+     *
+     * @param ActiveRecord $model  модель
+     * @param string       $attr   атрибут
+     * @param array        $config массив значений атрибутов
      */
     public function __construct(ActiveRecord $model, $attr, $config = [])
     {
@@ -134,8 +136,9 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Формирование Html кода поля для вывода в расширенном фильтре
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
      * @return string
      */
     public function getExtendedFilterForm(ActiveForm $form, Array $options = [])
@@ -145,20 +148,22 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
-     * @param string|array $cls класс поля, либо конфигурационный массив
+     *
+     * @param ActiveForm   $form    объект форма
+     * @param array        $options массив html атрибутов поля
+     * @param bool|int     $index   индекс модели при табличном вводе
+     * @param string|array $cls     класс поля, либо конфигурационный массив
+     * @throws \yii\base\InvalidConfigException
      * @return string
      */
     public function getForm(ActiveForm $form, Array $options = [], $index = false, $cls = null)
     {
         $cls = $cls ?: $this->inputClass;
 
-        $inputClass = is_array($cls) ? $cls : ["class" => $cls];
+        $inputClass = \is_array($cls) ? $cls : ['class' => $cls];
 
         $input = Yii::createObject(ArrayHelper::merge([
-            "modelField" => $this,
+            'modelField' => $this,
         ], $inputClass, $this->inputClassOptions));
 
         return $input->renderInput($form, $options, $index);
@@ -166,19 +171,23 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Формирует html код поля формы обернутый в шаблон
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function getWrappedForm(ActiveForm $form, Array $options = [], $index = false)
     {
         $html = $this->getForm($form, $options, $index);
+
         return str_replace("{input}", $html, $this->formTemplate);
     }
 
     /**
      * Возвращает имя атрибута для поля формы
+     *
      * @param bool|int $index индекс модели при табличном вводе
      * @return string
      */
@@ -189,6 +198,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Конфигурация грида по умолчанию
+     *
      * @return array
      */
     protected function defaultGrid()
@@ -210,6 +220,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Конфигурация поля для грида (GridView)
+     *
      * @return array
      */
     protected function grid()
@@ -225,6 +236,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Результурующая конфигурация поля грида (GridView)
+     *
      * @return array
      */
     public final function getGrid()
@@ -234,17 +246,20 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Вывод значения в гриде
+     *
      * @param $model
      * @return string
      */
     protected function getGridValue($model)
     {
         $value = $model->{$this->attr};
+
         return $value;
     }
 
     /**
      * Возвращает значение фильтра для грида
+     *
      * @return mixed
      */
     public function getGridFilter()
@@ -266,6 +281,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Возвращает значение фильтра для поля по умолчанию
+     *
      * @return mixed
      */
     protected function defaultGridFilter()
@@ -275,6 +291,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Редатироование в гриде
+     *
      * @return array
      */
     protected function xEditable()
@@ -288,6 +305,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Создает url для x-editable
+     *
      * @return string
      */
     public function getEditableUrl()
@@ -297,27 +315,32 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Конфигурация детального просмотра по умолчанию
+     *
      * @return array
      */
     protected function defaultView()
     {
         $view['attribute'] = $this->attr;
         $view['label'] = $this->title;
+
         return $view;
     }
 
     /**
      * Конфигурация поля для детального просмотра
+     *
      * @return array
      */
     protected function view()
     {
         $view = $this->defaultView();
+
         return $view;
     }
 
     /**
      * Результирующая конфигурация поля для детального просмотра
+     *
      * @return array
      */
     public final function getView()
@@ -327,17 +350,21 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Правила валидации
+     *
      * @return array|bool
      */
     public function rules()
     {
         $rules = [];
-        if ($this->isSafe)
+        if ($this->isSafe) {
             $rules[] = [$this->attr, 'safe'];
-        if ($this->isRequired)
+        }
+        if ($this->isRequired) {
             $rules[] = [$this->attr, 'required', 'except' => ActiveRecord::SCENARIO_SEARCH];
-        if ($this->defaultValue !== null)
+        }
+        if ($this->defaultValue !== null) {
             $rules[] = [$this->attr, 'default', 'value' => $this->defaultValue, 'except' => [ActiveRecord::SCENARIO_SEARCH]];
+        }
 
         foreach ($this->rules AS $name => $option) {
 
@@ -364,6 +391,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Поведения
+     *
      * @return array
      */
     public function behaviors()
@@ -373,6 +401,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Возвращает массив данных ассоциированных с полем
+     *
      * @return array
      */
     public function getDataValue()
@@ -381,11 +410,13 @@ class BaseField extends BaseObject implements IField
             $func = $this->data;
             $this->_dataValue = is_callable($func) ? call_user_func($func) : [];
         }
+
         return $this->_dataValue;
     }
 
     /**
      * Поиск
+     *
      * @param ActiveQuery $query запрос
      */
     protected function search(ActiveQuery $query)
@@ -399,6 +430,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Накладывает ограничение на поиск
+     *
      * @param ActiveQuery $query
      */
     public function applySearch(ActiveQuery $query)
@@ -412,6 +444,7 @@ class BaseField extends BaseObject implements IField
 
     /**
      * Возвращает подпись атрибута
+     *
      * @return array
      */
     public function getAttributeLabel()
