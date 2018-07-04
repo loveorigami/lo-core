@@ -31,7 +31,7 @@ abstract class ActiveRecord extends YiiRecord
     use ConstraintTrait;
 
     /** Сценарии валидации*/
-    const SCENARIO_INSERT = "insert";
+    const SCENARIO_INSERT = 'insert';
     const SCENARIO_UPDATE = "update";
     const SCENARIO_SEARCH = "search";
 

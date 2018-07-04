@@ -9,17 +9,19 @@ use lo\core\widgets\MultipleInputWidget;
 /**
  * Class MultiInput
  * Поле ввода нескольких значений
+ *
  * @package lo\core\inputs
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class MultiInput extends BaseInput
 {
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
-     * @return string
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
+     * @return mixed
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
@@ -29,6 +31,12 @@ class MultiInput extends BaseInput
             $options
         );
 
-        return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(MultipleInputWidget::class, $options);
+        $field = $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))->widget(MultipleInputWidget::class, $options);
+
+        if ($this->field instanceof \Closure) {
+            \call_user_func($this->field, $field);
+        }
+
+        return $field;
     }
 } 

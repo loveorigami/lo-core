@@ -32,6 +32,9 @@ abstract class BaseInput extends BaseObject
      */
     public $assetClass;
 
+    /** @var string */
+    public $field;
+
     /**
      * Формирование Html кода поля для вывода в форме
      *

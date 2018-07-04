@@ -1,4 +1,5 @@
 <?php
+
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
@@ -9,6 +10,7 @@ use yii\helpers\ArrayHelper;
 /**
  * Class ManyManyField
  * Поле для связей Many Many
+ *
  * @package lo\core\db\fields
  *
  * ```php
@@ -58,15 +60,17 @@ class ManyManyField extends HasOneField
     protected function grid()
     {
         $grid = $this->defaultGrid();
-        $grid["value"] = function ($model, $index, $widget) {
+        $grid['value'] = function ($model, $index, $widget) {
             return $this->getStringValue($model);
         };
+
         //$grid["class"] = Select2Column::class;
         return $grid;
     }
 
     /**
      * Возвращает строковое представление связанных моделей для отображения в гриде и при детальном просмотре
+     *
      * @param ActiveRecord $model
      * @return string
      */
@@ -79,7 +83,7 @@ class ManyManyField extends HasOneField
             $arr[] = ArrayHelper::getValue($related, $this->gridAttr);
         }
 
-        return implode(", ", $arr);
+        return implode(', ', $arr);
     }
 
     /**
@@ -88,7 +92,8 @@ class ManyManyField extends HasOneField
     protected function view()
     {
         $view = $this->defaultView();
-        $view["value"] = $this->getStringValue($this->model);
+        $view['value'] = $this->getStringValue($this->model);
+
         return $view;
     }
 
@@ -108,10 +113,13 @@ class ManyManyField extends HasOneField
     protected function search(ActiveQuery $query)
     {
         $params = $this->model->{$this->attr};
-        if (!$params) return null;
+        if (!$params) {
+            return null;
+        }
 
+        $model = $this->model;
         /** @var ActiveRecord $relatedClass */
-        $table = $this->model->tableName();
+        $table = $model::tableName();
         $relatedClass = $this->model->{"get" . ucfirst($this->relationName)}()->modelClass;
         $tableRelated = $relatedClass::tableName();
 
@@ -121,6 +129,6 @@ class ManyManyField extends HasOneField
         $query->andFilterWhere(["$tableRelated.id" => $params]);
         $query->groupBy("$table.id");
 
-        $query->andHaving(['countParams' => count($params)]);
+        $query->andHaving(['countParams' => \count($params)]);
     }
 }
