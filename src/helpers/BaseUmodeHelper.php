@@ -8,8 +8,9 @@ use yii\web\View;
 
 /**
  * Class UserHelper
+ *
  * @package lo\core\helpers
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class BaseUmodeHelper
 {
@@ -50,13 +51,15 @@ class BaseUmodeHelper
     }
 
     /**
-     * @param $view
+     * @param                 $view
      * @param Controller|View $context
      * @return string
      */
     public static function view($view, $context = null)
     {
-        if (self::isGuest()) return $view;
+        if (self::isGuest()) {
+            return $view;
+        }
 
         if (self::can(self::ROLE_ADMIN) && ViewHelper::exist($view . '_' . self::ROLE_ADMIN, $context)) {
             return $view . '_' . self::ROLE_ADMIN;
@@ -99,7 +102,8 @@ class BaseUmodeHelper
     {
         $user = Yii::$app->user->identity;
         $id = ArrayHelper::getValue($user, 'id');
-        $roles = self::getRolesByUser($id);
+        $roles = Memoize::call([self::class, 'getRolesByUser'], [$id]);
+
         return ArrayHelper::getValue(end($roles), 'name');
     }
 
@@ -110,6 +114,7 @@ class BaseUmodeHelper
     public static function getRoleByUserId($id)
     {
         $roles = self::getRolesByUser($id);
+
         return ArrayHelper::getValue(end($roles), 'name');
     }
 }
