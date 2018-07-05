@@ -2,13 +2,13 @@
 
 namespace lo\core\helpers;
 
-use lo\core\interfaces\UserInterface;
 use Yii;
 
 /**
  * Class UserHelper
+ *
  * @package lo\core\helpers
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class BaseUserHelper
 {
@@ -33,12 +33,12 @@ class BaseUserHelper
     /**
      * @return int
      */
-    public static function id()
+    public static function id(): int
     {
         if (self::isGuest()) {
             return self::DEFAULT_USER;
-        } else {
-            return Yii::$app->user->identity->id;
         }
+
+        return Yii::$app->user->identity->id;
     }
 }

@@ -46,7 +46,7 @@ class Trash extends Base
 
             try {
                 if ($this->canDelete instanceof \Closure) {
-                    $canDelete = call_user_func($this->canDelete, $model);
+                    $canDelete = \call_user_func($this->canDelete, $model);
                 } else {
                     $canDelete = $this->canDelete;
                 }
