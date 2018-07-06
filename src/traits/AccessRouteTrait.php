@@ -95,7 +95,7 @@ trait AccessRouteTrait
      */
     protected function getPermissionOrForbidden($model)
     {
-        $permission = $this->userPermission ? $this->userPermission : $this->basePermission;
+        $permission = $this->userPermission ?: $this->basePermission;
         RbacHelper::canUserOrForbidden($permission, $model);
     }
 

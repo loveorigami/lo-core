@@ -25,7 +25,7 @@ class Update extends Base
     public $modelScenario = ActiveRecord::SCENARIO_UPDATE;
 
     /** @var string путь к шаблону для отображения */
-    public $tpl = "update";
+    public $tpl = 'update';
 
     /** @var string */
     protected $basePermission = RbacHelper::B_UPDATE;
@@ -75,13 +75,13 @@ class Update extends Base
                     // JSON response is expected in case of successful save
                     Yii::$app->response->format = Response::FORMAT_JSON;
                     if ($this->ajaxCallback instanceof \Closure) {
-                        return call_user_func($this->ajaxCallback, $model);
-                    } else {
-                        return [
-                            'success' => true,
-                            'id' => $model->id,
-                        ];
+                        return \call_user_func($this->ajaxCallback, $model);
                     }
+
+                    return [
+                        'success' => true,
+                        'id' => $model->id,
+                    ];
                 }
 
                 if (!$request->post($this->applyParam)) {
