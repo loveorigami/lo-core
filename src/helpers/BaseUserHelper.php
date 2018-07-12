@@ -12,7 +12,7 @@ use Yii;
  */
 class BaseUserHelper
 {
-    const DEFAULT_USER = 0;
+    const DEFAULT_USER = 1;
 
     /**
      * @return bool
