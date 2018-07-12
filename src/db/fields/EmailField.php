@@ -1,11 +1,15 @@
 <?php
+
 namespace lo\core\db\fields;
+
+use lo\core\db\ActiveRecord;
 
 /**
  * Class EmailField
  * Поле ввода Email
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class EmailField extends TextField
 {
@@ -14,12 +18,14 @@ class EmailField extends TextField
 
     /**
      * Правила валидации
+     *
      * @return array
      */
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [$this->attr, 'email', 'checkDNS' => $this->checkDNS];
+        $rules[] = [$this->attr, 'email', 'checkDNS' => $this->checkDNS, 'except' => ActiveRecord::SCENARIO_SEARCH];
+
         return $rules;
     }
 }
