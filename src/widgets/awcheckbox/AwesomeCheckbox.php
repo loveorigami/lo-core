@@ -48,6 +48,11 @@ class AwesomeCheckbox extends InputWidget
     public $list = [];
     public $wrapperOptions = [];
 
+    public $groupCheckbox = false;
+    public $groupName = 'aw';
+
+    protected $groupId = 1;
+
     public function run()
     {
         AwesomeCheckboxAsset::register($this->getView());
@@ -88,24 +93,40 @@ class AwesomeCheckbox extends InputWidget
             $html = [];
 
             if (is_array($label)) {
-                $html[] = Html::tag('div', $value, ['class' => 'row label-default']);
-                $check = $this->model->{$this->attribute};
-                foreach ($label as $key => $item) {
-                    $options = [
-                        'label' => null,
-                        'value' => $item,
-                        'id' => $key,
-                    ];
-                    $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
-                    $html[] = Html::$action($name, in_array($key, $check), $options);
-                    $html[] = Html::tag('label', $item, ['for' => $key]);
+                if ($this->groupCheckbox) {
+                    $html[] = Html::beginTag('div', ['class' => 'row checkbox checkbox-info']);
+                    $html[] = Html::checkbox('rid[]', false, [
+                        'id' => $this->groupName . $this->groupId,
+                        'class' => 'row row-group',
+                        'value' => $this->groupName . $this->groupId,
+                    ]);
+                    $html[] = Html::tag('label', $value, ['for' => $this->groupName . $this->groupId]);
                     $html[] = Html::endTag('div');
+                } else {
+                    $html[] = Html::tag('div', $value, ['class' => 'label-default', 'style' => 'padding:0 5px;']);
                 }
+                $check = $this->hasModel() ? $this->model->{$this->attribute} : (array)$this->checked;
+                foreach ($label as $key => $item) {
+                    if ($key && $item) {
+                        $options = [
+                            'label' => null,
+                            'value' => $key,
+                            'id' => $this->getLabelId().$key,
+                            'data' => [
+                                'rid' => $this->groupName . $this->groupId,
+                            ],
+                        ];
+                        $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
+                        $html[] = Html::$action($name, in_array($key, $check), $options);
+                        $html[] = Html::tag('label', $item, ['for' => $this->getLabelId().$key]);
+                        $html[] = Html::endTag('div');
+                    }
+                }
+                $this->groupId++;
             } else {
                 $options = [
                     'label' => null,
                     'value' => $value,
-                    'id' => $id,
                 ];
                 $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
                 $html[] = Html::$action($name, $checked, $options);
