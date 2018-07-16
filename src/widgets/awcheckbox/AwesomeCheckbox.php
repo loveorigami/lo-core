@@ -17,17 +17,18 @@ class AwesomeCheckbox extends InputWidget
 
     /**
      * Class AwesomeCheckbox
+     *
      * @package bookin\awesome\checkbox
      *
      * @property boolean|string|array $checked
-     * @property string $type
-     * @property array|string $style
-     * @property array $wrapperOptions
+     * @property string               $type
+     * @property array|string         $style
+     * @property array                $wrapperOptions
      *
-     * @property string $labelId
-     * @property string $labelContent
-     * @property string $input
-     * @property array $list
+     * @property string               $labelId
+     * @property string               $labelContent
+     * @property string               $input
+     * @property array                $list
      */
 
     const TYPE_CHECKBOX = 'checkbox';
@@ -71,34 +72,47 @@ class AwesomeCheckbox extends InputWidget
             $html[] = Html::tag('label', $label, ['for' => $this->getLabelId()]);
         }
         $html [] = Html::endTag('div');
+
         return implode('', $html);
     }
 
-
+    /**
+     *
+     */
     protected function renderList()
     {
         $listAction = $this->type . 'List';
-
         $this->options['item'] = function ($index, $label, $name, $checked, $value) {
-            $label = new LabelDto($label);
             $action = $this->type;
             $id = strtolower($this->id . '-' . $index . '-' . str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
             $html = [];
-            if ($label->group) {
-                $html[] = Html::tag('div', $label->group);
-            }
-            $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
-            $options = ArrayHelper::merge(
-                [
+
+            if (is_array($label)) {
+                $html[] = Html::tag('div', $value, ['class' => 'row label-default']);
+                $check = $this->model->{$this->attribute};
+                foreach ($label as $key => $item) {
+                    $options = [
+                        'label' => null,
+                        'value' => $item,
+                        'id' => $key,
+                    ];
+                    $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
+                    $html[] = Html::$action($name, in_array($key, $check), $options);
+                    $html[] = Html::tag('label', $item, ['for' => $key]);
+                    $html[] = Html::endTag('div');
+                }
+            } else {
+                $options = [
                     'label' => null,
                     'value' => $value,
-                    'id' => $id
-                ],
-                $label->inputOptions
-            );
-            $html[] = Html::$action($name, $checked, $options);
-            $html[] = Html::tag('label', $label->name, ['for' => $id]);
-            $html[] = Html::endTag('div');
+                    'id' => $id,
+                ];
+                $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
+                $html[] = Html::$action($name, $checked, $options);
+                $html[] = Html::tag('label', $label, ['for' => $id]);
+                $html[] = Html::endTag('div');
+            }
+
             return implode(' ', $html);
         };
 
@@ -108,6 +122,7 @@ class AwesomeCheckbox extends InputWidget
         } else {
             $input = Html::$listAction($this->name, $this->checked, $this->list, $this->options);
         }
+
         return $input;
     }
 
@@ -121,6 +136,7 @@ class AwesomeCheckbox extends InputWidget
             $label = Html::encode($this->model->getAttributeLabel(Html::getAttributeName($this->attribute)));
         }
         $this->options['label'] = null;
+
         return $label;
     }
 
@@ -135,6 +151,7 @@ class AwesomeCheckbox extends InputWidget
         } elseif (isset($this->options['id'])) {
             $id = $this->options['id'];
         }
+
         return $id;
     }
 
@@ -150,6 +167,7 @@ class AwesomeCheckbox extends InputWidget
         } else {
             $input = Html::$inputType($this->name, $this->checked, $this->options);
         }
+
         return $input;
     }
 
@@ -172,6 +190,7 @@ class AwesomeCheckbox extends InputWidget
         if (isset($this->wrapperOptions['class']) && !empty($this->wrapperOptions['class'])) {
             $class = array_merge($class, preg_split('/\s+/', $this->wrapperOptions['class']));
         }
+
         return implode(' ', $class);
     }
 }
