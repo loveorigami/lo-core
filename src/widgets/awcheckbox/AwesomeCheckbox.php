@@ -136,22 +136,23 @@ class AwesomeCheckbox extends InputWidget
                 foreach ($label as $key => $item) {
                     if ($key && $item) {
                         $options = [
+                            'id' => $id . $key,
                             'label' => null,
                             'value' => $key,
-                            'id' => $this->getLabelId() . $key,
                             'data' => [
                                 'rid' => $this->_groupDto->getValue(),
                             ],
                         ];
                         $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
                         $html[] = Html::$action($name, $this->_groupDto->isCheckedItem($key), $options);
-                        $html[] = Html::tag('label', $item, ['for' => $this->getLabelId() . $key]);
+                        $html[] = Html::tag('label', $item, ['for' => $id . $key]);
                         $html[] = Html::endTag('div');
                     }
                 }
                 $this->_groupDto->next();
             } else {
                 $options = [
+                    'id' => $id,
                     'label' => null,
                     'value' => $value,
                 ];
