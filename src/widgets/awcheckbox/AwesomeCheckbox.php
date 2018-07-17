@@ -8,7 +8,7 @@
 
 namespace lo\core\widgets\awcheckbox;
 
-use lo\core\helpers\ArrayHelper;
+use lo\core\widgets\awcheckbox\dto\GroupDto;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
@@ -48,26 +48,47 @@ class AwesomeCheckbox extends InputWidget
     public $list = [];
     public $wrapperOptions = [];
 
-    public $groupCheckbox = false;
-    public $groupName = 'aw';
+    public $groupOptions = [
+        'checkbox' => false,
+        'name' => 'aw',
+        'options' => [],
+    ];
 
-    protected $groupId = 1;
+    /**
+     * @var GroupDto
+     */
+    private $_groupDto;
 
-    public function run()
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init()
     {
-        AwesomeCheckboxAsset::register($this->getView());
-        //FontAwesomeAsset::register($this->getView());
-        if (!empty($this->list) && is_array($this->list)) {
-            return $this->renderList();
-        } else {
-            return $this->renderItem();
-        }
+        parent::init();
+
+        $this->_groupDto = new GroupDto($this->groupOptions);
+        $checked = $this->hasModel() ? $this->model->{$this->attribute} : $this->checked;
+        $this->_groupDto->setCheckedData($checked);
     }
 
     /**
      * @return string
      */
-    protected function renderItem()
+    public function run(): string
+    {
+        AwesomeCheckboxAsset::register($this->getView());
+        //FontAwesomeAsset::register($this->getView());
+        if (!empty($this->list) && \is_array($this->list)) {
+            return $this->renderList();
+        }
+
+        return $this->renderItem();
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderItem(): string
     {
         $html = [];
         $html [] = Html::beginTag('div', array_merge(['class' => $this->getClass()], $this->wrapperOptions));
@@ -82,7 +103,25 @@ class AwesomeCheckbox extends InputWidget
     }
 
     /**
-     *
+     * @param $value
+     * @return string
+     */
+    protected function renderGroupItem($value): string
+    {
+        if ($this->_groupDto->isCheckbox()) {
+            $html[] = Html::beginTag('div', ['class' => 'row checkbox checkbox-info']);
+            $html[] = Html::checkbox('rid[]', false, $this->_groupDto->getCheckboxOptions());
+            $html[] = Html::tag('label', $value, $this->_groupDto->getLabelOptions());
+            $html[] = Html::endTag('div');
+        } else {
+            $html[] = Html::tag('div', $value, $this->_groupDto->getOptions());
+        }
+
+        return implode(' ', $html);
+    }
+
+    /**
+     * @return mixed
      */
     protected function renderList()
     {
@@ -92,37 +131,25 @@ class AwesomeCheckbox extends InputWidget
             $id = strtolower($this->id . '-' . $index . '-' . str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name));
             $html = [];
 
-            if (is_array($label)) {
-                if ($this->groupCheckbox) {
-                    $html[] = Html::beginTag('div', ['class' => 'row checkbox checkbox-info']);
-                    $html[] = Html::checkbox('rid[]', false, [
-                        'id' => $this->groupName . $this->groupId,
-                        'class' => 'row row-group',
-                        'value' => $this->groupName . $this->groupId,
-                    ]);
-                    $html[] = Html::tag('label', $value, ['for' => $this->groupName . $this->groupId]);
-                    $html[] = Html::endTag('div');
-                } else {
-                    $html[] = Html::tag('div', $value, ['class' => 'label-default', 'style' => 'padding:0 5px;']);
-                }
-                $check = $this->hasModel() ? $this->model->{$this->attribute} : (array)$this->checked;
+            if (\is_array($label)) {
+                $html[] = $this->renderGroupItem($value);
                 foreach ($label as $key => $item) {
                     if ($key && $item) {
                         $options = [
                             'label' => null,
                             'value' => $key,
-                            'id' => $this->getLabelId().$key,
+                            'id' => $this->getLabelId() . $key,
                             'data' => [
-                                'rid' => $this->groupName . $this->groupId,
+                                'rid' => $this->_groupDto->getValue(),
                             ],
                         ];
                         $html[] = Html::beginTag('div', ['class' => $this->getClass()]);
-                        $html[] = Html::$action($name, in_array($key, $check), $options);
-                        $html[] = Html::tag('label', $item, ['for' => $this->getLabelId().$key]);
+                        $html[] = Html::$action($name, $this->_groupDto->isCheckedItem($key), $options);
+                        $html[] = Html::tag('label', $item, ['for' => $this->getLabelId() . $key]);
                         $html[] = Html::endTag('div');
                     }
                 }
-                $this->groupId++;
+                $this->_groupDto->next();
             } else {
                 $options = [
                     'label' => null,
@@ -150,10 +177,10 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getLabelContent()
+    protected function getLabelContent(): string
     {
         $label = array_key_exists('label', $this->options) ? $this->options['label'] : '';
-        if ($this->hasModel() && empty($label)) {
+        if (empty($label) && $this->hasModel()) {
             $label = Html::encode($this->model->getAttributeLabel(Html::getAttributeName($this->attribute)));
         }
         $this->options['label'] = null;
@@ -164,10 +191,10 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getLabelId()
+    protected function getLabelId(): string
     {
         $id = $this->id;
-        if ($this->hasModel() && !array_key_exists('id', $this->options)) {
+        if (!array_key_exists('id', $this->options) && $this->hasModel()) {
             $id = Html::getInputId($this->model, $this->attribute);
         } elseif (isset($this->options['id'])) {
             $id = $this->options['id'];
@@ -179,7 +206,7 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getInput()
+    protected function getInput(): string
     {
         $inputType = ucfirst($this->type);
         if ($this->hasModel()) {
@@ -195,12 +222,12 @@ class AwesomeCheckbox extends InputWidget
     /**
      * @return string
      */
-    protected function getClass()
+    protected function getClass(): string
     {
         $class = [];
         $class[] = $this->type;
         if (!empty($this->style)) {
-            if (is_array($this->style)) {
+            if (\is_array($this->style)) {
                 $class = array_merge($class, array_map(function ($item) {
                     return $this->type . '-' . $item;
                 }, $this->style));
