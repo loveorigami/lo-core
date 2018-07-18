@@ -100,7 +100,7 @@ class GroupDto
      */
     public function setCheckedData($checked)
     {
-        $this->checked = $checked;
+        $this->checked = (array)$checked;
     }
 
     /**
