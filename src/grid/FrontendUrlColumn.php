@@ -26,6 +26,7 @@ class FrontendUrlColumn extends DataColumn
     /**
      * For url param in route
      * ['pattern' => 'page/<pageSlug>', 'route' => 'page/view'],
+     *
      * @var string
      */
     public $params;
@@ -33,18 +34,18 @@ class FrontendUrlColumn extends DataColumn
     /**
      * @param mixed $model
      * @param mixed $key
-     * @param int $index
+     * @param int   $index
      * @return string
      */
     protected function renderDataCellContent($model, $key, $index): string
     {
         $value = $this->getDataCellValue($model, $key, $index);
-        $attr = $this->params ??  $this->attribute;
+        $attr = $this->params ?? $this->attribute;
 
         if ($this->route) {
             $url = [$this->route, $attr => $value];
         } else {
-            $url = [$value];
+            $url = \is_array($value) ? $value : [$value];
         }
 
         return Html::a(FA::i(FA::_LINK),
@@ -53,8 +54,8 @@ class FrontendUrlColumn extends DataColumn
                 'target' => '_blank',
                 'class' => 'btn btn-primary btn-xs',
                 'data' => [
-                    'pjax' => 0
-                ]
+                    'pjax' => 0,
+                ],
             ]
         );
 
