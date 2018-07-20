@@ -242,7 +242,7 @@ abstract class MetaFields extends BaseObject
                 "eagerLoading" => true,
                 "loadUrl" => ['/user/admin/list'],
                 "relationName" => 'author',
-                "isRequired" => true,
+                "isRequired" => false,
             ],
             "params" => [$this->owner, "author_id"],
             "pos" => 20,

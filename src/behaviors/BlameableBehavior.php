@@ -10,7 +10,7 @@ use yii\behaviors\BlameableBehavior as YiiBlameableBehavior;
  */
 class BlameableBehavior extends YiiBlameableBehavior
 {
-    public $defaultUserId;
+    public $defaultUserId = 1;
 
     /**
      * @inheritdoc
