@@ -76,6 +76,18 @@ class DateHelper
     }
 
     /**
+     * @param null $date
+     * @return false|string
+     */
+    public static function his($date = null)
+    {
+        if (!$date) {
+            $date = 'now';
+        }
+        return self::asDate($date, self::DB_TIME_FORMAT);
+    }
+
+    /**
      * @param $date_from
      * @param $date_to
      * @return string
