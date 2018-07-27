@@ -7,78 +7,80 @@ use lo\core\db\MetaFields;
 
 
 /**
- * Class Meta
- * Мета описание модели
+ * Class MenuMeta
+ *
+ * @package lo\core\modules\main\models
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class MenuMeta extends MetaFields
 {
     /**
-     * @inheritdoc
+     * @return array
      */
-    protected function config()
+    protected function config(): array
     {
         return [
 
-            "parent_id" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\ParentListField::class,
-                    "title" => Yii::t('backend', 'Parent'),
-                    "data" => [$this->owner, "getListTreeData"],
+            'parent_id' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\ParentListField::class,
+                    'title' => Yii::t('backend', 'Parent'),
+                    'data' => [$this->owner, 'getListTreeData'],
                 ],
-                "params" => [$this->owner, "parent_id"]
+                'params' => [$this->owner, 'parent_id'],
             ],
 
-            "name" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
-                    "title" => Yii::t('backend', 'Name'),
-                    "isRequired" => true,
-                    "editInGrid" => true,
+            'name' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\TextField::class,
+                    'title' => Yii::t('backend', 'Name'),
+                    'isRequired' => true,
+                    'editInGrid' => true,
                 ],
-                "params" => [$this->owner, "name"]
+                'params' => [$this->owner, 'name'],
             ],
 
-            "code" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
-                    "title" => Yii::t('backend', 'Code'),
-                    "isRequired" => false,
-                    "showInGrid" => false,
+            'code' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\TextField::class,
+                    'title' => Yii::t('backend', 'Code'),
+                    'isRequired' => false,
+                    'showInGrid' => true,
                 ],
-                "params" => [$this->owner, "code"]
+                'params' => [$this->owner, 'code'],
             ],
 
-            "link" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
-                    "title" => Yii::t('backend', 'Link'),
-                    "isRequired" => false,
-                    "editInGrid" => true,
+            'link' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\TextField::class,
+                    'title' => Yii::t('backend', 'Link'),
+                    'isRequired' => false,
+                    'editInGrid' => true,
                 ],
-                "params" => [$this->owner, "link"]
+                'params' => [$this->owner, 'link'],
             ],
 
-            "class" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\TextField::class,
-                    "title" => Yii::t('backend', 'Css class'),
-                    "isRequired" => false,
-                    "showInGrid" => false,
+            'class' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\TextField::class,
+                    'title' => Yii::t('backend', 'Css class'),
+                    'isRequired' => false,
+                    'showInGrid' => false,
                 ],
-                "params" => [$this->owner, "class"]
+                'params' => [$this->owner, 'class'],
             ],
 
-            "target" => [
-                "definition" => [
-                    "class" => \lo\core\db\fields\ListField::class,
-                    "title" => Yii::t('backend', 'Target'),
-                    "isRequired" => false,
-                    "showInGrid" => false,
-                    "data" => function () {
+            'target' => [
+                'definition' => [
+                    'class' => \lo\core\db\fields\ListField::class,
+                    'title' => Yii::t('backend', 'Target'),
+                    'isRequired' => false,
+                    'showInGrid' => false,
+                    'data' => function () {
                         return $this->owner->targetsList();
                     },
                 ],
-                "params" => [$this->owner, "target"]
+                'params' => [$this->owner, 'target'],
             ],
 
         ];
