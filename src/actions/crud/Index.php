@@ -23,7 +23,7 @@ class Index extends Base
     public $dataProviderConfig = [];
 
     /** @var string путь к шаблону для отображения */
-    public $tpl = "index";
+    public $tpl = 'index';
 
     /** @var int количество элементов на странице */
     public $pageSize = 20;
@@ -43,12 +43,12 @@ class Index extends Base
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
-    public function run()
+    public function run(): string
     {
         /** @var ActiveRecord $searchModel */
         $searchModel = new $this->modelClass;
 
-        /* if (!Yii::$app->user->can('listModels', array("model" => $searchModel)))
+        /* if (!Yii::$app->user->can('listModels', array('model' => $searchModel)))
           throw new ForbiddenHttpException('Forbidden'); */
 
         $searchModel->setScenario($this->modelScenario);
@@ -67,8 +67,8 @@ class Index extends Base
         $query = $dataProvider->query;
 
         if ($this->condition instanceof \Closure) {
-            call_user_func($this->condition, $query);
-        };
+            \call_user_func($this->condition, $query);
+        }
 
         $perm = $searchModel->getPermission();
 
@@ -77,7 +77,7 @@ class Index extends Base
         }
 
         $pageSizeParam = $dataProvider->pagination->pageSizeParam;
-        $pageSize = isset($requestParams[$pageSizeParam]) ? intval($requestParams[$pageSizeParam]) : $this->pageSize;
+        $pageSize = isset($requestParams[$pageSizeParam]) ? (int)$requestParams[$pageSizeParam] : $this->pageSize;
 
         $dataProvider->pagination->pageSize = $pageSize;
 
@@ -92,8 +92,8 @@ class Index extends Base
 
         if (!Yii::$app->request->isAjax) {
             return $this->render($this->tpl, $params);
-        } else {
-            return $this->renderPartial($this->tpl, $params);
         }
+
+        return $this->renderPartial($this->tpl, $params);
     }
 }

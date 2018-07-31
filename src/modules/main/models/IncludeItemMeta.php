@@ -14,47 +14,47 @@ use Yii;
 class IncludeItemMeta extends MetaFields
 {
     /**
-     * @return array
+     * @inheritdoc
      */
-    protected function config(): array
+    protected function config()
     {
         return [
-            'name' => [
-                'definition' => [
-                    'class' => fields\TextField::class,
-                    'title' => Yii::t('backend', 'Name'),
-                    'isRequired' => true,
+            "name" => [
+                "definition" => [
+                    "class" => fields\TextField::class,
+                    "title" => Yii::t('backend', 'Name'),
+                    "isRequired" => true,
                 ],
-                'params' => [$this->owner, 'name'],
+                "params" => [$this->owner, "name"]
             ],
 
-            'code' => [
-                'definition' => [
-                    'class' => fields\SlugField::class,
-                    'title' => Yii::t('backend', 'Code'),
-                    'isRequired' => true,
+            "code" => [
+                "definition" => [
+                    "class" => fields\SlugField::class,
+                    "title" => Yii::t('backend', 'Code'),
+                    "isRequired" => true,
                 ],
-                'params' => [$this->owner, 'code'],
+                "params" => [$this->owner, "code"]
             ],
 
-            'text' => [
-                'definition' => [
-                    'class' => fields\HtmlField::class,
-                    'inputClass' => inputs\AceEditorInput::class,
-                    'title' => Yii::t('backend', 'Text'),
-                    'isRequired' => false,
-                    'showInExtendedFilter' => true,
+            "text" => [
+                "definition" => [
+                    "class" => fields\HtmlField::class,
+                    "inputClass" => inputs\AceEditorInput::class,
+                    "title" => Yii::t('backend', 'Text'),
+                    "isRequired" => false,
+                    "showInExtendedFilter" => true,
                 ],
-                'params' => [$this->owner, 'text'],
+                "params" => [$this->owner, "text"]
             ],
 
-            'file' => [
-                'definition' => [
-                    'class' => fields\TextField::class,
-                    'title' => Yii::t('backend', 'File path'),
-                    'isRequired' => false,
+            "file" => [
+                "definition" => [
+                    "class" => fields\TextField::class,
+                    "title" => Yii::t('backend', 'File path'),
+                    "isRequired" => false,
                 ],
-                'params' => [$this->owner, 'file'],
+                "params" => [$this->owner, "file"]
             ],
 
         ];
