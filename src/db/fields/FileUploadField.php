@@ -61,16 +61,18 @@ class FileUploadField extends FileField
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [
-            $this->attr,
-            'file',
-            'extensions' => $this->extensions,
-            'on' => [
-                ActiveRecord::SCENARIO_INSERT,
-                ActiveRecord::SCENARIO_UPDATE
-            ],
-            'maxSize' => $this->maxSize
-        ];
+        if ($this->extensions) {
+            $rules[] = [
+                $this->attr,
+                'file',
+                'extensions' => $this->extensions,
+                'on' => [
+                    ActiveRecord::SCENARIO_INSERT,
+                    ActiveRecord::SCENARIO_UPDATE,
+                ],
+                'maxSize' => $this->maxSize,
+            ];
+        }
 
         return $rules;
     }
