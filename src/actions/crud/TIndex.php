@@ -33,7 +33,7 @@ class TIndex extends Index
      * @param int $parent_id
      * @return string
      */
-    public function run($parent_id = 0)
+    public function run($parent_id = 0): string
     {
         /** @var ActiveRecord $class */
         $class = $this->modelClass;

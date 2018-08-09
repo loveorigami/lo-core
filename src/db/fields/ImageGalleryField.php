@@ -9,8 +9,9 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class ImageGalleryField
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ImageGalleryField extends ImageField
 {
@@ -26,7 +27,7 @@ class ImageGalleryField extends ImageField
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $parent = parent::behaviors();
         $code = $this->galleryBehavior;
@@ -49,7 +50,7 @@ class ImageGalleryField extends ImageField
             'removeDirectoryOnDelete' => false,
             'createThumbsOnSave' => true,
             'createThumbsOnRequest' => true,
-            'generateNewName' => false
+            'generateNewName' => false,
         ], $this->uploadOptions);
 
         return $parent;

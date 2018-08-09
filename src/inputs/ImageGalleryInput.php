@@ -5,11 +5,13 @@ namespace lo\core\inputs;
 
 use lo\core\db\fields\ImageGalleryField;
 use lo\modules\gallery\modules\admin\widgets\GalleryInput;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
  * Class ImageUploadInput
+ *
  * @package lo\core\inputs
  * @property \lo\core\db\fields\ImageUploadField $modelField
  */
@@ -17,6 +19,7 @@ class ImageGalleryInput extends BaseInput
 {
     /**
      * Опции по умолчанию
+     *
      * @var array
      */
     protected $defaultOptions = [
@@ -24,13 +27,14 @@ class ImageGalleryInput extends BaseInput
     ];
 
     /** @var string размер превью */
-    public $thumSize = 'big';
+    public $thumbSize = 'big';
 
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
      * @throws \Exception
      */
@@ -45,7 +49,7 @@ class ImageGalleryInput extends BaseInput
         $widgetOptions = ArrayHelper::merge(
             $this->defaultOptions,
             $this->widgetOptions,
-            ["options" => $options],
+            ['options' => $options],
             [
                 'model' => $model,
                 'attribute' => $this->getAttr(),
@@ -53,9 +57,9 @@ class ImageGalleryInput extends BaseInput
             ]
         );
         if ($model->isNewRecord) {
-            return 'Can not upload images for new record';
-        } else {
-            return GalleryInput::widget($widgetOptions);
+            return Yii::t('backend', 'Can not upload images for new record');
         }
+
+        return GalleryInput::widget($widgetOptions);
     }
 }
