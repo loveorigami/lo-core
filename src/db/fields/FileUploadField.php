@@ -11,12 +11,13 @@ use yii\helpers\ArrayHelper;
 /**
  * Class FileUploadField
  * Поле для загрузки файлов
+ *
  * @package lo\core\db\fields
  */
 class FileUploadField extends FileField
 {
     /** Преффикс поведения */
-    const BEHAVIOR_PREF = "upload";
+    protected const  BEHAVIOR_PREF = 'upload';
 
     /** @var array настройки поведени */
     public $uploadOptions = [];
@@ -36,7 +37,7 @@ class FileUploadField extends FileField
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $parent = parent::behaviors();
 
@@ -56,11 +57,13 @@ class FileUploadField extends FileField
 
     /**
      * Правила валидации
+     *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
+
         if ($this->extensions) {
             $rules[] = [
                 $this->attr,

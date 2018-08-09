@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 /**
  * Class FilePathField
  * Поле для загрузки файлов
+ *
  * @package lo\core\db\fields
  */
 class FilePathField extends FileField
@@ -17,7 +18,7 @@ class FilePathField extends FileField
     public $inputClass = inputs\ElfinderFileInput::class;
 
     /** Преффикс поведения */
-    const BEHAVIOR_PREF = "elfupload";
+    protected const BEHAVIOR_PREF = 'elfupload';
 
     /** @var array настройки поведени */
     public $uploadOptions = [];
@@ -25,7 +26,7 @@ class FilePathField extends FileField
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $parent = parent::behaviors();
         $code = self::BEHAVIOR_PREF . ucfirst($this->attr);
@@ -42,16 +43,18 @@ class FilePathField extends FileField
 
     /**
      * Правила валидации
+     *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
         $rules[] = [
             $this->attr,
-            'filter', 'filter' => function($value) {
+            'filter',
+            'filter' => function ($value) {
                 return basename($value);
-            }
+            },
         ];
 
         return $rules;

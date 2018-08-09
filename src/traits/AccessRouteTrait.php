@@ -81,22 +81,24 @@ trait AccessRouteTrait
      * @param $model
      * @throws FlashForbiddenException
      */
-    public function canAction($model)
+    public function canAction($model): void
     {
-        if (!Yii::$app->user->can($this->access(), ["model" => $model])) {
+        if (!Yii::$app->user->can($this->access(), ['model' => $model])) {
             throw new FlashForbiddenException('Forbidden model');
         }
     }
 
     /**
-     * @param $model
+     * @param        $model
+     * @param string $attr
      * @throws FlashForbiddenException
      * @throws \yii\web\ForbiddenHttpException
      */
-    protected function getPermissionOrForbidden($model)
+    protected function getPermissionOrForbidden($model, $attr = ''): void
     {
         $permission = $this->userPermission ?: $this->basePermission;
-        RbacHelper::canUserOrForbidden($permission, $model);
+        $attr = $attr ?: 'author_id';
+        RbacHelper::canUserOrForbidden($permission, $model, $attr);
     }
 
     /**

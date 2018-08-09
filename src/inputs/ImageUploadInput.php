@@ -46,7 +46,7 @@ class ImageUploadInput extends BaseInput
         $model = $this->getModel();
         $file = $model->getUploadUrl($this->getAttr());
 
-        if ($file && $model->scenario != $model::SCENARIO_INSERT) {
+        if ($file && $model->scenario !== $model::SCENARIO_INSERT) {
             $initFile = ArrayHelper::merge($this->defaultOptions, [
                 'pluginOptions' => [
                     'initialPreview' => [
@@ -63,7 +63,7 @@ class ImageUploadInput extends BaseInput
         $widgetOptions = ArrayHelper::merge(
             $this->defaultOptions,
             $this->widgetOptions,
-            ["options" => $options],
+            ['options' => $options],
             $initFile
         );
 

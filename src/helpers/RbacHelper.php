@@ -25,13 +25,17 @@ class RbacHelper
     const B_PERM_OWN = 'ownModelPerm';
 
     /**
-     * @param $rule
-     * @param $model
+     * @param        $rule
+     * @param        $model
+     * @param string $attr
      * @return mixed
      */
-    public static function canUser($rule, $model)
+    public static function canUser($rule, $model, $attr = '')
     {
-        return App::user()->can($rule, ["model" => $model]);
+        return App::user()->can($rule, [
+            'model' => $model,
+            'attribute' => $attr,
+        ]);
     }
 
     /**
@@ -53,21 +57,22 @@ class RbacHelper
     }
 
     /**
-     * @param $rule
-     * @param $model
+     * @param        $rule
+     * @param        $model
+     * @param string $attr
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */
-    public static function canUserOrForbidden($rule, $model)
+    public static function canUserOrForbidden($rule, $model, $attr = 'author_id'): void
     {
-        if (!self::canUser($rule, $model)) {
+        if (!self::canUser($rule, $model, $attr)) {
             if (Yii::$app->request->isAjax) {
                 Yii::$app->session->setFlash('error', App::t('Forbidden access {rule} to {model}', [
-                    'model' => get_class($model),
+                    'model' => \get_class($model),
                     'rule' => $rule,
                 ]));
                 throw new FlashForbiddenException(App::t('Forbidden access {rule} to {model}', [
-                    'model' => get_class($model),
+                    'model' => \get_class($model),
                     'rule' => $rule,
                 ]));
             } else {
