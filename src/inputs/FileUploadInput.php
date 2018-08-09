@@ -3,6 +3,7 @@
 namespace lo\core\inputs;
 
 use kartik\file\FileInput;
+use lo\core\helpers\PkHelper;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -59,7 +60,7 @@ class FileUploadInput extends BaseInput
                 Yii::t('backend', 'Remove file - {file}', ['file' => $filename]),
                 Url::to([
                     'delete-file',
-                    'id' => $this->getModel()->primaryKey,
+                    'id' => PkHelper::encode($this->getModel()),
                     'f' => $attr,
                 ]),
                 [
