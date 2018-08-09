@@ -39,7 +39,7 @@ class App
      * @param string $category
      * @return string
      */
-    public static function t($message, $params = [], $category = 'app')
+    public static function t($message, $params = [], $category = 'backend')
     {
         return Yii::t($category, $message, $params);
     }
