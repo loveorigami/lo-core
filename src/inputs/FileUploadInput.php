@@ -56,7 +56,7 @@ class FileUploadInput extends BaseInput
 
         if ($filename && !$model->errors) {
             $str [] = Html::a(
-                Yii::t('backend', 'Remove file - ' . $filename),
+                Yii::t('backend', 'Remove file - {file}', ['file' => $filename]),
                 Url::to([
                     'delete-file',
                     'id' => $this->getModel()->primaryKey,
