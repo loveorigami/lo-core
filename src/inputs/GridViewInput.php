@@ -53,6 +53,9 @@ class GridViewInput extends BaseInput
     public $pjaxContainer = '#grid-crud-pjax';
     public $route;
 
+    public $updatePermission = RbacHelper::B_UPDATE;
+    public $deletePermission = RbacHelper::B_DELETE;
+
     /**
      * Формирование Html кода поля для вывода в форме
      * @param ActiveForm $form объект форма
@@ -78,7 +81,7 @@ class GridViewInput extends BaseInput
                         'template' => '{update}  {delete}',
                         'buttons' => [
                             'update' => function ($url, $model) {
-                                return RbacHelper::canUpdate($model) ?
+                                return RbacHelper::canUser($this->updatePermission, $model) ?
                                     Html::a(
                                         FA::i(FA::_PENCIL),
                                         [$this->route . '/update', 'id' => $model->id],
@@ -89,7 +92,7 @@ class GridViewInput extends BaseInput
                                     ) : '';
                             },
                             'delete' => function ($url, $model) {
-                                return RbacHelper::canDelete($model) ?
+                                return RbacHelper::canUser($this->deletePermission, $model) ?
                                     Html::a(
                                         FA::i(FA::_TRASH),
                                         [$this->route . '/delete', 'id' => $model->id],
