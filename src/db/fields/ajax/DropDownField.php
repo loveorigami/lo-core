@@ -19,6 +19,9 @@ class DropDownField extends AjaxField
 {
     public $inputClass = Select2AjaxInput::class;
 
+    /** @var string || array url для подзагрузки данных через ajax */
+    public $loadUrl;
+
     /**
      * Редатироование в гриде
      * @return array

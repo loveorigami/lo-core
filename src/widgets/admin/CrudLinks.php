@@ -19,8 +19,8 @@ class CrudLinks extends Widget
     use AccessRouteTrait;
 
     /** Константы CRUD действий */
-    const CRUD_LIST = "list";
-    const CRUD_VIEW = "view";
+    public const CRUD_LIST = 'list';
+    public const CRUD_VIEW = 'view';
 
     /** @var string действие для которого отобразить кнопки (self::CRUD_LIST|self::CRUD_VIEW) */
     public $action;
@@ -39,7 +39,7 @@ class CrudLinks extends Widget
         $buttons = $this->getButtons()[$this->action];
         $html = [];
         foreach ($buttons AS $button) {
-            $html[] = Html::a($button["label"], $button["url"], $button["options"]) . "\n ";
+            $html[] = Html::a($button['label'], $button['url'], $button['options']) . "\n ";
         }
         return implode("\r\n",$html);
     }
