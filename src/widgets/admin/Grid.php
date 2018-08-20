@@ -66,6 +66,7 @@ class Grid extends Widget
     public $updatePermission = RbacHelper::B_UPDATE;
     public $deletePermission = RbacHelper::B_DELETE;
 
+    public $rowOptions;
     public $showGroupButtons = true;
     public $showRowButtons = true;
 
@@ -118,6 +119,7 @@ class Grid extends Widget
         return $this->render($this->tpl, [
             'model' => $this->model,
             'dataProvider' => $this->dataProvider,
+            'rowOptions' => $this->rowOptions,
             'columns' => $this->getColumns(),
             'groupButtons' => $this->getGroupButtons(),
             'id' => $this->id,

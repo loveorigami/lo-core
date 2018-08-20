@@ -10,17 +10,19 @@ use yii\widgets\Pjax;
  * @var \lo\core\db\ActiveRecord $model модель
  * @var array $columns массив с описанием полей таблицы
  * @var array $groupButtons массив с описанием кнопок груповых операций
+ * @var $rowOptions
  * @var \yii\web\View $this
  */
 
 ?>
-<?php Pjax::begin(["id" => $pjaxId]); ?>
+<?php Pjax::begin(['id' => $pjaxId]); ?>
 <?= Html::beginForm(); ?>
 <?php
 
 echo GridView::widget([
-    "id" => $id,
+    'id' => $id,
     'options' => ['class' => 'table-responsive'],
+    'rowOptions'=> $rowOptions,
     'dataProvider' => $dataProvider,
     'filterModel' => $model,
     'filterSelector' => "select[name='" . $dataProvider->pagination->pageSizeParam . "'],input[name='" . $dataProvider->pagination->pageParam . "']",
