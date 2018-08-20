@@ -23,6 +23,7 @@ class Trash extends Base
 {
     public $canDelete = true;
     public $canDeleteError = 'error';
+    public $attr = 'trash';
 
     protected $basePermission = RbacHelper::B_DELETE;
     public $userPermission;
@@ -52,7 +53,7 @@ class Trash extends Base
                 }
 
                 if ($canDelete) {
-                    $model->updateAttributes(['trash' => 1]);
+                    $model->updateAttributes([$this->attr => 1]);
                 } else {
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
