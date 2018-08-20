@@ -21,7 +21,7 @@ class Create extends Base
     public $modelScenario = ActiveRecord::SCENARIO_INSERT;
 
     /** @var string путь к шаблону для отображения */
-    public $tpl = "create";
+    public $tpl = 'create';
 
     /**
      * @var /Closure
@@ -64,20 +64,20 @@ class Create extends Base
                 // JSON response is expected in case of successful save
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 if ($this->ajaxCallback instanceof \Closure) {
-                    return call_user_func($this->ajaxCallback, $model);
-                } else {
-                    return [
-                        'success' => true,
-                        'id' => $model->id,
-                    ];
+                    return \call_user_func($this->ajaxCallback, $model);
                 }
+
+                return [
+                    'success' => true,
+                    'id' => $model->id,
+                ];
             }
 
             if ($request->post($this->applyParam)) {
                 return $this->controller->redirect([$this->updateUrl, 'id' => $model->id, $this->redirectParam => $returnUrl]);
-            } else {
-                return $this->controller->redirect($returnUrl);
             }
+
+            return $this->controller->redirect($returnUrl);
         }
 
         return $this->render($this->tpl, [

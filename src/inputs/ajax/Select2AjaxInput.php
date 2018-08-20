@@ -49,7 +49,7 @@ class Select2AjaxInput extends AjaxInput
 
         $widgetOptions = ArrayHelper::merge(
             $this->defaultWidgetOptions(),
-            $this->widgetOptions, ["options" => $options]
+            $this->widgetOptions, ['options' => $options]
         );
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->fieldTemplate)->widget(
             Select2::class, $widgetOptions
@@ -59,7 +59,7 @@ class Select2AjaxInput extends AjaxInput
     /**
      * @return array
      */
-    protected function defaultWidgetOptions()
+    protected function defaultWidgetOptions(): array
     {
         /** @var AjaxField $modelField */
         $modelField = $this->modelField;

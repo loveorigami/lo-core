@@ -25,6 +25,7 @@ use yii\helpers\Url;
  * @property array  $groupButtons кнопки групповых операций
  * @property array  $columns
  * @property string $baseRoute    базовая часть маршрута для формировнаия url действий
+ * @property bool   $useGroupButtons
  * @package lo\core\widgets\admin
  * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
@@ -33,10 +34,10 @@ class Grid extends Widget
     use AccessRouteTrait;
 
     /** Преффикс идентификатора грида */
-    const GRID_ID_PREF = "grid-";
+    protected const GRID_ID_PREF = 'grid-';
 
     /** Суфикс иденификатора виджета Pjax */
-    const PJAX_SUF = "-pjax";
+    protected const PJAX_SUF = '-pjax';
 
     /** @var ActiveRecord модель */
     public $model;
@@ -45,7 +46,7 @@ class Grid extends Widget
     public $dataProvider;
 
     /** @var string имя параметра передаваемого расширенным фильтром */
-    public $extFilterParam = "extendedFilter";
+    public $extFilterParam = 'extendedFilter';
 
     /** @var array кнопки строк грида */
     protected $_rowButtons;
@@ -60,10 +61,12 @@ class Grid extends Widget
     public $actions;
 
     /** @var string шаблон */
-    public $tpl = "grid";
+    public $tpl = 'grid';
 
     public $updatePermission = RbacHelper::B_UPDATE;
     public $deletePermission = RbacHelper::B_DELETE;
+
+    public $useGroupButtons;
 
     /** @var array кнопки групповых операций */
     protected $_groupButtons;
@@ -77,7 +80,7 @@ class Grid extends Widget
     /**
      * @return array
      */
-    public function getRowButtons()
+    public function getRowButtons(): array
     {
         if ($this->_rowButtons === null) {
             $this->_rowButtons = $this->defaultRowButtons();
@@ -89,7 +92,7 @@ class Grid extends Widget
     /**
      * @param array $rowButtons
      */
-    public function setRowButtons($rowButtons)
+    public function setRowButtons($rowButtons): void
     {
         $this->_rowButtons = ArrayHelper::merge($this->defaultRowButtons(), $rowButtons);
     }
@@ -98,7 +101,7 @@ class Grid extends Widget
     public function init()
     {
         $model = $this->model;
-        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", get_class($model)));
+        $this->id = strtolower(self::GRID_ID_PREF . str_replace("\\", "-", \get_class($model)));
         $this->pjaxId = $this->id . self::PJAX_SUF;
         $this->view->registerCss(".grid-checkbox-disabled input[type='checkbox'] { display:none; }");
     }
@@ -112,12 +115,12 @@ class Grid extends Widget
     public function run()
     {
         return $this->render($this->tpl, [
-            "model" => $this->model,
-            "dataProvider" => $this->dataProvider,
-            "columns" => $this->getColumns(),
-            "groupButtons" => $this->getGroupButtons(),
-            "id" => $this->id,
-            "pjaxId" => $this->pjaxId,
+            'model' => $this->model,
+            'dataProvider' => $this->dataProvider,
+            'columns' => $this->getColumns(),
+            'groupButtons' => $this->getGroupButtons(),
+            'id' => $this->id,
+            'pjaxId' => $this->pjaxId,
         ]);
     }
 
@@ -127,18 +130,20 @@ class Grid extends Widget
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    protected function getColumns()
+    protected function getColumns(): array
     {
-        $columns = [
-            [
+        $columns = [];
+
+        if ($this->useGroupButtons) {
+            $columns[] = [
                 'class' => CheckboxColumn::class,
                 'contentOptions' => function ($model) {
                     $arr = [];
                     if (
-                        !RbacHelper::canUser($this->deletePermission, $model)
+                    !RbacHelper::canUser($this->deletePermission, $model)
                     ) {
                         $arr = [
-                            "class" => "grid-checkbox-disabled",
+                            'class' => 'grid-checkbox-disabled',
                         ];
                     }
 
@@ -148,8 +153,8 @@ class Grid extends Widget
                     return ['value' => PkHelper::encode($model)];
                 },
                 'headerOptions' => ['style' => 'width: 30px;'],
-            ],
-        ];
+            ];
+        }
 
         $fields = $this->model->getMetaFields()->getFields();
 
@@ -301,7 +306,7 @@ class Grid extends Widget
      *
      * @return array
      */
-    public function getGroupButtons()
+    public function getGroupButtons(): array
     {
         if ($this->_groupButtons === null) {
             $this->_groupButtons = $this->defaultGroupButtons();
@@ -333,8 +338,11 @@ class Grid extends Widget
      * @return array
      */
 
-    protected function defaultGroupButtons()
+    protected function defaultGroupButtons(): array
     {
+        if (!$this->useGroupButtons) {
+            return [];
+        }
         $arr["delete"] = [
             "class" => ActionButton::class,
             "label" => Yii::t('core', 'Delete'),
