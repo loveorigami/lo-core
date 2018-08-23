@@ -29,7 +29,7 @@ class RbacHelper
      * @param string $attr
      * @return mixed
      */
-    public static function canUser($rule, $model, $attr = ''): bool
+    public static function canUser($rule, $model, $attr = 'author_id'): bool
     {
         $user = App::user();
 
@@ -44,21 +44,25 @@ class RbacHelper
     }
 
     /**
-     * @param $model
+     * @deprecated
+     * @param        $model
+     * @param string $attr
      * @return mixed
      */
-    public static function canDelete($model)
+    public static function canDelete($model, $attr = 'author_id')
     {
-        return self::canUser(self::B_DELETE, $model);
+        return self::canUser(self::B_DELETE, $model, $attr);
     }
 
     /**
-     * @param $model
+     * @deprecated
+     * @param        $model
+     * @param string $attr
      * @return mixed
      */
-    public static function canUpdate($model)
+    public static function canUpdate($model, $attr = 'author_id')
     {
-        return self::canUser(self::B_UPDATE, $model);
+        return self::canUser(self::B_UPDATE, $model, $attr);
     }
 
     /**
@@ -87,13 +91,15 @@ class RbacHelper
     }
 
     /**
-     * @param $model
+     * @deprecated
+     * @param        $model
+     * @param string $attr
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */
-    public static function canDeleteOrForbidden($model): void
+    public static function canDeleteOrForbidden($model, $attr = 'author_id'): void
     {
-        if (!self::canUser(self::B_DELETE, $model)) {
+        if (!self::canUser(self::B_DELETE, $model, $attr)) {
             if (Yii::$app->request->isAjax) {
                 throw new FlashForbiddenException(App::t('Forbidden delete model'));
             }
@@ -103,13 +109,15 @@ class RbacHelper
     }
 
     /**
-     * @param $model
+     * @deprecated
+     * @param        $model
+     * @param string $attr
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */
-    public static function canUpdateOrForbidden($model): void
+    public static function canUpdateOrForbidden($model, $attr = 'author_id'): void
     {
-        if (!self::canUser(self::B_UPDATE, $model)) {
+        if (!self::canUser(self::B_UPDATE, $model, $attr)) {
             if (Yii::$app->request->isAjax) {
                 throw new FlashForbiddenException(App::t('Forbidden update model'));
             }
