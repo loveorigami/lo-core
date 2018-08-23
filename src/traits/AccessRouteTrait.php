@@ -6,13 +6,11 @@ use lo\core\exceptions\FlashForbiddenException;
 use lo\core\helpers\RbacHelper;
 use Yii;
 use yii\base\Controller;
-use yii\web\View;
 
 /**
  * Class BaseRouteTrait
  * Получаем роуты для формирования access rules
  *
- * @property View       $view
  * @property Controller $context
  * @package lo\core\rbac
  */
@@ -35,12 +33,12 @@ trait AccessRouteTrait
      *
      * @return string
      */
-    public function getBaseRoute()
+    public function getBaseRoute(): string
     {
         if ($this->_baseRoute === null) {
             $context = $this->view->context;
             /** @var Controller $context */
-            $this->_baseRoute = "/" . $context->uniqueId;
+            $this->_baseRoute = '/' . $context->uniqueId;
         }
 
         return $this->_baseRoute;
@@ -49,7 +47,7 @@ trait AccessRouteTrait
     /**
      * Route for permission
      */
-    protected function getPermRoute()
+    protected function getPermRoute(): string
     {
         if ($this->_permRoute === null) {
             $this->_permRoute = '/' . \Yii::$app->controller->route;
@@ -64,7 +62,7 @@ trait AccessRouteTrait
      * @param null $action
      * @return string
      */
-    protected function access($action = null)
+    protected function access($action = null): string
     {
         if (Yii::$app->user->can('root')) {
             return '/*';
