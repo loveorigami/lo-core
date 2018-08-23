@@ -2,7 +2,6 @@
 
 namespace lo\core\helpers;
 
-use lo\core\db\ActiveRecord;
 use lo\core\exceptions\FlashForbiddenException;
 use Yii;
 use yii\web\ForbiddenHttpException;
@@ -15,14 +14,14 @@ use yii\web\ForbiddenHttpException;
  */
 class RbacHelper
 {
-    const B_CREATE = 'BCreate';
-    const B_UPDATE = 'BUpdate';
-    const B_VIEW = 'BView';
-    const B_DELETE = 'BDelete';
+    public const B_CREATE = 'BCreate';
+    public const B_UPDATE = 'BUpdate';
+    public const B_VIEW = 'BView';
+    public const B_DELETE = 'BDelete';
 
     /** With Rules */
-    const B_DELETE_OWN = 'BDeleteOwn';
-    const B_PERM_OWN = 'ownModelPerm';
+    public const B_DELETE_OWN = 'BDeleteOwn';
+    public const B_PERM_OWN = 'ownModelPerm';
 
     /**
      * @param        $rule
@@ -30,12 +29,18 @@ class RbacHelper
      * @param string $attr
      * @return mixed
      */
-    public static function canUser($rule, $model, $attr = '')
+    public static function canUser($rule, $model, $attr = ''): bool
     {
-        return App::user()->can($rule, [
-            'model' => $model,
-            'attribute' => $attr,
-        ]);
+        $user = App::user();
+
+        if ($user) {
+            return $user->can($rule, [
+                'model' => $model,
+                'attribute' => $attr,
+            ]);
+        }
+
+        return false;
     }
 
     /**
@@ -75,10 +80,10 @@ class RbacHelper
                     'model' => \get_class($model),
                     'rule' => $rule,
                 ]));
-            } else {
-                throw new ForbiddenHttpException(App::t('Forbidden access'));
             }
-        };
+
+            throw new ForbiddenHttpException(App::t('Forbidden access'));
+        }
     }
 
     /**
@@ -86,15 +91,15 @@ class RbacHelper
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */
-    public static function canDeleteOrForbidden($model)
+    public static function canDeleteOrForbidden($model): void
     {
         if (!self::canUser(self::B_DELETE, $model)) {
             if (Yii::$app->request->isAjax) {
                 throw new FlashForbiddenException(App::t('Forbidden delete model'));
-            } else {
-                throw new ForbiddenHttpException(App::t('Forbidden delete model'));
             }
-        };
+
+            throw new ForbiddenHttpException(App::t('Forbidden delete model'));
+        }
     }
 
     /**
@@ -102,14 +107,14 @@ class RbacHelper
      * @throws FlashForbiddenException
      * @throws ForbiddenHttpException
      */
-    public static function canUpdateOrForbidden($model)
+    public static function canUpdateOrForbidden($model): void
     {
         if (!self::canUser(self::B_UPDATE, $model)) {
             if (Yii::$app->request->isAjax) {
                 throw new FlashForbiddenException(App::t('Forbidden update model'));
-            } else {
-                throw new ForbiddenHttpException(App::t('Forbidden update model'));
             }
-        };
+
+            throw new ForbiddenHttpException(App::t('Forbidden update model'));
+        }
     }
 }
