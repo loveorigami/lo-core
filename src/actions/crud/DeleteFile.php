@@ -86,7 +86,7 @@ class DeleteFile extends Base
     /**
      * @inheritdoc
      */
-    public function goBack()
+    public function goBack(): Response
     {
         $returnUrl = Yii::$app->request->referrer;
 
