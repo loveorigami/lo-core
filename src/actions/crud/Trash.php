@@ -58,7 +58,9 @@ class Trash extends Base
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
 
-                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', ['id' => $model->getPrimaryKey()]));
+                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', [
+                    'id' => $this->getPk($model),
+                ]));
             } catch (FlashForbiddenException $e) {
                 $e->catchFlash();
             } catch (ForbiddenHttpException $e) {

@@ -66,7 +66,9 @@ class DeleteFile extends Base
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
 
-                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('File {id} successfully deleted', ['id' => $model->getPrimaryKey()]));
+                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('File {id} successfully deleted', [
+                    'id' => $model->getPrimaryKey(),
+                ]));
             } catch (FlashForbiddenException $e) {
                 $e->catchFlash();
             } catch (ForbiddenHttpException $e) {

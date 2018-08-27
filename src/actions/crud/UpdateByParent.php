@@ -77,7 +77,7 @@ class UpdateByParent extends Base
             if ($load && $model->save()) {
 
                 Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully updated', [
-                    'id' => $model->getPrimaryKey()
+                    'id' => $this->getPk($model)
                 ]));
 
                 if (Yii::$app->request->isAjax) {

@@ -15,8 +15,9 @@ use yii\web\Response;
 /**
  * Class Delete
  * Класс действия для удаления модели
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Delete extends Base
 {
@@ -56,7 +57,9 @@ class Delete extends Base
                     Yii::$app->session->setFlash(self::FLASH_ERROR, $this->canDeleteError);
                 }
 
-                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', ['id' => $model->getPrimaryKey()]));
+                Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully deleted', [
+                    'id' => $this->getPk($model),
+                ]));
             } catch (FlashForbiddenException $e) {
                 $e->catchFlash();
             } catch (ForbiddenHttpException $e) {
