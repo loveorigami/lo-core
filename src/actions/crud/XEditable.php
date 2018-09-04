@@ -5,25 +5,36 @@ namespace lo\core\actions\crud;
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
 use lo\core\helpers\PkHelper;
+use lo\core\helpers\RbacHelper;
 use Yii;
 
 /**
  * Class XEditable
  * Класс действия обновления модели через расширение XEditable
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class XEditable extends Base
 {
     /** @var string сценарий валидации */
     public $modelScenario = ActiveRecord::SCENARIO_UPDATE;
 
+    /** @var string */
+    protected $basePermission = RbacHelper::B_UPDATE;
+
+    /** @var string */
+    public $userPermission;
+
     /**
      * Запуск действия
+     *
      * @return boolean
+     * @throws \lo\core\exceptions\FlashForbiddenException
+     * @throws \yii\web\NotFoundHttpException
      * @throws \yii\web\ForbiddenHttpException
      */
-    public function run()
+    public function run(): bool
     {
         $request = Yii::$app->request;
 
@@ -33,10 +44,9 @@ class XEditable extends Base
 
             /** @var ActiveRecord $model */
             $model = $this->findModel($pk);
-
-            $this->canAction($model);
-
             $model->setScenario($this->modelScenario);
+            $this->getPermissionOrForbidden($model);
+
             $model->{$request->post('name')} = $request->post('value');
 
             if ($model->save()) {
@@ -44,8 +54,10 @@ class XEditable extends Base
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('core', 'Not saved'));
             }
+
             return true;
         }
+
         return false;
     }
 }
