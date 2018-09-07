@@ -2,12 +2,13 @@
 
 namespace lo\core\modules\main\widgets\includes;
 
+use lo\core\modules\main\models\IncludeGroup;
 use lo\core\widgets\App;
-use lo\modules\main\models\IncludeGroup;
 
 /**
  * Class IncludesGroup
  * Виджет для отображения групп включаемых областей
+ *
  * @package lo\modules\main\widgets\includes
  */
 class IncludesGroup extends App
@@ -19,7 +20,7 @@ class IncludesGroup extends App
     protected $group;
 
     /**
-     * @return bool
+     * @return null|void
      */
     public function init()
     {
@@ -33,9 +34,14 @@ class IncludesGroup extends App
     /**
      * Поиск подходящей включаемой области
      */
-    protected function locateGroup()
+    protected function locateGroup(): void
     {
-        $groups = IncludeGroup::find()->published()->andWhere(["code" => $this->code])->orderBy(['pos' => SORT_ASC])->all();
+        $groups = IncludeGroup::find()
+            ->published()
+            ->andWhere(['code' => $this->code])
+            ->orderBy(['pos' => SORT_ASC])
+            ->all();
+
         foreach ($groups AS $group) {
             /** @var IncludeGroup $group */
             if ($group->isSuitable()) {
@@ -50,7 +56,7 @@ class IncludesGroup extends App
      */
     public function run()
     {
-        if (!$this->isShow() OR empty($this->group)) {
+        if ($this->group === null || !$this->isShow()) {
             return false;
         }
 
@@ -59,7 +65,7 @@ class IncludesGroup extends App
         $html = [];
 
         foreach ($includes AS $include) {
-            $html[] = IncludeItem::widget(["model" => $include]);
+            $html[] = IncludeItem::widget(['model' => $include]);
         }
 
         return implode("\r\n", $html);
