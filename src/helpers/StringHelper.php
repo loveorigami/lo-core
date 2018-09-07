@@ -105,6 +105,15 @@ class StringHelper extends YiiStringHelper
     }
 
     /**
+     * @param string $str
+     * @return string
+     */
+    public static function clearSpace(string $str): string
+    {
+        return preg_replace('/[\s]+/u', '', $str);
+    }
+
+    /**
      * @param $str
      * @return string
      */
