@@ -1,13 +1,16 @@
 <?php
+
 namespace lo\core\components;
 
 use yii\base\Component;
 use yii\caching\Cache;
 use yii\helpers\ArrayHelper;
 use Yii;
+use lo\core\modules\settings\models\KeyStorageItem;
 
 /**
  * Class Setings
+ *
  * @package lo\core\components\Setings
  */
 class Settings extends Component implements SettingsInterface
@@ -35,7 +38,7 @@ class Settings extends Component implements SettingsInterface
     /**
      * @var string
      */
-    public $modelClass = 'lo\core\modules\settings\models\KeyStorageItem';
+    public $modelClass = KeyStorageItem::class;
 
     /**
      * @var array Runtime values cache
@@ -50,7 +53,7 @@ class Settings extends Component implements SettingsInterface
     public function init()
     {
         parent::init();
-        if (is_string($this->cache)) {
+        if (\is_string($this->cache)) {
             $this->cache = Yii::$app->get($this->cache);
         }
     }
@@ -58,9 +61,8 @@ class Settings extends Component implements SettingsInterface
     /**
      * @param $key
      * @param $value
-     * @return mixed
      */
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         $model = $this->getModel($key);
         if (!$model) {
@@ -71,9 +73,7 @@ class Settings extends Component implements SettingsInterface
         if ($model->save(false)) {
             $this->values[$key] = $value;
             $this->cache->set($this->getCacheKey($key), $value, $this->cachingDuration);
-            return true;
-        };
-        return false;
+        }
     }
 
     /**
@@ -87,13 +87,13 @@ class Settings extends Component implements SettingsInterface
     }
 
     /**
-     * @param $key
-     * @param null $default
-     * @param bool $cache
+     * @param          $key
+     * @param null     $default
+     * @param bool     $cache
      * @param int|bool $cachingDuration
      * @return mixed|null
      */
-    public function get($key, $default = null, $cache = true, $cachingDuration = false)
+    public function get($key, $default = null, $cache = true, $cachingDuration = false): ?string
     {
         if ($cache) {
             $cacheKey = $this->getCacheKey($key);
@@ -115,6 +115,7 @@ class Settings extends Component implements SettingsInterface
             $model = $this->getModel($key);
             $value = $model ? $model->value : $default;
         }
+
         return $value;
     }
 
@@ -122,21 +123,22 @@ class Settings extends Component implements SettingsInterface
      * @param array $keys
      * @return array
      */
-    public function getAll(array $keys)
+    public function getAll(array $keys): array
     {
         $values = [];
         foreach ($keys as $key) {
             $values[$key] = $this->get($key);
         }
+
         return $values;
     }
 
     /**
-     * @param $key
+     * @param      $key
      * @param bool $cache
      * @return bool
      */
-    public function has($key, $cache = true)
+    public function has($key, $cache = true): bool
     {
         return $this->get($key, null, $cache) !== null;
     }
@@ -145,13 +147,14 @@ class Settings extends Component implements SettingsInterface
      * @param array $keys
      * @return bool
      */
-    public function hasAll(array $keys)
+    public function hasAll(array $keys): bool
     {
         foreach ($keys as $key) {
             if (!$this->has($key)) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -159,10 +162,11 @@ class Settings extends Component implements SettingsInterface
      * @param $key
      * @return bool
      */
-    public function remove($key)
+    public function remove($key): bool
     {
         unset($this->values[$key]);
-        return call_user_func($this->modelClass . '::deleteAll', ['key' => $key]);
+
+        return \call_user_func($this->modelClass . '::deleteAll', ['key' => $key]);
     }
 
     /**
@@ -181,7 +185,8 @@ class Settings extends Component implements SettingsInterface
      */
     protected function getModel($key)
     {
-        $query = call_user_func($this->modelClass . '::find');
+        $query = \call_user_func($this->modelClass . '::find');
+
         return $query->where(['key' => $key])->one();
     }
 
@@ -189,12 +194,12 @@ class Settings extends Component implements SettingsInterface
      * @param $key
      * @return array
      */
-    protected function getCacheKey($key)
+    protected function getCacheKey($key): array
     {
         return [
             __CLASS__,
             $this->cachePrefix,
-            $key
+            $key,
         ];
     }
 

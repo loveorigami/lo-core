@@ -4,6 +4,7 @@ namespace lo\core\components;
 
 /**
  * Interface SettingsInterface
+ *
  * @package lo\core\modules\settings\components
  */
 interface SettingsInterface
@@ -12,12 +13,11 @@ interface SettingsInterface
      * @param $key
      * @return string;
      */
-    public function get($key);
+    public function get($key): ?string;
 
     /**
      * @param $key
      * @param $value
-     * @return string
      */
-    public function set($key, $value);
+    public function set($key, $value): void;
 }
