@@ -3,6 +3,7 @@
 namespace lo\core\helpers;
 
 use Yii;
+use yii\web\Application as WebApplication;
 use yii\web\Controller;
 use yii\web\View;
 
@@ -36,18 +37,26 @@ class BaseUmodeHelper
     /**
      * @return bool
      */
-    public static function isGuest()
+    public static function isGuest(): bool
     {
-        return Yii::$app->user->isGuest;
+        if (Yii::$app instanceof WebApplication) {
+            return Yii::$app->user->isGuest;
+        }
+
+        return true;
     }
 
     /**
      * @param $permission
      * @return bool
      */
-    public static function can($permission)
+    public static function can($permission): bool
     {
-        return Yii::$app->user->can($permission);
+        if (Yii::$app instanceof WebApplication) {
+            return Yii::$app->user->can($permission);
+        }
+
+        return false;
     }
 
     /**

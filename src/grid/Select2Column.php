@@ -11,13 +11,15 @@ use kartik\select2\Select2;
 /**
  * Class Select2Column
  * Фильтр
+ *
  * @package lo\core\grid
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Select2Column extends DataColumn
 {
     /**
      * Load json data from url
+     *
      * @var array
      */
     public $loadUrl;
@@ -44,7 +46,7 @@ class Select2Column extends DataColumn
     /**
      * @inheritdoc
      */
-    protected function renderFilterCellContent()
+    protected function renderFilterCellContent(): string
     {
         $ajaxWidgetOptions = [];
 
@@ -67,7 +69,7 @@ class Select2Column extends DataColumn
                     'allowClear' => true,
                     'placeholder' => [
                         'id' => '',
-                        'placeholder' => 'Select...'
+                        'placeholder' => 'Select...',
                     ],
                     'minimumInputLength' => 2,
                     'ajax' => [
@@ -78,7 +80,7 @@ class Select2Column extends DataColumn
                     'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                     'templateResult' => new JsExpression('function(data) { if (data.placeholder) return data.placeholder; return data.text; }'),
                     'templateSelection' => new JsExpression('function (data) { if (data.placeholder) return data.placeholder; return data.text; }'),
-                ]
+                ],
             ];
         }
 
