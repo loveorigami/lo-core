@@ -111,7 +111,7 @@ class BaseUmodeHelper
     {
         $user = Yii::$app->user->identity;
         $id = ArrayHelper::getValue($user, 'id');
-        $roles = Memoize::call([self::class, 'getRolesByUser'], [$id]);
+        $roles = Memorize::call([self::class, 'getRolesByUser'], [$id]);
 
         return ArrayHelper::getValue(end($roles), 'name');
     }

@@ -3,7 +3,7 @@
 namespace lo\core\db\fields;
 
 use lo\core\db\ActiveRecord;
-use lo\core\helpers\Memoize;
+use lo\core\helpers\Memorize;
 use lo\modules\eavb\behaviors\EavEntity;
 use lo\modules\eavb\models\Entity;
 use lo\modules\eavb\models\Set;
@@ -53,7 +53,7 @@ class EavField extends BaseField
             'class' => EavEntity::class,
             'entity' => function () {
                 return new Entity([
-                    'sets' => Memoize::call(
+                    'sets' => Memorize::call(
                         [Set::class, 'findAll'], [['slug' => $this->eavCondition]]
                     ),
                 ]);
