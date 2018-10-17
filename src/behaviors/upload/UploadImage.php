@@ -74,6 +74,12 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
 
         $img = new SimpleImage($path);
 
+        if ($mode === 'bestFit') {
+            $img->bestFit($width, $height);
+        } else {
+            $img->thumbnail($width, $height);
+        }
+
         if ($watermark instanceof \Closure) {
             $w_path = $watermark($width, $height);
         } else {
@@ -82,12 +88,6 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
 
         if ($w_path) {
             $img->overlay(Yii::getAlias($w_path), 'bottom right');
-        }
-
-        if ($mode === 'bestFit') {
-            $img->bestFit($width, $height);
-        } else {
-            $img->thumbnail($width, $height);
         }
 
         $img->toFile($thumbPath, null, $quality);
