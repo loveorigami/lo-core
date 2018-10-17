@@ -3,8 +3,15 @@
 namespace lo\core\behaviors\upload;
 
 use claviska\SimpleImage;
+use Yii;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class UploadImage
+ *
+ * @package lo\core\behaviors\upload
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
+ */
 class UploadImage extends BaseUploadImageBehavior implements IUploadImage
 {
     /** @var boolean */
@@ -21,8 +28,8 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
 
 
     /**
-     * @param string $attribute
-     * @param string $profile
+     * @param string  $attribute
+     * @param string  $profile
      * @param boolean $old
      * @return string
      */
@@ -31,6 +38,7 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
         if (!$this->thumbPath) {
             return $this->getUploadPath($attribute);
         }
+
         return parent::getThumbUploadPath($attribute, $profile, $old = false);
     }
 
@@ -45,6 +53,7 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
         if (!$this->thumbUrl) {
             return $this->getUploadUrl($attribute);
         }
+
         return parent::getThumbUploadUrl($attribute, $profile);
     }
 
@@ -59,8 +68,28 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
         $width = ArrayHelper::getValue($config, 'width');
         $height = ArrayHelper::getValue($config, 'height');
         $quality = ArrayHelper::getValue($config, 'quality', 100);
+        $mode = ArrayHelper::getValue($config, 'mode');
+
+        $watermark = ArrayHelper::getValue($config, 'watermark');
 
         $img = new SimpleImage($path);
-        $img->thumbnail($width, $height)->toFile($thumbPath, null, $quality);
+
+        if ($watermark instanceof \Closure) {
+            $w_path = $watermark($width, $height);
+        } else {
+            $w_path = $watermark;
+        }
+
+        if ($w_path) {
+            $img->overlay(Yii::getAlias($w_path), 'bottom right');
+        }
+
+        if ($mode === 'bestFit') {
+            $img->bestFit($width, $height);
+        } else {
+            $img->thumbnail($width, $height);
+        }
+
+        $img->toFile($thumbPath, null, $quality);
     }
 }
