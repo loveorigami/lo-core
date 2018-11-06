@@ -2,14 +2,14 @@
 
 namespace lo\core\db\fields;
 
-use lo\core\widgets\DatePicker;
 use Yii;
 
 /**
  * Class TimestampField
  * Поле метки времени
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class TimestampField extends BaseField
 {
@@ -31,25 +31,20 @@ class TimestampField extends BaseField
     /**
      * @inheritdoc
      */
-    public $showInExtendedFilter = true;
-
-    /**
-     * @inheritdoc
-     */
-    protected function grid()
+    protected function grid(): array
     {
         $grid = parent::grid();
         //$grid["format"] = "datetime";
-        $grid["value"] = function ($model) {
+        $grid['value'] = function ($model) {
             $attr = $this->attr;
-            if (extension_loaded('intl')) {
-                return Yii::t('core', '{0, date, MMMM dd, YYYY HH:mm}', [$model->$attr]);
-            } else {
-                return date('Y-m-d G:i:s', $model->$attr);
+            if (\extension_loaded('intl')) {
+                return Yii::t('core', '{0, date, dd MMMM, YYYY HH:mm}', [$model->$attr]);
             }
+
+            return date('Y-m-d G:i:s', $model->$attr);
         };
         $grid['headerOptions'] = [
-            'style' => 'width: 100px;',
+            'style' => 'width: 120px;',
         ];
 
         return $grid;
@@ -58,10 +53,11 @@ class TimestampField extends BaseField
     /**
      * @inheritdoc
      */
-    protected function view()
+    protected function view(): array
     {
         $view = parent::view();
-        $view["format"] = "datetime";
+        $view['format'] = 'datetime';
+
         return $view;
     }
 
