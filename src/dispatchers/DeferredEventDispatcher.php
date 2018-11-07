@@ -2,6 +2,12 @@
 
 namespace lo\core\dispatchers;
 
+/**
+ * Class DeferredEventDispatcher
+ *
+ * @package lo\core\dispatchers
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
+ */
 class DeferredEventDispatcher implements EventDispatcher
 {
     private $defer = false;
@@ -13,14 +19,14 @@ class DeferredEventDispatcher implements EventDispatcher
         $this->next = $next;
     }
 
-    public function dispatchAll(array $events)
+    public function dispatchAll(array $events): void
     {
         foreach ($events as $event) {
             $this->dispatch($event);
         }
     }
 
-    public function dispatch($event)
+    public function dispatch($event): void
     {
         if ($this->defer) {
             $this->queue[] = $event;
@@ -29,23 +35,24 @@ class DeferredEventDispatcher implements EventDispatcher
         }
     }
 
-    public function defer()
+    public function defer(): void
     {
         $this->defer = true;
     }
 
-    public function clean()
+    public function clean(): void
     {
         $this->queue = [];
         $this->defer = false;
     }
 
-    public function release()
+    public function release(): void
     {
         foreach ($this->queue as $i => $event) {
             $this->next->dispatch($event);
             unset($this->queue[$i]);
         }
+
         $this->defer = false;
     }
 }
