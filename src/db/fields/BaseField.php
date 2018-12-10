@@ -10,6 +10,7 @@ use lo\core\inputs;
 use lo\core\interfaces\IField;
 use Yii;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use Yii\widgets\ActiveForm;
@@ -140,6 +141,7 @@ class BaseField extends BaseObject implements IField
      * @param ActiveForm $form    объект форма
      * @param array      $options массив html атрибутов поля
      * @return string
+     * @throws InvalidConfigException
      */
     public function getExtendedFilterForm(ActiveForm $form, Array $options = [])
     {
@@ -153,7 +155,7 @@ class BaseField extends BaseObject implements IField
      * @param array        $options массив html атрибутов поля
      * @param bool|int     $index   индекс модели при табличном вводе
      * @param string|array $cls     класс поля, либо конфигурационный массив
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      * @return string
      */
     public function getForm(ActiveForm $form, Array $options = [], $index = false, $cls = null)
@@ -176,13 +178,13 @@ class BaseField extends BaseObject implements IField
      * @param array      $options массив html атрибутов поля
      * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function getWrappedForm(ActiveForm $form, Array $options = [], $index = false)
     {
         $html = $this->getForm($form, $options, $index);
 
-        return str_replace("{input}", $html, $this->formTemplate);
+        return str_replace('{input}', $html, $this->formTemplate);
     }
 
     /**
@@ -252,9 +254,7 @@ class BaseField extends BaseObject implements IField
      */
     protected function getGridValue($model)
     {
-        $value = $model->{$this->attr};
-
-        return $value;
+        return $model->{$this->attr};
     }
 
     /**
@@ -266,9 +266,9 @@ class BaseField extends BaseObject implements IField
     {
         if ($this->_gridFilter !== null) {
             return $this->_gridFilter;
-        } else {
-            return $this->defaultGridFilter();
         }
+
+        return $this->defaultGridFilter();
     }
 
     /**
@@ -292,7 +292,7 @@ class BaseField extends BaseObject implements IField
     /**
      * Редатироование в гриде
      *
-     * @return array
+     * @return mixed
      */
     protected function xEditable()
     {
@@ -306,11 +306,11 @@ class BaseField extends BaseObject implements IField
     /**
      * Создает url для x-editable
      *
-     * @return string
+     * @return mixed
      */
     public function getEditableUrl()
     {
-        return Yii::$app->urlManager->createUrl(Yii::$app->controller->uniqueId . "/" . $this->editableAction);
+        return Yii::$app->urlManager->createUrl(Yii::$app->controller->uniqueId . '/' . $this->editableAction);
     }
 
     /**
@@ -333,9 +333,7 @@ class BaseField extends BaseObject implements IField
      */
     protected function view()
     {
-        $view = $this->defaultView();
-
-        return $view;
+        return $this->defaultView();
     }
 
     /**
@@ -343,7 +341,7 @@ class BaseField extends BaseObject implements IField
      *
      * @return array
      */
-    public final function getView()
+    final public function getView(): array
     {
         return ArrayHelper::merge($this->view(), $this->viewOptions);
     }
@@ -408,7 +406,7 @@ class BaseField extends BaseObject implements IField
     {
         if ($this->_dataValue === null) {
             $func = $this->data;
-            $this->_dataValue = is_callable($func) ? call_user_func($func) : [];
+            $this->_dataValue = is_callable($func) ? $func() : [];
         }
 
         return $this->_dataValue;
@@ -422,7 +420,8 @@ class BaseField extends BaseObject implements IField
     protected function search(ActiveQuery $query)
     {
         if ($this->model->hasAttribute($this->attr)) {
-            $table = $this->model->tableName();
+            $model = $this->model;
+            $table = $model::tableName();
             $attr = $this->attr;
             $query->andFilterWhere(["$table.$attr" => $this->model->{$this->attr}]);
         }
@@ -457,6 +456,6 @@ class BaseField extends BaseObject implements IField
      */
     public function getLoadUrl()
     {
-        return (is_array($this->loadUrl)) ? Url::to($this->loadUrl) : $this->loadUrl;
+        return is_array($this->loadUrl) ? Url::to($this->loadUrl) : $this->loadUrl;
     }
 }

@@ -7,26 +7,27 @@ use yii\widgets\ActiveForm;
 use lo\widgets\Toggle;
 
 /**
- * Class CheckBoxInput c виджетом Bootstrap toogle
+ * Class CheckBoxInput c виджетом Bootstrap toggle
  * Чекбокс
+ *
  * @package lo\core\inputs
  */
-class CheckBoxInputB extends CheckBoxInput {
-
+class CheckBoxInputB extends CheckBoxInput
+{
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
      */
-    public function renderInput(ActiveForm $form, Array $options = [], $index = false)
+    public function renderInput(ActiveForm $form, Array $options = [], $index = false): string
     {
         $options = ArrayHelper::merge($this->options, $this->widgetOptions, $options);
 
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), [
-            'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}'
+            'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}',
         ])->widget(Toggle::class, $options);
     }
-
 }
