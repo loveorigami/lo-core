@@ -14,6 +14,21 @@ use yii\helpers\StringHelper as YiiStringHelper;
 class StringHelper extends YiiStringHelper
 {
     /**
+     * @param      $url
+     * @param bool $scheme
+     * @return string
+     */
+    public static function domain($url, $scheme = false): string
+    {
+        $parseUrl = parse_url(trim($url));
+
+        $host = trim($parseUrl['host'] ?: $parseUrl['path']);
+
+        return $scheme ? $parseUrl['scheme'] . '://' . $host : $host;
+
+    }
+
+    /**
      * Получим все ссылки из текста
      *
      * @param string $text - текст
