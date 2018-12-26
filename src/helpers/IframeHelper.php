@@ -73,9 +73,9 @@ class IframeHelper
 
     /**
      * @param $url
-     * @return string
+     * @return mixed
      */
-    public static function url($url): string
+    public static function url($url)
     {
         if (is_array($url)) {
             ArrayHelper::setValue($url, self::QUERY_PARAM, '1');
