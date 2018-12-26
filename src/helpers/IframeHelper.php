@@ -7,39 +7,42 @@ use yii\helpers\Html;
 
 /**
  * Class BS
+ *
  * @package lo\core\helpers
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class IframeHelper
 {
     /**
      * Bootstrap CSS helpers
      */
-    const IFRAME_SELECTOR = 'iframe-page';
-    const QUERY_PARAM = 'iframe';
+    public const IFRAME_SELECTOR = 'iframe-page';
+    public const QUERY_PARAM = 'iframe';
 
     /**
      * @param array $params
      * @return string
      * @throws \Exception
      */
-    public static function register($params = [])
+    public static function register($params = []): string
     {
         $params = ArrayHelper::merge(self::colorboxDefaultParams(), $params);
+
         return Colorbox::widget($params);
     }
 
     /**
      * @return string
      */
-    public static function colorboxJsonParams(){
+    public static function colorboxJsonParams(): string
+    {
         return JsonHelper::encode(self::colorboxDefaultParams());
     }
 
     /**
      * @return array
      */
-    protected static function colorboxDefaultParams()
+    protected static function colorboxDefaultParams(): array
     {
         return [
             'reload' => true,
@@ -54,30 +57,32 @@ class IframeHelper
     }
 
     /**
-     * @param $text
-     * @param null $url
+     * @param       $text
+     * @param null  $url
      * @param array $options
      * @return string
      */
-    public static function a($text, $url = null, $options = [])
+    public static function a($text, $url = null, $options = []): string
     {
         if ($url !== null) {
             $url = self::url($url);
         }
+
         return Html::a($text, $url, $options);
     }
 
     /**
      * @param $url
-     * @return mixed
+     * @return string
      */
-    public static function url($url)
+    public static function url($url): string
     {
         if (is_array($url)) {
             ArrayHelper::setValue($url, self::QUERY_PARAM, '1');
         } elseif ($url !== null) {
             $url .= '&' . self::QUERY_PARAM . '=1';
         }
+
         return $url;
     }
 }
