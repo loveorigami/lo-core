@@ -2,6 +2,7 @@
 
 namespace lo\core\inputs;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use lo\widgets\Toggle;
@@ -24,7 +25,14 @@ class CheckBoxInputB extends CheckBoxInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false): string
     {
-        $options = ArrayHelper::merge($this->options, $this->widgetOptions, $options);
+        $options = ArrayHelper::merge([
+            'options' => [
+                'label' => null,
+                'inline' => true,
+                'data-on' => Yii::t('common', 'Yes'),
+                'data-off' => Yii::t('common', 'No'),
+            ],
+        ], $this->options, $this->widgetOptions, $options);
 
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), [
             'template' => '{label} <div class="clearfix"></div>{input}{error}{hint}',
