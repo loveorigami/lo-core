@@ -201,6 +201,15 @@ class DateHelper
     }
 
     /**
+     * @param $timestamp
+     * @return false|string
+     */
+    public static function pathFull($timestamp): ?string
+    {
+        return date('Y/m/d', $timestamp);
+    }
+
+    /**
      * @param $date
      * @param $format
      * @return string
