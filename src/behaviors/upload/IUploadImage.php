@@ -5,23 +5,25 @@
  * Date: 20.08.2016
  * Time: 16:54
  */
+
 namespace lo\core\behaviors\upload;
 
 /**
  * Class IUploadFile
  * Базовый класс полей.
+ *
  * @package lo\interfaces
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 interface IUploadImage extends IUploadFile
 {
     /**
-     * @param string $attribute
-     * @param string $profile
+     * @param string  $attribute
+     * @param string  $profile
      * @param boolean $old
      * @return string
      */
-    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false);
+    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false): ?string;
 
 
     /**
@@ -29,6 +31,6 @@ interface IUploadImage extends IUploadFile
      * @param string $profile
      * @return string|null
      */
-    public function getThumbUploadUrl($attribute, $profile = 'thumb');
+    public function getThumbUploadUrl($attribute, $profile = 'thumb'): ?string;
 
 }

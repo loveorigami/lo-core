@@ -78,7 +78,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -106,7 +106,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     /**
      * @inheritdoc
      */
-    protected function afterUpload()
+    protected function afterUpload(): void
     {
         parent::afterUpload();
         if ($this->createThumbsOnSave) {
@@ -117,7 +117,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     /**
      * @throws \yii\base\Exception
      */
-    protected function createThumbs()
+    protected function createThumbs(): void
     {
         $path = $this->getUploadPath($this->attribute);
         foreach ($this->thumbs as $profile => $config) {
@@ -134,12 +134,12 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     }
 
     /**
-     * @param string $attribute
-     * @param string $profile
+     * @param string  $attribute
+     * @param string  $profile
      * @param boolean $old
      * @return string
      */
-    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false)
+    public function getThumbUploadPath($attribute, $profile = 'thumb', $old = false): ?string
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
@@ -156,7 +156,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
      * @return string|null
      * @throws \yii\base\Exception
      */
-    public function getThumbUploadUrl($attribute, $profile = 'thumb')
+    public function getThumbUploadUrl($attribute, $profile = 'thumb'): ?string
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
@@ -170,20 +170,22 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
             $thumbName = $this->getThumbFileName($fileName, $profile);
 
             return Yii::getAlias($url . '/' . $thumbName);
-        } elseif ($this->placeholder) {
-            return $this->getPlaceholderUrl($profile);
-        } else {
-            return null;
         }
+
+        if ($this->placeholder) {
+            return $this->getPlaceholderUrl($profile);
+        }
+
+        return null;
     }
 
     /**
      * @param $profile
      * @return string
      */
-    protected function getPlaceholderUrl($profile)
+    protected function getPlaceholderUrl($profile): ?string
     {
-        list ($path, $url) = Yii::$app->assetManager->publish($this->placeholder);
+        [$path, $url] = Yii::$app->assetManager->publish($this->placeholder);
         $filename = basename($path);
         $thumb = $this->getThumbFileName($filename, $profile);
         $thumbPath = dirname($path) . DIRECTORY_SEPARATOR . $thumb;
@@ -199,7 +201,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     /**
      * @inheritdoc
      */
-    protected function delete($attribute, $old = false)
+    protected function delete($attribute, $old = false): void
     {
         parent::delete($attribute, $old);
 
@@ -213,11 +215,11 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
     }
 
     /**
-     * @param $filename
+     * @param        $filename
      * @param string $profile
      * @return string
      */
-    protected function getThumbFileName($filename, $profile = 'thumb')
+    protected function getThumbFileName($filename, $profile = 'thumb'): string
     {
         return $profile . '-' . $filename;
     }
@@ -227,7 +229,7 @@ class BaseUploadImageBehavior extends BaseUploadBehavior
      * @param $path
      * @param $thumbPath
      */
-    protected function generateImageThumb($config, $path, $thumbPath)
+    protected function generateImageThumb($config, $path, $thumbPath): void
     {
 
     }

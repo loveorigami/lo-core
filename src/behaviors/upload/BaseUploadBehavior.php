@@ -19,13 +19,13 @@ use yii\web\UploadedFile;
  * To use UploadBehavior, insert the following code to your ActiveRecord class:
  *
  * ```php
- * use mongosoft\file\UploadBehavior;
+ * use lo\core\behaviors\upload\BaseUploadBehavior;
  *
  * function behaviors()
  * {
  *     return [
  *         [
- *             'class' => UploadBehavior::className(),
+ *             'class' => BaseUploadBehavior::className(),
  *             'attribute' => 'file',
  *             'scenarios' => ['insert', 'update'],
  *             'path' => '@webroot/upload/{id}',
@@ -42,7 +42,7 @@ class BaseUploadBehavior extends Behavior
     /**
      * @event Event an event that is triggered after a file is uploaded.
      */
-    const EVENT_AFTER_UPLOAD = 'afterUpload';
+    protected const EVENT_AFTER_UPLOAD = 'afterUpload';
 
     /**
      * @var string the attribute which holds the attachment.
@@ -91,7 +91,7 @@ class BaseUploadBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -109,7 +109,7 @@ class BaseUploadBehavior extends Behavior
     /**
      * @inheritdoc
      */
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
@@ -124,24 +124,22 @@ class BaseUploadBehavior extends Behavior
     /**
      * This method is invoked before validation starts.
      */
-    public function beforeValidate()
+    public function beforeValidate(): void
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
         $file = $model->getAttribute($this->attribute);
 
-        if (in_array($model->scenario, $this->scenarios)) {
+        if (in_array($model->scenario, $this->scenarios, true)) {
 
             if ($file instanceof UploadedFile) {
                 $this->_file = $file;
             } elseif ($file instanceof UploadedRemoteFile) {
                 $this->_file = $file;
+            } elseif ($this->instanceByName === true) {
+                $this->_file = UploadedFile::getInstanceByName($this->attribute);
             } else {
-                if ($this->instanceByName === true) {
-                    $this->_file = UploadedFile::getInstanceByName($this->attribute);
-                } else {
-                    $this->_file = UploadedFile::getInstance($model, $this->attribute);
-                }
+                $this->_file = UploadedFile::getInstance($model, $this->attribute);
             }
 
             if ($this->_file instanceof UploadedFile) {
@@ -159,19 +157,17 @@ class BaseUploadBehavior extends Behavior
     /**
      * This method is called at the beginning of inserting or updating a record.
      */
-    public function beforeSave()
+    public function beforeSave(): void
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
-        if (in_array($model->scenario, $this->scenarios)) {
+        if (in_array($model->scenario, $this->scenarios, true)) {
             if (
                 $this->_file instanceof UploadedFile ||
                 $this->_file instanceof UploadedRemoteFile
             ) {
-                if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
-                    if ($this->unlinkOnSave === true) {
-                        $this->delete($this->attribute, true);
-                    }
+                if ($this->unlinkOnSave === true && !$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
+                    $this->delete($this->attribute, true);
                 }
                 $model->setAttribute($this->attribute, $this->_file->name);
             } else {
@@ -179,20 +175,19 @@ class BaseUploadBehavior extends Behavior
                 unset($model->{$this->attribute});
             }
         } else {
-            if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
-                if ($this->unlinkOnSave === true) {
-                    $this->delete($this->attribute, true);
-                }
+            if ($this->unlinkOnSave === true && !$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
+                $this->delete($this->attribute, true);
             }
         }
     }
 
     /**
      * This method is called at the end of inserting or updating a record.
+     *
      * @throws \yii\base\InvalidArgumentException
      * @throws \yii\base\Exception
      */
-    public function afterSave()
+    public function afterSave(): void
     {
         if (
             $this->_file instanceof UploadedFile ||
@@ -200,7 +195,7 @@ class BaseUploadBehavior extends Behavior
         ) {
             $path = $this->getUploadPath($this->attribute);
             if (is_string($path) && FileHelper::createDirectory(dirname($path))) {
-                $this->save($this->_file, $path);
+                $this->saveFile($this->_file, $path);
                 $this->afterUpload();
             } else {
                 throw new InvalidArgumentException("Directory specified in 'path' attribute doesn't exist or cannot be created.");
@@ -211,7 +206,7 @@ class BaseUploadBehavior extends Behavior
     /**
      * This method is invoked after deleting a record.
      */
-    public function afterDelete()
+    public function afterDelete(): void
     {
         $attribute = $this->attribute;
         if ($this->unlinkOnDelete && $attribute) {
@@ -221,11 +216,12 @@ class BaseUploadBehavior extends Behavior
 
     /**
      * Returns file path for the attribute.
-     * @param string $attribute
+     *
+     * @param string  $attribute
      * @param boolean $old
      * @return string|null the file path.
      */
-    public function getUploadPath($attribute, $old = false)
+    public function getUploadPath($attribute, $old = false): ?string
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
@@ -237,10 +233,11 @@ class BaseUploadBehavior extends Behavior
 
     /**
      * Returns file url for the attribute.
+     *
      * @param string $attribute
      * @return string|null
      */
-    public function getUploadUrl($attribute)
+    public function getUploadUrl($attribute): ?string
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
@@ -252,15 +249,17 @@ class BaseUploadBehavior extends Behavior
 
     /**
      * Returns the UploadedFile instance.
+     *
      * @return UploadedFile
      */
-    protected function getUploadedFile()
+    protected function getUploadedFile(): UploadedFile
     {
         return $this->_file;
     }
 
     /**
      * Replaces all placeholders in path variable with corresponding values.
+     *
      * @param $path
      * @return null|string|string[]
      */
@@ -268,37 +267,41 @@ class BaseUploadBehavior extends Behavior
     {
         /** @var BaseActiveRecord $model */
         $model = $this->owner;
+
         return preg_replace_callback('/{([^}]+)}/', function ($matches) use ($model) {
             $name = $matches[1];
             $attribute = ArrayHelper::getValue($model, $name);
             if (is_string($attribute) || is_numeric($attribute)) {
                 return $attribute;
-            } else {
-                return $matches[0];
             }
+
+            return $matches[0];
         }, $path);
     }
 
     /**
      * Saves the uploaded file.
+     *
      * @param UploadedFile|UploadedRemoteFile $file the uploaded file instance
-     * @param string $path the file path used to save the uploaded file
+     * @param string                          $path the file path used to save the uploaded file
      * @return boolean true whether the file is saved successfully
      */
-    protected function save($file, $path)
+    protected function saveFile($file, $path): bool
     {
         if ($file instanceof UploadedRemoteFile) {
             return $file->saveAs($path, true);
         }
+
         return $file->saveAs($path, $this->deleteTempFile);
     }
 
     /**
      * Deletes old file.
-     * @param string $attribute
+     *
+     * @param string  $attribute
      * @param boolean $old
      */
-    protected function delete($attribute, $old = false)
+    protected function delete($attribute, $old = false): void
     {
         $path = $this->getUploadPath($attribute, $old);
         if (is_file($path)) {
@@ -310,15 +313,15 @@ class BaseUploadBehavior extends Behavior
      * @param UploadedFile $file
      * @return string
      */
-    protected function getFileName($file)
+    protected function getFileName($file): string
     {
         if ($this->generateNewName) {
             return $this->generateNewName instanceof Closure
                 ? call_user_func($this->generateNewName, $file)
                 : $this->generateFileName($file);
-        } else {
-            return $this->sanitize($file->name);
         }
+
+        return self::sanitize($file->name);
     }
 
     /**
@@ -327,21 +330,22 @@ class BaseUploadBehavior extends Behavior
      * #my*  unsaf<e>&file:name?".png
      *
      * @param string $filename the source filename to be "sanitized"
-     * @return boolean string the sanitized filename
+     * @return string string the sanitized filename
      */
-    public static function sanitize($filename)
+    public static function sanitize($filename): string
     {
         return str_replace([' ', '"', '\'', '&', '/', '\\', '?', '#'], '-', $filename);
     }
 
     /**
      * Generates random filename.
+     *
      * @param UploadedFile $file
      * @return string
      */
-    protected function generateFileName($file)
+    protected function generateFileName($file): string
     {
-        return uniqid() . '.' . $file->extension;
+        return uniqid('fl', false) . '.' . $file->extension;
     }
 
     /**
@@ -350,7 +354,7 @@ class BaseUploadBehavior extends Behavior
      * You may override this method to do postprocessing after the file is uploaded.
      * Make sure you call the parent implementation so that the event is raised properly.
      */
-    protected function afterUpload()
+    protected function afterUpload(): void
     {
         $this->owner->trigger(self::EVENT_AFTER_UPLOAD);
     }

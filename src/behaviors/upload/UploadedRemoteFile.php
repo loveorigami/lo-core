@@ -94,7 +94,7 @@ class UploadedRemoteFile extends BaseObject
         return new static($options);
     }
 
-    protected static function extendOptions(array $options)
+    protected static function extendOptions(array $options): array
     {
         $parsed_url = parse_url($options['url']);
         $headers = get_headers($options['url'], 1);
@@ -106,10 +106,8 @@ class UploadedRemoteFile extends BaseObject
         $options['extension'] = isset($parsed_url['path'])
             ? mb_strtolower(pathinfo($parsed_url['path'], PATHINFO_EXTENSION))
             : '';
-        $options['size'] = isset($headers['Content-Length']) ? $headers['Content-Length'] : 0;
-        $options['type'] = isset($headers['Content-Type'])
-            ? $headers['Content-Type']
-            : FileHelper::getMimeTypeByExtension($options['name']);
+        $options['size'] = $headers['Content-Length'] ?? 0;
+        $options['type'] = $headers['Content-Type'] ?? FileHelper::getMimeTypeByExtension($options['name']);
         return $options;
     }
 }

@@ -21,23 +21,23 @@ interface IUploadFile
      * @param boolean $old
      * @return string|null the file path.
      */
-    public function getUploadPath($attribute, $old = false);
+    public function getUploadPath($attribute, $old = false): ?string;
 
     /**
      * Returns file url for the attribute.
      * @param string $attribute
      * @return string|null
      */
-    public function getUploadUrl($attribute);
+    public function getUploadUrl($attribute): ?string;
 
     /**
      * This method is called at the end of inserting or updating a record.
      */
-    public function afterSave();
+    public function afterSave():void;
 
     /**
      * This method is invoked after deleting a record.
      */
-    public function afterDelete();
+    public function afterDelete():void;
 
 }

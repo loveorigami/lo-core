@@ -33,7 +33,7 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
      * @param boolean $old
      * @return string
      */
-    public function getThumbUploadPath($attribute, $profile = 'tmb', $old = false)
+    public function getThumbUploadPath($attribute, $profile = 'tmb', $old = false): ?string
     {
         if (!$this->thumbPath) {
             return $this->getUploadPath($attribute);
@@ -48,7 +48,7 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
      * @return string|null
      * @throws \yii\base\Exception
      */
-    public function getThumbUploadUrl($attribute, $profile = 'tmb')
+    public function getThumbUploadUrl($attribute, $profile = 'tmb'): ?string
     {
         if (!$this->thumbUrl) {
             return $this->getUploadUrl($attribute);
@@ -63,7 +63,7 @@ class UploadImage extends BaseUploadImageBehavior implements IUploadImage
      * @param $thumbPath
      * @throws \Exception
      */
-    protected function generateImageThumb($config, $path, $thumbPath)
+    protected function generateImageThumb($config, $path, $thumbPath): void
     {
         $width = ArrayHelper::getValue($config, 'width');
         $height = ArrayHelper::getValue($config, 'height');
