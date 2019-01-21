@@ -44,7 +44,7 @@ class CheckBoxInputA extends CheckBoxInput
      * @param bool|int $index индекс модели при табличном вводе
      * @return string
      */
-    public function renderInput(ActiveForm $form, Array $options = [], $index = false)
+    public function renderInput(ActiveForm $form, Array $options = [], $index = false): string
     {
 
         $options = ArrayHelper::merge(
