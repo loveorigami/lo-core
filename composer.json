@@ -72,7 +72,8 @@
   "extra": {
     "config-plugin": {
       "params": [
-        "src/modules/i18n/config/params.php",
+        "src/modules/core/config/params.php",
+        "src/modules/i18n/config/params.php"
       ],
       "admin": [
         "src/modules/core/config/main.php",

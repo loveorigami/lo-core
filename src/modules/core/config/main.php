@@ -3,6 +3,10 @@
 return [
     'modules' => [
         'core' => [
+            'aliases' => [
+                '@sxdPath' => $params['sxd.path'],
+                '@sxdUrl' => $params['sxd.url'],
+            ],
             'class' => 'lo\core\modules\core\Module',
             'controllerNamespace' => 'lo\core\modules\core\controllers',
             'defaultRoute' => 'sypex-dumper',
@@ -14,7 +18,7 @@ return [
                     'access' => ['root'],
                     'root' => [
                         'baseUrl' => '', // /uploads
-                        'basePath' => '@sxdPath', // site.lo/uploads
+                        'basePath' => $params['sxd.path'], // site.lo/uploads
                         'path' => '',
                         'access' => ['read' => '*', 'write' => 'root'],
                         'name' => ['category' => 'backend', 'message' => 'Category'],
@@ -28,5 +32,6 @@ return [
                 ],
             ],
         ],
+        'params' => $params,
     ],
 ];
