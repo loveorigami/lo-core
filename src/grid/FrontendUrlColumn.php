@@ -8,14 +8,23 @@
 
 namespace lo\core\grid;
 
+use Closure;
 use lo\core\helpers\FA;
 use lo\core\url\FrontendUrlHelper;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
 
+/**
+ * Class FrontendUrlColumn
+ *
+ * @package lo\core\grid
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
+ */
 class FrontendUrlColumn extends DataColumn
 {
+    public $base_url;
     public $route;
     public $contentOptions = ['class' => 'text-center'];
     public $headerOptions = ['max-width' => '40'];
@@ -36,6 +45,7 @@ class FrontendUrlColumn extends DataColumn
      * @param mixed $key
      * @param int   $index
      * @return string
+     * @throws InvalidConfigException
      */
     protected function renderDataCellContent($model, $key, $index): string
     {
@@ -48,8 +58,14 @@ class FrontendUrlColumn extends DataColumn
             $url = \is_array($value) ? $value : [$value];
         }
 
+        $baseUrl = $this->base_url;
+
+        if ($this->base_url instanceof Closure) {
+            $baseUrl = call_user_func($this->base_url, $model);
+        }
+
         return Html::a(FA::i(FA::_LINK),
-            FrontendUrlHelper::url($url), [
+            FrontendUrlHelper::url($url, $baseUrl), [
                 'title' => Yii::t('core', 'on site'),
                 'target' => '_blank',
                 'class' => 'btn btn-primary btn-xs',
@@ -58,7 +74,5 @@ class FrontendUrlColumn extends DataColumn
                 ],
             ]
         );
-
-
     }
 }
