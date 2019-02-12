@@ -69,21 +69,6 @@
 	"bower-asset/jquery-number": "*",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
   },
-  "extra": {
-    "config-plugin": {
-      "params": [
-        "src/modules/core/config/params.php",
-        "src/modules/i18n/config/params.php"
-      ],
-      "admin": [
-        "src/modules/core/config/main.php",
-        "src/modules/main/config/main.php",
-        "src/modules/i18n/config/main.php",
-        "src/modules/permission/config/main.php",
-        "src/modules/settings/config/main.php"
-      ]
-    }
-  },
   "autoload": {
     "psr-4": {
       "lo\\core\\": "src/"
