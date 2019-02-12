@@ -1,20 +1,21 @@
 <?php
+
 namespace lo\core\traits;
 
 use lo\core\helpers\BaseUmodeHelper;
-use lo\core\modules\permission\models\Constraint;
+use lo\modules\core\permission\models\Constraint;
 
 /**
  * Class ConstraintTrait
  * Предоставляет функциональность по проверке прав доступа
+ *
  * @package lo\core\traits
  */
 trait ConstraintTrait
 {
     /** @return Constraint */
-    public function getPermission()
+    public function getPermission(): ?Constraint
     {
-        $data = Constraint::findPermission(get_called_class(), BaseUmodeHelper::getAuthRole());
-        return $data;
+        return Constraint::findPermission(static::class, BaseUmodeHelper::getAuthRole());
     }
 }
