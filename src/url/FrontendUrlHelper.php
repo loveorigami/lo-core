@@ -37,12 +37,14 @@ class FrontendUrlHelper
     public static function url($route, $base_url = null): string
     {
         $url = self::container();
+
         if ($base_url) {
             $url->setHostInfo($base_url);
         }
+
         $link = $url->createAbsoluteUrl($route);
 
-        return Url::to($link);
+        return is_array($route) ? Url::to($link) : $route;
     }
 
     /**
