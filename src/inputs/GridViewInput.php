@@ -3,6 +3,7 @@
 namespace lo\core\inputs;
 
 use lo\core\helpers\FA;
+use lo\core\helpers\IframeHelper;
 use lo\core\helpers\RbacHelper;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
@@ -13,34 +14,36 @@ use lo\core\widgets\awcheckbox\AwesomeCheckbox;
 
 /**
  * Class CrudInput
+ *
  * @package lo\core\inputs
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  *    "_bookings" => [
-            "definition" => [
-                "class" => fields\ManyChildField::class,
-                "inputClassOptions" => [
-                    'createParams' => ['rid' => $this->owner->getPrimaryKey()],
-                    'route' => '/base/room-booking',
-                    'pjaxContainer' => '#grid-crud-pjax',
-                    'gridViewOptions' => [
-                        'dataProvider' => $this->getBookingListProvider(),
-                        'columns' => [
-                            'date_from:date',
-                            'date_to:date'
-                        ]
-                    ]
-                ],
-                "title" => Yii::t('backend', 'Stop online'),
-                "relationName" => 'bookings',
-                "gridAttr" => 'date_from',
-            ],
-            "params" => [$this->owner, "_bookings"]
-        ],
+ * "definition" => [
+ * "class" => fields\ManyChildField::class,
+ * "inputClassOptions" => [
+ * 'createParams' => ['rid' => $this->owner->getPrimaryKey()],
+ * 'route' => '/base/room-booking',
+ * 'pjaxContainer' => '#grid-crud-pjax',
+ * 'gridViewOptions' => [
+ * 'dataProvider' => $this->getBookingListProvider(),
+ * 'columns' => [
+ * 'date_from:date',
+ * 'date_to:date'
+ * ]
+ * ]
+ * ],
+ * "title" => Yii::t('backend', 'Stop online'),
+ * "relationName" => 'bookings',
+ * "gridAttr" => 'date_from',
+ * ],
+ * "params" => [$this->owner, "_bookings"]
+ * ],
  */
 class GridViewInput extends BaseInput
 {
     /**
      * Настройки по умолчанию
+     *
      * @var array
      */
     protected $defaultOptions = [
@@ -58,15 +61,18 @@ class GridViewInput extends BaseInput
 
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
     {
 
-        if ($this->getModel()->isNewRecord) return null;
+        if ($this->getModel()->isNewRecord) {
+            return null;
+        }
 
         $gridViewOptions = ArrayHelper::merge(
             [
@@ -82,12 +88,12 @@ class GridViewInput extends BaseInput
                         'buttons' => [
                             'update' => function ($url, $model) {
                                 return RbacHelper::canUser($this->updatePermission, $model) ?
-                                    Html::a(
+                                    IframeHelper::a(
                                         FA::i(FA::_PENCIL),
                                         [$this->route . '/update', 'id' => $model->id],
                                         [
                                             'class' => 'btn btn-primary btn-xs modal-crud',
-                                            'data-pjax' => '0'
+                                            'data-pjax' => '0',
                                         ]
                                     ) : '';
                             },
@@ -102,13 +108,13 @@ class GridViewInput extends BaseInput
                                                 'pjax' => '0',
                                                 'method' => 'post',
                                                 'confirm' => 'Действительно удалить?',
-                                            ]
+                                            ],
                                         ]
                                     ) : '';
-                            }
-                        ]
-                    ]
-                ]
+                            },
+                        ],
+                    ],
+                ],
             ]
         );
 
