@@ -1,6 +1,6 @@
 <?php
 
-use lo\core\modules\settings\widgets\FormWidget;
+use lo\modules\core\settings\widgets\FormWidget;
 
 $this->title = Yii::t('backend', 'Application settings');
 
