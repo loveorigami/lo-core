@@ -2,7 +2,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
-use lo\core\modules\settings\models\FormModel;
+use lo\modules\core\settings\models\FormModel;
 use Yii;
 use yii\web\Response;
 
