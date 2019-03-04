@@ -55,7 +55,7 @@ class FrontendUrlColumn extends DataColumn
         if ($this->route) {
             $url = [$this->route, $attr => $value];
         } else {
-            $url = $value;
+            $url = \is_array($value) ? $value : [$value];
         }
 
         $baseUrl = $this->base_url;
