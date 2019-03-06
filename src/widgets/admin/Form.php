@@ -12,38 +12,67 @@ use yii\helpers\Html;
 /**
  * Class Form
  * Форма модели для админки. Формируется на основе \lo\core\db\MetaFields модели
+ *
  * @property array $tplDir директории где хранятся шаблоны
  * @package lo\core\widgets\admin
  */
 class Form extends Widget
 {
-    /** Преффикс идентификатора виджета */
+    public const BTN_SAVE = 'save';
+    public const BTN_APPLY = 'apply';
+    public const BTN_CANCEL = 'cancel';
+
+    /**
+     * Преффикс идентификатора виджета
+     */
     const FORM_ID_PREF = "form-";
 
-    /** @var \lo\core\db\ActiveRecord модель */
+    /**
+     * @var \lo\core\db\ActiveRecord модель
+     */
     public $model;
 
-    /** @var array параметры \yii\widgets\ActiveForm */
+    /**
+     * @var array параметры \yii\widgets\ActiveForm
+     */
     public $formOptions = [];
 
-    /** @var string шаблон */
+    /**
+     * @var string шаблон
+     */
     public $tpl = "form";
 
-    /** @var array параметры \yii\widgets\ActiveForm по умолчанию */
-
+    /**
+     * @var array параметры \yii\widgets\ActiveForm по умолчанию
+     */
     protected $defaultFormOptions = [
         'enableAjaxValidation' => false,
         'enableClientValidation' => false,
-        'errorSummaryCssClass' => 'alert alert-danger alert-dismissible'
+        'errorSummaryCssClass' => 'alert alert-danger alert-dismissible',
     ];
 
-    /** @var string идентификатор виджета */
+    /**
+     * @var string идентификатор виджета
+     */
     protected $id;
 
-    /** @var array идентификатор виджета */
+    /**
+     * @var array идентификатор виджета
+     */
     public $crudButtons = [];
 
-    /** @var array директория с шаблонами */
+    /**
+     * @var array
+     */
+    public $crudButtonsTpl = [
+        self::BTN_SAVE,
+        self::BTN_APPLY,
+        self::BTN_CANCEL,
+    ];
+
+    /**
+     * @var array директория с шаблонами
+     */
     protected $_tplDir;
 
 
@@ -66,7 +95,7 @@ class Form extends Widget
                 "model" => $this->model,
                 "crudButtons" => $this->getCrudButtons(),
                 "formOptions" => $formOptions,
-                "id" => $this->id
+                "id" => $this->id,
             ]
         );
     }
@@ -82,13 +111,23 @@ class Form extends Widget
     /**
      * @return array
      */
-    protected function getDefaultCrudButtons()
+    protected function getDefaultCrudButtons(): array
     {
-        return [
-            'save' => Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success form-save']),
-            'apply' => Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']),
-            'cancel' => Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel'])
-        ];
+        $btns = [];
+
+        if (ArrayHelper::isIn(self::BTN_SAVE, $this->crudButtonsTpl)) {
+            $btns[self::BTN_SAVE] = Html::submitButton(Yii::t('core', 'Save'), ['class' => 'btn btn-success form-save']);
+        }
+
+        if (ArrayHelper::isIn(self::BTN_APPLY, $this->crudButtonsTpl)) {
+            $btns[self::BTN_APPLY] = Html::submitButton(Yii::t('core', 'Apply'), ['class' => 'btn btn-primary form-apply']);
+        }
+
+        if (ArrayHelper::isIn(self::BTN_CANCEL, $this->crudButtonsTpl)) {
+            $btns[self::BTN_CANCEL] = Html::button(Yii::t('core', 'Cancel'), ['class' => 'btn btn-default form-cancel']);
+        }
+
+        return $btns;
     }
 
     /**
@@ -119,6 +158,7 @@ class Form extends Widget
                 return $this->renderFile($file);
             }
         };
+
         return null;
     }
 
