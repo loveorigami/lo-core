@@ -5,6 +5,7 @@ namespace lo\core\db\fields;
 use lo\core\db\ActiveQuery;
 use lo\core\db\ActiveRecord;
 use lo\core\db\MetaFields;
+use lo\core\grid\UpdateColumn;
 use lo\core\grid\XEditableColumn;
 use lo\core\inputs;
 use lo\core\interfaces\IField;
@@ -79,7 +80,13 @@ class BaseField extends BaseObject implements IField
     public $editInGrid = false;
 
     /** @var string действие для редактирования модели из грида */
-    public $editableAction = "editable";
+    public $editableAction = 'editable';
+
+    /** @var bool возможность перейти к редактированию */
+    public $updateInGrid = false;
+
+    /** @var string действие для перехода к редактированию */
+    public $updateAction = 'update';
 
     /** @var array опции по умолчанию при отображении в гриде */
     public $gridOptions = [];
@@ -217,6 +224,10 @@ class BaseField extends BaseObject implements IField
             $grid = array_merge($grid, $this->xEditable());
         }
 
+        if ($this->updateInGrid && !$this->editInGrid) {
+            $grid = array_merge($grid, $this->linkUpdate());
+        }
+
         return $grid;
     }
 
@@ -241,7 +252,7 @@ class BaseField extends BaseObject implements IField
      *
      * @return array
      */
-    public final function getGrid()
+    final public function getGrid()
     {
         return ArrayHelper::merge($this->grid(), $this->gridOptions);
     }
@@ -299,6 +310,20 @@ class BaseField extends BaseObject implements IField
         return [
             'class' => XEditableColumn::class,
             'url' => $this->getEditableUrl(),
+            'format' => 'raw',
+        ];
+    }
+
+    /**
+     * Редатироование в гриде
+     *
+     * @return mixed
+     */
+    protected function linkUpdate()
+    {
+        return [
+            'class' => UpdateColumn::class,
+            'route' => $this->updateAction,
             'format' => 'raw',
         ];
     }
