@@ -29,7 +29,12 @@ class FileUploadInput extends BaseInput
             'showRemove' => false,
             'showUpload' => false,
         ],
+        'options' => [
+            'multiple' => false,
+        ],
     ];
+
+    public $delBtn = true;
 
     /**
      * Формирование Html кода поля для вывода в форме
@@ -41,12 +46,32 @@ class FileUploadInput extends BaseInput
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false): string
     {
-        $options = ArrayHelper::merge($this->options, $options);
-        $widgetOptions = ArrayHelper::merge($this->defaultOptions, $this->widgetOptions, ['options' => $options]);
-
         $model = $this->getModel();
         $attr = $this->getAttr();
         $filename = $model->$attr;
+
+        $initFile = [];
+        $file = $model->getUploadUrl($this->getAttr());
+
+        if ($file && $model->scenario !== $model::SCENARIO_INSERT) {
+            $initFile = ArrayHelper::merge($this->defaultOptions, [
+                'pluginOptions' => [
+                    'initialPreview' => [
+                        $file,
+                    ],
+                    'overwriteInitial' => true,
+                    'initialPreviewAsData' => true,
+                ],
+            ]);
+        }
+
+        $options = ArrayHelper::merge($this->options, $options);
+        $widgetOptions = ArrayHelper::merge(
+            $this->defaultOptions,
+            $this->widgetOptions,
+            ['options' => $options],
+            $initFile
+        );
 
         //$label = $this->getModel()->getAttributeLabel($attr);
         //$label = $label . ' (' . $filename . ')';
@@ -55,7 +80,7 @@ class FileUploadInput extends BaseInput
         $str [] = $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()))
             ->widget(FileInput::class, $widgetOptions);
 
-        if ($filename && !$model->errors) {
+        if ($filename && !$model->errors && $this->delBtn) {
             $str [] = Html::a(
                 Yii::t('backend', 'Remove file - {file}', ['file' => $filename]),
                 Url::to([
