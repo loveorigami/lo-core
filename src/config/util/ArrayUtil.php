@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Zelenin\Zend\Expressive\Config\Util;
+namespace lo\core\config\util;
 
 final class ArrayUtil
 {
