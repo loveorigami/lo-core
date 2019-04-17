@@ -11,8 +11,9 @@ use Yii;
 /**
  * Class GroupDelete
  * Класс для группового удаления моделей
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class GroupStatus extends Base
 {
@@ -21,6 +22,8 @@ class GroupStatus extends Base
 
     /** @var string сценарий для валидации */
     public $modelScenario = ActiveRecord::SCENARIO_SEARCH;
+
+    public $attr = 'status';
 
     /** @var  int */
     public $status;
@@ -41,13 +44,14 @@ class GroupStatus extends Base
             /** @var ActiveRecord $model */
             foreach ($query->all() as $model) {
                 $this->canAction($model);
-                $model->status = $this->status;
+                $model->{$this->attr} = $this->status;
                 $model->save();
             }
         }
 
-        if (!Yii::$app->request->isAjax)
+        if (!Yii::$app->request->isAjax) {
             return $this->goBack();
+        }
 
         return null;
     }

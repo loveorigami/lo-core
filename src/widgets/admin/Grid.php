@@ -68,6 +68,8 @@ class Grid extends Widget
 
     public $rowOptions;
     public $showGroupButtons = true;
+    public $showGroupActivate = false;
+    public $showGroupDeactivate = false;
     public $showRowButtons = true;
 
     /** @var array кнопки групповых операций */
@@ -349,34 +351,28 @@ class Grid extends Widget
         if (!$this->showGroupButtons) {
             return [];
         }
-        $arr['delete'] = [
+
+        $arr['activate'] = [
             'class' => ActionButton::class,
-            'label' => Yii::t('core', 'Delete'),
+            'label' => Yii::t('core', 'Group activete'),
+            'visible' => $this->showGroupActivate,
             'options' => [
-                'id' => 'group-delete',
-                'class' => 'btn btn-danger',
+                'id' => 'group-activate',
+                'class' => 'btn btn-primary',
             ],
-            'route' => $this->baseRoute . '/groupdelete',
+            'route' => $this->baseRoute . '/groupactivate',
         ];
 
-        /*            'activate' => [
-                        'class' => ActionButton::class,
-                        'label' => Yii::t('core', 'Group active'),
-                        'options' => [
-                            'id' => 'group-activate',
-                            'class' => 'btn btn-primary',
-                        ],
-                        'route' => $this->baseRoute . '/groupactivate',
-                    ],
-                    'deactivate' => [
-                        'class' => ActionButton::class,
-                        'label' => Yii::t('core', 'Group hide'),
-                        'options' => [
-                            'id' => 'group-deactivate',
-                            'class' => 'btn btn-primary',
-                        ],
-                        'route' => $this->baseRoute . '/groupdeactivate',
-                    ],*/
+        $arr['deactivate'] = [
+            'class' => ActionButton::class,
+            'label' => Yii::t('core', 'Group deactivate'),
+            'visible' => $this->showGroupDeactivate,
+            'options' => [
+                'id' => 'group-deactivate',
+                'class' => 'btn btn-primary',
+            ],
+            'route' => $this->baseRoute . '/groupdeactivate',
+        ];
 
         if ($this->tree AND !Yii::$app->request->get($this->extFilterParam)) {
             $arr['replace'] = [
@@ -393,6 +389,16 @@ class Grid extends Widget
                 'route' => $this->baseRoute . '/replace',
             ];
         }
+
+        $arr['delete'] = [
+            'class' => ActionButton::class,
+            'label' => Yii::t('core', 'Delete'),
+            'options' => [
+                'id' => 'group-delete',
+                'class' => 'btn btn-danger',
+            ],
+            'route' => $this->baseRoute . '/groupdelete',
+        ];
 
         return $arr;
     }
