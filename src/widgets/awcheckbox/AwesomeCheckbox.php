@@ -51,7 +51,6 @@ class AwesomeCheckbox extends InputWidget
     public $groupOptions = [
         'checkbox' => false,
         'name' => 'aw',
-        'options' => [],
     ];
 
     /**
@@ -91,13 +90,13 @@ class AwesomeCheckbox extends InputWidget
     protected function renderItem(): string
     {
         $html = [];
-        $html [] = Html::beginTag('div', array_merge(['class' => $this->getClass()], $this->wrapperOptions));
+        $html[] = Html::beginTag('div', array_merge(['class' => $this->getClass()], $this->wrapperOptions));
         $label = $this->getLabelContent();
         $html[] = $this->getInput();
         if ($label) {
             $html[] = Html::tag('label', $label, ['for' => $this->getLabelId()]);
         }
-        $html [] = Html::endTag('div');
+        $html[] = Html::endTag('div');
 
         return implode('', $html);
     }
@@ -167,6 +166,7 @@ class AwesomeCheckbox extends InputWidget
 
         if ($this->hasModel()) {
             $listAction = 'active' . ucfirst($listAction);
+            $this->options['class'] = 'form-group';
             $input = Html::$listAction($this->model, $this->attribute, $this->list, $this->options);
         } else {
             $input = Html::$listAction($this->name, $this->checked, $this->list, $this->options);
