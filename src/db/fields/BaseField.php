@@ -374,7 +374,7 @@ class BaseField extends BaseObject implements IField
     /**
      * Правила валидации
      *
-     * @return array|bool
+     * @return array
      */
     public function rules()
     {
