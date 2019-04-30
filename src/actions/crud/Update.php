@@ -65,7 +65,6 @@ class Update extends Base
             }
 
             if ($load && $model->save()) {
-                Yii::error($model->catalog_id .'up');
 
                 Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully updated', [
                     'id' => $this->getPk($model),
