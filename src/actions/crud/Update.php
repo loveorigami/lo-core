@@ -52,7 +52,6 @@ class Update extends Base
         /** @var ActiveRecord $model */
         $model = $this->findModel($pk);
         $model->setScenario($this->modelScenario);
-
         $this->getPermissionOrForbidden($model);
 
         try {
@@ -66,6 +65,7 @@ class Update extends Base
             }
 
             if ($load && $model->save()) {
+                Yii::error($model->catalog_id .'up');
 
                 Yii::$app->session->setFlash(self::FLASH_SUCCESS, App::t('Item {id} successfully updated', [
                     'id' => $this->getPk($model),
@@ -88,6 +88,8 @@ class Update extends Base
                     $returnUrl = $this->getReturnUrl();
 
                     return $this->controller->redirect($returnUrl);
+                } else {
+                    $this->controller->refresh();
                 }
             }
 
