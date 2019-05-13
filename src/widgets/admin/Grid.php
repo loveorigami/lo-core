@@ -354,7 +354,7 @@ class Grid extends Widget
 
         $arr['activate'] = [
             'class' => ActionButton::class,
-            'label' => Yii::t('core', 'Group activete'),
+            'label' => Yii::t('core', 'Group activate'),
             'visible' => $this->showGroupActivate,
             'options' => [
                 'id' => 'group-activate',
