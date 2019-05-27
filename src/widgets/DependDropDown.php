@@ -11,8 +11,9 @@ use yii\base\InvalidConfigException;
 /**
  * Class DependDropDown
  * Виджет для организации зависимых списков
+ *
  * @package lo\core\widgets
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class DependDropDown extends InputWidget
 {
@@ -42,8 +43,9 @@ class DependDropDown extends InputWidget
     {
         parent::init();
 
-        if (empty($this->dependAttr) AND empty($this->dependSelector))
+        if (empty($this->dependAttr) AND empty($this->dependSelector)) {
             return;
+        }
 
         if ($this->hasModel() AND empty($this->dependSelector)) {
             $dependSelector = "#" . Html::getInputId($this->model, $this->dependAttr);
@@ -91,13 +93,22 @@ class DependDropDown extends InputWidget
      */
     public function run()
     {
-        if ($this->hasModel()) {
-            $html = Html::activeHiddenInput($this->model, $this->attribute, ["id" => null]);
-            $html .= Html::activeDropDownList($this->model, $this->attribute, $this->data, $this->options);
-        } else {
-            $html = Html::hiddenInput($this->name, $this->value, ["id" => null]);
-            $html .= Html::dropDownList($this->name, $this->value, $this->options);
+        $html = [];
+
+        if ($this->dependAttr) {
+            if ($this->hasModel()) {
+                $html[] = Html::activeHiddenInput($this->model, $this->attribute, ["id" => null]);
+            } else {
+                $html[] = Html::hiddenInput($this->name, $this->value, ["id" => null]);
+            }
         }
-        return $html;
+
+        if ($this->hasModel()) {
+            $html[] = Html::activeDropDownList($this->model, $this->attribute, $this->data, $this->options);
+        } else {
+            $html[] = Html::dropDownList($this->name, $this->value, $this->options);
+        }
+
+        return \implode("\r\n", $html);
     }
 }
