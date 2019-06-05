@@ -21,13 +21,16 @@ class UuidField extends TextField
     const BEHAVIOR_PREF = "uuid";
 
     /** @var bool */
-    public $isRequired = true;
+    public $isRequired = false;
 
     /** @var string */
     public $inputClass = ReadOnlyInput::class;
 
     /** @var string */
     public $filterInputClass = TextInput::class;
+
+    /** @var array настройки поведения генерации uuid */
+    public $uuidOptions = [];
 
     /**
      * @return array
@@ -43,7 +46,7 @@ class UuidField extends TextField
             $parent[$code] = ArrayHelper::merge([
                 'class' => UuidBehavior::class,
                 'uuidAttribute' => $this->attr,
-            ], $this->slugOptions);
+            ], $this->uuidOptions);
         }
 
         return $parent;
@@ -58,7 +61,7 @@ class UuidField extends TextField
     {
         $rules = parent::rules();
 
-        $rules[] = array_merge([$this->attr, 'unique', 'except' => ActiveRecord::SCENARIO_SEARCH], $this->uniqueParams);
+        $rules[] = array_merge([$this->attr, 'unique', 'except' => ActiveRecord::SCENARIO_SEARCH]);
 
         $rules[] = [$this->attr, 'match', 'pattern' => '/^[A-z0-9_-]+$/i'];
 
