@@ -7,6 +7,7 @@ use lo\core\db\ActiveRecord;
 use lo\core\inputs\ReadOnlyInput;
 use lo\core\inputs\TextInput;
 use lo\core\inputs\TranslitInput;
+use paulzi\jsonBehavior\JsonValidator;
 use yii\helpers\ArrayHelper;
 use Zelenin\yii\behaviors\Slug;
 
