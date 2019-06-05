@@ -16,7 +16,7 @@ use Zelenin\yii\behaviors\Slug;
  *
  * @package lo\core\db\fields
  */
-class JsonField extends TextField
+class JsonField extends BaseField
 {
     /** Преффикс поведения */
     const BEHAVIOR_PREF = "json";
