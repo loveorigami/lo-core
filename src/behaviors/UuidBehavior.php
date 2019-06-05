@@ -2,7 +2,7 @@
 
 namespace lo\core\behaviors;
 
-use Ramsey\Uuid;
+use Ramsey\Uuid\Uuid;
 use Yii;
 use yii\base;
 use yii\base\InvalidConfigException;
