@@ -25,7 +25,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5.0",
+    "php": ">=7.1",
     "yiisoft/yii2": ">=2.0.14",
 	
 	"mihaildev/yii2-elfinder": "*",
@@ -68,6 +68,8 @@
     "unclead/yii2-multiple-input": "~2.0",
 	"softark/yii2-dual-listbox": "dev-master",
     "ramsey/uuid": "~3.0.0",
+    "nesbot/carbon": "~2.16",
+    "str/str": "~1.1",
 	"bower-asset/jquery-number": "*",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
   },
