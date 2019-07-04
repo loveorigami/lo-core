@@ -142,7 +142,7 @@ class VarHelper
                         throw new InvalidVariableTypeException('Callable');
                     }
                 } else {
-                    $variable = (unset)$variable;
+                    $variable = null;
                 }
                 break;
             }
@@ -202,7 +202,7 @@ class VarHelper
                         throw new InvalidVariableTypeException('Null');
                     }
                 } else {
-                    $variable = (unset)$variable;
+                    $variable = null;
                 }
                 break;
             }
@@ -242,7 +242,7 @@ class VarHelper
                         throw new InvalidVariableTypeException('Resource');
                     }
                 } else {
-                    $variable = (unset)$variable;
+                    $variable = null;
                 }
                 break;
             }
@@ -267,7 +267,7 @@ class VarHelper
                 break;
             }
             default: {
-                $variable = (unset)$variable;
+                $variable = null;
             }
         }
         return $variable;
