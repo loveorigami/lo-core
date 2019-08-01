@@ -1,16 +1,18 @@
 <?php
+
 namespace lo\core\db\fields;
 
 use lo\core\grid\XEditableColumn;
+use lo\core\helpers\ArrayHelper;
 use lo\core\inputs\DropDownInput;
-use yii\helpers\ArrayHelper;
 use lo\core\db\ActiveRecord;
 
 /**
  * Class ListField
  * Списочное поле модели. Поддерживает возможность создания зависимых списков.
+ *
  * @package lo\core\db\fields
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ListField extends BaseField
 {
@@ -20,17 +22,35 @@ class ListField extends BaseField
     /** @inheritdoc */
     public $inputClass = DropDownInput::class;
 
+    public $editAsGroup = true;
+
     /**
      * @return array
      */
     public function xEditable()
     {
+        $dataArr = (array)$this->defaultGridFilter();
+        $data = [];
+
+        $first = ArrayHelper::first($dataArr);
+
+        if (\is_array($first)) {
+            foreach ($dataArr as $key => $value) {
+                $data[] = [
+                    'text' => $key,
+                    'children' => $value,
+                ];
+            }
+        } else {
+            $data = $dataArr;
+        }
+
         return [
             'class' => XEditableColumn::class,
             'url' => $this->getEditableUrl(),
             'dataType' => 'select',
             'format' => 'raw',
-            'editable' => ['source' => $this->defaultGridFilter()],
+            'editable' => ['source' => $data],
         ];
     }
 
@@ -71,10 +91,11 @@ class ListField extends BaseField
 
             $value = $model->{$this->attr};
 
-            if (is_string($value) OR is_int($value))
+            if (is_string($value) OR is_int($value)) {
                 return ArrayHelper::getValue($this->getDataValue(), $value, $value);
-            else
+            } else {
                 return $value;
+            }
         };
 
         return $grid;
