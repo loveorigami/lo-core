@@ -3,6 +3,7 @@
 namespace lo\core\actions\crud;
 
 use lo\core\db\ActiveQuery;
+use lo\core\helpers\BaseUserHelper;
 use Yii;
 use yii\helpers\ArrayHelper;
 use lo\core\db\ActiveRecord;
@@ -77,7 +78,20 @@ class Index extends Base
         }
 
         $pageSizeParam = $dataProvider->pagination->pageSizeParam;
-        $pageSize = isset($requestParams[$pageSizeParam]) ? (int)$requestParams[$pageSizeParam] : $this->pageSize;
+
+        $key = md5(\get_class($searchModel) . BaseUserHelper::id());
+        $pageSizeCache = Yii::$app->cache->get($key);
+
+        /**
+         * Если параметр пришел с грида - записываем в кеш
+         * Если в кеше нет - берем по умолчанию
+         */
+        if (isset($requestParams[$pageSizeParam])) {
+            $pageSize = (int)$requestParams[$pageSizeParam];
+            Yii::$app->cache->set($key, $pageSize);
+        } else {
+            $pageSize = $pageSizeCache ?: $this->pageSize;
+        }
 
         $dataProvider->pagination->pageSize = $pageSize;
 
