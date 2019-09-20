@@ -71,7 +71,7 @@
     "nesbot/carbon": "~2.16",
     "str/str": "~1.1",
 	"bower-asset/jquery-number": "*",
-	"bower-asset/swiper": ">=v3.0.4",
+	"bower-asset/swiper": "^3.0",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
   },
   "autoload": {
