@@ -34,10 +34,10 @@
     "trntv/yii2-aceeditor": "^2.0.0",
     "beaten-sect0r/yii2-flatpickr": "*",
     "dumuro/yii2-tinymce": "*",
-	"loveorigami/yii2-ckeditor": "*",
-	"loveorigami/yii2-modal-ajax": "*",
-    "loveorigami/yii2-icofont": "*",
-    "loveorigami/yii2-gmap": "*",
+	"loveorigami/yii2-ckeditor": "dev-master",
+	"loveorigami/yii2-modal-ajax": "dev-master",
+    "loveorigami/yii2-icofont": "dev-master",
+    "loveorigami/yii2-gmap": "dev-master",
 
     "2amigos/yii2-selectize-widget": "~1.0",
 
@@ -71,6 +71,7 @@
     "nesbot/carbon": "~2.16",
     "str/str": "~1.1",
 	"bower-asset/jquery-number": "*",
+	"bower-asset/swiper": ">=v3.0.4",
     "bower-asset/awesome-bootstrap-checkbox": "0.3.*"
   },
   "autoload": {
