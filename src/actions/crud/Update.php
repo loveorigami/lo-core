@@ -11,6 +11,7 @@ use lo\core\helpers\RbacHelper;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
+use yii\db\StaleObjectException;
 
 /**
  * Class Update
@@ -91,7 +92,8 @@ class Update extends Base
                     $this->controller->refresh();
                 }
             }
-
+        } catch (StaleObjectException $e) {
+            throw new ForbiddenHttpException ($e->getMessage());
         } catch (ForbiddenHttpException $e) {
             $e->getMessage();
         }

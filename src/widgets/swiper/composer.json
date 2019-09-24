@@ -1,0 +1,39 @@
+{
+  "name": "romka-chev/yii2-swiper",
+  "description": "Yii2 extension for Swiper slider",
+  "keywords": [
+    "yii",
+    "yii2",
+    "extension",
+    "widget",
+    "swiper",
+    "slider"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kulikov Roman",
+      "email": "flinnraider@yandex.ru"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "fxp/composer-asset-plugin": ">=1.0.0",
+    "yiisoft/yii2": "2.0.*@dev",
+    "bower-asset/swiper": ">=v3.0.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "romkaChev\\yii2\\swiper\\": ""
+    }
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
+    }
+  }
+}
