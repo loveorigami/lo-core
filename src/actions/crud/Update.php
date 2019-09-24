@@ -93,7 +93,7 @@ class Update extends Base
                 }
             }
         } catch (StaleObjectException $e) {
-            throw new ForbiddenHttpException ($e->getMessage());
+            $model->addError('id', Yii::t('core', 'Blocked! Copy data and refresh!'));
         } catch (ForbiddenHttpException $e) {
             $e->getMessage();
         }
