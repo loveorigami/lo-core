@@ -18,7 +18,7 @@ class OptimisticLocksField extends BaseField
     public $inputClass = inputs\HiddenInput::class;
 
     /** Преффикс поведения */
-    const BEHAVIOR_PREF = 'optlock';
+    public const BEHAVIOR_NAME = 'optlock';
 
     public $showInGrid = false;
     public $showInExtendedFilter = false;
@@ -31,7 +31,7 @@ class OptimisticLocksField extends BaseField
     public function behaviors()
     {
         $parent = [];
-        $code = self::BEHAVIOR_PREF.$this->attr;
+        $code = self::BEHAVIOR_NAME;
         $parent[$code] = [
             'class' => OptimisticLockBehavior::class,
         ];

@@ -4,6 +4,7 @@ namespace lo\core\actions\crud;
 
 use lo\core\actions\Base;
 use lo\core\db\ActiveRecord;
+use lo\core\db\fields\OptimisticLocksField;
 use lo\core\helpers\PkHelper;
 use lo\core\helpers\RbacHelper;
 use Yii;
@@ -49,7 +50,11 @@ class XEditable extends Base
 
             $model->{$request->post('name')} = $request->post('value');
 
-            if ($model->save()) {
+            if ($model->hasMethod('optimisticLock')) {
+                $model->detachBehavior(OptimisticLocksField::BEHAVIOR_NAME);
+            }
+
+            if ($model->save(true, [$request->post('name')])) {
                 Yii::$app->session->setFlash('success', Yii::t('core', 'Saved'));
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('core', 'Not saved'));
