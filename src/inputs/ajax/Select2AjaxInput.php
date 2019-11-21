@@ -78,10 +78,6 @@ class Select2AjaxInput extends AjaxInput
             ],
             'pluginOptions' => [
                 'allowClear' => true,
-                'placeholder' => [
-                    'id' => '',
-                    'placeholder' => 'Select...'
-                ],
                 'minimumInputLength' => 2,
                 'ajax' => [
                     'url' => $this->getLoadUrl(),
