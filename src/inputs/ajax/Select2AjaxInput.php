@@ -31,16 +31,18 @@ use yii\web\JsExpression;
  *      ],
  *      "params" => [$this->owner, "cat_id"]
  *  ],
+ *
  * @package lo\core\inputs
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class Select2AjaxInput extends AjaxInput
 {
     /**
      * Формирование Html кода поля для вывода в форме
-     * @param ActiveForm $form объект форма
-     * @param array $options массив html атрибутов поля
-     * @param bool|int $index индекс модели при табличном вводе
+     *
+     * @param ActiveForm $form    объект форма
+     * @param array      $options массив html атрибутов поля
+     * @param bool|int   $index   индекс модели при табличном вводе
      * @return string
      */
     public function renderInput(ActiveForm $form, Array $options = [], $index = false)
@@ -51,6 +53,7 @@ class Select2AjaxInput extends AjaxInput
             $this->defaultWidgetOptions(),
             $this->widgetOptions, ['options' => $options]
         );
+
         return $form->field($this->getModel(), $this->getFormAttrName($index, $this->getAttr()), $this->fieldTemplate)->widget(
             Select2::class, $widgetOptions
         );
@@ -73,7 +76,6 @@ class Select2AjaxInput extends AjaxInput
         return [
             'initValueText' => $val, // set the initial display text
             'options' => [
-                ['placeholder' => 'Select...'],
                 'id' => $this->fieldId,
             ],
             'pluginOptions' => [
@@ -82,7 +84,7 @@ class Select2AjaxInput extends AjaxInput
                 'ajax' => [
                     'url' => $this->getLoadUrl(),
                     'dataType' => 'json',
-                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }'),
                 ],
                 'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                 'templateResult' => new JsExpression('function(data) { return data.text; }'),
@@ -96,20 +98,13 @@ class Select2AjaxInput extends AjaxInput
      */
     protected function registerJs()
     {
-        $theme = Select2::THEME_DEFAULT;
         $js = <<<JS
 
 $('#add-$this->fieldId').on('kbModalSubmit', function(event, data, status, xhr) {
     console.log('kbModalSubmit' + status);
     if(status){
         $(this).modal('toggle');
-        $('#$this->fieldId').html('').select2({
-            theme: '$theme',
-            data:
-            [
-               {id: data['id'], text: data['name']}
-            ]
-        });
+        $('#$this->fieldId').append($('<option></option>').attr('value', data['id']).prop("selected","selected").text(data['name']));
     }
 });
 
