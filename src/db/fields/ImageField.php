@@ -69,7 +69,7 @@ class ImageField extends FileField
 
         $img = Html::img($src, ['width' => $this->gridWidth]);
 
-        return Html::a($img, $src, ['class' => 'img-grid']);
+        return Html::a($img, $src, ['class' => 'img-grid', 'data-pjax' => 0]);
     }
 
     /**
