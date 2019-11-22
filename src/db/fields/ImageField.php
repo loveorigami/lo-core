@@ -19,7 +19,6 @@ class ImageField extends FileField
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
-    public $showWithLink = false;
 
     /** префикс поведения */
     const BEHAVIOR_PREF = 'img';
@@ -70,11 +69,7 @@ class ImageField extends FileField
 
         $img = Html::img($src, ['width' => $this->gridWidth]);
 
-        if ($this->showWithLink) {
-            return Html::a($img, $src, ['class' => 'img-grid']);
-        }
-
-        return $img;
+        return Html::a($img, $src, ['class' => 'img-grid']);
     }
 
     /**
