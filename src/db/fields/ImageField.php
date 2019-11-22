@@ -9,6 +9,7 @@ use yii\helpers\Html;
 /**
  * Class ImageField
  * Общий класс изображений
+ *
  * @package lo\core\db\fields
  */
 class ImageField extends FileField
@@ -18,6 +19,7 @@ class ImageField extends FileField
     public $isRequired = false;
     public $editInGrid = false;
     public $showInExtendedFilter = false;
+    public $showWithLink = false;
 
     /** префикс поведения */
     const BEHAVIOR_PREF = 'img';
@@ -50,11 +52,13 @@ class ImageField extends FileField
         $grid['headerOptions'] = [
             'style' => 'width: ' . $this->gridWidth . 'px;',
         ];
+
         return $grid;
     }
 
     /**
      * Вывод значения в гриде с учетом связи
+     *
      * @param ActiveRecord $model
      * @return string
      */
@@ -63,13 +67,21 @@ class ImageField extends FileField
         /** @var IUploadImage| $behavior */
         $behavior = $model->getBehavior($this->getBehaviorName());
         $src = $behavior->getThumbUploadUrl($this->attr, self::THUMB);
-        return Html::img($src, ['width' => $this->gridWidth]);
+
+        $img = Html::img($src, ['width' => $this->gridWidth]);
+
+        if ($this->showWithLink) {
+            return Html::a($img, $src, ['class' => 'img-grid']);
+        }
+
+        return $img;
     }
 
     /**
      * @return string
      */
-    public function getBehaviorName(){
+    public function getBehaviorName()
+    {
         return static::BEHAVIOR_PREF . ucfirst($this->attr);
     }
 }

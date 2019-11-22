@@ -33,6 +33,7 @@ use yii\helpers\ArrayHelper;
  *      ],
  *      "params" => [$this->owner, "image"]
  *  ],
+ *
  * @package lo\core\db\fields
  */
 class ImagePathField extends ImageField
@@ -63,7 +64,7 @@ class ImagePathField extends ImageField
             ],
             'unlinkOnSave' => false,
             'createThumbsOnSave' => false,
-            'createThumbsOnRequest' => true
+            'createThumbsOnRequest' => true,
         ], $this->uploadOptions);
 
         return $parent;
@@ -71,6 +72,7 @@ class ImagePathField extends ImageField
 
     /**
      * Правила валидации
+     *
      * @return array
      */
     public function rules()
@@ -78,10 +80,12 @@ class ImagePathField extends ImageField
         $rules = parent::rules();
         $rules[] = [
             $this->attr,
-            'filter', 'filter' => function ($value) {
+            'filter',
+            'filter' => function ($value) {
                 return basename($value);
-            }
+            },
         ];
+
         return $rules;
     }
 }

@@ -1,17 +1,19 @@
 <?php
+
+use lo\modules\gallery\widgets\lightgallery\LightGalleryWidget;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /**
- * @var string $id идентификатор виджета
- * @var string $pjaxId идентификатор виджета PJAX
+ * @var string                       $id           идентификатор виджета
+ * @var string                       $pjaxId       идентификатор виджета PJAX
  * @var \yii\data\ActiveDataProvider $dataProvider провайдер данных
- * @var \lo\core\db\ActiveRecord $model модель
- * @var array $columns массив с описанием полей таблицы
- * @var array $groupButtons массив с описанием кнопок груповых операций
- * @var $rowOptions
- * @var \yii\web\View $this
+ * @var \lo\core\db\ActiveRecord     $model        модель
+ * @var array                        $columns      массив с описанием полей таблицы
+ * @var array                        $groupButtons массив с описанием кнопок груповых операций
+ * @var                              $rowOptions
+ * @var \yii\web\View                $this
  */
 
 ?>
@@ -19,10 +21,24 @@ use yii\widgets\Pjax;
 <?= Html::beginForm(); ?>
 <?php
 
+if ($useLightGallery) {
+    echo LightGalleryWidget::widget([
+        'target' => '#' . $id,
+        'options' => [
+            'thumbnail' => true,
+            'selector' => '.img-grid',
+            'download' => false,
+            'zoom' => true,
+            'share' => false,
+            'showThumbByDefault' => false,
+        ],
+    ]);
+}
+
 echo GridView::widget([
     'id' => $id,
     'options' => ['class' => 'table-responsive'],
-    'rowOptions'=> $rowOptions,
+    'rowOptions' => $rowOptions,
     'dataProvider' => $dataProvider,
     'filterModel' => $model,
     'filterSelector' => "select[name='" . $dataProvider->pagination->pageSizeParam . "'],input[name='" . $dataProvider->pagination->pageParam . "']",

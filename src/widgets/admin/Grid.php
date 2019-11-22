@@ -71,6 +71,7 @@ class Grid extends Widget
     public $showGroupActivate = false;
     public $showGroupDeactivate = false;
     public $showRowButtons = true;
+    public $useLightGallery = false;
 
     /** @var array кнопки групповых операций */
     protected $_groupButtons;
@@ -126,6 +127,7 @@ class Grid extends Widget
             'groupButtons' => $this->getGroupButtons(),
             'id' => $this->id,
             'pjaxId' => $this->pjaxId,
+            'useLightGallery' => $this->useLightGallery,
         ]);
     }
 
