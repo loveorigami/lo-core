@@ -12,8 +12,9 @@ use yii\web\Response;
 /**
  * Class ListId
  * Класс действия создания элемента модели
+ *
  * @package lo\core\actions\crud
- * @author Lukyanov Andrey <loveorigami@mail.ru>
+ * @author  Lukyanov Andrey <loveorigami@mail.ru>
  */
 class ListDepDrop extends Base
 {
@@ -75,12 +76,12 @@ class ListDepDrop extends Base
                         $data['out'][$group][] =
                             [
                                 'id' => $key,
-                                'name' => $value
+                                'name' => $value,
                             ];
                     } else {
                         $data['out'][] = [
                             'id' => $key,
-                            'name' => $value
+                            'name' => $value,
                         ];
                     }
                 }
@@ -97,7 +98,7 @@ class ListDepDrop extends Base
                  *  ]
                  */
 
-                $out = ['output' => $data['out'], 'selected' => $data['selected']];
+                $out = ['output' => $data['out'] ?: '', 'selected' => $data['selected'] ?: ''];
 
             }
         }
