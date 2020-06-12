@@ -24,7 +24,6 @@ class VarHelper
     const TYPE_NULL = 9;
     const TYPE_NUMERIC = 10;
     const TYPE_OBJECT = 11;
-    const TYPE_REAL = 12;
     const TYPE_RESOURCE = 13;
     const TYPE_SCALAR = 14;
     const TYPE_STRING = 15;
@@ -106,7 +105,6 @@ class VarHelper
             self::TYPE_NULL,
             self::TYPE_NUMERIC,
             self::TYPE_OBJECT,
-            self::TYPE_REAL,
             self::TYPE_RESOURCE,
             self::TYPE_SCALAR,
             self::TYPE_STRING
@@ -226,16 +224,7 @@ class VarHelper
                 }
                 break;
             }
-            case self::TYPE_REAL: {
-                if ($raiseError) {
-                    if (!is_real($variable)) {
-                        throw new InvalidVariableTypeException('Real');
-                    }
-                } else {
-                    $variable = (real)$variable;
-                }
-                break;
-            }
+
             case self::TYPE_RESOURCE: {
                 if ($raiseError) {
                     if (!is_resource($variable)) {
@@ -301,7 +290,6 @@ class VarHelper
             self::TYPE_NULL,
             self::TYPE_NUMERIC,
             self::TYPE_OBJECT,
-            self::TYPE_REAL,
             self::TYPE_RESOURCE,
             self::TYPE_SCALAR,
             self::TYPE_STRING
@@ -343,9 +331,7 @@ class VarHelper
             case self::TYPE_OBJECT: {
                 return is_object($variable);
             }
-            case self::TYPE_REAL: {
-                return is_real($variable);
-            }
+
             case self::TYPE_RESOURCE: {
                 return is_resource($variable);
             }
@@ -440,15 +426,6 @@ class VarHelper
     public static function isObject($variable)
     {
         return static::is($variable, self::TYPE_OBJECT);
-    }
-
-    /**
-     * @param mixed $variable
-     * @return bool
-     */
-    public static function isReal($variable)
-    {
-        return static::is($variable, self::TYPE_REAL);
     }
 
     /**
