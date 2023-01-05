@@ -32,7 +32,6 @@
     "abeautifulsite/simpleimage":"^3.2",
     "trntv/yii2-aceeditor": "^2.0",
     "beaten-sect0r/yii2-flatpickr": "dev-master",
-    "dumuro/yii2-tinymce": "^1.0",
 	"loveorigami/lo-module-gallery": "dev-master",
 	"loveorigami/yii2-ckeditor": "dev-master",
 	"loveorigami/yii2-modal-ajax": "dev-master",
